@@ -22,7 +22,7 @@ const COURT_STATS = [
     label: 'Total Staked ANT',
     token: { ...getKnownToken('ANT'), icon: IconANT },
   },
-  { label: 'Total Active Jurors' },
+  { label: 'Total Active Guardians' },
   {
     label: 'Total Rewards DAI',
     token: { ...getKnownToken('DAI'), icon: IconDAI },

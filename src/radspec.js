@@ -15,7 +15,7 @@ export default {
   [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling }) => {
     return `Appeal round ${numberToWord(
       roundId
-    )} of dispute #${disputeId} in favor of ruling: ${appealOptionToString(
+    )} of dispute #${disputeId} in favor of decision: ${appealOptionToString(
       ruling
     )}`
   },
@@ -35,7 +35,7 @@ export default {
         Confirm appeal round ${numberToWord(
           roundId
         )} of dispute #${disputeId} in favor of
-        ruling: ${appealOptionToString(ruling)}
+        decision: ${appealOptionToString(ruling)}
       `
   },
   [actions.DEACTIVATE_ANJ]: ({ amount }) => {
@@ -45,12 +45,12 @@ export default {
   },
   [actions.DRAFT_JURY]: ({ disputeId }) => {
     return `
-        Draft jurors for the next round of dispute #${disputeId}
+        Summon guardians for the next round of dispute #${disputeId}
       `
   },
   [actions.EXECUTE_RULING]: ({ disputeId }) => {
     return `
-        Compute the final ruling for dispute #${disputeId}
+        Compute the final decision for dispute #${disputeId}
       `
   },
   [actions.HEARTBEAT]: ({ transitions }) => {

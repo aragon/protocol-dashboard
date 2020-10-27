@@ -53,10 +53,10 @@ const getBannerAttributes = (
 
   return {
     icon: anjSpringIcon,
-    title: 'Activate ANJ to be an active juror',
+    title: 'Activate ANJ to be an active guardian',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
-    })}  ANJ to participate as a juror`,
+    })}  ANJ to participate as a guardian`,
   }
 }
 
@@ -226,11 +226,11 @@ const BannerWithProbability = ({ activeBalance }) => {
                 You currently have <1% of all activated ANJ, hence are unlikely
                 to be drafted unless a dispute goes to the final round or many
                 disputes are created. Activate more ANJ to increase your chances
-                of being selected as a juror.
+                of being selected as a guardian.
               `
             : `
                 You can always activate more ANJ to increase your chances of
-                being selected as a juror.
+                being selected as a guardian.
               `}
         </p>
       </Help>
@@ -238,7 +238,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    'The more ANJ you activate, the more likely you will be drafted to arbitrate a dispute'
+    'The more ANJ you activate, the more likely you will be summoned to arbitrate a dispute'
 
   return (
     <Wrapper

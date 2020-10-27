@@ -15,7 +15,7 @@ const getProfileAttributes = (status, theme) => {
       background: `linear-gradient(35deg, ${theme.accentStart}  -75%, ${theme.accentEnd} 105%)`,
       primaryColor: theme.accentContent,
       secondaryColor: theme.accentContent,
-      statusLabel: 'ACTIVE JUROR',
+      statusLabel: 'ACTIVE GUARDIAN',
       icon: activeJurorIcon,
     }
 
@@ -24,7 +24,7 @@ const getProfileAttributes = (status, theme) => {
       background: 'linear-gradient(208deg, #FFFAF1 -3%, #FFEBEB 216%)',
       primaryColor: theme.content,
       secondaryColor: theme.contentSecondary,
-      statusLabel: 'INACTIVE JUROR',
+      statusLabel: 'INACTIVE GUARDIAN',
       icon: inactiveJurorIcon,
     }
 

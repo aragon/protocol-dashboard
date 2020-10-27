@@ -40,8 +40,8 @@ function Welcome() {
             margin-bottom: ${3 * GU}px;
           `}
         >
-          Aragon Court handles subjective disputes that require the judgment of
-          human jurors.
+          Aragon Protocol handles subjective disputes that require the judgment
+          of human guardians.
         </p>
         <div
           css={`

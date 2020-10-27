@@ -47,6 +47,7 @@ export default function useJurorSubscriptionFees() {
               jurorShare[1].gt(0) &&
               !hasJurorClaimed(claimedSubscriptionFees, periodId)
             ) {
+              s
               jurorSubscriptionsFees.push({
                 periodId,
                 amount: jurorShare[1],
@@ -59,7 +60,7 @@ export default function useJurorSubscriptionFees() {
           setSubscriptionFees(jurorSubscriptionsFees)
         }
       } catch (err) {
-        console.error(`Error fetching juror subscription fees: ${err}`)
+        console.error(`Error fetching guardian subscription fees: ${err}`)
       }
     }
 
