@@ -31,13 +31,13 @@ function DisputeAppeal({ onRequestAppeal, confirm }) {
           {confirm ? 'confirm an appeal' : 'initiate an appeal'}{' '}
         </strong>
         if they believe the{' '}
-        {confirm ? 'ruling appealed for' : 'current outcome'} is incorrect. When
-        the final ruling is confirmed, the user who{' '}
+        {confirm ? 'decision appealed for' : 'current outcome'} is incorrect.
+        When the final decision is confirmed, the user who{' '}
         {confirm ? 'confirmed the appeal' : 'appealed'} gets rewarded if the
-        ruling has switched in their favor. If not, their entire collateral
+        decision has switched in their favor. If not, their entire collateral
         could be re-distributed to the winning party. {confirm ? 'When' : 'If'}{' '}
         an appeal is confirmed, a new adjudication round is initiated and a new
-        jury is drafted.{' '}
+        group of guardians is summoned.{' '}
         <Link href="https://help.aragon.org/article/43-dispute-lifecycle#appeal">
           Learn more
         </Link>

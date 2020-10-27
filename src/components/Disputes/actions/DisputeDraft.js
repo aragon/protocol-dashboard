@@ -24,12 +24,12 @@ function DisputeDraft({ disputeId, onDraft }) {
         `}
       >
         <Button type="submit" mode="strong" wide disabled={!wallet.account}>
-          Draft jury
+          Summon guardian
         </Button>
       </div>
       <Info>
         The evidence submission period is closed. <strong>Anyone</strong> can
-        now trigger the drafting of a jury and earn some rewards.
+        now trigger the summon of a guardian and earn some rewards.
       </Info>
     </form>
   )

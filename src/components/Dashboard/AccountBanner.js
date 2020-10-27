@@ -30,7 +30,7 @@ const getBannerAttributes = (
       return {
         icon: gavelIcon,
         iconBackground: theme.positive.alpha(0.2),
-        title: 'You have been drafted',
+        title: 'You have been summoned',
         titleColor: theme.positive,
         paragraph:
           'You can start reviewing the evidence and then commit your vote',
@@ -41,9 +41,10 @@ const getBannerAttributes = (
       return {
         icon: userIcon,
         iconBackground: theme.positive.alpha(0.2),
-        title: 'You are eligible to be drafted',
+        title: 'You are eligible to be summoned',
         titleColor: theme.positive,
-        paragraph: 'You are eligible to be drafted starting from the next term',
+        paragraph:
+          'You are eligible to be summoned starting from the next term',
         showTimer: true,
       }
     }
@@ -201,7 +202,7 @@ const BannerWithProbability = ({ activeBalance }) => {
           margin-right: ${1 * GU}px;
         `}
       >
-        {'On average, you will be drafted into a jury '}
+        {'On average, you will be summoned into a guardian '}
         <span
           css={`
             color: ${theme.accent};
@@ -224,7 +225,7 @@ const BannerWithProbability = ({ activeBalance }) => {
           {probablilityTooLow
             ? `
                 You currently have <1% of all activated ANJ, hence are unlikely
-                to be drafted unless a dispute goes to the final round or many
+                to be summoned unless a dispute goes to the final round or many
                 disputes are created. Activate more ANJ to increase your chances
                 of being selected as a guardian.
               `

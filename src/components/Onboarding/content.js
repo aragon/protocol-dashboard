@@ -186,7 +186,8 @@ highlights.main = [
 
           <p>
             Adjusting your active ANJ balance will affect the indicator that
-            displays your chance of being drafted and your current draft status.
+            displays your chance of being summoned and your current summon
+            status.
           </p>
         </>
       ),
@@ -208,7 +209,7 @@ highlights.main = [
       large: (
         <>
           <p>
-            When drafted, you must perform certain actions on time to earn
+            When summoned, you must perform certain actions on time to earn
             rewards and avoid penalties.
           </p>
           <p>
