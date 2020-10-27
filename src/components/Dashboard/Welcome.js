@@ -31,7 +31,7 @@ function Welcome() {
             margin-bottom: ${1 * GU}px;
           `}
         >
-          Welcome to Aragon Court
+          Welcome to Aragon Protocol
         </h1>
         <p
           css={`

@@ -215,7 +215,8 @@ const BannerWithProbability = ({ activeBalance }) => {
         <p>
           This is a numerical estimate of your likelihood of being selected for
           arbitration. It’s calculated by dividing your active ANJ balance
-          against the Court's total active ANJ balance during the current term.
+          against the Protocol's total active ANJ balance during the current
+          term.
         </p>
         <p
           css={`

@@ -25,7 +25,7 @@ const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
 const MAIN_COURT_URL = 'https://court.aragon.org'
 
 const highlights = {
-  heading: 'Aragon Court',
+  heading: 'Aragon Protocol',
   defaultVisualColor: '#FF9780',
   defaultButtonColor: '#FFFFFF',
 }
@@ -140,7 +140,7 @@ highlights.rinkeby = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Aragon Protocol',
     },
   },
 ]
@@ -288,7 +288,7 @@ highlights.main = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Aragon Protocol',
     },
   },
 ]

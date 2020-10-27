@@ -172,7 +172,7 @@ function EmailNotificationBox({
               margin-left: ${1 * GU}px;
             `}
           >
-            Receive email notifications for all Aragon Court events.
+            Receive email notifications for all Aragon Protocol events.
           </span>
         </div>
         <Info

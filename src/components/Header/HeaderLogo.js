@@ -26,7 +26,7 @@ function HeaderLogo() {
           ${textStyle('body1')};
         `}
       >
-        Aragon Court
+        Aragon Protocol
       </h1>
     </div>
   )
