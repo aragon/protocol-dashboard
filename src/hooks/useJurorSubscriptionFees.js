@@ -47,7 +47,6 @@ export default function useJurorSubscriptionFees() {
               jurorShare[1].gt(0) &&
               !hasJurorClaimed(claimedSubscriptionFees, periodId)
             ) {
-              s
               jurorSubscriptionsFees.push({
                 periodId,
                 amount: jurorShare[1],
