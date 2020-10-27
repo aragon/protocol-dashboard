@@ -48,7 +48,7 @@ function DisputeCurrentRuling({ dispute }) {
               color: ${theme.contentSecondary}
             `}
           >
-            Current ruling
+            Current decision
           </span>
         }
         items={distribution.map(({ outcome, weight }) => ({

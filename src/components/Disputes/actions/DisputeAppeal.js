@@ -5,7 +5,7 @@ import { useWallet } from '../../../providers/Wallet'
 function DisputeAppeal({ onRequestAppeal, confirm }) {
   const wallet = useWallet()
 
-  const actionLabel = confirm ? 'Confirm appeal' : 'Appeal Ruling'
+  const actionLabel = confirm ? 'Confirm appeal' : 'Appeal Decision'
 
   const handleRequestAppeal = useCallback(() => {
     onRequestAppeal(confirm)

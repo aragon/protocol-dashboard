@@ -35,7 +35,7 @@ const stringMapping = {
   [Phase.NotStarted]: 'Starts in',
   [Phase.VotingPeriod]: 'Voting period',
   [Phase.RevealVote]: 'Reveal vote',
-  [Phase.AppealRuling]: 'Appeal ruling',
+  [Phase.AppealRuling]: 'Appeal decision',
   [Phase.ConfirmAppeal]: 'Confirm appeal',
   [Phase.ClaimRewards]: 'Claim rewards',
   [Phase.Invalid]: 'Invalid',
@@ -81,7 +81,7 @@ const taskActionsMapping = {
   [Phase.All]: 'All',
   [Phase.VotingPeriod]: 'Commit vote',
   [Phase.RevealVote]: 'Reveal vote',
-  [Phase.AppealRuling]: 'Appeal ruling',
+  [Phase.AppealRuling]: 'Appeal decision',
   [Phase.ConfirmAppeal]: 'Confirm appeal',
 }
 

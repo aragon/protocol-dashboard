@@ -102,7 +102,7 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          When you vote in favor of the plurality ruling, you will be rewarded
+          When you vote in favor of the plurality decision, you will be rewarded
           with Dispute Fees. Just note that these rewards will be awarded in
           Rinkeby tokens for the purpose of this test version.
         </span>
