@@ -18,7 +18,7 @@ Url of the [IPFS](https://ipfs.io) Gateway to load dispute metadata from. If you
 
 ### `REACT_APP_SUBGRAPH_NAME`
 
-Name of the subgraph instance to connect to and query data from. This is useful when we have different Aragon Court deployments on the same network.
+Name of the subgraph instance to connect to and query data from. This is useful when we have different Aragon Protocol deployments on the same network.
 
 ## Ethereum Providers
 
@@ -46,7 +46,7 @@ To disable flagging of voided disputes.
 
 ### MOCK_DATA
 
-To start the court dashboard with mocked data.
+To start the Aragon Protocol with mocked data.
 
 ### Assumed localhost ports
 

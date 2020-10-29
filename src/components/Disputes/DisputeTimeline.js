@@ -178,7 +178,7 @@ function ItemStep({ item, index, roundStepContainer }) {
 function Outcome({ outcome, phase }) {
   const theme = useTheme()
   const title =
-    phase && phase === DisputePhase.RevealVote ? 'Jury outcome' : 'Outcome'
+    phase && phase === DisputePhase.RevealVote ? 'Guardian outcome' : 'Outcome'
 
   return (
     <div

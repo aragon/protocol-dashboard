@@ -182,7 +182,7 @@ function ClockModule() {
                   margin-right: ${0.5 * GU}px;
                 `}
               />
-              <span>Aragon Court</span>
+              <span>Aragon Protocol</span>
             </div>
             <div
               css={`
@@ -264,7 +264,7 @@ function ClockModule() {
                   color: ${theme.contentSecondary};
                 `}
               >
-                Term is the time unit for measuring Aragon Court phases. Each
+                Term is the time unit for measuring Aragon Protocol phases. Each
                 term lasts {formatDuration(courtConfig.termDuration / 1000)}.
               </span>
             ) : (

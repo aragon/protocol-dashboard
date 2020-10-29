@@ -31,7 +31,7 @@ const stringMapping = {
   [Status.Closed]: 'Closed',
   [Phase.All]: 'All',
   [Phase.Evidence]: 'Adding arguments',
-  [Phase.JuryDrafting]: 'Guardians summon',
+  [Phase.JuryDrafting]: 'Summon guardians',
   [Phase.NotStarted]: 'Starts in',
   [Phase.VotingPeriod]: 'Voting period',
   [Phase.RevealVote]: 'Reveal vote',
@@ -40,7 +40,7 @@ const stringMapping = {
   [Phase.ClaimRewards]: 'Claim rewards',
   [Phase.Invalid]: 'Invalid',
   [Phase.Ended]: 'Ended',
-  [Phase.ExecuteRuling]: 'Execute Decision',
+  [Phase.ExecuteRuling]: 'Enact Decision',
   [Phase.Created]: 'Dispute created',
 }
 
@@ -57,7 +57,7 @@ const endedStringMapping = {
   [Phase.ClaimRewards]: 'Claim rewards',
   [Phase.Invalid]: 'Started',
   [Phase.Ended]: 'Ended',
-  [Phase.ExecuteRuling]: 'Decision Executed',
+  [Phase.ExecuteRuling]: 'Decision Enacted',
   [Phase.Created]: 'Dispute created',
 }
 

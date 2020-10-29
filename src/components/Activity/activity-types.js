@@ -43,11 +43,11 @@ const ACTIVITY_TYPES = {
     title: 'Deactivate ANJ',
   },
   [actions.DRAFT_JURY]: {
-    title: 'Summon guardian',
+    title: 'Summon guardians',
     icon: iconDraftJury,
   },
   [actions.EXECUTE_RULING]: {
-    title: 'Execute decision',
+    title: 'Enact decision',
     icon: iconExecuteRuling,
   },
   [actions.HEARTBEAT]: {

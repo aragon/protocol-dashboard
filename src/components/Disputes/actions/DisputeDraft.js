@@ -24,7 +24,7 @@ function DisputeDraft({ disputeId, onDraft }) {
         `}
       >
         <Button type="submit" mode="strong" wide disabled={!wallet.account}>
-          Summon guardian
+          Summon guardians
         </Button>
       </div>
       <Info>

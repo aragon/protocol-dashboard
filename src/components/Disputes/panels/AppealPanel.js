@@ -121,7 +121,7 @@ function AppealPanel({
     return false
   }
 
-  const actionLabel = confirm ? 'Confirm appeal' : 'Appeal ruling'
+  const actionLabel = confirm ? 'Confirm appeal' : 'Appeal decisions'
   const errorMessage = selectedOutcome.error
 
   return (

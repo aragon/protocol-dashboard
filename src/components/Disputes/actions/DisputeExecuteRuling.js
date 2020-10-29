@@ -24,7 +24,7 @@ function DisputeExecuteRuling({ disputeId, onExecuteRuling }) {
         `}
       >
         <Button type="submit" mode="strong" wide disabled={!wallet.account}>
-          Execute decision
+          Enact decision
         </Button>
       </div>
       <Info>

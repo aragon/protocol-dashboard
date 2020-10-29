@@ -1,13 +1,13 @@
 # Aragon Protocol Dashboard <a href="https://aragon.org/"><img align="right" src="docs/assets/LogoAccent.svg" height="80px" /></a>
 
-### Aragon Protocol handles subjective disputes requiring judgment from human jurors.
+### Aragon Protocol handles subjective disputes requiring judgment from human guardians.
 
 <a href="https://court.aragon.org/dashboard"><img src="docs/assets/screenshot.png" /></a>
 
 - 📚 Read the [User Guide](https://help.aragon.org/category/47-aragoncourt) first, if you have any questions as a user.
 - 📝 Please report any issues and feedback in the [Aragon discord channels](https://discord.gg/zcKs8H).
 - 🔧 For technical discussions, use this project's [issues](https://github.com/aragon/court-dashboard/issues) or join the technical conversation in our [Developer hangout](https://spectrum.chat/aragon/general-development) channel.
-- 📖 To learn more about contributing to the Court Dashboard, please check the [contributing guide](./CONTRIBUTING.md)
+- 📖 To learn more about contributing to the Aragon Protocol, please check the [contributing guide](./CONTRIBUTING.md)
 
 ## Quick start
 
