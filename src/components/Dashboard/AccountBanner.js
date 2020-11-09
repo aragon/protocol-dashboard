@@ -11,9 +11,9 @@ import { useJurorFirstTimeANJActivation } from '../../hooks/useANJ'
 import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
-import anjSpringIcon from '../../assets/IconANJSpring.svg'
+import antSpringIcon from '../../assets/IconANTSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
-import gavelIcon from '../../assets/IconGavel.svg'
+import hexagonIcon from '../../assets/IconHexagonGreen.svg'
 import { useJurorDrafted } from '../../hooks/useJurorDrafted'
 
 const getBannerAttributes = (
@@ -28,7 +28,7 @@ const getBannerAttributes = (
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
-        icon: gavelIcon,
+        icon: hexagonIcon,
         iconBackground: theme.positive.alpha(0.2),
         title: 'You have been drafted',
         titleColor: theme.positive,
@@ -52,7 +52,7 @@ const getBannerAttributes = (
   }
 
   return {
-    icon: anjSpringIcon,
+    icon: antSpringIcon,
     title: 'Activate ANJ to be an active juror',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
