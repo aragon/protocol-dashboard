@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Viewport, springs } from '@aragon/ui'
+import { Modal, Viewport, springs } from '@1hive/1hive-ui'
 import { Transition } from 'react-spring/renderprops'
 import { useSteps } from '../../hooks/useOnboarding'
 import useKeyboardArrows from '../../hooks/useKeyboardArrows'

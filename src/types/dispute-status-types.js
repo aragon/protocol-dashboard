@@ -23,7 +23,7 @@ export const Phase = {
   ClaimRewards: Symbol('Claim rewards'),
   Ended: Symbol('Ended'),
   ExecuteRuling: Symbol('Execute Ruling'),
-  Created: Symbol('Dispute created'),
+  Created: Symbol('Question created'),
 }
 
 const stringMapping = {
@@ -41,7 +41,7 @@ const stringMapping = {
   [Phase.Invalid]: 'Invalid',
   [Phase.Ended]: 'Ended',
   [Phase.ExecuteRuling]: 'Execute Ruling',
-  [Phase.Created]: 'Dispute created',
+  [Phase.Created]: 'Question created',
 }
 
 const endedStringMapping = {
@@ -58,7 +58,7 @@ const endedStringMapping = {
   [Phase.Invalid]: 'Started',
   [Phase.Ended]: 'Ended',
   [Phase.ExecuteRuling]: 'Ruling Executed',
-  [Phase.Created]: 'Dispute created',
+  [Phase.Created]: 'Question created',
 }
 
 const symbolMapping = {

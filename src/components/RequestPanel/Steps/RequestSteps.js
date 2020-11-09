@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { GU, IconCheck, IconCross, textStyle, useTheme } from '@aragon/ui'
+import { GU, IconCheck, IconCross, textStyle, useTheme } from '@1hive/1hive-ui'
 import MultiStepRequest from './MultiStepRequest'
 import SingleStepRequest from './SingleStepRequest'
 import TransactionProgress from '../TransactionProgress'

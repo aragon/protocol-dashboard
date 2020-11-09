@@ -5,8 +5,8 @@
   "license": "AGPL-3.0-or-later",
   "author": "Aragon Association <legal@aragon.org>",
   "dependencies": {
+    "@1hive/1hive-ui": "^1.0.2",
     "@aragon/connect": "^0.6.0",
-    "@aragon/ui": "^1.4.0",
     "@sentry/browser": "^5.12.1",
     "@web3-react/core": "^6.0.2",
     "@web3-react/injected-connector": "^6.0.3",

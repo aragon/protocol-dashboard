@@ -8,7 +8,7 @@ import {
   useInside,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import { useWallet } from '../../providers/Wallet'
 import { useInput } from '../../hooks/useInput'
 import IdentityBadge from '../IdentityBadge'

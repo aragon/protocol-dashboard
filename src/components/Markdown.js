@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import remark from 'remark'
 import remark2react from 'remark-react'
-import { Link, GU, textStyle, useTheme } from '@aragon/ui'
+import { Link, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 
 const Markdown = React.memo(({ text }) => {
   const theme = useTheme()

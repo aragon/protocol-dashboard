@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, textStyle, useTheme, useViewport } from '@aragon/ui'
+import { Button, GU, textStyle, useTheme, useViewport } from '@1hive/1hive-ui'
 import emailIllustration from '../../../../src/assets/emailIllustration.svg'
 
 const VerifyEmailAddressPreferences = React.memo(

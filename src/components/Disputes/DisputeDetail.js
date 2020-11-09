@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { BackButton, Bar, Box, GU, SidePanel, Split } from '@aragon/ui'
+import { BackButton, Bar, Box, GU, SidePanel, Split } from '@1hive/1hive-ui'
 import { useHistory } from 'react-router-dom'
 
 import AppealPanel from './panels/AppealPanel'
@@ -76,7 +76,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   return (
     <React.Fragment>
       {dispute?.marksPrecedent && <Banner disputeId={disputeId} />}
-      <TitleHeader title="Disputes" />
+      <TitleHeader title="Questions" />
       <Bar>
         <BackButton onClick={handleBack} />
       </Bar>
@@ -103,14 +103,14 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
           secondary={
             <React.Fragment>
               <Box
-                heading="Dispute timeline"
+                heading="Question timeline"
                 padding={error?.fromGraph ? 3 * GU : 0}
               >
                 {(() => {
                   if (error?.fromGraph) {
                     return (
                       <MessageCard
-                        title="We couldn’t load the dispute timeline"
+                        title="We couldn’t load the question timeline"
                         paragraph="Something went wrong! Please restart the app"
                         icon={timelineErrorSvg}
                         mode="compact"
@@ -158,17 +158,17 @@ const PanelTitle = ({ requestMode, disputeId }) => {
   const { mode, data } = requestMode
 
   if (mode === REQUEST_MODE.COMMIT) {
-    return `Commit your vote on dispute #${disputeId}`
+    return `Commit your vote on question #${disputeId}`
   }
 
   if (mode === REQUEST_MODE.REVEAL) {
-    return `Reveal your vote on dispute #${disputeId}`
+    return `Reveal your vote on question #${disputeId}`
   }
 
   if (mode === REQUEST_MODE.APPEAL) {
     return data.confirm
-      ? `Confirm an appeal on dispute #${disputeId}`
-      : `Appeal ruling on dispute #${disputeId}`
+      ? `Confirm an appeal on question #${disputeId}`
+      : `Appeal ruling on question #${disputeId}`
   }
 
   return null

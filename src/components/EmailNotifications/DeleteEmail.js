@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, textStyle, useInside, useTheme } from '@aragon/ui'
+import { Button, GU, textStyle, useInside, useTheme } from '@1hive/1hive-ui'
 
 import emailNotifcationIllustration from '../../assets/emailNotifications.svg'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, LoadingRing, textStyle } from '@aragon/ui'
+import { GU, LoadingRing, textStyle } from '@1hive/1hive-ui'
 import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
 
 const LoadingPreferences = React.memo(function LoadingPreferences() {

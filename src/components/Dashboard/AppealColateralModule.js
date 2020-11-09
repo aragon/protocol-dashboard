@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, GU, Link, useTheme } from '@aragon/ui'
+import { Box, GU, Link, useTheme } from '@1hive/1hive-ui'
 
 import { formatUnits } from '../../lib/math-utils'
 import { useCourtConfig } from '../../providers/CourtConfig'

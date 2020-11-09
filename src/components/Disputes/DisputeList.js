@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Bar, CardLayout, GU, useLayout, useTheme } from '@aragon/ui'
+import { Bar, CardLayout, GU, useLayout, useTheme } from '@1hive/1hive-ui'
 import DisputeCard from './DisputeCard'
 import DisputeFilters from './DisputeFilters'
 import DisputesLoading from '../LoadingCard'

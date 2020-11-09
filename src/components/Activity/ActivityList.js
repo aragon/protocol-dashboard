@@ -7,7 +7,7 @@ import {
   springs,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import { ACTIVITY_STATUS_PENDING } from './activity-statuses'
 import { useActivity } from '../../providers/ActivityProvider'
 import ActivityItem from './ActivityItem'

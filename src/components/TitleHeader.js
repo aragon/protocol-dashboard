@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, Header, useLayout } from '@aragon/ui'
+import { Button, GU, Header, useLayout } from '@1hive/1hive-ui'
 
 function TitleHeader({ title, onlyTitle = false }) {
   const { layoutName } = useLayout()

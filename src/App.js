@@ -1,6 +1,6 @@
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
-import { Main, ToastHub } from '@aragon/ui'
+import { Main, ToastHub } from '@1hive/1hive-ui'
 import theme from './theme-court'
 import AppLoader from './components/AppLoader'
 import GlobalErrorHandler from './GlobalErrorHandler'

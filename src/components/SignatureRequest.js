@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button, GU, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useWallet } from '../providers/Wallet'
 import { signMessage } from '../lib/web3-utils'
 import { dayjs } from '../utils/date-utils'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, GU, springs, useImageExists } from '@aragon/ui'
+import { Button, GU, springs, useImageExists } from '@1hive/1hive-ui'
 import { Transition, animated } from 'react-spring/renderprops'
 import { ReactSpringStateType } from '../../prop-types'
 

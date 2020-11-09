@@ -8,7 +8,7 @@ import {
   Tag,
   springs,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import ActivityList from './ActivityList'
 import { useActivity } from '../../providers/ActivityProvider'
 

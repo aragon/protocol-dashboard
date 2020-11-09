@@ -8,7 +8,7 @@ import {
   Link,
   textStyle,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 import Loading from '../Loading'
 import NoRewards from './NoRewards'

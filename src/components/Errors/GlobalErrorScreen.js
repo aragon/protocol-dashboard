@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, GU, useTheme, useViewport } from '@aragon/ui'
+import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
 import globalError from '../../assets/noResultsSmall.svg'
 import backgroundError from '../../assets/backgroundError.svg'
 import logo from '../../assets/logo.svg'

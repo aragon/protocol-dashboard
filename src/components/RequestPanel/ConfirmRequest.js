@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, Info, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, Info, textStyle, useTheme } from '@1hive/1hive-ui'
 
 function ConfirmRequest({ descriptions, onStartRequest }) {
   const theme = useTheme()

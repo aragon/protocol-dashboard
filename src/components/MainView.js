@@ -8,7 +8,7 @@ import {
   textStyle,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import usePreferences from '../hooks/usePreferences'
 import MenuPanel, { MENU_PANEL_WIDTH } from './MenuPanel'
 import Header from './Header/Header'

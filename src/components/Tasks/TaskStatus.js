@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { textStyle, GU } from '@aragon/ui'
+import { textStyle, GU } from '@1hive/1hive-ui'
 import { dayjs } from '../../utils/date-utils'
 
 function getDueDayText(dueDate) {

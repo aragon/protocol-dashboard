@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { GU, IconCheck, IconCross, useTheme } from '@aragon/ui'
+import { GU, IconCheck, IconCross, useTheme } from '@1hive/1hive-ui'
 import {
   REQUEST_STATUS_CONFIRMED,
   REQUEST_STATUS_PENDING,

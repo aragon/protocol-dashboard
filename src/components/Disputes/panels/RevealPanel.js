@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Field, GU, Info, TextInput } from '@aragon/ui'
+import { Button, Field, GU, Info, TextInput } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
 import { getJurorDraft } from '../../../utils/juror-draft-utils'
 import { getDisputeLastRound } from '../../../utils/dispute-utils'

@@ -10,7 +10,7 @@ import {
   textStyle,
   useTheme,
   IdentityBadge,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import { transformAddresses, getNetworkType } from '../../lib/web3-utils'
 import {
   ACTIVITY_STATUS_PENDING,

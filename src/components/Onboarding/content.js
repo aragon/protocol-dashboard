@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '@aragon/ui'
+import { Link } from '@1hive/1hive-ui'
 
 import large1 from './highlights/assets/rinkeby/large/1.png'
 import large2 from './highlights/assets/rinkeby/large/2.png'

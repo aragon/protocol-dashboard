@@ -7,7 +7,7 @@ import {
   textStyle,
   useInside,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import EmailInput from './EmailInput'
 import { useInput } from '../../hooks/useInput'
 import { validateEmail } from '../../utils/validate-utils'

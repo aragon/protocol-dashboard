@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ButtonBase, springs } from '@aragon/ui'
+import { ButtonBase, springs } from '@1hive/1hive-ui'
 import { useSpring, animated } from 'react-spring'
 import arrowSvg from './assets/arrow.svg'
 

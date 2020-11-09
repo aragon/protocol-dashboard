@@ -6,7 +6,7 @@ import {
   textStyle,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import IdentityBadge from '../IdentityBadge'
 import TasksFilters from './TasksFilters'
 import TaskDueDate from './TaskDueDate'

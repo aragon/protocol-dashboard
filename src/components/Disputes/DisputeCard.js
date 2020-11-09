@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import { Card, GU, textStyle, useTheme } from '@aragon/ui'
+import { Card, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import DisputeText from './DisputeText'
 import DisputeStatus from './DisputeStatus'
@@ -40,7 +40,7 @@ function DisputeCard({ dispute, onSelectDispute }) {
             ${textStyle('body1')}
           `}
         >
-          <strong> Dispute #{id}</strong>
+          <strong> Question #{id}</strong>
         </h3>
         <DisputeText
           text={voidedText || description}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { Accordion, GU, textStyle, useTheme, Timer } from '@aragon/ui'
+import { Accordion, GU, textStyle, useTheme, Timer } from '@1hive/1hive-ui'
 
 import DisputeOutcomeText from './DisputeOutcomeText'
 import DisputeRoundPill from './DisputeRoundPill'

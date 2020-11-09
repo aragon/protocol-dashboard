@@ -8,7 +8,7 @@ import {
   TextInput,
   useSidePanelFocusOnReady,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 import { useCourtConfig } from '../../../providers/CourtConfig'
 import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'

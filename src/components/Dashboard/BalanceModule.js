@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, GU, Split, useLayout, useTheme } from '@aragon/ui'
+import { Box, GU, Split, useLayout, useTheme } from '@1hive/1hive-ui'
 import Profile from './Profile'
 import Balance from './Balance'
 import AccountBanner from './AccountBanner'

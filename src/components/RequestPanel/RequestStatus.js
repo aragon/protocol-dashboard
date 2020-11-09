@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, Info } from '@aragon/ui'
+import { Button, GU, Info } from '@1hive/1hive-ui'
 import RequestSteps from './Steps/RequestSteps'
 import { useWallet } from '../../providers/Wallet'
 import { getProviderFromUseWalletId } from '../../ethereum-providers'

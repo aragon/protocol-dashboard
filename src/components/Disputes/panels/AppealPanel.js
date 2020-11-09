@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, DropDown, Field, GU, Info, Link } from '@aragon/ui'
+import { Button, DropDown, Field, GU, Info, Link } from '@1hive/1hive-ui'
 import { getDisputeLastRound } from '../../../utils/dispute-utils'
 import {
   getAppealRulingOptions,

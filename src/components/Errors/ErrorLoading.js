@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, Info, useTheme } from '@aragon/ui'
+import { GU, Info, useTheme } from '@1hive/1hive-ui'
 
 import errorLoadingSvg from '../../assets/noResults.svg'
 import MessageCard from '../MessageCard'

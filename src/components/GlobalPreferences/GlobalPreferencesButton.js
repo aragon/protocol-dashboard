@@ -10,7 +10,7 @@ import {
   textStyle,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 import iconNetwork from '../../assets/global-preferences-network.svg'
 import iconNotifications from '../../assets/global-preferences-notifications.svg'

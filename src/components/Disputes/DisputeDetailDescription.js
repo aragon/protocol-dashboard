@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, useTheme } from '@aragon/ui'
+import { GU, useTheme } from '@1hive/1hive-ui'
 import IdentityBadge from '../IdentityBadge'
 
 function DisputeDetailDescription({ path }) {

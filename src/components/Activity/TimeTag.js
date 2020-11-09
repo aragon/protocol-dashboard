@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { GU, textStyle, useTheme } from '@aragon/ui'
+import { GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { getRelativeTime } from '../../utils/date-utils'
 import useNow from '../../hooks/useNow'
 

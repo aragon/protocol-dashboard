@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Tabs, Tag } from '@aragon/ui'
+import { Tabs, Tag } from '@1hive/1hive-ui'
 import { useHistory } from 'react-router-dom'
 
 import DisputeList from './DisputeList'
@@ -38,29 +38,41 @@ function Disputes() {
 
   return (
     <>
-      <TitleHeader title="Disputes" />
-      <Tabs
-        items={[
-          <div>
-            <span>All disputes </span>
-            <Tag
-              limitDigits={4}
-              label={disputes ? disputes.length : 0}
-              size="small"
-            />
-          </div>,
-          <div>
-            <span>My disputes </span>
-            <Tag
-              limitDigits={4}
-              label={jurorDisputes ? jurorDisputes.length : 0}
-              size="small"
-            />
-          </div>,
-        ]}
-        selected={screenIndex}
-        onChange={handleTabChange}
-      />
+      <TitleHeader title="Questions" />
+      <div
+        css={`
+          & > div {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        `}
+      >
+        <Tabs
+          items={[
+            <div>
+              <span>All questions </span>
+              <Tag
+                limitDigits={4}
+                label={disputes ? disputes.length : 0}
+                size="small"
+              />
+            </div>,
+            <div>
+              <span>My questions </span>
+              <Tag
+                limitDigits={4}
+                label={jurorDisputes ? jurorDisputes.length : 0}
+                size="small"
+              />
+            </div>,
+          ]}
+          selected={screenIndex}
+          onChange={handleTabChange}
+          css={`
+            background: black;
+          `}
+        />
+      </div>
 
       <DisputeList
         disputes={screenIndex === 0 ? disputes : jurorDisputes}

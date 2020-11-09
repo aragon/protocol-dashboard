@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, Info } from '@aragon/ui'
+import { Button, GU, Info } from '@1hive/1hive-ui'
 
 function DisputeReveal({ onRequestReveal }) {
   return (

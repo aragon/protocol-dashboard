@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import { useFocusEnter, useFocusLeave } from '@aragon/ui'
+import { useFocusEnter, useFocusLeave } from '@1hive/1hive-ui'
 
 export function useInput(validationFn) {
   const [value, setValue] = useState('')
