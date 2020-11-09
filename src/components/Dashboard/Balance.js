@@ -91,7 +91,7 @@ const Balance = React.memo(function Balance({
                 <SplitAmount
                   amount={formatUnits(amount, { digits: decimals })}
                 />
-                <img height="14" width="14" src={ANTIcon} alt="ant" />
+                <img height="14" width="14" src={ANTIcon} alt="ANT" />
               </div>
               <span
                 css={`
