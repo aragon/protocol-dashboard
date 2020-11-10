@@ -38,7 +38,7 @@ import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const ANJ_ACTIVATE_GAS_LIMIT = 500000
+const ANJ_ACTIVATE_GAS_LIMIT = 600000
 const ANJ_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
