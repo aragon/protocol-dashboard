@@ -338,7 +338,7 @@ const ANJDiscountedMessage = () => {
 
 const ANJSlashedMessage = () => {
   return (
-    <ANJMessage result="has been slashed and redistributed to other jurors" />
+    <ANJMessage result="has been slashed and redistributed to other guardians" />
   )
 }
 

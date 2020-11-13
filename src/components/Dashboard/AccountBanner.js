@@ -30,7 +30,7 @@ const getBannerAttributes = (
       return {
         icon: hexagonIcon,
         iconBackground: theme.positive.alpha(0.2),
-        title: 'You have been drafted',
+        title: 'You have been summoned',
         titleColor: theme.positive,
         paragraph:
           'You can start reviewing the evidence and then commit your vote',
@@ -41,9 +41,10 @@ const getBannerAttributes = (
       return {
         icon: userIcon,
         iconBackground: theme.positive.alpha(0.2),
-        title: 'You are eligible to be drafted',
+        title: 'You are eligible to be summoned',
         titleColor: theme.positive,
-        paragraph: 'You are eligible to be drafted starting from the next term',
+        paragraph:
+          'You are eligible to be summoned starting from the next term',
         showTimer: true,
       }
     }
@@ -53,10 +54,10 @@ const getBannerAttributes = (
 
   return {
     icon: antSpringIcon,
-    title: 'Activate ANJ to be an active juror',
+    title: 'Activate ANJ to be an active guardian',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
-    })}  ANJ to participate as a juror`,
+    })}  ANJ to participate as a guardian`,
   }
 }
 
@@ -201,7 +202,7 @@ const BannerWithProbability = ({ activeBalance }) => {
           margin-right: ${1 * GU}px;
         `}
       >
-        {'On average, you will be drafted into a jury '}
+        {'On average, you will be summoned into a guardian '}
         <span
           css={`
             color: ${theme.accent};
@@ -214,7 +215,8 @@ const BannerWithProbability = ({ activeBalance }) => {
         <p>
           This is a numerical estimate of your likelihood of being selected for
           arbitration. It’s calculated by dividing your active ANJ balance
-          against the Court's total active ANJ balance during the current term.
+          against the Protocol's total active ANJ balance during the current
+          term.
         </p>
         <p
           css={`
@@ -224,13 +226,13 @@ const BannerWithProbability = ({ activeBalance }) => {
           {probablilityTooLow
             ? `
                 You currently have <1% of all activated ANJ, hence are unlikely
-                to be drafted unless a dispute goes to the final round or many
+                to be summoned unless a dispute goes to the final round or many
                 disputes are created. Activate more ANJ to increase your chances
-                of being selected as a juror.
+                of being selected as a guardian.
               `
             : `
                 You can always activate more ANJ to increase your chances of
-                being selected as a juror.
+                being selected as a guardian.
               `}
         </p>
       </Help>
@@ -238,7 +240,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    'The more ANJ you activate, the more likely you will be drafted to arbitrate a dispute'
+    'The more ANJ you activate, the more likely you will be summoned to arbitrate a dispute'
 
   return (
     <Wrapper

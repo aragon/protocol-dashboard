@@ -28,7 +28,7 @@ const DeactivateANJ = React.memo(function DeactivateANJ({
       }
 
       if (activeBalanceAfter.lt(minActiveBalance) && activeBalanceAfter.gt(0)) {
-        return `Your resulting active balance must be 0 or at least the minimum to be a juror (${minActiveBalanceFormatted} ${anjToken.symbol})`
+        return `Your resulting active balance must be 0 or at least the minimum to be a guardian (${minActiveBalanceFormatted} ${anjToken.symbol})`
       }
 
       return null

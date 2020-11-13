@@ -38,7 +38,7 @@ export function appealOptionToString(outcome) {
 }
 
 const outcomeStringMapping = {
-  [OUTCOMES.Leaked]: 'Invalid ruling',
+  [OUTCOMES.Leaked]: 'Invalid decision',
   [OUTCOMES.Refused]: 'Refused to vote',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',
@@ -52,7 +52,7 @@ export function juryOutcomeToString(outcome) {
 }
 
 const appealRulingStringMapping = {
-  [OUTCOMES.Leaked]: 'Invalid ruling',
+  [OUTCOMES.Leaked]: 'Invalid decision',
   [OUTCOMES.Refused]: 'Refused',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',
@@ -66,7 +66,7 @@ export function appealRulingToString(outcome, confirm) {
 }
 
 const finalRulingStringMapping = {
-  [OUTCOMES.Leaked]: 'Invalid ruling',
+  [OUTCOMES.Leaked]: 'Invalid decision',
   [OUTCOMES.Refused]: 'Refused',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',

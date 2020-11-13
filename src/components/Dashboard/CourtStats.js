@@ -16,7 +16,7 @@ function CourtStats() {
   const [stats, fetching] = useCourtStats()
 
   return (
-    <Box heading="Court Metrics" padding={3 * GU}>
+    <Box heading="Protocol Metrics" padding={3 * GU}>
       {(() => {
         if (fetching) {
           return <Loading height={86} size="large" />

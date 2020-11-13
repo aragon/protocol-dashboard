@@ -31,16 +31,16 @@ const stringMapping = {
   [Status.Closed]: 'Closed',
   [Phase.All]: 'All',
   [Phase.Evidence]: 'Adding arguments',
-  [Phase.JuryDrafting]: 'Jury drafting',
+  [Phase.JuryDrafting]: 'Summon guardians',
   [Phase.NotStarted]: 'Starts in',
   [Phase.VotingPeriod]: 'Voting period',
   [Phase.RevealVote]: 'Reveal vote',
-  [Phase.AppealRuling]: 'Appeal ruling',
+  [Phase.AppealRuling]: 'Appeal decision',
   [Phase.ConfirmAppeal]: 'Confirm appeal',
   [Phase.ClaimRewards]: 'Claim rewards',
   [Phase.Invalid]: 'Invalid',
   [Phase.Ended]: 'Ended',
-  [Phase.ExecuteRuling]: 'Execute Ruling',
+  [Phase.ExecuteRuling]: 'Enact Decision',
   [Phase.Created]: 'Dispute created',
 }
 
@@ -49,15 +49,15 @@ const endedStringMapping = {
   [Status.Closed]: 'Closed',
   [Phase.All]: 'All',
   [Phase.Evidence]: 'Arguments added',
-  [Phase.JuryDrafting]: 'Jury drafted',
+  [Phase.JuryDrafting]: 'Guardians summoned',
   [Phase.VotingPeriod]: 'Voting period',
   [Phase.RevealVote]: 'Vote revealed',
-  [Phase.AppealRuling]: 'Appeal ruling',
+  [Phase.AppealRuling]: 'Appeal decision',
   [Phase.ConfirmAppeal]: 'Appeal confirmed',
   [Phase.ClaimRewards]: 'Claim rewards',
   [Phase.Invalid]: 'Started',
   [Phase.Ended]: 'Ended',
-  [Phase.ExecuteRuling]: 'Ruling Executed',
+  [Phase.ExecuteRuling]: 'Decision Enacted',
   [Phase.Created]: 'Dispute created',
 }
 
@@ -81,7 +81,7 @@ const taskActionsMapping = {
   [Phase.All]: 'All',
   [Phase.VotingPeriod]: 'Commit vote',
   [Phase.RevealVote]: 'Reveal vote',
-  [Phase.AppealRuling]: 'Appeal ruling',
+  [Phase.AppealRuling]: 'Appeal decision',
   [Phase.ConfirmAppeal]: 'Confirm appeal',
 }
 

@@ -180,7 +180,7 @@ const NoDisputes = () => {
 const NoMyDisputes = () => {
   const theme = useTheme()
 
-  const title = 'You haven’t been drafted to arbitrate a dispute yet'
+  const title = 'You haven’t been summoned to arbitrate a dispute yet'
   const paragraph = (
     <span>
       The more{' '}
@@ -191,7 +191,7 @@ const NoMyDisputes = () => {
       >
         ANJ you activate
       </span>
-      , more chances you have to be drafted to arbitrate a dispute
+      , more chances you have to be summoned to arbitrate a dispute
     </span>
   )
 

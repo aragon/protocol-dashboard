@@ -82,7 +82,7 @@ function PrecedenceCampaignModal({ opened, onClose }) {
                   text-transform: uppercase;
                 `}
               >
-                Aragon court
+                Aragon protocol
               </p>
               <h1
                 css={`

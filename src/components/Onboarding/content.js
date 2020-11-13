@@ -25,7 +25,7 @@ const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
 const MAIN_COURT_URL = 'https://court.aragon.org'
 
 const highlights = {
-  heading: 'Aragon Court',
+  heading: 'Aragon Protocol',
   defaultVisualColor: '#FF9780',
   defaultButtonColor: '#FFFFFF',
 }
@@ -34,13 +34,13 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Welcome, juror',
+      large: 'Welcome, guardian',
     },
     description: {
       small: null,
       large: (
         <span>
-          This is a testnet release of the official Court Dashboard at{' '}
+          This is a testnet release of the official Aragon Protocol Dashboard at{' '}
           <Link href={MAIN_COURT_URL}>court.aragon.org</Link>. We'd love for you
           to explore it and tell us what you think!
         </span>
@@ -62,7 +62,7 @@ highlights.rinkeby = [
         <span>
           We’ve airdropped 10,000 test ANJ on Rinkeby to the same Ethereum
           account you registered with on Mainnet. You can use this test ANJ to
-          become an active juror and participate in the arbitration process.
+          become an active guardian and participate in the arbitration process.
         </span>
       ),
     },
@@ -102,7 +102,7 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          When you vote in favor of the plurality ruling, you will be rewarded
+          When you vote in favor of the plurality decision, you will be rewarded
           with Dispute Fees. Just note that these rewards will be awarded in
           Rinkeby tokens for the purpose of this test version.
         </span>
@@ -129,7 +129,7 @@ highlights.rinkeby = [
           </p>
           <p>
             You’ll also receive notifications about important announcements,
-            your assigned disputes, and upcoming tasks as a juror.
+            your assigned disputes, and upcoming tasks as a guardian.
           </p>
         </>
       ),
@@ -140,7 +140,7 @@ highlights.rinkeby = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Aragon Protocol',
     },
   },
 ]
@@ -149,14 +149,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Welcome, juror',
+      large: 'Welcome, guardian',
     },
     description: {
       small: null,
       large: (
         <span>
           Your first ANJ has been activated succesfully. Now, read the quick
-          guide to be a good and active juror on the court.
+          guide to be a good and active guardian on the protocol.
         </span>
       ),
     },
@@ -179,14 +179,15 @@ highlights.main = [
             and Active. You can read more about these different balances and
             what they mean in the{' '}
             <Link href="https://help.aragon.org/article/42-aragon-court-dashboard">
-              Juror Dashboard Guide
+              Guardian Dashboard Guide
             </Link>
             .
           </p>
 
           <p>
             Adjusting your active ANJ balance will affect the indicator that
-            displays your chance of being drafted and your current draft status.
+            displays your chance of being summoned and your current summon
+            status.
           </p>
         </>
       ),
@@ -208,7 +209,7 @@ highlights.main = [
       large: (
         <>
           <p>
-            When drafted, you must perform certain actions on time to earn
+            When summoned, you must perform certain actions on time to earn
             rewards and avoid penalties.
           </p>
           <p>
@@ -274,8 +275,8 @@ highlights.main = [
         <>
           <p>
             Earn Dispute Fees for successfully adjudicating disputes and monthy
-            Subscription Fees for simply being an Active juror, whether you are
-            drafted or not.
+            Subscription Fees for simply being an Active guardian, whether you
+            are summoned or not.
           </p>
           <p>Use the Rewards modules to track your earnings over time.</p>
         </>
@@ -287,7 +288,7 @@ highlights.main = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Aragon Protocol',
     },
   },
 ]

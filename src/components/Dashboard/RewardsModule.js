@@ -152,7 +152,7 @@ const ANJRewards = ({ amount }) => {
   return (
     <FeeSection>
       <RowFee
-        label="Ruling fees"
+        label="Decision fees"
         amount={formattedAmount}
         symbol={anjToken.symbol}
         showPositive

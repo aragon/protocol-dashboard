@@ -68,7 +68,7 @@ const TaskTable = React.memo(function TaskTable({
       fields={
         emptyFilterResults
           ? []
-          : ['Action', 'Dispute', 'Assigned to juror', 'Due in']
+          : ['Action', 'Dispute', 'Assigned to guardian', 'Due in']
       }
       entries={tasks}
       renderEntry={({ phase, disputeId, juror, dueDate }) => {

@@ -168,7 +168,7 @@ const PanelTitle = ({ requestMode, disputeId }) => {
   if (mode === REQUEST_MODE.APPEAL) {
     return data.confirm
       ? `Confirm an appeal on dispute #${disputeId}`
-      : `Appeal ruling on dispute #${disputeId}`
+      : `Appeal decision on dispute #${disputeId}`
   }
 
   return null
