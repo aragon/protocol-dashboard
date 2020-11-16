@@ -82,7 +82,6 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@urql/devtools": "^0.1.2",
-    "babel-eslint": "^10.0.3",
     "babel-plugin-styled-components": "^1.10.6",
     "bundlewatch": "^0.2.6",
     "cross-env": "^7.0.2",

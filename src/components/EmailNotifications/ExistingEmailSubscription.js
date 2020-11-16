@@ -79,7 +79,7 @@ function ExistingEmailSubscription({
           `}
         >
           You have previously agreed to Aragon Protocol's{' '}
-          <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+          <Link href="https://ant.aragon.org/legal/terms-general.pdf">
             legal terms
           </Link>{' '}
           and{' '}

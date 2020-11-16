@@ -9,8 +9,8 @@ export default {
   [actions.APPROVE_FEE_DEPOSIT]: ({ amount }) => {
     return `Approve fee deposit: ${amount} DAI`
   },
-  [actions.ACTIVATE_ANJ]: ({ amount }) => {
-    return `Activate the total amount of ${amount} ANJ`
+  [actions.ACTIVATE_ANT]: ({ amount }) => {
+    return `Activate the total amount of ${amount} ANT`
   },
   [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling }) => {
     return `Appeal round ${numberToWord(
@@ -38,9 +38,9 @@ export default {
         decision: ${appealOptionToString(ruling)}
       `
   },
-  [actions.DEACTIVATE_ANJ]: ({ amount }) => {
+  [actions.DEACTIVATE_ANT]: ({ amount }) => {
     return `
-        Deactivate the total amount of ${amount} ANJ
+        Deactivate the total amount of ${amount} ANT
       `
   },
   [actions.DRAFT_JURY]: ({ disputeId }) => {
@@ -82,9 +82,9 @@ export default {
         )} of dispute #${disputeId}
       `
   },
-  [actions.WITHDRAW_ANJ]: ({ amount }) => {
+  [actions.WITHDRAW_ANT]: ({ amount }) => {
     return `
-        Withdraw the total amount of ${amount} ANJ
+        Withdraw the total amount of ${amount} ANT
       `
   },
 }

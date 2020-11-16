@@ -24,8 +24,8 @@ function DashboardStateProvider({ children }) {
   return (
     <Provider
       value={{
-        anjMovements: [],
-        anjBalances: {},
+        antMovements: [],
+        antBalances: {},
         appeals: [],
         claimedSubscriptionFees: [],
         jurorDrafts: [],
@@ -38,10 +38,10 @@ function DashboardStateProvider({ children }) {
 }
 
 function WithSubscription({ Provider, connectedAccount, children }) {
-  // Juror ANJ balances, 24h ANJ movements and claimed subscription fees
+  // Juror ANT balances, 24h ANT movements and claimed subscription fees
   const {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    antMovements,
     claimedSubscriptionFees,
     treasury,
     fetching: balancesFetching,
@@ -72,8 +72,8 @@ function WithSubscription({ Provider, connectedAccount, children }) {
   return (
     <Provider
       value={{
-        anjBalances,
-        anjMovements,
+        antBalances,
+        antMovements,
         appeals,
         claimedSubscriptionFees,
         errors,

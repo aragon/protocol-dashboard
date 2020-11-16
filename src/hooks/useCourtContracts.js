@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
 // hooks
@@ -6,7 +6,7 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useActivity } from '../providers/ActivityProvider'
 import { useRequestQueue } from '../providers/RequestQueue'
 import { useRequestProcessor } from './useRequestProcessor'
-import { useContract, useContractReadOnly } from '../web3-contracts'
+import { useContract } from '../web3-contracts'
 
 // services
 import { requestAutoReveal as requestAutoRevealApi } from '../services/autoReveal'
@@ -15,18 +15,18 @@ import { requestAutoReveal as requestAutoRevealApi } from '../services/autoRevea
 import radspec from '../radspec'
 import { retryMax } from '../utils/retry-max'
 import actions from '../actions/court-action-types'
-import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
 import { getFunctionSignature } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
-import { networkReserveAddress } from '../networks'
 import {
   getVoteId,
   hashPassword,
   hashVote,
   saveCodeInLocalStorage,
 } from '../utils/crvoting-utils'
+
+import { getANTToken } from '../utils/known-tokens'
 
 // abis
 import aragonCourtAbi from '../abi/AragonCourt.json'
@@ -38,17 +38,17 @@ import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const ANJ_ACTIVATE_GAS_LIMIT = 500000
-const ANJ_ACTIONS_GAS_LIMIT = 325000
+const ANT_ACTIVATE_GAS_LIMIT = 500000
+const ANT_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
-// ANJ contract
-function useANJTokenContract() {
-  const { anjToken } = useCourtConfig()
+// ANT contract
+function useANTTokenContract() {
+  const antToken = getANTToken()
 
-  const anjTokenAddress = anjToken ? anjToken.id : null
+  const antTokenAddress = antToken ? antToken.address : null
 
-  return useContract(anjTokenAddress, tokenAbi)
+  return useContract(antTokenAddress, tokenAbi)
 }
 
 // Fee token contract
@@ -75,19 +75,19 @@ function useCourtContract(moduleType, abi) {
 }
 
 /**
- * All ANJ interactions
- * @returns {Object} all available functions around ANJ balances
+ * All ANT interactions
+ * @returns {Object} all available functions around ANT balances
  */
-export function useANJActions() {
+export function useANTActions() {
   const processRequests = useRequestProcessor()
   const jurorRegistryContract = useCourtContract(
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
-  const anjTokenContract = useANJTokenContract()
+  const antTokenContract = useANTTokenContract()
 
-  // activate ANJ directly from available balance
-  const activateANJ = useCallback(
+  // activate ANT directly from available balance
+  const activateANT = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -95,19 +95,19 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.activate(amount, {
-              gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+              gasLimit: ANT_ACTIVATE_GAS_LIMIT,
             }),
-          description: radspec[actions.ACTIVATE_ANJ]({
+          description: radspec[actions.ACTIVATE_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.ACTIVATE_ANJ,
+          type: actions.ACTIVATE_ANT,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  const deactivateANJ = useCallback(
+  const deactivateANT = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -115,43 +115,43 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.deactivate(amount, {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+              gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.DEACTIVATE_ANJ]({
+          description: radspec[actions.DEACTIVATE_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.DEACTIVATE_ANJ,
+          type: actions.DEACTIVATE_ANT,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  // approve, stake and activate ANJ
-  const stakeActivateANJ = useCallback(
+  // approve, stake and activate ANT
+  const stakeActivateANT = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
-            anjTokenContract.approveAndCall(
+            antTokenContract.approveAndCall(
               jurorRegistryContract.address,
               amount,
               ACTIVATE_SELECTOR,
-              { gasLimit: ANJ_ACTIVATE_GAS_LIMIT }
+              { gasLimit: ANT_ACTIVATE_GAS_LIMIT }
             ),
-          description: radspec[actions.ACTIVATE_ANJ]({
+          description: radspec[actions.ACTIVATE_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.ACTIVATE_ANJ,
+          type: actions.ACTIVATE_ANT,
         },
       ])
     },
-    [anjTokenContract, jurorRegistryContract, processRequests]
+    [antTokenContract, jurorRegistryContract, processRequests]
   )
 
-  const withdrawANJ = useCallback(
+  const withdrawANT = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -159,19 +159,19 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.unstake(amount, '0x', {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+              gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.WITHDRAW_ANJ]({
+          description: radspec[actions.WITHDRAW_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.WITHDRAW_ANJ,
+          type: actions.WITHDRAW_ANT,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  return { activateANJ, deactivateANJ, stakeActivateANJ, withdrawANJ }
+  return { activateANT, deactivateANT, stakeActivateANT, withdrawANT }
 }
 
 /**
@@ -499,7 +499,7 @@ export function useRewardActions() {
       return {
         action: () =>
           treasuryContract.withdraw(token, to, amount, {
-            gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+            gasLimit: ANT_ACTIONS_GAS_LIMIT,
           }),
         description: radspec[actions.CLAIM_REWARDS]({
           amount: formatUnits(amount),
@@ -793,59 +793,61 @@ export function useActiveBalanceOfAt(juror, termId) {
   return [activeBalance.amount, activeBalance.error]
 }
 
-export function useTotalANTStakedPolling(timeout = 1000) {
-  const [totalANTStaked, setTotalANTStaked] = useState(bigNum(-1))
-  const [error, setError] = useState(false)
-  const { address: antAddress } = getKnownToken('ANT') || {}
-  const antContract = useContractReadOnly(antAddress, tokenAbi)
+// TODO remove this commented function in case we are not going to track the staked
 
-  // We are starting in 0 in order to immediately make the fetch call
-  const controlledTimeout = useRef(0)
+// export function useTotalANTStakedPolling(timeout = 1000) {
+//   const [totalANTStaked, setTotalANTStaked] = useState(bigNum(-1))
+//   const [error, setError] = useState(false)
+//   const { address: antAddress } = getKnownToken('ANT') || {}
+//   const antContract = useContractReadOnly(antAddress, tokenAbi)
 
-  useEffect(() => {
-    let cancelled = false
-    let timeoutId
+//   // We are starting in 0 in order to immediately make the fetch call
+//   const controlledTimeout = useRef(0)
 
-    // This stat is only relevant and shown on mainnet
-    if (!networkReserveAddress) {
-      return setError(true)
-    }
+//   useEffect(() => {
+//     let cancelled = false
+//     let timeoutId
 
-    if (!antContract) {
-      return
-    }
+//     // This stat is only relevant and shown on mainnet
+//     if (!networkReserveAddress) {
+//       return setError(true)
+//     }
 
-    const fetchTotalANTBalance = () => {
-      timeoutId = setTimeout(() => {
-        const vaultBalancePromise = antContract.balanceOf(networkReserveAddress)
+//     if (!antContract) {
+//       return
+//     }
 
-        return vaultBalancePromise
-          .then(antInVault => {
-            if (!cancelled) {
-              setTotalANTStaked(antInVault)
-            }
-          })
-          .catch(err => {
-            console.error(`Error fetching balance: ${err} retrying...`)
-            setError(true)
-          })
-          .finally(() => {
-            if (!cancelled) {
-              clearTimeout(timeoutId)
-              controlledTimeout.current = timeout
-              fetchTotalANTBalance()
-            }
-          })
-      }, controlledTimeout.current)
-    }
+//     const fetchTotalANTBalance = () => {
+//       timeoutId = setTimeout(() => {
+//         const vaultBalancePromise = antContract.balanceOf(networkReserveAddress)
 
-    fetchTotalANTBalance()
+//         return vaultBalancePromise
+//           .then(antInVault => {
+//             if (!cancelled) {
+//               setTotalANTStaked(antInVault)
+//             }
+//           })
+//           .catch(err => {
+//             console.error(`Error fetching balance: ${err} retrying...`)
+//             setError(true)
+//           })
+//           .finally(() => {
+//             if (!cancelled) {
+//               clearTimeout(timeoutId)
+//               controlledTimeout.current = timeout
+//               fetchTotalANTBalance()
+//             }
+//           })
+//       }, controlledTimeout.current)
+//     }
 
-    return () => {
-      cancelled = true
-      clearTimeout(timeoutId)
-    }
-  }, [antContract, controlledTimeout, timeout])
+//     fetchTotalANTBalance()
 
-  return [totalANTStaked, error]
-}
+//     return () => {
+//       cancelled = true
+//       clearTimeout(timeoutId)
+//     }
+//   }, [antContract, controlledTimeout, timeout])
+
+//   return [totalANTStaked, error]
+// }

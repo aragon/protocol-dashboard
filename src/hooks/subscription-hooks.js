@@ -12,8 +12,8 @@ import {
 import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
 import {
-  JurorANJBalances,
-  JurorANJWalletBalance,
+  JurorANTBalances,
+  JurorANTWalletBalance,
   JurorTreasuryBalances,
 } from '../queries/balances'
 import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
@@ -21,7 +21,7 @@ import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
 // utils
 import { bigNum } from '../lib/math-utils'
 import { dayjs, toMs } from '../utils/date-utils'
-import { groupMovements } from '../utils/anj-movement-utils'
+import { groupMovements } from '../utils/ant-movement-utils'
 import { transformAppealDataAttributes } from '../utils/appeal-utils'
 import {
   transformRoundDataAttributes,
@@ -51,8 +51,8 @@ function useQuerySub(query, variables = {}, options = {}) {
 }
 
 // Subscription to get juror's wallet balance
-function useANJBalance(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorANJWalletBalance, {
+function useANTBalance(jurorId) {
+  const [{ data, error }] = useQuerySub(JurorANTWalletBalance, {
     id: jurorId.toLowerCase(),
   })
   return { data, error }
@@ -66,7 +66,7 @@ function useJuror(jurorId) {
     .subtract(1, 'day')
     .unix()
 
-  const [{ data, error }] = useQuerySub(JurorANJBalances, {
+  const [{ data, error }] = useQuerySub(JurorANTBalances, {
     id: jurorId.toLowerCase(),
     from: yesterday,
   })
@@ -90,41 +90,41 @@ function useJurorTreasuryBalances(jurorId) {
  */
 export function useJurorBalancesSubscription(jurorId) {
   // Juror wallet balance
-  const { data: anjBalanceData, error: anjBalanceError } = useANJBalance(
+  const { data: antBalanceData, error: antBalanceError } = useANTBalance(
     jurorId
   )
 
-  // Juror ANJ balances, 24h movements and subscritpion claimed fees
+  // Juror ANT balances, 24h movements and subscritpion claimed fees
   const { data: jurorData, error: jurorError } = useJuror(jurorId)
   const {
     data: treasuryBalancesData,
     error: treasuryBalancesError,
   } = useJurorTreasuryBalances(jurorId)
 
-  const errors = [anjBalanceError, jurorError, treasuryBalancesError].filter(
+  const errors = [antBalanceError, jurorError, treasuryBalancesError].filter(
     err => err
   )
 
   const {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    antMovements,
     claimedSubscriptionFees,
     treasury,
   } = useMemo(() => {
     // Means it's still fetching
-    if (!jurorData || !anjBalanceData || !treasuryBalancesData) {
+    if (!jurorData || !antBalanceData || !treasuryBalancesData) {
       return {}
     }
 
-    // If the account doesn't hold any ANJ we set 0 as default
+    // If the account doesn't hold any ANT we set 0 as default
     const { amount: walletBalance = NO_AMOUNT } =
-      anjBalanceData.anjbalance || {}
+      antBalanceData.antbalance || {}
 
     // If the juror is null then means that the connnected account is not a juror but we are already done fetching
     // We set 0 as default values
     const {
       activeBalance = NO_AMOUNT,
-      anjMovements = [],
+      antMovements = [],
       availableBalance = NO_AMOUNT,
       claimedSubscriptionFees = [],
       deactivationBalance = NO_AMOUNT,
@@ -134,14 +134,14 @@ export function useJurorBalancesSubscription(jurorId) {
     const { treasuryBalances = [] } = treasuryBalancesData || {}
 
     return {
-      anjBalances: {
+      antBalances: {
         activeBalance: bigNum(activeBalance),
         deactivationBalance: bigNum(deactivationBalance),
         inactiveBalance: bigNum(availableBalance),
         lockedBalance: bigNum(lockedBalance),
         walletBalance: bigNum(walletBalance),
       },
-      anjMovements: groupMovements(anjMovements),
+      antMovements: groupMovements(antMovements),
       claimedSubscriptionFees: claimedSubscriptionFees.map(
         transformClaimedFeesDataAttributes
       ),
@@ -150,14 +150,14 @@ export function useJurorBalancesSubscription(jurorId) {
         amount: bigNum(balance.amount),
       })),
     }
-  }, [anjBalanceData, jurorData, treasuryBalancesData])
+  }, [antBalanceData, jurorData, treasuryBalancesData])
 
   return {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    antMovements,
     claimedSubscriptionFees,
     treasury,
-    fetching: !anjBalances && errors.length === 0,
+    fetching: !antBalances && errors.length === 0,
     errors,
   }
 }
@@ -249,7 +249,7 @@ export function useCurrentTermJurorDraftsSubscription(
 /**
  * Subscribes to all `jurorId` drafts
  * @dev This subscription is useful to get all rewards pending for claiming as well
- * as for the amount of locked ANJ a juror has per dispute
+ * as for the amount of locked ANT a juror has per dispute
  * Ideally we would check that the round is not settled but we cannot do nested filters for now
  *
  * @param {String} jurorId Address of the juror

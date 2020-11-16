@@ -19,8 +19,9 @@ import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
 
 import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
+import { getANTToken } from '../../utils/known-tokens'
 
-// anjRewards => ANJ => First settle with `onSettleReward()`, then withdraw
+// antRewards => ANT => First settle with `onSettleReward()`, then withdraw
 // feeRewards => DAI =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
 // subscriptions fees => DAI => Can be withdrawn directly from the CourtSubscription contract
 // Only after the rewards are settled can a juror withdraw them from the treasury (`onWithdraw()`)
@@ -36,7 +37,7 @@ const RewardsModule = React.memo(function RewardsModule({
 
   // Subscriptions are fetched directly from the subscriptions contract
   const subscriptionFees = useJurorSubscriptionFees()
-  const { anjRewards, feeRewards } = rewards || {}
+  const { antRewards, feeRewards } = rewards || {}
 
   const {
     totalAppealFees,
@@ -95,7 +96,7 @@ const RewardsModule = React.memo(function RewardsModule({
     ]
   )
 
-  const hasRewardsToClaim = anjRewards?.gt(0) || totalFeeRewards.gt(0)
+  const hasRewardsToClaim = antRewards?.gt(0) || totalFeeRewards.gt(0)
   const showHeading = !loading && hasRewardsToClaim
 
   return (
@@ -114,7 +115,7 @@ const RewardsModule = React.memo(function RewardsModule({
 
         return (
           <div>
-            {rewards && anjRewards.gt(0) && <ANJRewards amount={anjRewards} />}
+            {rewards && antRewards.gt(0) && <ANTRewards amount={antRewards} />}
             {totalFeeRewards.gt(0) && (
               <FeeSection>
                 <form onSubmit={handleFormSubmit}>
@@ -139,13 +140,13 @@ const RewardsModule = React.memo(function RewardsModule({
   )
 })
 
-const ANJRewards = ({ amount }) => {
-  const { anjToken } = useCourtConfig()
+const ANTRewards = ({ amount }) => {
+  const antToken = getANTToken()
 
   const formattedAmount = formatTokenAmount(
     amount,
     true,
-    anjToken.decimals,
+    antToken.decimals,
     true
   )
 
@@ -154,7 +155,7 @@ const ANJRewards = ({ amount }) => {
       <RowFee
         label="Decision fees"
         amount={formattedAmount}
-        symbol={anjToken.symbol}
+        symbol={antToken.symbol}
         showPositive
         css={`
           margin-bottom: ${2 * GU}px;

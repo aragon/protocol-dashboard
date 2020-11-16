@@ -1,15 +1,15 @@
 import {
-  ANJMovement as anjMovementTypes,
-  ANJBalance as anjBalanceTypes,
+  ANTMovement as antMovementTypes,
+  ANTBalance as antBalanceTypes,
   movementDirection,
   STAKE_ACTIVATION_MOVEMENT,
-} from '../types/anj-types'
+} from '../types/ant-types'
 import { bigNum } from '../lib/math-utils'
 
 /**
  * Function intended to group Stake and Activation movements that were created at the same time
  *  into one StakeActivation movement
- * This is needed since moving ANJ from wallet to Active Balance, two movements
+ * This is needed since moving ANT from wallet to Active Balance, two movements
  *  are performed (Wallet (stake) => InactiveBalance; Inactive balance (activate) => Active balance)
  * @param {Array} movements Array of original movements
  * @returns {Array} Resuling array of movements grouped by the logic described above
@@ -23,8 +23,8 @@ export const groupMovements = movements => {
 
       if (
         index > 0 &&
-        anjMovementTypes[prevMovement.type] === anjMovementTypes.Activation &&
-        anjMovementTypes[currentMovement.type] === anjMovementTypes.Stake &&
+        antMovementTypes[prevMovement.type] === antMovementTypes.Activation &&
+        antMovementTypes[currentMovement.type] === antMovementTypes.Stake &&
         prevMovement.createdAt === currentMovement.createdAt
       ) {
         movements[movements.length - 1].type = STAKE_ACTIVATION_MOVEMENT
@@ -48,54 +48,54 @@ export const groupMovements = movements => {
 // The intention here is to know which movements types should correspond with each balance
 export const acceptedMovementsPerBalance = new Map([
   [
-    anjBalanceTypes.Wallet,
+    antBalanceTypes.Wallet,
     [
-      { type: anjMovementTypes.Stake, direction: movementDirection.Outgoing },
-      { type: anjMovementTypes.Unstake, direction: movementDirection.Incoming },
+      { type: antMovementTypes.Stake, direction: movementDirection.Outgoing },
+      { type: antMovementTypes.Unstake, direction: movementDirection.Incoming },
       {
-        type: anjMovementTypes.StakeActivation,
+        type: antMovementTypes.StakeActivation,
         direction: movementDirection.Outgoing,
       },
     ],
   ],
   [
-    anjBalanceTypes.Inactive,
+    antBalanceTypes.Inactive,
     [
-      { type: anjMovementTypes.Stake, direction: movementDirection.Incoming },
-      { type: anjMovementTypes.Unstake, direction: movementDirection.Outgoing },
-      { type: anjMovementTypes.Reward, direction: movementDirection.Incoming },
+      { type: antMovementTypes.Stake, direction: movementDirection.Incoming },
+      { type: antMovementTypes.Unstake, direction: movementDirection.Outgoing },
+      { type: antMovementTypes.Reward, direction: movementDirection.Incoming },
       {
-        type: anjMovementTypes.Activation,
+        type: antMovementTypes.Activation,
         direction: movementDirection.Outgoing,
       },
       {
-        type: anjMovementTypes.Deactivation,
+        type: antMovementTypes.Deactivation,
         direction: movementDirection.Incoming,
       },
     ],
   ],
   [
-    anjBalanceTypes.Active,
+    antBalanceTypes.Active,
     [
       {
-        type: anjMovementTypes.StakeActivation,
+        type: antMovementTypes.StakeActivation,
         direction: movementDirection.Incoming,
       },
       {
-        type: anjMovementTypes.Activation,
+        type: antMovementTypes.Activation,
         direction: movementDirection.Incoming,
       },
       {
-        type: anjMovementTypes.Deactivation,
+        type: antMovementTypes.Deactivation,
         direction: movementDirection.Outgoing,
       },
       {
-        type: anjMovementTypes.DeactivationProcess,
+        type: antMovementTypes.DeactivationProcess,
         direction: movementDirection.Locked,
       },
-      { type: anjMovementTypes.Lock, direction: movementDirection.Locked },
-      { type: anjMovementTypes.Unlock, direction: movementDirection.Incoming },
-      { type: anjMovementTypes.Slash, direction: movementDirection.Outgoing },
+      { type: antMovementTypes.Lock, direction: movementDirection.Locked },
+      { type: antMovementTypes.Unlock, direction: movementDirection.Incoming },
+      { type: antMovementTypes.Slash, direction: movementDirection.Outgoing },
     ],
   ],
 ])
@@ -133,7 +133,7 @@ export function isMovementEffective(movement, currentTermId) {
 export function getAmountNotEffectiveByMovement(movements, movementType) {
   return movements
     .filter(
-      mov => !mov.isEffective && anjMovementTypes[mov.type] === movementType
+      mov => !mov.isEffective && antMovementTypes[mov.type] === movementType
     )
     .reduce((acc, mov) => acc.add(mov.amount), bigNum(0))
 }
@@ -148,14 +148,14 @@ export function getAmountNotEffectiveByBalance(movements, balanceType) {
   // We need to calulate the total not effective amount for the active and inactive balance
   // Note that we don't do this for the wallet balance since all its corresponding movements are done effective inmediately
   // Note that this assumes the termDuration is less than 24hrs
-  if (balanceType === anjBalanceTypes.Wallet) {
+  if (balanceType === antBalanceTypes.Wallet) {
     return bigNum(0)
   }
 
   const movementType =
-    balanceType === anjBalanceTypes.Active
-      ? anjMovementTypes.Activation
-      : anjMovementTypes.Deactivation
+    balanceType === antBalanceTypes.Active
+      ? antMovementTypes.Activation
+      : antMovementTypes.Deactivation
 
   return getAmountNotEffectiveByMovement(movements, movementType)
 }
@@ -176,28 +176,28 @@ export function getLatestMovementByBalance(movements, balanceType) {
 
   // We have to give a special treatment to the active balance since
   // deactivation requests that are not yet effective have more priority than the rest
-  if (balanceType === anjBalanceTypes.Active) {
+  if (balanceType === antBalanceTypes.Active) {
     const totalDeactivationsNotEffective = getAmountNotEffectiveByMovement(
       movements,
-      anjMovementTypes.Deactivation
+      antMovementTypes.Deactivation
     )
 
     if (totalDeactivationsNotEffective.gt(0)) {
       return {
         amount: totalDeactivationsNotEffective,
-        type: anjMovementTypes.DeactivationProcess,
+        type: antMovementTypes.DeactivationProcess,
       }
     }
   }
 
   // Get the latest movement
   let latestMovement = movements[0]
-  const latestMovementType = anjMovementTypes[latestMovement.type]
+  const latestMovementType = antMovementTypes[latestMovement.type]
 
   // If the latest movement for the active or inactive balance is a deactivation, we must check that the deactivation is effective
-  if (latestMovementType === anjMovementTypes.Deactivation) {
+  if (latestMovementType === antMovementTypes.Deactivation) {
     if (
-      balanceType === anjBalanceTypes.Inactive &&
+      balanceType === antBalanceTypes.Inactive &&
       !latestMovement.isEffective
     ) {
       // In case the deactivation is not effective, we'll get the most recent effective or immediate movement for the inactive balance
@@ -208,7 +208,7 @@ export function getLatestMovementByBalance(movements, balanceType) {
 
       if (
         !latestMovement ||
-        anjMovementTypes[latestMovement.type] !== anjMovementTypes.Deactivation
+        antMovementTypes[latestMovement.type] !== antMovementTypes.Deactivation
       ) {
         return latestMovement
       }
@@ -225,7 +225,7 @@ export function getLatestMovementByBalance(movements, balanceType) {
       ...latestMovement,
       amount: getTotalEffectiveAt(
         movements,
-        anjMovementTypes.Deactivation,
+        antMovementTypes.Deactivation,
         latestMovement.effectiveTermId
       ),
     }
@@ -245,7 +245,7 @@ function getTotalEffectiveAt(movements, movementType, termId) {
   return movements
     .filter(
       movement =>
-        anjMovementTypes[movement.type] === movementType &&
+        antMovementTypes[movement.type] === movementType &&
         movement.effectiveTermId === termId
     )
     .reduce((acc, movement) => acc.add(movement.amount), bigNum(0))
@@ -257,7 +257,7 @@ export function convertMovement(acceptedMovements, movement) {
   const movementType =
     typeof movement.type === 'symbol'
       ? movement.type
-      : anjMovementTypes[movement.type]
+      : antMovementTypes[movement.type]
 
   const direction = getMovementDirection(acceptedMovements, movementType)
 
@@ -274,11 +274,11 @@ export function getUpdatedLockedMovement(lockedBalance, latestMovement) {
   }
 
   // In the case that the juror has locked balance, we must update the active balance latest movement
-  const movementTypeLock = anjMovementTypes.Lock
+  const movementTypeLock = antMovementTypes.Lock
   let newLockedAmount = lockedBalance
 
   // If active balance latest movement is a deactivation process, we must update the amount
-  if (latestMovement?.type === anjMovementTypes.DeactivationProcess) {
+  if (latestMovement?.type === antMovementTypes.DeactivationProcess) {
     newLockedAmount = newLockedAmount.add(latestMovement.amount)
   }
 

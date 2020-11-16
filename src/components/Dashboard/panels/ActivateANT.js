@@ -1,25 +1,27 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
+import ANTForm from './ANTForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+import { getANTToken } from '../../../utils/known-tokens'
 
-const ActivateANJ = React.memo(function ActivateANJ({
-  onActivateANJ,
+const ActivateANT = React.memo(function ActivateANT({
+  onActivateANT,
   activeBalance,
   walletBalance,
   inactiveBalance,
   fromWallet,
   onDone,
 }) {
-  const { anjToken, minActiveBalance } = useCourtConfig()
+  const { minActiveBalance } = useCourtConfig()
+  const antToken = getANTToken()
   const maxAmount = fromWallet ? walletBalance : inactiveBalance
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
-    digits: anjToken.decimals,
+    digits: antToken.decimals,
   })
   const maxAmountFormatted = formatUnits(maxAmount, {
-    digits: anjToken.decimals,
-    precision: anjToken.decimals,
+    digits: antToken.decimals,
+    precision: antToken.decimals,
   })
 
   const validation = useCallback(
@@ -29,18 +31,18 @@ const ActivateANJ = React.memo(function ActivateANJ({
           fromWallet
             ? 'wallet balance is'
             : 'inactive balance available for activation is'
-        } ${maxAmountFormatted} ${anjToken.symbol} `
+        } ${maxAmountFormatted} ${antToken.symbol} `
       }
 
       if (activeBalance.add(amountBN).lt(minActiveBalance)) {
-        return `You must have at least ${minActiveBalanceFormatted} ${anjToken.symbol} activated`
+        return `You must have at least ${minActiveBalanceFormatted} ${antToken.symbol} activated`
       }
 
       return null
     },
     [
       activeBalance,
-      anjToken.symbol,
+      antToken.symbol,
       fromWallet,
       maxAmount,
       maxAmountFormatted,
@@ -50,14 +52,14 @@ const ActivateANJ = React.memo(function ActivateANJ({
   )
 
   return (
-    <ANJForm
+    <ANTForm
       actionLabel="Activate"
       maxAmount={maxAmount}
-      onSubmit={onActivateANJ}
+      onSubmit={onActivateANT}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default ActivateANJ
+export default ActivateANT

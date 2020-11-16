@@ -189,7 +189,7 @@ const NoMyDisputes = () => {
           color: ${theme.help};
         `}
       >
-        ANJ you activate
+        ANT you activate
       </span>
       , more chances you have to be summoned to arbitrate a dispute
     </span>

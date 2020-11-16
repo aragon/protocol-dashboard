@@ -1,6 +1,6 @@
 import actions from '../../actions/court-action-types'
 
-import iconAnj from './assets/activity-icon-anj.svg'
+import iconAnj from './assets/activity-icon-ant.svg'
 import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
 import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
 import iconCommitVote from './assets/activity-icon-commit-vote.svg'
@@ -14,9 +14,9 @@ const ACTIVITY_TYPES = {
     icon: iconAnj,
     title: 'Approve fee deposit',
   },
-  [actions.ACTIVATE_ANJ]: {
+  [actions.ACTIVATE_ANT]: {
     icon: iconAnj,
-    title: 'Activate ANJ',
+    title: 'Activate ANT',
   },
   [actions.APPEAL_RULING]: {
     title: 'Appeal decision',
@@ -38,9 +38,9 @@ const ACTIVITY_TYPES = {
     title: 'Confirm appeal',
     icon: iconAppealRuling,
   },
-  [actions.DEACTIVATE_ANJ]: {
+  [actions.DEACTIVATE_ANT]: {
     icon: iconAnj,
-    title: 'Deactivate ANJ',
+    title: 'Deactivate ANT',
   },
   [actions.DRAFT_JURY]: {
     title: 'Summon guardians',
@@ -70,9 +70,9 @@ const ACTIVITY_TYPES = {
     icon: iconAnj,
     title: 'Settle appeal deposit',
   },
-  [actions.WITHDRAW_ANJ]: {
+  [actions.WITHDRAW_ANT]: {
     icon: iconAnj,
-    title: 'Withdraw ANJ',
+    title: 'Withdraw ANT',
   },
 }
 

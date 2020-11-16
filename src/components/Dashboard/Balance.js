@@ -3,15 +3,16 @@ import { Button, GU, Help, textStyle, useTheme } from '@aragon/ui'
 import { animated, useSpring } from 'react-spring'
 
 import Loading from '../Loading'
-import ANJLockedDistribution from './ANJLockedDistribution'
+import ANTLockedDistribution from './ANTLockedDistribution'
 import SplitAmount from '../SplitAmount'
 
 import { useCourtConfig } from '../../providers/CourtConfig'
-import { useANJAmountToUsd } from '../../hooks/useTokenAmountToUsd'
+import { useTokenAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 
 import { PCT_BASE } from '../../utils/dispute-utils'
 import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
-import { movementDirection, convertToString } from '../../types/anj-types'
+import { movementDirection, convertToString } from '../../types/ant-types'
+import { getANTToken } from '../../utils/known-tokens'
 
 import ANTIcon from '../../assets/IconANT.svg'
 import lockIcon from '../../assets/IconLock.svg'
@@ -26,11 +27,9 @@ const Balance = React.memo(function Balance({
   mainIcon,
 }) {
   const theme = useTheme()
-  const {
-    anjToken: { symbol, decimals },
-  } = useCourtConfig()
 
-  const convertedAmount = useANJAmountToUsd(amount)
+  const { symbol, decimals } = getANTToken()
+  const convertedAmount = useTokenAmountToUsd(symbol, decimals, amount)
 
   const springProps = useSpring({
     to: { opacity: 1 },
@@ -161,7 +160,7 @@ const Balance = React.memo(function Balance({
 
 const LatestActivity = ({ activity, distribution }) => {
   const theme = useTheme()
-  const { anjToken } = useCourtConfig()
+  const antToken = getANTToken()
   const isIncoming = activity.direction === movementDirection.Incoming
   const displaySign =
     activity.direction === movementDirection.Incoming ||
@@ -204,10 +203,10 @@ const LatestActivity = ({ activity, distribution }) => {
           {formatTokenAmount(
             activity.amount,
             isIncoming,
-            anjToken.decimals,
+            antToken.decimals,
             displaySign
           )}{' '}
-          {anjToken.symbol}
+          {antToken.symbol}
         </span>
         <span
           css={`
@@ -217,20 +216,20 @@ const LatestActivity = ({ activity, distribution }) => {
           {convertToString(activity.type, activity.direction)}
         </span>
       </div>
-      {distribution && <ANJLockedHelp distribution={distribution} />}
+      {distribution && <ANTLockedHelp distribution={distribution} />}
     </div>
   )
 }
 
-const ANJLockedHelp = ({ distribution }) => {
+const ANTLockedHelp = ({ distribution }) => {
   const theme = useTheme()
 
   const { showDistribution, text } = useHelpAttributes(distribution)
 
-  let hintText = "What's my ANJ distribution"
+  let hintText = "What's my ANT distribution"
   if (!showDistribution) {
     hintText = distribution.inProcess.gt(0)
-      ? 'Why is my ANJ being deactivated'
+      ? 'Why is my ANT being deactivated'
       : 'Why is my balance locked'
   }
 
@@ -247,11 +246,11 @@ const ANJLockedHelp = ({ distribution }) => {
           margin-right: ${0.5 * GU}px;
         `}
       >
-        {showDistribution ? 'ANJ Distribution ' : 'Why'}
+        {showDistribution ? 'ANT Distribution ' : 'Why'}
       </span>
       <Help hint={hintText}>
         {showDistribution ? (
-          <ANJLockedDistribution distribution={distribution} text={text} />
+          <ANTLockedDistribution distribution={distribution} text={text} />
         ) : (
           text
         )}
@@ -261,14 +260,15 @@ const ANJLockedHelp = ({ distribution }) => {
 }
 
 function useHelpAttributes(distribution) {
-  const { anjToken, minActiveBalance, penaltyPct } = useCourtConfig()
+  const { minActiveBalance, penaltyPct } = useCourtConfig()
+  const antToken = getANTToken()
 
   return useMemo(() => {
     if (distribution.inProcess.gt(0)) {
       return {
-        showDistribution: !!distribution.lockedPerDispute, // If juror has  ANJ locked in disputes, we'll show distribution
+        showDistribution: !!distribution.lockedPerDispute, // If juror has  ANT locked in disputes, we'll show distribution
         text:
-          'Deactivating ANJ does not happen immediately and requires one term before it can be processed.',
+          'Deactivating ANT does not happen immediately and requires one term before it can be processed.',
       }
     }
 
@@ -280,7 +280,7 @@ function useHelpAttributes(distribution) {
     )
 
     let text
-    const { decimals, symbol } = anjToken
+    const { decimals, symbol } = antToken
     const penaltyPercentage = bigNum(penaltyPct).div(PCT_BASE.div(100))
     const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
       digits: decimals,
@@ -292,10 +292,10 @@ function useHelpAttributes(distribution) {
 
     if (isJurorDraftedMultipleTimesSameDispute) {
       text =
-        'The same guardian can be summoned multiple times to arbitrate the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are summoned, as well as the % of ANJ locked in the Active balance.'
+        'The same guardian can be summoned multiple times to arbitrate the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are summoned, as well as the % of ANT locked in the Active balance.'
     } else {
       text = onlyOneDispute
-        ? `A portion of your active ANJ has been locked because you were summoned in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get summoned. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} ANJ.`
+        ? `A portion of your active ANT has been locked because you were summoned in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get summoned. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} ANT.`
         : ''
     }
 
@@ -304,7 +304,7 @@ function useHelpAttributes(distribution) {
       showDistribution:
         !onlyOneDispute || isJurorDraftedMultipleTimesSameDispute,
     }
-  }, [anjToken, distribution, minActiveBalance, penaltyPct])
+  }, [antToken, distribution, minActiveBalance, penaltyPct])
 }
 
 export default Balance

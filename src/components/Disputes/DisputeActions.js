@@ -199,7 +199,7 @@ function InformationSection({
 }
 
 // Helper function that returns main attributes for the YourVoteInfo component
-// TODO: Contemplate final round cases (when a juror has voted, the ANJ amount is pre-slashed)
+// TODO: Contemplate final round cases (when a juror has voted, the ANT amount is pre-slashed)
 const useInfoAttributes = ({
   hasJurorVoted,
   jurorDraft,
@@ -231,7 +231,7 @@ const useInfoAttributes = ({
         title: voteLeaked
           ? 'Unfortunately, your vote has been leaked'
           : 'Your vote wasn’t cast on time.',
-        paragraph: <ANJDiscountedMessage />,
+        paragraph: <ANTDiscountedMessage />,
         background: negativeBackground,
         icon: IconGavelRed,
         hintText: voteLeaked ? 'Vote leaked (complete)' : null, // TODO: Add hint for leaked vote
@@ -244,7 +244,7 @@ const useInfoAttributes = ({
       if (!jurorDraft.outcome) {
         return {
           title: "Your vote wasn't revealed on time",
-          paragraph: <ANJDiscountedMessage />,
+          paragraph: <ANTDiscountedMessage />,
           background: negativeBackground,
           icon: IconGavelRed,
         }
@@ -256,7 +256,7 @@ const useInfoAttributes = ({
         lastRound.vote && jurorDraft.outcome === lastRound.vote.winningOutcome
 
       // We must check if the penalties were already settled so we can tell the jurors
-      // wether their ANJ locked balance has been discounted or they can claim rewards
+      // wether their ANT locked balance has been discounted or they can claim rewards
       // Note that if the penalties for the round are settled it means that the dispute has already ended
       const settledPenalties = lastRound.settledPenalties
 
@@ -267,14 +267,14 @@ const useInfoAttributes = ({
         ? positiveBackground
         : negativeBackground
 
-      // If penalties settled then the locked ANJ has been redistributed
+      // If penalties settled then the locked ANT has been redistributed
       if (settledPenalties) {
         return {
           title,
           paragraph: hasVotedInConsensus ? (
-            <ANJRewardsMessage />
+            <ANTRewardsMessage />
           ) : (
-            <ANJSlashedMessage />
+            <ANTSlashedMessage />
           ),
           background,
           icon: hasVotedInConsensus ? IconRewardsGreen : IconGavelRed,
@@ -285,7 +285,7 @@ const useInfoAttributes = ({
       return {
         title,
         paragraph: (
-          <ANJLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
+          <ANTLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
         ),
         background,
         icon: hasVotedInConsensus ? IconGavelOrange : IconGavelRed,
@@ -320,9 +320,9 @@ const useInfoAttributes = ({
   ])
 }
 
-const ANJLockedMessage = ({ finalRulingConfirmed }) => {
+const ANTLockedMessage = ({ finalRulingConfirmed }) => {
   return (
-    <ANJMessage
+    <ANTMessage
       result={`will remain locked until ${
         finalRulingConfirmed
           ? 'penalties are settled'
@@ -332,17 +332,17 @@ const ANJLockedMessage = ({ finalRulingConfirmed }) => {
   )
 }
 
-const ANJDiscountedMessage = () => {
-  return <ANJMessage result="will be discounted" />
+const ANTDiscountedMessage = () => {
+  return <ANTMessage result="will be discounted" />
 }
 
-const ANJSlashedMessage = () => {
+const ANTSlashedMessage = () => {
   return (
-    <ANJMessage result="has been slashed and redistributed to other guardians" />
+    <ANTMessage result="has been slashed and redistributed to other guardians" />
   )
 }
 
-const ANJMessage = ({ result }) => {
+const ANTMessage = ({ result }) => {
   const theme = useTheme()
 
   return (
@@ -353,14 +353,14 @@ const ANJMessage = ({ result }) => {
           color: ${theme.help};
         `}
       >
-        ANJ locked balance
+        ANT locked balance
       </span>{' '}
       {result}
     </span>
   )
 }
 
-const ANJRewardsMessage = () => {
+const ANTRewardsMessage = () => {
   const theme = useTheme()
 
   return (

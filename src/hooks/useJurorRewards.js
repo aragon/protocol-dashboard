@@ -95,7 +95,7 @@ export default function useJurorRewards() {
       }, new Map())
 
     return {
-      anjRewards: rulingFees,
+      antRewards: rulingFees,
       feeRewards: {
         arbitrableFees: feeMapToArray(arbitrableFees),
         appealFees: feeMapToArray(appealFees),

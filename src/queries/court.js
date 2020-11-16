@@ -12,12 +12,6 @@ export const CourtConfig = gql`
         symbol
         decimals
       }
-      anjToken {
-        id
-        name
-        symbol
-        decimals
-      }
       jurorFee
       draftFee
       settleFee

@@ -129,7 +129,7 @@ function MainView({ children }) {
                 Supporting services provided by{' '}
                 <Link href="https://aragon.one">Aragon One</Link>. Read Aragon
                 Protocol's{' '}
-                <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+                <Link href="https://ant.aragon.org/legal/terms-general.pdf">
                   Terms of Service
                 </Link>
                 .

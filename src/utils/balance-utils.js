@@ -5,7 +5,7 @@ export function getTotalUnlockedActiveBalance({
   return activeBalance.amount.sub(lockedBalance.amount)
 }
 
-export function getTotalLockedANJDistribution({
+export function getTotalLockedANTDistribution({
   lockedBalance,
   inactiveBalance,
 }) {
