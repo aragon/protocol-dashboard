@@ -2,15 +2,13 @@ import React, { useCallback } from 'react'
 import ANTForm from './ANTForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
-import { getANTToken } from '../../../utils/known-tokens'
 
 const DeactivateANT = React.memo(function DeactivateANT({
   onDeactivateANT,
   activeBalance,
   onDone,
 }) {
-  const { minActiveBalance } = useCourtConfig()
-  const antToken = getANTToken()
+  const { minActiveBalance, token: antToken } = useCourtConfig()
   const maxAmount = activeBalance
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {

@@ -6,10 +6,10 @@ import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
 import { useTotalActiveBalance } from '../../hooks/useCourtStats'
 import { useJurorFirstTimeANTActivation } from '../../hooks/useANT'
+import { useCourtConfig } from '../../providers/CourtConfig'
 
 import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
-import { getANTToken } from '../../utils/known-tokens'
 
 import antSpringIcon from '../../assets/IconANTSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
@@ -63,7 +63,7 @@ const getBannerAttributes = (
 
 function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
   const theme = useTheme()
-  const { antToken } = getANTToken()
+  const { token: antToken } = useCourtConfig()
 
   // check if juror has been drafted in this current term
   const isJurorDrafted = useJurorDrafted({

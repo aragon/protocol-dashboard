@@ -9,9 +9,9 @@ import {
   useSidePanelFocusOnReady,
   useTheme,
 } from '@aragon/ui'
+import { useCourtConfig } from '../../../providers/CourtConfig'
 
 import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
-import { getANTToken } from '../../../utils/known-tokens'
 
 const ANTForm = React.memo(function ANTForm({
   actionLabel,
@@ -26,7 +26,7 @@ const ANTForm = React.memo(function ANTForm({
     error: null,
   })
   const theme = useTheme()
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
   const inputRef = useSidePanelFocusOnReady()
 
   const handleEditMode = useCallback(

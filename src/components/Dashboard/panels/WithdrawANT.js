@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import ANTForm from './ANTForm'
+import { useCourtConfig } from '../../../providers/CourtConfig'
 import { formatUnits } from '../../../lib/math-utils'
-import { getANTToken } from '../../../utils/known-tokens'
 
 const WithdrawANT = React.memo(function WithdrawANT({
   onWithdrawANT,
   inactiveBalance,
   onDone,
 }) {
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
 
   const maxAmount = inactiveBalance
   const maxAmountFormatted = formatUnits(maxAmount, {

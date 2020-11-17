@@ -4,6 +4,12 @@ export const CourtConfig = gql`
   query CourtConfig($id: ID!) {
     courtConfig(id: $id) {
       id
+      token {
+        id
+        name
+        symbol
+        decimals
+      }
       currentTerm
       termDuration
       feeToken {

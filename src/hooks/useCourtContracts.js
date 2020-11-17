@@ -26,8 +26,6 @@ import {
   saveCodeInLocalStorage,
 } from '../utils/crvoting-utils'
 
-import { getANTToken } from '../utils/known-tokens'
-
 // abis
 import aragonCourtAbi from '../abi/AragonCourt.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
@@ -44,7 +42,7 @@ const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
 // ANT contract
 function useANTTokenContract() {
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
 
   const antTokenAddress = antToken ? antToken.address : null
 

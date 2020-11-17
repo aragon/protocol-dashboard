@@ -2,11 +2,11 @@ import React from 'react'
 import { GU, Link, textStyle, useTheme } from '@aragon/ui'
 
 import { formatUnits } from '../../lib/math-utils'
-import { getANTToken } from '../../utils/known-tokens'
+import { useCourtConfig } from '../../providers/CourtConfig'
 
 function ANTLockedDistribution({ distribution, text }) {
   const theme = useTheme()
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
   const { decimals, symbol } = antToken
 
   const formattedInProcessAmount = formatUnits(distribution.inProcess, {

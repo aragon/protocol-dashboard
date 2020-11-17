@@ -12,7 +12,6 @@ import { useTokenAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 import { PCT_BASE } from '../../utils/dispute-utils'
 import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
 import { movementDirection, convertToString } from '../../types/ant-types'
-import { getANTToken } from '../../utils/known-tokens'
 
 import ANTIcon from '../../assets/IconANT.svg'
 import lockIcon from '../../assets/IconLock.svg'
@@ -28,7 +27,9 @@ const Balance = React.memo(function Balance({
 }) {
   const theme = useTheme()
 
-  const { symbol, decimals } = getANTToken()
+  const { token: antToken } = useCourtConfig()
+  const { symbol, decimals } = antToken
+
   const convertedAmount = useTokenAmountToUsd(symbol, decimals, amount)
 
   const springProps = useSpring({
@@ -160,7 +161,7 @@ const Balance = React.memo(function Balance({
 
 const LatestActivity = ({ activity, distribution }) => {
   const theme = useTheme()
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
   const isIncoming = activity.direction === movementDirection.Incoming
   const displaySign =
     activity.direction === movementDirection.Incoming ||
@@ -260,8 +261,7 @@ const ANTLockedHelp = ({ distribution }) => {
 }
 
 function useHelpAttributes(distribution) {
-  const { minActiveBalance, penaltyPct } = useCourtConfig()
-  const antToken = getANTToken()
+  const { minActiveBalance, penaltyPct, token: antToken } = useCourtConfig()
 
   return useMemo(() => {
     if (distribution.inProcess.gt(0)) {

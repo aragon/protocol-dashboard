@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import ANTForm from './ANTForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
-import { getANTToken } from '../../../utils/known-tokens'
 
 const ActivateANT = React.memo(function ActivateANT({
   onActivateANT,
@@ -12,8 +11,7 @@ const ActivateANT = React.memo(function ActivateANT({
   fromWallet,
   onDone,
 }) {
-  const { minActiveBalance } = useCourtConfig()
-  const antToken = getANTToken()
+  const { minActiveBalance, token: antToken } = useCourtConfig()
   const maxAmount = fromWallet ? walletBalance : inactiveBalance
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {

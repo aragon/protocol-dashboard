@@ -19,7 +19,6 @@ import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
 
 import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
-import { getANTToken } from '../../utils/known-tokens'
 
 // antRewards => ANT => First settle with `onSettleReward()`, then withdraw
 // feeRewards => DAI =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
@@ -141,7 +140,7 @@ const RewardsModule = React.memo(function RewardsModule({
 })
 
 const ANTRewards = ({ amount }) => {
-  const antToken = getANTToken()
+  const { token: antToken } = useCourtConfig()
 
   const formattedAmount = formatTokenAmount(
     amount,
