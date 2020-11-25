@@ -1,23 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
-import globalError from '../../assets/noResultsSmall.svg'
+import globalError from '../../assets/noResults.svg'
 import backgroundError from '../../assets/backgroundError.svg'
 import logo from '../../assets/logo.svg'
 
 function GlobalErrorScreen({ children }) {
-  const theme = useTheme()
   return (
     <div
       css={`
         height: 100vh;
         min-width: ${45 * GU}px;
         overflow: auto;
-        background: url(${backgroundError}),
-          linear-gradient(187.6deg, #fffaf1 -3.6%, #ffebeb 216.17%);
+        background: url(${backgroundError});
+        background-repeat: repeat-x;
+        background-size: cover;
         border-top-style: solid;
         border-top-width: 4px;
-        border-top-color: ${theme.accent};
+        border-top-color: #6050b0;
       `}
     >
       <img
