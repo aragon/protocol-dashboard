@@ -126,7 +126,7 @@ function ActivityList() {
               height: ${28.5 * GU}px;
             `}
           >
-            <img src={activityNoResults} alt="No results" />
+            <img src={activityNoResults} alt="No results" height="120" />
             <span
               css={`
                 margin-top: ${2 * GU}px;

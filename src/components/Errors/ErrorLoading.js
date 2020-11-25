@@ -1,7 +1,7 @@
 import React from 'react'
 import { GU, Info, useTheme } from '@1hive/1hive-ui'
 
-import errorLoadingSvg from '../../assets/noResults.svg'
+import errorLoadingSvg from '../../assets/error.svg'
 import MessageCard from '../MessageCard'
 
 function ErrorLoading({ subject, errors, border }) {

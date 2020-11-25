@@ -1,7 +1,7 @@
 import React from 'react'
 import { GU, textStyle, useTheme } from '@1hive/1hive-ui'
 
-import errorLoadingSvg from '../../assets/noResults.svg'
+import errorLoadingSvg from '../../assets/error.svg'
 
 export default function ErrorLoadingEvidence() {
   const theme = useTheme()
