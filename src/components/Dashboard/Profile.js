@@ -12,7 +12,7 @@ import activeJurorIcon from '../../assets/IconJurorActive.svg'
 const getProfileAttributes = (status, theme) => {
   if (status === ACCOUNT_STATUS_JUROR_ACTIVE)
     return {
-      background: `linear-gradient(35deg, ${theme.accentStart}  -75%, ${theme.accentEnd} 105%)`,
+      background: 'linear-gradient(126deg, #9965AE 19%, #7062B8 188%)',
       primaryColor: theme.accentContent,
       secondaryColor: theme.accentContent,
       statusLabel: 'ACTIVE JUROR',
@@ -21,7 +21,7 @@ const getProfileAttributes = (status, theme) => {
 
   if (status === ACCOUNT_STATUS_JUROR_INACTIVE)
     return {
-      background: 'linear-gradient(208deg, #FFFAF1 -3%, #FFEBEB 216%)',
+      background: '#F0EEFC',
       primaryColor: theme.content,
       secondaryColor: theme.contentSecondary,
       statusLabel: 'INACTIVE JUROR',
@@ -29,7 +29,7 @@ const getProfileAttributes = (status, theme) => {
     }
 
   return {
-    background: '#F0F2F7',
+    background: '#F1F1F1',
     primaryColor: theme.content,
     secondaryColor: theme.contentSecondary,
     statusLabel: 'ACCOUNT',
@@ -97,6 +97,7 @@ function Profile({ account, status }) {
                 display: flex;
                 color: ${secondaryColor};
                 line-height: 1.2;
+                align-items: center;
               `}
             >
               {icon && (

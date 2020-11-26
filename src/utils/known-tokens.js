@@ -1,26 +1,16 @@
 import { getInternalNetworkName } from '../networks'
 
 export const KNOWN_TOKEN_BY_ENV = {
-  ANJ: {
-    main: {
-      address: '0xcD62b1C403fa761BAadFC74C525ce2B51780b184',
-      decimals: 18,
-      symbol: 'ANJ',
-    },
+  HNY: {
     rinkeby: {
-      address: '0x1FAB7d0D028ded72195322998003F6e82cF4cFdB',
+      address: '0x658bd9ee8788014b3dbf2bf0d66af344d84a5aa1',
       decimals: 18,
-      symbol: 'ANJ',
-    },
-    ropsten: {
-      address: '0xc863E1CcC047befF17022F4229DBE6321A6BCe65',
-      decimals: 18,
-      symbol: 'ANJ',
+      symbol: 'HNY',
     },
     local: {
       address: '0xcD62b1C403fa761BAadFC74C525ce2B51780b184',
       decimals: 18,
-      symbol: 'ANJ',
+      symbol: 'HNY',
     },
   },
   ANT: {

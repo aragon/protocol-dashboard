@@ -5,16 +5,16 @@ import { GU, Help, LoadingRing, useTheme } from '@1hive/1hive-ui'
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
 import { useCourtConfig } from '../../providers/CourtConfig'
-import { useTotalActiveBalance } from '../../hooks/useCourtStats'
+import { useJurorDrafted } from '../../hooks/useJurorDrafted'
 import { useJurorFirstTimeANJActivation } from '../../hooks/useANJ'
+import { useTotalActiveBalance } from '../../hooks/useCourtStats'
 
 import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
-import anjSpringIcon from '../../assets/IconANJSpring.svg'
+import hnySpringIcon from '../../assets/IconHNYSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
 import gavelIcon from '../../assets/IconGavel.svg'
-import { useJurorDrafted } from '../../hooks/useJurorDrafted'
 
 const getBannerAttributes = (
   status,
@@ -28,7 +28,7 @@ const getBannerAttributes = (
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
-        icon: gavelIcon,
+        icon: gavelIcon, // TODO: (Fabri) update when new icon available
         iconBackground: theme.positive.alpha(0.2),
         title: 'You have been drafted',
         titleColor: theme.positive,
@@ -52,11 +52,11 @@ const getBannerAttributes = (
   }
 
   return {
-    icon: anjSpringIcon,
-    title: 'Activate ANJ to be an active juror',
+    icon: hnySpringIcon,
+    title: 'Activate HNY to be an active juror',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
-    })}  ANJ to participate as a juror`,
+    })}  HNY to participate as a juror`,
   }
 }
 
@@ -116,7 +116,7 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
               display: block;
               margin: 0 auto;
             `}
-            height={iconBackground ? 3 * GU : 6 * GU}
+            height={iconBackground ? 3 * GU : 8 * GU}
             src={icon}
             alt=""
           />

@@ -13,7 +13,7 @@ import { PCT_BASE } from '../../utils/dispute-utils'
 import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
 import { movementDirection, convertToString } from '../../types/anj-types'
 
-import ANJIcon from '../../assets/IconANJ.svg'
+import HNYIcon from '../../assets/IconHNY.svg'
 import lockIcon from '../../assets/IconLock.svg'
 
 const Balance = React.memo(function Balance({
@@ -24,7 +24,6 @@ const Balance = React.memo(function Balance({
   mainIcon,
   activity,
   distribution,
-  mainIconBackground,
 }) {
   const theme = useTheme()
   const {
@@ -57,23 +56,15 @@ const Balance = React.memo(function Balance({
               padding-bottom: ${2 * GU}px;
             `}
           >
-            <div
+            <img
               css={`
-                padding: ${1.5 * GU}px;
-                background: ${mainIconBackground};
-                border-radius: 50%;
+                display: block;
                 margin-right: ${2 * GU}px;
               `}
-            >
-              <img
-                css={`
-                  display: block;
-                `}
-                src={mainIcon}
-                height={3 * GU}
-                width={3 * GU}
-              />
-            </div>
+              src={mainIcon}
+              height={6 * GU}
+              width={6 * GU}
+            />
             <div>
               <span
                 css={`      
@@ -95,7 +86,7 @@ const Balance = React.memo(function Balance({
                 <SplitAmount
                   amount={formatUnits(amount, { digits: decimals })}
                 />
-                <img height="20" width="18" src={ANJIcon} alt="ANJ" />
+                <img height="20" width="18" src={HNYIcon} alt="HNY" />
               </div>
               <span
                 css={`
