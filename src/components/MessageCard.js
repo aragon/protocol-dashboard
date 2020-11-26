@@ -37,7 +37,7 @@ export default function MessageCard({
           alt=""
           css={`
             display: block;
-            margin: ${4 * GU}px 0;
+            margin: ${3.5 * GU}px 0;
           `}
         />
         {loading ? (
