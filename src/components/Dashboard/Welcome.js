@@ -1,47 +1,47 @@
 import React from 'react'
-import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
-
-import Logo from '../../assets/Welcome.svg'
+import { Button, GU, textStyle } from '@1hive/1hive-ui'
+import banner from '../../assets/Welcome.png'
 
 function Welcome() {
-  const theme = useTheme()
-
   return (
     <div
       css={`
-        background: linear-gradient(200deg, #fffaf1 -3%, #ffebeb 216%);
+        background: url(${banner});
+        background-size: cover;
         margin-bottom: ${2 * GU}px;
         border-radius: ${0.5 * GU}px;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
         flex-wrap: wrap;
+        height: 280px;
       `}
     >
-      <img src={Logo} alt="" height={35 * GU} width={60 * GU} />
       <div
         css={`
           padding: ${4 * GU}px;
-          width: 550px;
+          width: 600px;
+          color: white;
         `}
       >
         <h1
           css={`
-            ${textStyle('title1')}
+            ${textStyle('title1')};
             font-weight: 200;
             margin-bottom: ${1 * GU}px;
           `}
         >
-          Welcome to Aragon Court
+          Welcome to Celeste
         </h1>
         <p
           css={`
             ${textStyle('body1')}
-            color: ${theme.contentSecondary};
             margin-bottom: ${3 * GU}px;
           `}
         >
-          Aragon Court handles subjective disputes that require the judgment of
-          human jurors.
+          Celeste is a protocol that produces answers to questions by
+          incentivizing participants to respond coherently.
         </p>
         <div
           css={`
@@ -49,6 +49,16 @@ function Welcome() {
             align-items: center;
           `}
         >
+          <Button
+            label="Buy HNY"
+            href="https://honeyswap.org/#/swap?inputCurrency=0xe91d153e0b41518a2ce8dd3d7944fa863463a97d&outputCurrency=0x71850b7e9ee3f13ab46d67167341e4bdc905eef9"
+            mode="strong"
+            css={`
+              width: ${19 * GU}px;
+              margin-right: ${1.5 * GU}px;
+              background: linear-gradient(89deg, #6050b0 -42%, #8e54a5 117%);
+            `}
+          />
           <Button
             label="User guide"
             href="https://help.aragon.org/article/41-aragon-court"
