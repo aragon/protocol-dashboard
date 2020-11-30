@@ -3,10 +3,10 @@ import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useWallet } from '../providers/Wallet'
 import { signMessage } from '../lib/web3-utils'
 import { dayjs } from '../utils/date-utils'
+import TokenLoader from './TokenLoader'
 
 import signRequestSuccessIllustration from '../../src/assets/signRequestSuccess.svg'
 import signRequestFailIllustration from '../../src/assets/signRequestFail.svg'
-import signRequestLoading from '../../src/assets/signRequestLoading.gif'
 
 const SignerRequest = React.memo(function SignerRequest({
   compactMode,
@@ -30,7 +30,7 @@ const SignerRequest = React.memo(function SignerRequest({
     if (successMode) {
       return signRequestSuccessIllustration
     }
-    return signRequestLoading
+    return null
   }, [signingError, successMode])
 
   const { statusText, statusTextColor } = useMemo(() => {
@@ -93,7 +93,11 @@ const SignerRequest = React.memo(function SignerRequest({
           align-items: center;
         `}
       >
-        <img src={illustration} height={140} width={140} />
+        {illustration ? (
+          <img src={illustration} height={140} width={140} />
+        ) : (
+          <TokenLoader />
+        )}
         <h3
           css={`
             ${textStyle('title2')};
