@@ -132,7 +132,7 @@ highlights.rinkeby = [
           </p>
           <p>
             You’ll also receive notifications about important announcements,
-            your assigned disputes, and upcoming tasks as a pacrticipant.
+            your assigned questions, and upcoming tasks as a pacrticipant.
           </p>
         </>
       ),
