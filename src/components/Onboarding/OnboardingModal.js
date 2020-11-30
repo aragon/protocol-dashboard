@@ -7,14 +7,14 @@ import useKeyboardArrows from '../../hooks/useKeyboardArrows'
 import { highlights } from './content'
 import Navigation from './Navigation'
 import HighlightScreen, { RATIO_LEFT } from './HighlightScreen'
-import { getNetworkType } from '../../lib/web3-utils'
+// import { getNetworkType } from '../../lib/web3-utils'
 
 const OnboardingModal = React.memo(function OnboardingModal({
   onComplete,
   visible,
 }) {
   const content =
-    getNetworkType() === 'main' ? highlights.main : highlights.rinkeby
+    /* } getNetworkType() === 'main' ? */ highlights.main /* }: highlights.rinkeby TODO: Uncomment when we have decided what to do with Rinkeby teting phase */
 
   const steps = content.length
   const { step, next, prev, setStep, direction } = useSteps(steps)
