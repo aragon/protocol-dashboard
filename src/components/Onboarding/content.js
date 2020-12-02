@@ -273,7 +273,7 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Quuestion analysis',
+      large: 'Question analysis',
     },
     description: {
       small: null,
