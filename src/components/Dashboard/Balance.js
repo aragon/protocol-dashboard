@@ -3,11 +3,11 @@ import { Button, GU, Help, textStyle, useTheme } from '@1hive/1hive-ui'
 import { animated, useSpring } from 'react-spring'
 
 import Loading from '../Loading'
-import ANJLockedDistribution from './ANJLockedDistribution'
+import HNYLockedDistribution from './HNYLockedDistribution'
 import SplitAmount from '../SplitAmount'
 
 import { useCourtConfig } from '../../providers/CourtConfig'
-import { useANJAmountToUsd } from '../../hooks/useTokenAmountToUsd'
+import { useHNYAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 
 import { PCT_BASE } from '../../utils/dispute-utils'
 import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
@@ -30,7 +30,7 @@ const Balance = React.memo(function Balance({
     anjToken: { symbol, decimals },
   } = useCourtConfig()
 
-  const convertedAmount = useANJAmountToUsd(amount)
+  const convertedAmount = useHNYAmountToUsd(amount)
 
   const springProps = useSpring({
     to: { opacity: 1 },
@@ -212,20 +212,20 @@ const LatestActivity = ({ activity, distribution }) => {
           {convertToString(activity.type, activity.direction)}
         </span>
       </div>
-      {distribution && <ANJLockedHelp distribution={distribution} />}
+      {distribution && <HNYLockedHelp distribution={distribution} />}
     </div>
   )
 }
 
-const ANJLockedHelp = ({ distribution }) => {
+const HNYLockedHelp = ({ distribution }) => {
   const theme = useTheme()
 
   const { showDistribution, text } = useHelpAttributes(distribution)
 
-  let hintText = "What's my ANJ distribution"
+  let hintText = "What's my HNY distribution"
   if (!showDistribution) {
     hintText = distribution.inProcess.gt(0)
-      ? 'Why is my ANJ being deactivated'
+      ? 'Why is my HNY being deactivated'
       : 'Why is my balance locked'
   }
 
@@ -242,11 +242,11 @@ const ANJLockedHelp = ({ distribution }) => {
           margin-right: ${0.5 * GU}px;
         `}
       >
-        {showDistribution ? 'ANJ Distribution ' : 'Why'}
+        {showDistribution ? 'HNY Distribution ' : 'Why'}
       </span>
       <Help hint={hintText}>
         {showDistribution ? (
-          <ANJLockedDistribution distribution={distribution} text={text} />
+          <HNYLockedDistribution distribution={distribution} text={text} />
         ) : (
           text
         )}
@@ -261,9 +261,9 @@ function useHelpAttributes(distribution) {
   return useMemo(() => {
     if (distribution.inProcess.gt(0)) {
       return {
-        showDistribution: !!distribution.lockedPerDispute, // If juror has  ANJ locked in disputes, we'll show distribution
+        showDistribution: !!distribution.lockedPerDispute, // If juror has  HNY locked in questions, we'll show distribution
         text:
-          'Deactivating ANJ does not happen immediately and requires one term before it can be processed.',
+          'Deactivating HNY does not happen immediately and requires one term before it can be processed.',
       }
     }
 
@@ -287,10 +287,10 @@ function useHelpAttributes(distribution) {
 
     if (isJurorDraftedMultipleTimesSameDispute) {
       text =
-        'The same juror can be drafted multiple times to arbitrate the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of ANJ locked in the Active balance.'
+        'The same keeper can be drafted multiple times to arbitrate the same question for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of HNY locked in the Active balance.'
     } else {
       text = onlyOneDispute
-        ? `A portion of your active ANJ has been locked because you were drafted in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get drafted. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} ANJ.`
+        ? `A portion of your active HNY has been locked because you were drafted in a question. This amount will be locked until the question has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get drafted. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} HNY.`
         : ''
     }
 

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
+import HNYForm from './HNYForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 
-const ActivateANJ = React.memo(function ActivateANJ({
-  onActivateANJ,
+const ActivateHNY = React.memo(function ActivateHNY({
+  onActivateHNY,
   activeBalance,
   walletBalance,
   inactiveBalance,
@@ -50,14 +50,14 @@ const ActivateANJ = React.memo(function ActivateANJ({
   )
 
   return (
-    <ANJForm
+    <HNYForm
       actionLabel="Activate"
       maxAmount={maxAmount}
-      onSubmit={onActivateANJ}
+      onSubmit={onActivateHNY}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default ActivateANJ
+export default ActivateHNY

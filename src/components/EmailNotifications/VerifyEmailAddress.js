@@ -185,7 +185,7 @@ function LegalTermsAndPolicy({ termsAccepted, onChange }) {
             text-align: left;
           `}
         >
-          By continuing with your email, you agree to Aragon Court's{' '}
+          By continuing with your email, you agree to Celeste's{' '}
           <Link href="https://anj.aragon.org/legal/terms-general.pdf">
             legal terms
           </Link>{' '}

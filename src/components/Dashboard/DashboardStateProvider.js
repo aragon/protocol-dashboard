@@ -38,7 +38,7 @@ function DashboardStateProvider({ children }) {
 }
 
 function WithSubscription({ Provider, connectedAccount, children }) {
-  // Juror ANJ balances, 24h ANJ movements and claimed subscription fees
+  // Juror HNY balances, 24h HNY movements and claimed subscription fees
   const {
     anjBalances,
     anjMovements,

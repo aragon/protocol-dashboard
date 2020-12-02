@@ -7,9 +7,9 @@ import TitleHeader from '../TitleHeader'
 import ErrorLoading from '../Errors/ErrorLoading'
 import BalanceModule from './BalanceModule'
 import RewardsModule from './RewardsModule'
-import ActivateANJ from './panels/ActivateANJ'
-import WithdrawANJ from './panels/WithdrawANJ'
-import DeactivateANJ from './panels/DeactivateANJ'
+import ActivateHNY from './panels/ActivateHNY'
+import WithdrawHNY from './panels/WithdrawHNY'
+import DeactivateHNY from './panels/DeactivateHNY'
 import AppealColateralModule from './AppealColateralModule'
 import CourtStats from './CourtStats'
 
@@ -57,10 +57,10 @@ function Dashboard() {
             <BalanceModule
               balances={anjBalances}
               loading={fetchingData}
-              onRequestActivate={requests.activateANJ}
-              onRequestDeactivate={requests.deactivateANJ}
-              onRequestStakeActivate={requests.stakeActivateANJ}
-              onRequestWithdraw={requests.withdrawANJ}
+              onRequestActivate={requests.activateHNY}
+              onRequestDeactivate={requests.deactivateHNY}
+              onRequestStakeActivate={requests.stakeActivateHNY}
+              onRequestWithdraw={requests.withdrawHNY}
             />
           ) : (
             <Welcome />
@@ -95,7 +95,7 @@ function Dashboard() {
         </>
       )}
       <SidePanel
-        title={`${getRequestModeString(mode)} ANJ`}
+        title={`${getRequestModeString(mode)} HNY`}
         opened={panelState.visible}
         onClose={panelState.requestClose}
         onTransitionEnd={panelState.endTransition}
@@ -117,7 +117,7 @@ function Dashboard() {
 }
 
 function PanelComponent({ mode, actions, balances, ...props }) {
-  const { activateANJ, deactivateANJ, withdrawANJ } = actions
+  const { activateHNY, deactivateHNY, withdrawHNY } = actions
   const { walletBalance, activeBalance } = balances
 
   const unlockedActiveBalance = getTotalUnlockedActiveBalance(balances)
@@ -126,27 +126,27 @@ function PanelComponent({ mode, actions, balances, ...props }) {
   switch (mode) {
     case REQUEST_MODE.DEACTIVATE:
       return (
-        <DeactivateANJ
+        <DeactivateHNY
           activeBalance={unlockedActiveBalance}
-          onDeactivateANJ={deactivateANJ}
+          onDeactivateHNY={deactivateHNY}
           {...props}
         />
       )
     case REQUEST_MODE.WITHDRAW:
       return (
-        <WithdrawANJ
+        <WithdrawHNY
           inactiveBalance={effectiveInactiveBalance}
-          onWithdrawANJ={withdrawANJ}
+          onWithdrawHNY={withdrawHNY}
           {...props}
         />
       )
     default:
       return (
-        <ActivateANJ
+        <ActivateHNY
           activeBalance={activeBalance.amount}
           inactiveBalance={effectiveInactiveBalance}
           walletBalance={walletBalance.amount}
-          onActivateANJ={activateANJ}
+          onActivateHNY={activateHNY}
           fromWallet={mode === REQUEST_MODE.STAKE_ACTIVATE}
           {...props}
         />

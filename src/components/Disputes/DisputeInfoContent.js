@@ -331,8 +331,8 @@ const DisputedActionNA = () => {
         N/A
       </span>
       <Help hint="">
-        This dispute does not involve a binding action and is simply between the
-        given context and arguments.
+        This question does not involve a binding action and is simply between
+        the given context and arguments.
       </Help>
     </div>
   )

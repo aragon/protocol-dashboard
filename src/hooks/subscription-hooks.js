@@ -12,8 +12,8 @@ import {
 import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
 import {
-  JurorANJBalances,
-  JurorANJWalletBalance,
+  JurorHNYBalances,
+  JurorHNYWalletBalance,
   JurorTreasuryBalances,
 } from '../queries/balances'
 import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
@@ -51,8 +51,8 @@ function useQuerySub(query, variables = {}, options = {}) {
 }
 
 // Subscription to get juror's wallet balance
-function useANJBalance(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorANJWalletBalance, {
+function useHNYBalance(jurorId) {
+  const [{ data, error }] = useQuerySub(JurorHNYWalletBalance, {
     id: jurorId.toLowerCase(),
   })
   return { data, error }
@@ -66,7 +66,7 @@ function useJuror(jurorId) {
     .subtract(1, 'day')
     .unix()
 
-  const [{ data, error }] = useQuerySub(JurorANJBalances, {
+  const [{ data, error }] = useQuerySub(JurorHNYBalances, {
     id: jurorId.toLowerCase(),
     from: yesterday,
   })
@@ -90,11 +90,11 @@ function useJurorTreasuryBalances(jurorId) {
  */
 export function useJurorBalancesSubscription(jurorId) {
   // Juror wallet balance
-  const { data: anjBalanceData, error: anjBalanceError } = useANJBalance(
+  const { data: anjBalanceData, error: anjBalanceError } = useHNYBalance(
     jurorId
   )
 
-  // Juror ANJ balances, 24h movements and subscritpion claimed fees
+  // Juror HNY balances, 24h movements and subscritpion claimed fees
   const { data: jurorData, error: jurorError } = useJuror(jurorId)
   const {
     data: treasuryBalancesData,
@@ -116,7 +116,7 @@ export function useJurorBalancesSubscription(jurorId) {
       return {}
     }
 
-    // If the account doesn't hold any ANJ we set 0 as default
+    // If the account doesn't hold any HNY we set 0 as default
     const { amount: walletBalance = NO_AMOUNT } =
       anjBalanceData.anjbalance || {}
 
@@ -249,7 +249,7 @@ export function useCurrentTermJurorDraftsSubscription(
 /**
  * Subscribes to all `jurorId` drafts
  * @dev This subscription is useful to get all rewards pending for claiming as well
- * as for the amount of locked ANJ a juror has per dispute
+ * as for the amount of locked HNY a juror has per dispute
  * Ideally we would check that the round is not settled but we cannot do nested filters for now
  *
  * @param {String} jurorId Address of the juror

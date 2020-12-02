@@ -14,11 +14,11 @@ Url of the default Ethereum node to read blockchain data from. If you intend to 
 
 ### `REACT_APP_IPFS_GATEWAY`
 
-Url of the [IPFS](https://ipfs.io) Gateway to load dispute metadata from. If you intend to connect to a local IPFS daemon's Gateway, by default you should set this to `http://localhost:8080/ipfs`.
+Url of the [IPFS](https://ipfs.io) Gateway to load questions metadata from. If you intend to connect to a local IPFS daemon's Gateway, by default you should set this to `http://localhost:8080/ipfs`.
 
 ### `REACT_APP_SUBGRAPH_NAME`
 
-Name of the subgraph instance to connect to and query data from. This is useful when we have different Aragon Court deployments on the same network.
+Name of the subgraph instance to connect to and query data from. This is useful when we have different Celeste deployments on the same network.
 
 ## Ethereum Providers
 
@@ -34,7 +34,7 @@ API key from [Portis](portis.io). Requires separate keys for testnet / mainnet.
 
 ### `REACT_APP_SKIP_VOIDING`
 
-To disable flagging of voided disputes.
+To disable flagging of voided questions.
 
 ## 3rd Party APIs
 
@@ -46,7 +46,7 @@ To disable flagging of voided disputes.
 
 ### MOCK_DATA
 
-To start the court dashboard with mocked data.
+To start Celeste dashboard with mocked data.
 
 ### Assumed localhost ports
 
@@ -54,7 +54,7 @@ To start the court dashboard with mocked data.
 - Subgraph:
   - 8000 (HTTP)
 - IPFS Gateway: 8080
-- Court server: 8050
+- Celeste server: 8050
 
 ### Default Mnemonic
 

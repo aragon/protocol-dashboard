@@ -36,16 +36,16 @@ type Disputable @entity {
 }
 ```
 
-### Aragon court handles two different types of disputes:
+### Celeste handles two different types of questions:
 
-- **Raw disputes**: disputes that were not created through an Agreement; most likely created manually
-- **Disputables**: disputes that were created through an Agreement due to an action being challenged on an Aragon organization
+- **Raw questions**: questions that were not created through an Agreement; most likely created manually
+- **Disputables**: questions that were created through an Agreement due to an action being challenged on an Aragon organization
 
 In the following section, we'll break down how we handle metadata for these two types.
 
-## Raw disputes
+## Raw questions
 
-The dispute `metadata` should be a JSON Object and should have the following keys:
+The question `metadata` should be a JSON Object and should have the following keys:
 1. `description`
 2. `metadata`
 
@@ -66,11 +66,11 @@ The content is expected to have the following structure:
 }
 ```
 
-> Note that even though `description` should be present in the IPFS content, we also assume it to be present in the `metadata` field. We do this to avoid needing to fetch every disputes' IPFS content when loading their dispute cards.
+> Note that even though `description` should be present in the IPFS content, we also assume it to be present in the `metadata` field. We do this to avoid needing to fetch every questions' IPFS content when loading their question cards.
 
 ## Disputables
 
-The dispute metadata should be in the `disputable` attribute of the subgraph's `dispute` entity.
+The question metadata should be in the `disputable` attribute of the subgraph's `dispute` entity.
 
 ```javascript
   title              // description
@@ -85,7 +85,7 @@ The dispute metadata should be in the `disputable` attribute of the subgraph's `
 
 ---
 
-## Evidence
+## Comment
 
 ```javascript
 type Evidence @entity {
@@ -109,12 +109,12 @@ Try to fetch the content from IPFS
 
        1. `metadata`
 
-      If we can find it we are going to show that as the evidence text
+      If we can find it we are going to show that as the comment text
 
   - **content - String**
       
-      Show the content as the evidence text
+      Show the content as the comment text
 
 ### data - Plain String
 
-Show the data as the evidence text
+Show the data as the comment text

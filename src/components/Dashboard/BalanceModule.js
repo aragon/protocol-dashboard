@@ -9,7 +9,7 @@ import { getAccountStatus } from '../../utils/account-utils'
 import { useWallet } from '../../providers/Wallet'
 import {
   getTotalUnlockedActiveBalance,
-  getTotalLockedANJDistribution,
+  getTotalLockedHNYDistribution,
   getTotalEffectiveInactiveBalance,
 } from '../../utils/balance-utils'
 
@@ -37,7 +37,7 @@ const BalanceModule = React.memo(
     const { walletBalance, activeBalance, inactiveBalance } = balances || {}
 
     const lockedBalanceDistribution =
-      balances && getTotalLockedANJDistribution(balances)
+      balances && getTotalLockedHNYDistribution(balances)
     const unlockedActiveBalance =
       balances && getTotalUnlockedActiveBalance(balances)
     const effectiveInactiveBalance =
