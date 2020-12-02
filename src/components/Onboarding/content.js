@@ -63,7 +63,7 @@ highlights.rinkeby = [
       large: (
         <span>
           We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
-          account you registered with on Mainnet. You can use this test HNY to
+          account you registered with on xDai. You can use this test HNY to
           become an active participant and be involved in the arbitration
           process.
         </span>
@@ -204,14 +204,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Buying HNY ⚖️',
+      large: 'Buying HNY 🍯 ',
     },
     description: {
       small: null,
       large: (
         <>
           <p>
-            HNY is the native token for Celeste and helps ensure particpants are
+            HNY is the native token for Celeste and helps ensure keepers are
             properly motivated to do their jobs well.
           </p>
           <p>
