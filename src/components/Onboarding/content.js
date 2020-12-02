@@ -9,6 +9,7 @@ import large5 from './highlights/assets/rinkeby/large/5.png'
 
 import mainnetLarge1 from './highlights/assets/mainnet/large/1.png'
 import mainnetLarge2 from './highlights/assets/mainnet/large/2.png'
+import mainnetLarge3 from './highlights/assets/mainnet/large/3.png'
 import mainnetLarge4 from './highlights/assets/mainnet/large/4.png'
 import mainnetLarge5 from './highlights/assets/mainnet/large/5.png'
 import mainnetLarge6 from './highlights/assets/mainnet/large/6.png'
@@ -16,6 +17,7 @@ import mainnetLarge7 from './highlights/assets/mainnet/large/7.png'
 
 import mainnetSmall1 from './highlights/assets/mainnet/small/1.png'
 import mainnetSmall2 from './highlights/assets/mainnet/small/2.png'
+import mainnetSmall3 from './highlights/assets/mainnet/small/3.png'
 import mainnetSmall4 from './highlights/assets/mainnet/small/4.png'
 import mainnetSmall5 from './highlights/assets/mainnet/small/5.png'
 import mainnetSmall6 from './highlights/assets/mainnet/small/6.png'
@@ -34,7 +36,7 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Welcome, juror',
+      large: 'Welcome 👋',
     },
     description: {
       small: null,
@@ -61,8 +63,8 @@ highlights.rinkeby = [
       large: (
         <span>
           We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
-          account you registered with on Mainnet. You can use this test HNY to
-          become an active juror and participate in the arbitration process.
+          account you registered with on xDai. You can use this test HNY to
+          become an active keeper and participate in the arbitration process.
         </span>
       ),
     },
@@ -70,13 +72,13 @@ highlights.rinkeby = [
       small: null,
       large: large2,
       color: '#F9FAFC',
-      buttonColor: '#FF9780',
+      buttonColor: '#8E54A5',
     },
   },
   {
     title: {
       small: null,
-      large: 'Arbitrate your first question',
+      large: 'Participate on your first question',
     },
     description: {
       small: null,
@@ -129,7 +131,7 @@ highlights.rinkeby = [
           </p>
           <p>
             You’ll also receive notifications about important announcements,
-            your assigned questions, and upcoming tasks as a juror.
+            your assigned questions, and upcoming tasks as a keeper.
           </p>
         </>
       ),
@@ -149,7 +151,7 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Welcome, keeper',
+      large: 'Welcome 👋',
     },
     description: {
       small: null,
@@ -179,14 +181,14 @@ highlights.main = [
             and Active. You can read more about these different balances and
             what they mean in the{' '}
             <Link href="https://help.aragon.org/article/42-aragon-court-dashboard">
-              Keeper Dashboard Guide
+              {/* TODO: Update link */}
+              Celeste Dashboard Guide
             </Link>
             .
           </p>
-
           <p>
             Adjusting your active HNY balance will affect the indicator that
-            displays your chance of being drafted and your current draft status.
+            displays your chance of being drafted, and current draft status.
           </p>
         </>
       ),
@@ -195,7 +197,32 @@ highlights.main = [
       small: mainnetSmall2,
       large: mainnetLarge2,
       color: '#F9FAFC',
-      buttonColor: '#FF9780',
+      buttonColor: '#8E54A5',
+    },
+  },
+  {
+    title: {
+      small: null,
+      large: 'Buying HNY 🍯 ',
+    },
+    description: {
+      small: null,
+      large: (
+        <>
+          <p>
+            HNY is the native token for Celeste and helps ensure keepers are
+            properly motivated to do their jobs well.
+          </p>
+          <p>
+            You can convert DAI, ETH, or USDC to HNY using the module at
+            honeyswap.org or clicking by ‘Buy HNY.’
+          </p>
+        </>
+      ),
+    },
+    visual: {
+      small: mainnetSmall3,
+      large: mainnetLarge3,
     },
   },
   {
@@ -212,7 +239,7 @@ highlights.main = [
             rewards and avoid penalties.
           </p>
           <p>
-            Check your pending actions in the “Upcoming tasks” section so you
+            Check your pending actions in the Upcoming tasks section so you
             always know what to do.
           </p>
         </>
@@ -232,9 +259,8 @@ highlights.main = [
       small: null,
       large: (
         <span>
-          View all live questions or only the ones you are adjudicating. From
-          here you can explore the details, comments, and timeline for any
-          question.
+          View all live questions or only ones your adjudicating. From here you
+          can explore the details, comments, and timeline for any question.
         </span>
       ),
     },
