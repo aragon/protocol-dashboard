@@ -1,5 +1,5 @@
 import React from 'react'
-import { SyncIndicator } from '@aragon/ui'
+import { SyncIndicator } from '@1hive/1hive-ui'
 import { useCourtConfig } from '../providers/CourtConfig'
 
 function AppLoader({ children }) {

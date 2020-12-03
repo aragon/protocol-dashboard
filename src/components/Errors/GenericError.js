@@ -9,7 +9,7 @@ import {
   RADIUS,
   textStyle,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 const SUPPORT_URL = 'https://github.com/aragon/court-dashboard/issues/new'
 

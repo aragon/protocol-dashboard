@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { GU, SidePanel } from '@aragon/ui'
+import { GU, SidePanel } from '@1hive/1hive-ui'
 import { captureException } from '@sentry/browser'
 
 import ConfirmRequest from './ConfirmRequest'

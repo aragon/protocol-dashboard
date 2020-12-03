@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonIcon, GU, IconMenu } from '@aragon/ui'
+import { ButtonIcon, GU, IconMenu } from '@1hive/1hive-ui'
 import AccountModule from '../Account/AccountModule'
 import ClockModule from '../ClockModule'
 import ActivityButton from '../Activity/ActivityButton'

@@ -8,7 +8,7 @@ import {
   useInside,
   useToast,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import { useWallet } from '../../providers/Wallet'
 import { getProviderFromUseWalletId } from '../../ethereum-providers'
 

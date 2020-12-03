@@ -1,5 +1,12 @@
 import React, { useMemo } from 'react'
-import { Distribution, GU, Help, Tag, textStyle, useTheme } from '@aragon/ui'
+import {
+  Distribution,
+  GU,
+  Help,
+  Tag,
+  textStyle,
+  useTheme,
+} from '@1hive/1hive-ui'
 import { useWallet } from '../../providers/Wallet'
 import {
   isValidOutcome,

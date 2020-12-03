@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, textStyle } from '@aragon/ui'
+import { GU, textStyle } from '@1hive/1hive-ui'
 import headerLogoSvg from '../../assets/HeaderLogo.svg'
 
 function HeaderLogo() {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@aragon/ui'
+import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import { useWallet } from 'use-wallet'
 import HeaderModule from '../Header/HeaderModule'

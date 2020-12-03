@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, GU, useViewport } from '@aragon/ui'
+import { Box, GU, useViewport } from '@1hive/1hive-ui'
 import TaskAmounts from './TasksAmounts'
 
 function TasksBox({ openTasks, completedTasks, incompleteTasks }) {

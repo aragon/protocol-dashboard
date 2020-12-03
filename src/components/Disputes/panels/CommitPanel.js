@@ -11,7 +11,7 @@ import {
   textStyle,
   useToast,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import useOneTimeCode from '../../../hooks/useOneTimeCode'
 import { useWallet } from '../../../providers/Wallet'
 import IconOneTimeCode from '../../../assets/IconOneTimeCode.svg'

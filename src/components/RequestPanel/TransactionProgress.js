@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, ProgressBar, textStyle, useTheme } from '@aragon/ui'
+import { GU, ProgressBar, textStyle, useTheme } from '@1hive/1hive-ui'
 import useNow from '../../hooks/useNow'
 import { norm } from '../../lib/math-utils'
 import { getRelativeTime, MINUTE } from '../../utils/date-utils'

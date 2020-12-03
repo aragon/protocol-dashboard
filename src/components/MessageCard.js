@@ -1,5 +1,12 @@
 import React from 'react'
-import { Box, GU, LoadingRing, textStyle, Link, useTheme } from '@aragon/ui'
+import {
+  Box,
+  GU,
+  LoadingRing,
+  textStyle,
+  Link,
+  useTheme,
+} from '@1hive/1hive-ui'
 
 export default function MessageCard({
   icon,

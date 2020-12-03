@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, GU, TransactionBadge, textStyle, useTheme } from '@aragon/ui'
+import { Box, GU, TransactionBadge, textStyle, useTheme } from '@1hive/1hive-ui'
 import DisputeActions from './DisputeActions'
 import DisputeCurrentRuling from './DisputeCurrentRuling'
 import DisputeInfoContent from './DisputeInfoContent'
@@ -147,7 +147,7 @@ function DisputeHeader({ dispute, error }) {
             `}
           >
             <span>
-              Dispute #{id}: {description}
+              Question #{id}: {description}
             </span>
             {!error && dispute && (
               <DisputeStatus

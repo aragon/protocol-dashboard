@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
-import { ButtonBase, GU, springs, textStyle, useTheme } from '@aragon/ui'
+import { ButtonBase, GU, springs, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import { Spring, animated } from 'react-spring/renderprops'
 import HeaderLogo from './Header/HeaderLogo'
@@ -69,7 +69,7 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
         <MenuItem
           to="/disputes"
           icon={disputesMenuIcon}
-          label="Disputes"
+          label="Questions"
           onActivate={onOpenPage}
         />
       </div>

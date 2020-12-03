@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { GU, LoadingRing, textStyle } from '@aragon/ui'
+import { GU, LoadingRing, textStyle } from '@1hive/1hive-ui'
 
 const SIZES = {
   SMALL: 'small',

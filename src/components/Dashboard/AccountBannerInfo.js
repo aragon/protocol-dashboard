@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, textStyle, Timer, useTheme } from '@aragon/ui'
+import { GU, textStyle, Timer, useTheme } from '@1hive/1hive-ui'
 import { useCourtClock } from '../../providers/CourtClock'
 
 function AccountBannerInfo({ title, titleColor = '', paragraph, showTimer }) {

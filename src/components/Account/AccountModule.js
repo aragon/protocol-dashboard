@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useWallet } from 'use-wallet'
-import { Button, GU, IconConnect, useViewport } from '@aragon/ui'
+import { Button, GU, IconConnect, useViewport } from '@1hive/1hive-ui'
 import { shortenAddress } from '../../lib/web3-utils'
 import AccountButton from './AccountButton'
 import AccountPopover from './AccountPopover'

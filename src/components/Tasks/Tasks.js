@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GU, Tabs, Tag } from '@aragon/ui'
+import { GU, Tabs, Tag } from '@1hive/1hive-ui'
 
 import NoTasks from './NoTasks'
 import NoMyTasks from './NoMyTasks'

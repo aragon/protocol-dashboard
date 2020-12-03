@@ -8,7 +8,7 @@ import {
   textStyle,
   useInside,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 const EmailInput = React.memo(function EmailInput({
   existingEmail,

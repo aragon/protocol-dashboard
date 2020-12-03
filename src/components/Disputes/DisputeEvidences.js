@@ -1,5 +1,11 @@
 import React from 'react'
-import { Accordion, GU, SyncIndicator, textStyle, useTheme } from '@aragon/ui'
+import {
+  Accordion,
+  GU,
+  SyncIndicator,
+  textStyle,
+  useTheme,
+} from '@1hive/1hive-ui'
 import { useWallet } from 'use-wallet'
 import useEvidences from '../../hooks/useEvidences'
 import { addressesEqual } from '../../lib/web3-utils'

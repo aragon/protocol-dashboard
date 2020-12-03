@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, Link, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, Link, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useWallet } from '../../providers/Wallet'
 import IdentityBadge from '../IdentityBadge'
 

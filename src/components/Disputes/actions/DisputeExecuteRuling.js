@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Button, GU, Info } from '@aragon/ui'
+import { Button, GU, Info } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
 
 function DisputeExecuteRuling({ disputeId, onExecuteRuling }) {

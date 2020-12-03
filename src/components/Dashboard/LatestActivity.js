@@ -1,5 +1,5 @@
 // import React from 'react'
-// import { Box, GU, IdentityBadge, textStyle, useTheme } from '@aragon/ui'
+// import { Box, GU, IdentityBadge, textStyle, useTheme } from '@1hive/1hive-ui'
 
 // import Stepper from '../Stepper'
 // import Step from '../Step'

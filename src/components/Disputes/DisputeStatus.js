@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTheme } from '@aragon/ui'
+import { useTheme } from '@1hive/1hive-ui'
 
 import { Status } from '../../types/dispute-status-types'
 

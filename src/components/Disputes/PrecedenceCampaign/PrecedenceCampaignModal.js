@@ -1,5 +1,12 @@
 import React from 'react'
-import { Button, GU, Modal, textStyle, useTheme, useViewport } from '@aragon/ui'
+import {
+  Button,
+  GU,
+  Modal,
+  textStyle,
+  useTheme,
+  useViewport,
+} from '@1hive/1hive-ui'
 
 import pcModalSvg from './assets/PCModal.svg'
 

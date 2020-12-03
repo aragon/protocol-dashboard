@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, GU, useTheme } from '@aragon/ui'
+import { Button, GU, useTheme } from '@1hive/1hive-ui'
 
 import Modal from './PrecedenceCampaignModal'
 import StoredList from '../../../StoredList'

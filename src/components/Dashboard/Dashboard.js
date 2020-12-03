@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, SidePanel, Split, useLayout } from '@aragon/ui'
+import { GU, SidePanel, Split, useLayout } from '@1hive/1hive-ui'
 
 import Welcome from './Welcome'
 import Tasks from '../Tasks/Tasks'

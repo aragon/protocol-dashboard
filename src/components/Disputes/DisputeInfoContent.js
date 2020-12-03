@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
-import { GU, Help, Link, textStyle, useTheme, useViewport } from '@aragon/ui'
+import {
+  GU,
+  Help,
+  Link,
+  textStyle,
+  useTheme,
+  useViewport,
+} from '@1hive/1hive-ui'
 import styled from 'styled-components'
 import DisputeDetailDescription from './DisputeDetailDescription'
 import DisputeOutcomeText from './DisputeOutcomeText'

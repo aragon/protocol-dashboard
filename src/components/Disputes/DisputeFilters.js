@@ -1,5 +1,5 @@
 import React from 'react'
-import { DropDown, DateRangePicker, GU } from '@aragon/ui'
+import { DropDown, DateRangePicker, GU } from '@1hive/1hive-ui'
 
 const DisputeFilters = ({
   phaseTypes,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, textStyle, useTheme, useViewport } from '@aragon/ui'
+import { Button, GU, textStyle, useTheme, useViewport } from '@1hive/1hive-ui'
 import successIllustration from '../../assets/notificationsSuccess.svg'
 import errorIllustration from '../../assets/notificationsError.png'
 

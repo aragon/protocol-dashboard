@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ProgressBar, GU } from '@aragon/ui'
+import { ProgressBar, GU } from '@1hive/1hive-ui'
 import { Transition, animated } from 'react-spring/renderprops'
 import { ActivityStatusType } from './prop-types'
 import TimeTag from './TimeTag'

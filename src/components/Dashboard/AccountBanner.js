@@ -1,6 +1,6 @@
 import React from 'react'
 import { animated, useSpring } from 'react-spring'
-import { GU, Help, LoadingRing, useTheme } from '@aragon/ui'
+import { GU, Help, LoadingRing, useTheme } from '@1hive/1hive-ui'
 
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'

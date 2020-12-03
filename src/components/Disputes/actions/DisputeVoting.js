@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, GU, Help, Info, useTheme, useViewport } from '@aragon/ui'
+import { Button, GU, Help, Info, useTheme, useViewport } from '@1hive/1hive-ui'
 import { useActiveBalanceOfAt } from '../../../hooks/useCourtContracts'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 import { useWallet } from '../../../providers/Wallet'

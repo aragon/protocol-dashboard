@@ -9,7 +9,7 @@ import {
   springs,
   useTheme,
   useViewport,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import { Transition, animated } from 'react-spring/renderprops'
 import { useEsc } from '../../hooks/useKeyboardArrows'
 import Network from './Network/Network'

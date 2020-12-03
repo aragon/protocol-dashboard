@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Spring, animated } from 'react-spring/renderprops'
-import { GU, useTheme } from '@aragon/ui'
+import { GU, useTheme } from '@1hive/1hive-ui'
 
 const STROKE_WIDTH = 4
 

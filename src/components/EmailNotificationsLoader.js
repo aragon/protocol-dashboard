@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { GU, Inside, useViewport, Modal } from '@aragon/ui'
+import { GU, Inside, useViewport, Modal } from '@1hive/1hive-ui'
 import { useWallet } from '../providers/Wallet'
 import { useSubscriptionDetails } from '../hooks/useEmailNotifications'
 import EmailNotificationsManager from './EmailNotifications/EmailNotificationsManager'

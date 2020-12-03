@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Button, GU, Help, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, Help, textStyle, useTheme } from '@1hive/1hive-ui'
 import { animated, useSpring } from 'react-spring'
 
 import Loading from '../Loading'

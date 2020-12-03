@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, GU, textStyle, useTheme } from '@aragon/ui'
+import { Box, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import Loading from '../Loading'
 import SplitAmount from '../SplitAmount'
 

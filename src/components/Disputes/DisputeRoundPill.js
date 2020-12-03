@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, textStyle, useTheme } from '@aragon/ui'
+import { GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useCourtConfig } from '../../providers/CourtConfig'
 
 import { numberToWord } from '../../lib/math-utils'

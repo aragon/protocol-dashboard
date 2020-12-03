@@ -8,7 +8,7 @@ import {
   textStyle,
   useLayout,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 import {
   defaultEthNode,
   defaultIpfsGateway,

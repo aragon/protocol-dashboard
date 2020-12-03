@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, IconConnect, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, IconConnect, textStyle, useTheme } from '@1hive/1hive-ui'
 import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
 
 const UnlockNotifications = React.memo(function UnlockNotifications({

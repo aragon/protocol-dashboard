@@ -14,7 +14,7 @@ import {
   Tag,
   textStyle,
   useTheme,
-} from '@aragon/ui'
+} from '@1hive/1hive-ui'
 
 import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
 

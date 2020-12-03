@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { textStyle, useTheme, IconClose, IconCheck } from '@aragon/ui'
+import { textStyle, useTheme, IconClose, IconCheck } from '@1hive/1hive-ui'
 
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 import {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, GU, textStyle, useTheme } from '@aragon/ui'
+import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { getNetworkName } from '../../lib/web3-utils'
 import env from '../../environment'
 
