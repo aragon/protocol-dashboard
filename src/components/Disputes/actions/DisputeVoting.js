@@ -104,7 +104,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
             return 'You cannot vote on this question because your Ethereum account is not connected.'
 
           return canJurorVote
-            ? ' You will be asked a one-time-use code before you can commit your vote.'
+            ? 'You will be asked to enter and store a password when you commit your vote.'
             : 'You cannot vote on this question with the current enabled address.'
         })()}
       </Info>
