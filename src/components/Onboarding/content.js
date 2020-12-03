@@ -64,7 +64,7 @@ highlights.rinkeby = [
         <span>
           We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
           account you registered with on xDai. You can use this test HNY to
-          become an active keeper and participate in the arbitration process.
+          become an active keeper and participate answering questions.
         </span>
       ),
     },

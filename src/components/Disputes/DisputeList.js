@@ -180,7 +180,7 @@ const NoDisputes = () => {
 const NoMyDisputes = () => {
   const theme = useTheme()
 
-  const title = 'You haven’t been drafted to arbitrate a question yet'
+  const title = 'You haven’t been drafted to answer a question yet'
   const paragraph = (
     <span>
       The more{' '}
@@ -191,7 +191,7 @@ const NoMyDisputes = () => {
       >
         HNY you activate
       </span>
-      , more chances you have to be drafted to arbitrate a question
+      , more chances you have to be drafted to answer a question
     </span>
   )
 

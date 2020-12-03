@@ -128,8 +128,8 @@ function DisputeCurrentRuling({ dispute }) {
                   </span>
                   <Help hint="">
                     {showMyWeight ? 'You have been' : 'The same keeper can be'}{' '}
-                    drafted multiple times to arbitrate the same question for
-                    the same round. When that happens,{' '}
+                    drafted multiple times to answer the same question for the
+                    same round. When that happens,{' '}
                     {showMyWeight ? 'your' : 'their'} voting weight{' '}
                     {showMyWeight ? 'is' : 'will be'} proportional to the number
                     of times {showMyWeight ? 'you' : 'they'} are drafted.

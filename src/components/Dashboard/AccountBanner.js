@@ -213,9 +213,9 @@ const BannerWithProbability = ({ activeBalance }) => {
       <Help hint="How is the probability calculated?">
         <p>
           This is a numerical estimate of your likelihood of being selected for
-          arbitration. It’s calculated by dividing your active HNY balance
-          against the Celeste's total active HNY balance during the current
-          term.
+          answering questions. It’s calculated by dividing your active HNY
+          balance against the Celeste's total active HNY balance during the
+          current term.
         </p>
         <p
           css={`
@@ -239,7 +239,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    'The more HNY you activate, the more likely you will be drafted to arbitrate a question'
+    'The more HNY you activate, the more likely you will be drafted to answer a question'
 
   return (
     <Wrapper
