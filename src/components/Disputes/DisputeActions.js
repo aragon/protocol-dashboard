@@ -231,7 +231,7 @@ const useInfoAttributes = ({
         title: voteLeaked
           ? 'Unfortunately, your vote has been leaked'
           : 'Your vote wasn’t cast on time.',
-        paragraph: <HNYDiscountedMessage />,
+        paragraph: <HNYSlashMessage />,
         background: negativeBackground,
         icon: IconGavelRed,
         hintText: voteLeaked ? 'Vote leaked (complete)' : null, // TODO: Add hint for leaked vote
@@ -244,7 +244,7 @@ const useInfoAttributes = ({
       if (!jurorDraft.outcome) {
         return {
           title: "Your vote wasn't revealed on time",
-          paragraph: <HNYDiscountedMessage />,
+          paragraph: <HNYSlashMessage />,
           background: negativeBackground,
           icon: IconGavelRed,
         }
@@ -332,8 +332,8 @@ const HNYLockedMessage = ({ finalRulingConfirmed }) => {
   )
 }
 
-const HNYDiscountedMessage = () => {
-  return <HNYMessage result="will be discounted" />
+const HNYSlashMessage = () => {
+  return <HNYMessage result="will be slashed" />
 }
 
 const HNYSlashedMessage = () => {
