@@ -24,12 +24,12 @@ function DisputeDraft({ disputeId, onDraft }) {
         `}
       >
         <Button type="submit" mode="strong" wide disabled={!wallet.account}>
-          Draft jury
+          Draft keepers
         </Button>
       </div>
       <Info>
         The comments submission period is closed. <strong>Anyone</strong> can
-        now trigger the drafting of a jury and earn some rewards.
+        now trigger drafting of keepers and earn a reward.
       </Info>
     </form>
   )

@@ -201,7 +201,7 @@ const BannerWithProbability = ({ activeBalance }) => {
           margin-right: ${1 * GU}px;
         `}
       >
-        {'On average, you will be drafted into a jury '}
+        {'On average, you will be drafted into a keeper '}
         <span
           css={`
             color: ${theme.accent};

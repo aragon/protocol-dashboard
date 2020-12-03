@@ -43,7 +43,7 @@ const ACTIVITY_TYPES = {
     title: 'Deactivate HNY',
   },
   [actions.DRAFT_JURY]: {
-    title: 'Draft jury',
+    title: 'Draft keepers',
     icon: iconDraftJury,
   },
   [actions.EXECUTE_RULING]: {

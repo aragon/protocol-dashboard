@@ -198,7 +198,7 @@ function FinalJuryOutcome({ dispute }) {
 
   return (
     <Field
-      label="Final Jury Outcome"
+      label="Final Keepers Outcome"
       value={
         <DisputeOutcomeText
           outcome={appealedRuling || voteWinningOutcome}
