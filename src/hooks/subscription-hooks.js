@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from 'urql'
-import { useANJBalanceOf } from './useCourtContracts'
+import { useANJBalanceOfPolling } from './useCourtContracts'
 import { useCourtConfig } from '../providers/CourtConfig'
 
 // queries
@@ -78,7 +78,7 @@ function useJurorTreasuryBalances(jurorId) {
  * latest 24h movements and all subscription fees claimed by the juror
  */
 export function useJurorBalancesSubscription(jurorId) {
-  const walletBalance = useANJBalanceOf(jurorId)
+  const walletBalance = useANJBalanceOfPolling(jurorId)
   // Juror ANJ balances, 24h movements and subscritpion claimed fees
   const { data: jurorData, error: jurorError } = useJuror(jurorId)
   const {

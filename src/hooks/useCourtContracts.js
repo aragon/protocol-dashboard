@@ -850,33 +850,40 @@ export function useTotalANTStakedPolling(timeout = 1000) {
   return [totalANTStaked, error]
 }
 
-export function useANJBalanceOf(juror) {
+export function useANJBalanceOfPolling(juror) {
   const anjTokenContract = useANJTokenContract()
   const [balance, setBalance] = useState(bigNum(-1))
+
+  const timer = 3000
 
   useEffect(() => {
     let cancelled = false
 
-    const getActiveBalanceOf = async () => {
-      if (!anjTokenContract) return
+    if (!anjTokenContract) return
 
-      retryMax(() => anjTokenContract.balanceOf(juror))
-        .then(balance => {
-          if (!cancelled) {
-            setBalance(balance)
-          }
-        })
-        .catch(err => {
-          captureException(err)
-        })
+    // Assumes jurorDraft exists
+    const pollActiveBalanceOf = async () => {
+      try {
+        const balance = await anjTokenContract.balanceOf(juror)
+
+        if (!cancelled) {
+          setBalance(balance)
+        }
+      } catch (err) {
+        console.error(`Error fetching auto reveal: ${err} retrying…`)
+      }
+
+      if (!cancelled) {
+        setTimeout(pollActiveBalanceOf, timer)
+      }
     }
 
-    getActiveBalanceOf()
+    pollActiveBalanceOf()
 
     return () => {
       cancelled = true
     }
-  }, [anjTokenContract, juror])
+  }, [anjTokenContract, juror, timer])
 
   return balance
 }
