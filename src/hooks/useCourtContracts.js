@@ -849,3 +849,34 @@ export function useTotalANTStakedPolling(timeout = 1000) {
 
   return [totalANTStaked, error]
 }
+
+export function useANJBalanceOf(juror) {
+  const anjTokenContract = useANJTokenContract()
+  const [balance, setBalance] = useState(bigNum(-1))
+
+  useEffect(() => {
+    let cancelled = false
+
+    const getActiveBalanceOf = async () => {
+      if (!anjTokenContract) return
+
+      retryMax(() => anjTokenContract.balanceOf(juror))
+        .then(balance => {
+          if (!cancelled) {
+            setBalance(balance)
+          }
+        })
+        .catch(err => {
+          captureException(err)
+        })
+    }
+
+    getActiveBalanceOf()
+
+    return () => {
+      cancelled = true
+    }
+  }, [anjTokenContract, juror])
+
+  return balance
+}

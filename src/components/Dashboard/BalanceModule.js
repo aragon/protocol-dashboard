@@ -1,19 +1,18 @@
 import React from 'react'
 import { Box, GU, Split, useLayout, useTheme } from '@1hive/1hive-ui'
-import Profile from './Profile'
-import Balance from './Balance'
 import AccountBanner from './AccountBanner'
-import { useCourtConfig } from '../../providers/CourtConfig'
+import Balance from './Balance'
+import Profile from './Profile'
 
-import { getAccountStatus } from '../../utils/account-utils'
+import { useCourtConfig } from '../../providers/CourtConfig'
 import { useWallet } from '../../providers/Wallet'
 import {
   getTotalUnlockedActiveBalance,
   getTotalLockedANJDistribution,
   getTotalEffectiveInactiveBalance,
 } from '../../utils/balance-utils'
+import { getAccountStatus } from '../../utils/account-utils'
 
-// TODO: import icons from aragon-ui when available
 import walletIcon from '../../assets/IconWallet.svg'
 import inactiveANJIcon from '../../assets/IconANJInactive.svg'
 import activeANJIcon from '../../assets/IconANJActive.svg'
