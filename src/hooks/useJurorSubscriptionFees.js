@@ -33,7 +33,7 @@ export default function useJurorSubscriptionFees() {
           }
 
           const period = periods[index]
-          if (period.collectedFees.gt(0)) {
+          if (period.donatedFees.gt(0)) {
             const periodId = period.id
 
             // TODO: See if we can get the juror share directly from the period data

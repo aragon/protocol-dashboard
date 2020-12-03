@@ -21,6 +21,7 @@ export const CourtConfig = gql`
       jurorFee
       draftFee
       settleFee
+      feesUpdater
 
       evidenceTerms
       commitTerms
@@ -38,15 +39,16 @@ export const CourtConfig = gql`
       appealCollateralFactor
       appealConfirmCollateralFactor
       minActiveBalance
+      minMaxPctTotalSupply
+      maxMaxPctTotalSupply
       penaltyPct
       subscriptions {
         id
         currentPeriod
-        feeAmount
         periodDuration
         periods {
           id
-          collectedFees
+          donatedFees
         }
       }
       modules {
