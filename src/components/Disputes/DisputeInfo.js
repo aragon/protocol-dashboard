@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, GU, TransactionBadge, textStyle } from '@1hive/1hive-ui'
+import { Box, GU, textStyle, TransactionBadge } from '@1hive/1hive-ui'
 import DisputeActions from './DisputeActions'
 import DisputeCurrentRuling from './DisputeCurrentRuling'
 import DisputeInfoContent from './DisputeInfoContent'
