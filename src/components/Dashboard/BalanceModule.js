@@ -14,8 +14,8 @@ import {
 import { getAccountStatus } from '../../utils/account-utils'
 
 import walletIcon from '../../assets/IconWallet.svg'
-import inactiveANJIcon from '../../assets/IconANJInactive.svg'
-import activeANJIcon from '../../assets/IconANJActive.svg'
+import inactiveHNYIcon from '../../assets/IconHNYInactive.svg'
+import activeHNYIcon from '../../assets/IconHNYActive.svg'
 
 const BalanceModule = React.memo(
   ({
@@ -84,8 +84,7 @@ const BalanceModule = React.memo(
                 <Balance
                   amount={effectiveInactiveBalance}
                   label="Inactive"
-                  mainIcon={inactiveANJIcon}
-                  mainIconBackground={theme.accent.alpha(0.2)}
+                  mainIcon={inactiveHNYIcon}
                   actions={[
                     { label: 'Withdraw', onClick: onRequestWithdraw },
                     {
@@ -108,8 +107,7 @@ const BalanceModule = React.memo(
                 <Balance
                   amount={unlockedActiveBalance}
                   label="Active"
-                  mainIcon={activeANJIcon}
-                  mainIconBackground={`linear-gradient(35deg, ${theme.accentStart}  -75%, ${theme.accentEnd} 105%)`}
+                  mainIcon={activeHNYIcon}
                   actions={[
                     { label: 'Deactivate', onClick: onRequestDeactivate },
                   ]}
