@@ -897,20 +897,16 @@ export function useMaxActiveBalance(termId) {
 
   useEffect(() => {
     if (!jurorRegistryContract) {
-      console.log('no contract')
       return
     }
 
     let cancelled = false
 
     const fetchMaxActiveBalance = async () => {
-      console.log('fetching max balance')
       try {
         const maxActiveBalance = await jurorRegistryContract.maxActiveBalance(
           termId
         )
-
-        console.log('fethced', maxActiveBalance)
 
         if (!cancelled) {
           setMaxActiveBalance(maxActiveBalance)
