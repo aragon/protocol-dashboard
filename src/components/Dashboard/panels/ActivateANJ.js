@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react'
 import ANJForm from './ANJForm'
-import { formatUnits } from '../../../lib/math-utils'
+import { useCourtClock } from '../../../providers/CourtClock'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+import { useMaxActiveBalance } from '../../../hooks/useCourtContracts'
+import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
 
 const ActivateANJ = React.memo(function ActivateANJ({
   onActivateANJ,
@@ -11,11 +13,24 @@ const ActivateANJ = React.memo(function ActivateANJ({
   fromWallet,
   onDone,
 }) {
+  const { currentTermId } = useCourtClock()
+
+  const maxActiveBalance = useMaxActiveBalance(currentTermId)
+  const maxToActivate = max(maxActiveBalance.sub(activeBalance), bigNum(0))
+
+  const maxAmount = min(
+    fromWallet ? walletBalance : inactiveBalance,
+    maxToActivate
+  )
+
   const { anjToken, minActiveBalance } = useCourtConfig()
-  const maxAmount = fromWallet ? walletBalance : inactiveBalance
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
     digits: anjToken.decimals,
+  })
+  const maxToActivateFormatted = formatUnits(maxToActivate, {
+    digits: anjToken.decimals,
+    precision: anjToken.decimals,
   })
   const maxAmountFormatted = formatUnits(maxAmount, {
     digits: anjToken.decimals,
@@ -25,6 +40,10 @@ const ActivateANJ = React.memo(function ActivateANJ({
   const validation = useCallback(
     amountBN => {
       if (amountBN.gt(maxAmount)) {
+        if (amountBN.gt(maxToActivate)) {
+          return `You cannot activate more than ${maxToActivateFormatted} ${anjToken.symbol}`
+        }
+
         return `Insufficient funds, your ${
           fromWallet
             ? 'wallet balance is'
@@ -44,6 +63,8 @@ const ActivateANJ = React.memo(function ActivateANJ({
       fromWallet,
       maxAmount,
       maxAmountFormatted,
+      maxToActivate,
+      maxToActivateFormatted,
       minActiveBalance,
       minActiveBalanceFormatted,
     ]

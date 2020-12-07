@@ -887,3 +887,45 @@ export function useANJBalanceOfPolling(juror) {
 
   return balance
 }
+
+export function useMaxActiveBalance(termId) {
+  const [maxActiveBalance, setMaxActiveBalance] = useState(bigNum(0))
+  const jurorRegistryContract = useCourtContract(
+    CourtModuleType.JurorsRegistry,
+    jurorRegistryAbi
+  )
+
+  useEffect(() => {
+    if (!jurorRegistryContract) {
+      console.log('no contract')
+      return
+    }
+
+    let cancelled = false
+
+    const fetchMaxActiveBalance = async () => {
+      console.log('fetching max balance')
+      try {
+        const maxActiveBalance = await jurorRegistryContract.maxActiveBalance(
+          termId
+        )
+
+        console.log('fethced', maxActiveBalance)
+
+        if (!cancelled) {
+          setMaxActiveBalance(maxActiveBalance)
+        }
+      } catch (err) {
+        console.error(`Error ${err}`)
+      }
+    }
+
+    fetchMaxActiveBalance()
+
+    return () => {
+      cancelled = true
+    }
+  }, [jurorRegistryContract, termId])
+
+  return maxActiveBalance
+}

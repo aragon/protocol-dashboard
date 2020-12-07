@@ -3,5 +3,6 @@
   "function deactivate(uint256 _amount) external",
   "function unstake(uint256 _amount, bytes _data) external",
   "function totalActiveBalanceAt(uint64 _termId) external view returns (uint256)",
-  "function activeBalanceOfAt(address _juror, uint64 _termId) external view returns (uint256) "
+  "function activeBalanceOfAt(address _juror, uint64 _termId) external view returns (uint256)",
+  "function maxActiveBalance(uint64 _termId) public view returns (uint256)"
 ]

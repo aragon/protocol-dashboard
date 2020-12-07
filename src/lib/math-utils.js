@@ -4,6 +4,14 @@ export function bigNum(value) {
   return BigNumber.from(value)
 }
 
+export function max(a, b) {
+  return a.gt(b) ? a : b
+}
+
+export function min(a, b) {
+  return a.lt(b) ? a : b
+}
+
 export function formatTokenAmount(
   amount,
   isIncoming,
