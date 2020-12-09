@@ -27,9 +27,11 @@ import {
   hashVote,
   saveCodeInLocalStorage,
 } from '../utils/crvoting-utils'
+import { getVerificationsSignature } from '../utils/brightId-utils'
 
 // abis
 import aragonCourtAbi from '../abi/AragonCourt.json'
+import brightIdRegisterAbi from '../abi/BrightIdRegister.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
 import courtTreasuryAbi from '../abi/CourtTreasury.json'
 import disputeManagerAbi from '../abi/DisputeManager.json'
@@ -84,19 +86,63 @@ export function useANJActions() {
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
+  const brightIdRegisterContract = useCourtContract(
+    CourtModuleType.BrightIdRegister,
+    brightIdRegisterAbi
+  )
+
   const anjTokenContract = useANJTokenContract()
+
+  const brightIdRegisterAndCall = useCallback(
+    async (jurorAddress, amount) => {
+      const timestamp = Math.round(new Date().getTime())
+      const signature = getVerificationsSignature(timestamp, [jurorAddress]) // TODO: Use 1hive's node when available
+
+      return brightIdRegisterContract.register(
+        [jurorAddress],
+        [timestamp],
+        [signature.v],
+        [signature.r],
+        [signature.s],
+        jurorRegistryContract.address,
+        `${ACTIVATE_SELECTOR}${amount
+          .toHexString()
+          .slice(2)
+          .padStart(64, '0')}`
+      )
+    },
+    [brightIdRegisterContract, jurorRegistryContract]
+  )
+
+  const approve = useCallback(
+    value => {
+      return {
+        action: () =>
+          anjTokenContract.approve(jurorRegistryContract.address, value),
+        description: radspec[actions.APPROVE_ACTIVATION_AMOUNT]({
+          amount: formatUnits(value),
+        }),
+        type: actions.APPROVE_ACTIVATION_AMOUNT,
+      }
+    },
+    [anjTokenContract, jurorRegistryContract]
+  )
 
   // activate ANJ directly from available balance
   const activateANJ = useCallback(
-    amount => {
+    (jurorAddress, amount, isVerified) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
-            jurorRegistryContract.activate(amount, {
-              gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
-            }),
+            isVerified
+              ? jurorRegistryContract.activate(amount, {
+                  gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+                })
+              : brightIdRegisterAndCall(jurorAddress, amount, {
+                  gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+                }),
           description: radspec[actions.ACTIVATE_ANJ]({
             amount: formattedAmount,
           }),
@@ -104,7 +150,7 @@ export function useANJActions() {
         },
       ])
     },
-    [jurorRegistryContract, processRequests]
+    [brightIdRegisterAndCall, jurorRegistryContract, processRequests]
   )
 
   const deactivateANJ = useCallback(
@@ -129,11 +175,12 @@ export function useANJActions() {
 
   // approve, stake and activate ANJ
   const stakeActivateANJ = useCallback(
-    amount => {
+    (jurorAddress, amount, isVerified) => {
       const formattedAmount = formatUnits(amount)
 
-      return processRequests([
-        {
+      const requestQueue = []
+      if (isVerified) {
+        requestQueue.push({
           action: () =>
             anjTokenContract.approveAndCall(
               jurorRegistryContract.address,
@@ -145,10 +192,30 @@ export function useANJActions() {
             amount: formattedAmount,
           }),
           type: actions.ACTIVATE_ANJ,
-        },
-      ])
+        })
+      } else {
+        requestQueue.push(approve)
+        requestQueue.push({
+          action: () =>
+            brightIdRegisterAndCall(jurorAddress, amount, {
+              gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+            }),
+          description: radspec[actions.ACTIVATE_ANJ]({
+            amount: formattedAmount,
+          }),
+          type: actions.ACTIVATE_ANJ,
+        })
+      }
+
+      return processRequests(requestQueue)
     },
-    [anjTokenContract, jurorRegistryContract, processRequests]
+    [
+      anjTokenContract,
+      approve,
+      brightIdRegisterAndCall,
+      jurorRegistryContract,
+      processRequests,
+    ]
   )
 
   const withdrawANJ = useCallback(
@@ -924,4 +991,39 @@ export function useMaxActiveBalance(termId) {
   }, [jurorRegistryContract, termId])
 
   return maxActiveBalance
+}
+export function useIsJurorVerified(juror) {
+  const [isVerified, setIsVerified] = useState(false)
+  const brightIdRegisterContract = useCourtContract(
+    CourtModuleType.BrightIdRegister,
+    brightIdRegisterAbi
+  )
+
+  useEffect(() => {
+    if (!brightIdRegisterContract) {
+      return
+    }
+
+    let cancelled = false
+
+    const fetchIsVerified = async () => {
+      try {
+        const isVerified = await brightIdRegisterContract.isVerified(juror)
+
+        if (!cancelled) {
+          setIsVerified(isVerified)
+        }
+      } catch (err) {
+        console.error(`Error ${err}`)
+      }
+    }
+
+    fetchIsVerified()
+
+    return () => {
+      cancelled = true
+    }
+  }, [brightIdRegisterContract, juror])
+
+  return isVerified
 }
