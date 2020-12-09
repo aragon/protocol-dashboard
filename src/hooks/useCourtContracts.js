@@ -43,6 +43,7 @@ const GAS_LIMIT = 1200000
 const ANJ_ACTIVATE_GAS_LIMIT = 600000
 const ANJ_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
+const STAKE_SELECTOR = getFunctionSignature('stake(uint256,bytes)')
 
 // ANJ contract
 function useANJTokenContract() {
@@ -94,7 +95,7 @@ export function useANJActions() {
   const anjTokenContract = useANJTokenContract()
 
   const brightIdRegisterAndCall = useCallback(
-    async (jurorAddress, amount) => {
+    async (jurorAddress, calldata) => {
       const timestamp = Math.round(new Date().getTime())
       const signature = getVerificationsSignature(timestamp, [jurorAddress]) // TODO: Use 1hive's node when available
 
@@ -105,10 +106,7 @@ export function useANJActions() {
         [signature.r],
         [signature.s],
         jurorRegistryContract.address,
-        `${ACTIVATE_SELECTOR}${amount
-          .toHexString()
-          .slice(2)
-          .padStart(64, '0')}`
+        calldata
       )
     },
     [brightIdRegisterContract, jurorRegistryContract]
@@ -140,9 +138,17 @@ export function useANJActions() {
               ? jurorRegistryContract.activate(amount, {
                   gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
                 })
-              : brightIdRegisterAndCall(jurorAddress, amount, {
-                  gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
-                }),
+              : brightIdRegisterAndCall(
+                  jurorAddress,
+                  amount,
+                  `${ACTIVATE_SELECTOR}${amount
+                    .toHexString()
+                    .slice(2)
+                    .padStart(64, '0')}`,
+                  {
+                    gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+                  }
+                ),
           description: radspec[actions.ACTIVATE_ANJ]({
             amount: formattedAmount,
           }),
@@ -195,9 +201,14 @@ export function useANJActions() {
         })
       } else {
         requestQueue.push(approve)
+
+        const calldata = `${STAKE_SELECTOR}${ACTIVATE_SELECTOR.slice(2)}${amount
+          .toHexString()
+          .slice(2)
+          .padStart(64, '0')}`
         requestQueue.push({
           action: () =>
-            brightIdRegisterAndCall(jurorAddress, amount, {
+            brightIdRegisterAndCall(jurorAddress, amount, calldata, {
               gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
             }),
           description: radspec[actions.ACTIVATE_ANJ]({
