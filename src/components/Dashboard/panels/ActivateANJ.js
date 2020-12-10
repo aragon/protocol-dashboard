@@ -3,11 +3,13 @@ import ANJForm from './ANJForm'
 import { useCourtClock } from '../../../providers/CourtClock'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 import {
-  useIsJurorVerified,
+  useANJTokenAllowance,
+  useJurorUniqueUserId,
   useMaxActiveBalance,
 } from '../../../hooks/useCourtContracts'
 import { useWallet } from '../../../providers/Wallet'
 import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
+import { ZERO_ADDRESS } from '../../../lib/web3-utils'
 
 const ActivateANJ = React.memo(function ActivateANJ({
   onActivateANJ,
@@ -75,12 +77,15 @@ const ActivateANJ = React.memo(function ActivateANJ({
     ]
   )
 
-  const isVerified = useIsJurorVerified(account)
+  const [allowance] = useANJTokenAllowance(account)
+  const uniqueUserID = useJurorUniqueUserId(account)
+  const hasUniqueUserId = uniqueUserID !== ZERO_ADDRESS
+
   const handleActivateANJ = useCallback(
     amount => {
-      onActivateANJ(account, amount, isVerified)
+      onActivateANJ(account, amount, hasUniqueUserId, allowance)
     },
-    [account, isVerified, onActivateANJ]
+    [account, allowance, hasUniqueUserId, onActivateANJ]
   )
 
   return (

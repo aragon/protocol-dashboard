@@ -18,7 +18,7 @@ import actions from '../actions/court-action-types'
 import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
-import { getFunctionSignature } from '../lib/web3-utils'
+import { encodeFunctionData, getFunctionSignature } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
 import { networkReserveAddress } from '../networks'
 import {
@@ -40,10 +40,9 @@ import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const ANJ_ACTIVATE_GAS_LIMIT = 600000
+const ANJ_ACTIVATE_GAS_LIMIT = 1000000
 const ANJ_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
-const STAKE_SELECTOR = getFunctionSignature('stake(uint256,bytes)')
 
 // ANJ contract
 function useANJTokenContract() {
@@ -128,27 +127,25 @@ export function useANJActions() {
 
   // activate ANJ directly from available balance
   const activateANJ = useCallback(
-    (jurorAddress, amount, isVerified) => {
+    (jurorAddress, amount, hasUniqueUserId) => {
       const formattedAmount = formatUnits(amount)
+
+      const activationData = encodeFunctionData(
+        jurorRegistryContract,
+        'activate',
+        [amount.toHexString()]
+      )
 
       return processRequests([
         {
           action: () =>
-            isVerified
+            hasUniqueUserId
               ? jurorRegistryContract.activate(amount, {
                   gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
                 })
-              : brightIdRegisterAndCall(
-                  jurorAddress,
-                  amount,
-                  `${ACTIVATE_SELECTOR}${amount
-                    .toHexString()
-                    .slice(2)
-                    .padStart(64, '0')}`,
-                  {
-                    gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
-                  }
-                ),
+              : brightIdRegisterAndCall(jurorAddress, activationData, {
+                  gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+                }),
           description: radspec[actions.ACTIVATE_ANJ]({
             amount: formattedAmount,
           }),
@@ -181,11 +178,11 @@ export function useANJActions() {
 
   // approve, stake and activate ANJ
   const stakeActivateANJ = useCallback(
-    (jurorAddress, amount, isVerified) => {
+    (jurorAddress, amount, hasUniqueUserId, allowance) => {
       const formattedAmount = formatUnits(amount)
 
       const requestQueue = []
-      if (isVerified) {
+      if (hasUniqueUserId) {
         requestQueue.push({
           action: () =>
             anjTokenContract.approveAndCall(
@@ -200,15 +197,32 @@ export function useANJActions() {
           type: actions.ACTIVATE_ANJ,
         })
       } else {
-        requestQueue.push(approve)
+        // Check if requires pre-transactions
+        if (allowance.lt(amount)) {
+          // Some ERC20s don't allow setting a new allowance if the current allowance is positive
+          if (!allowance.eq(0)) {
+            // Reset allowance
+            requestQueue.push({
+              ...approve(bigNum(0)),
+              ensureConfirmation: true,
+            })
+          }
 
-        const calldata = `${STAKE_SELECTOR}${ACTIVATE_SELECTOR.slice(2)}${amount
-          .toHexString()
-          .slice(2)
-          .padStart(64, '0')}`
+          // Approve activation amount
+          requestQueue.push({
+            ...approve(amount),
+            ensureConfirmation: true,
+          })
+        }
+
+        const calldata = encodeFunctionData(jurorRegistryContract, 'stake', [
+          amount,
+          ACTIVATE_SELECTOR,
+        ])
+
         requestQueue.push({
           action: () =>
-            brightIdRegisterAndCall(jurorAddress, amount, calldata, {
+            brightIdRegisterAndCall(jurorAddress, calldata, {
               gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
             }),
           description: radspec[actions.ACTIVATE_ANJ]({
@@ -783,11 +797,6 @@ export function useFeeBalanceOf(account) {
 }
 
 export function useAppealFeeAllowance(owner) {
-  const [allowance, setAllowance] = useState({
-    amount: bigNum(0),
-    error: false,
-  })
-
   const courtConfig = useCourtConfig()
   const disputeManagerAddress = getModuleAddress(
     courtConfig.modules,
@@ -795,13 +804,45 @@ export function useAppealFeeAllowance(owner) {
   )
   const feeTokenContract = useFeeTokenContract()
 
+  const allowance = useTokenAllowance(
+    feeTokenContract,
+    owner,
+    disputeManagerAddress
+  )
+
+  return [allowance.amount, allowance.error]
+}
+
+export function useANJTokenAllowance(owner) {
+  const courtConfig = useCourtConfig()
+  const jurorRegistryAddress = getModuleAddress(
+    courtConfig.modules,
+    CourtModuleType.JurorsRegistry
+  )
+  const anjTokenContract = useANJTokenContract()
+
+  const allowance = useTokenAllowance(
+    anjTokenContract,
+    owner,
+    jurorRegistryAddress
+  )
+
+  return [allowance.amount, allowance.error]
+}
+
+function useTokenAllowance(contract, owner, spender) {
+  const [allowance, setAllowance] = useState({
+    amount: bigNum(0),
+    error: false,
+  })
+
   useEffect(() => {
     let cancelled = false
 
-    const getFeeAllowance = async () => {
-      if (!feeTokenContract) return
+    const fetchAllowance = async () => {
+      if (!contract) return
 
-      retryMax(() => feeTokenContract.allowance(owner, disputeManagerAddress))
+      retryMax(() => contract.allowance(owner, spender))
         .then(allowance => {
           if (!cancelled) {
             setAllowance({ amount: allowance, error: false })
@@ -818,14 +859,14 @@ export function useAppealFeeAllowance(owner) {
         })
     }
 
-    getFeeAllowance()
+    fetchAllowance()
 
     return () => {
       cancelled = true
     }
-  }, [disputeManagerAddress, feeTokenContract, owner])
+  }, [contract, owner, spender])
 
-  return [allowance.amount, allowance.error]
+  return allowance
 }
 
 export function useActiveBalanceOfAt(juror, termId) {
@@ -1003,8 +1044,8 @@ export function useMaxActiveBalance(termId) {
 
   return maxActiveBalance
 }
-export function useIsJurorVerified(juror) {
-  const [isVerified, setIsVerified] = useState(false)
+export function useJurorUniqueUserId(juror) {
+  const [uniqueUserId, setUniqueUserID] = useState(null)
   const brightIdRegisterContract = useCourtContract(
     CourtModuleType.BrightIdRegister,
     brightIdRegisterAbi
@@ -1017,24 +1058,24 @@ export function useIsJurorVerified(juror) {
 
     let cancelled = false
 
-    const fetchIsVerified = async () => {
+    const fetchUniqueUserID = async () => {
       try {
-        const isVerified = await brightIdRegisterContract.isVerified(juror)
+        const uniqueUserId = await brightIdRegisterContract.uniqueUserId(juror)
 
         if (!cancelled) {
-          setIsVerified(isVerified)
+          setUniqueUserID(uniqueUserId)
         }
       } catch (err) {
         console.error(`Error ${err}`)
       }
     }
 
-    fetchIsVerified()
+    fetchUniqueUserID()
 
     return () => {
       cancelled = true
     }
   }, [brightIdRegisterContract, juror])
 
-  return isVerified
+  return uniqueUserId
 }
