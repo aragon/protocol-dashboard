@@ -23,8 +23,8 @@ import {
 } from '../../utils/crvoting-utils'
 import { dateFormat } from '../../utils/date-utils'
 
-import IconGavelOrange from '../../assets/IconGavelOrange.svg'
-import IconGavelRed from '../../assets/IconGavelRed.svg'
+import IconVotingSuccess from '../../assets/IconVotingSuccess.svg'
+import IconVotingFailed from '../../assets/IconVotingFailed.svg'
 import { getDisputeLastRound } from '../../utils/dispute-utils'
 import IconRewardsGreen from '../../assets/IconRewardsGreen.svg'
 
@@ -153,6 +153,7 @@ function InformationSection({
         background: ${background};
         padding: ${3 * GU}px;
         display: flex;
+        border-radius: 12px;
       `}
     >
       <div
@@ -233,7 +234,7 @@ const useInfoAttributes = ({
           : 'Your vote wasn’t cast on time.',
         paragraph: <ANJDiscountedMessage />,
         background: negativeBackground,
-        icon: IconGavelRed,
+        icon: IconVotingFailed,
         hintText: voteLeaked ? 'Vote leaked (complete)' : null, // TODO: Add hint for leaked vote
       }
     }
@@ -246,7 +247,7 @@ const useInfoAttributes = ({
           title: "Your vote wasn't revealed on time",
           paragraph: <ANJDiscountedMessage />,
           background: negativeBackground,
-          icon: IconGavelRed,
+          icon: IconVotingFailed,
         }
       }
 
@@ -277,7 +278,7 @@ const useInfoAttributes = ({
             <ANJSlashedMessage />
           ),
           background,
-          icon: hasVotedInConsensus ? IconRewardsGreen : IconGavelRed,
+          icon: hasVotedInConsensus ? IconRewardsGreen : IconVotingFailed,
         }
       }
 
@@ -288,7 +289,7 @@ const useInfoAttributes = ({
           <ANJLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
         ),
         background,
-        icon: hasVotedInConsensus ? IconGavelOrange : IconGavelRed,
+        icon: hasVotedInConsensus ? IconVotingSuccess : IconVotingFailed,
       }
     }
 
@@ -304,8 +305,8 @@ const useInfoAttributes = ({
           revealDate={jurorDraft.revealDate}
         />
       ),
-      background: theme.accent.alpha(0.05),
-      icon: IconGavelOrange,
+      background: '#FFFCF7',
+      icon: IconVotingSuccess,
     }
   }, [
     hasJurorVoted,
@@ -316,7 +317,6 @@ const useInfoAttributes = ({
     phase,
     positiveBackground,
     status,
-    theme.accent,
   ])
 }
 

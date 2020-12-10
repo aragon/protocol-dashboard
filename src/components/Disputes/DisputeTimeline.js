@@ -11,12 +11,12 @@ import { useCourtClock } from '../../providers/CourtClock'
 import { useCourtConfig } from '../../providers/CourtConfig'
 
 import {
-  IconFlag,
-  IconFolder,
-  IconGavelNoFill,
+  IconStars,
+  IconComment,
+  IconRound,
   IconRewards,
   IconRuling,
-  IconThinking,
+  IconAppeal,
   IconUsers,
   IconVoting,
 } from '../../utils/dispute-icons'
@@ -67,7 +67,7 @@ const DisputeTimeline = React.memo(function DisputeTimeline({ dispute }) {
                       width: 100%;
                     `}
                   >
-                    <StyledAccordion>
+                    <StyledAccordion borderColor={theme.accent}>
                       <Accordion
                         key={roundIndex}
                         items={[
@@ -80,7 +80,7 @@ const DisputeTimeline = React.memo(function DisputeTimeline({ dispute }) {
                             >
                               <img
                                 alt={18}
-                                src={IconGavelNoFill}
+                                src={IconRound}
                                 css={`
                                   margin-right: ${1 * GU}px;
                                 `}
@@ -210,10 +210,10 @@ function Outcome({ outcome, phase }) {
 function PhaseIcon({ phase, active }) {
   const icon = useMemo(() => {
     if (phase === DisputePhase.Created || phase === DisputePhase.NotStarted) {
-      return IconFlag
+      return IconStars
     }
     if (phase === DisputePhase.Evidence) {
-      return IconFolder
+      return IconComment
     }
     if (phase === DisputePhase.JuryDrafting) {
       return IconUsers
@@ -228,7 +228,7 @@ function PhaseIcon({ phase, active }) {
       phase === DisputePhase.AppealRuling ||
       phase === DisputePhase.ConfirmAppeal
     ) {
-      return IconThinking
+      return IconAppeal
     }
     if (phase === DisputePhase.ExecuteRuling) {
       return IconRuling
@@ -299,6 +299,12 @@ const StyledAccordion = styled.div`
   &::after {
     height: 0px !important;
     width: 0px !important;
+  }
+
+  & tbody > tr:nth-child(2) {
+    & > td > div:first-child {
+      background: ${({ borderColor }) => borderColor};
+    }
   }
 `
 
