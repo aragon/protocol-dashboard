@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from 'urql'
+import { useHNYBalanceOfPolling } from './useCourtContracts'
 import { useCourtConfig } from '../providers/CourtConfig'
 
 // queries
@@ -11,11 +12,8 @@ import {
 } from '../queries/court'
 import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
-import {
-  JurorHNYBalances,
-  JurorHNYWalletBalance,
-  JurorTreasuryBalances,
-} from '../queries/balances'
+
+import { JurorHNYBalances, JurorTreasuryBalances } from '../queries/balances'
 import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
 
 // utils
@@ -50,14 +48,6 @@ function useQuerySub(query, variables = {}, options = {}) {
   })
 }
 
-// Subscription to get juror's wallet balance
-function useHNYBalance(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorHNYWalletBalance, {
-    id: jurorId.toLowerCase(),
-  })
-  return { data, error }
-}
-
 // Subscription to get juror's active, inactive and
 // locked balances and all 24 hrs movements
 function useJuror(jurorId) {
@@ -89,21 +79,15 @@ function useJurorTreasuryBalances(jurorId) {
  * latest 24h movements and all subscription fees claimed by the juror
  */
 export function useJurorBalancesSubscription(jurorId) {
-  // Juror wallet balance
-  const { data: anjBalanceData, error: anjBalanceError } = useHNYBalance(
-    jurorId
-  )
-
-  // Juror HNY balances, 24h movements and subscritpion claimed fees
+  const walletBalance = useHNYBalanceOfPolling(jurorId)
+  // Juror ANJ balances, 24h movements and subscritpion claimed fees
   const { data: jurorData, error: jurorError } = useJuror(jurorId)
   const {
     data: treasuryBalancesData,
     error: treasuryBalancesError,
   } = useJurorTreasuryBalances(jurorId)
 
-  const errors = [anjBalanceError, jurorError, treasuryBalancesError].filter(
-    err => err
-  )
+  const errors = [jurorError, treasuryBalancesError].filter(err => err)
 
   const {
     anjBalances,
@@ -112,13 +96,9 @@ export function useJurorBalancesSubscription(jurorId) {
     treasury,
   } = useMemo(() => {
     // Means it's still fetching
-    if (!jurorData || !anjBalanceData || !treasuryBalancesData) {
+    if (!jurorData || !treasuryBalancesData) {
       return {}
     }
-
-    // If the account doesn't hold any HNY we set 0 as default
-    const { amount: walletBalance = NO_AMOUNT } =
-      anjBalanceData.anjbalance || {}
 
     // If the juror is null then means that the connnected account is not a juror but we are already done fetching
     // We set 0 as default values
@@ -135,11 +115,11 @@ export function useJurorBalancesSubscription(jurorId) {
 
     return {
       anjBalances: {
+        walletBalance,
         activeBalance: bigNum(activeBalance),
         deactivationBalance: bigNum(deactivationBalance),
         inactiveBalance: bigNum(availableBalance),
         lockedBalance: bigNum(lockedBalance),
-        walletBalance: bigNum(walletBalance),
       },
       anjMovements: groupMovements(anjMovements),
       claimedSubscriptionFees: claimedSubscriptionFees.map(
@@ -150,7 +130,7 @@ export function useJurorBalancesSubscription(jurorId) {
         amount: bigNum(balance.amount),
       })),
     }
-  }, [anjBalanceData, jurorData, treasuryBalancesData])
+  }, [jurorData, treasuryBalancesData, walletBalance])
 
   return {
     anjBalances,

@@ -849,3 +849,41 @@ export function useTotalANTStakedPolling(timeout = 1000) {
 
   return [totalANTStaked, error]
 }
+
+export function useHNYBalanceOfPolling(juror) {
+  const anjTokenContract = useHNYTokenContract()
+  const [balance, setBalance] = useState(bigNum(-1))
+
+  const timer = 3000
+
+  useEffect(() => {
+    let cancelled = false
+
+    if (!anjTokenContract) return
+
+    // Assumes jurorDraft exists
+    const pollActiveBalanceOf = async () => {
+      try {
+        const balance = await anjTokenContract.balanceOf(juror)
+
+        if (!cancelled) {
+          setBalance(balance)
+        }
+      } catch (err) {
+        console.error(`Error fetching auto reveal: ${err} retrying…`)
+      }
+
+      if (!cancelled) {
+        setTimeout(pollActiveBalanceOf, timer)
+      }
+    }
+
+    pollActiveBalanceOf()
+
+    return () => {
+      cancelled = true
+    }
+  }, [anjTokenContract, juror, timer])
+
+  return balance
+}

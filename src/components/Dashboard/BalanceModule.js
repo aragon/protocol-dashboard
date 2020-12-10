@@ -1,17 +1,17 @@
 import React from 'react'
 import { Box, GU, Split, useLayout, useTheme } from '@1hive/1hive-ui'
-import Profile from './Profile'
-import Balance from './Balance'
 import AccountBanner from './AccountBanner'
-import { useCourtConfig } from '../../providers/CourtConfig'
+import Balance from './Balance'
+import Profile from './Profile'
 
-import { getAccountStatus } from '../../utils/account-utils'
+import { useCourtConfig } from '../../providers/CourtConfig'
 import { useWallet } from '../../providers/Wallet'
 import {
   getTotalUnlockedActiveBalance,
   getTotalLockedHNYDistribution,
   getTotalEffectiveInactiveBalance,
 } from '../../utils/balance-utils'
+import { getAccountStatus } from '../../utils/account-utils'
 
 import walletIcon from '../../assets/IconWallet.svg'
 import inactiveHNYIcon from '../../assets/IconHNYInactive.svg'

@@ -12,7 +12,9 @@ export default function Step({
     return (
       <div
         css={`
-          background: ${active ? '#FFF6F5' : ''};
+          background: ${active
+            ? 'linear-gradient(235deg, #FFFCF7 -3%, #FFF6E9 216%)'
+            : ''};
         `}
       >
         <div

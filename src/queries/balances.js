@@ -1,13 +1,5 @@
 import gql from 'graphql-tag'
 
-export const JurorHNYWalletBalance = gql`
-  query JurorHNYWalletBalance($id: ID!) {
-    anjbalance(id: $id) {
-      amount
-    }
-  }
-`
-
 export const JurorHNYBalances = gql`
   query JurorHNYBalances($id: ID!, $from: BigInt!) {
     juror(id: $id) {
