@@ -5,8 +5,6 @@ import {
   IconCopy,
   IconDownload,
   Info,
-  Link,
-  Switch,
   TextInput,
   textStyle,
   useToast,
@@ -15,10 +13,6 @@ import {
 import useOneTimeCode from '../../../hooks/useOneTimeCode'
 import { useWallet } from '../../../providers/Wallet'
 import IconOneTimeCode from '../../../assets/IconOneTimeCode.svg'
-import {
-  getVoteId,
-  saveAutoRevealPreference,
-} from '../../../utils/crvoting-utils'
 
 const CommitPanel = React.memo(function CommitPanel({
   dispute,
@@ -28,7 +22,6 @@ const CommitPanel = React.memo(function CommitPanel({
 }) {
   const [codeSaved, setCodeSaved] = useState(false)
   const [codeCopied, setCodeCopied] = useState(false)
-  const [revealService, setRevealService] = useState(true)
   const { account: connectedAccount } = useWallet()
   const { oneTimeCode, download } = useOneTimeCode()
   const toast = useToast()
@@ -36,11 +29,6 @@ const CommitPanel = React.memo(function CommitPanel({
   const handleCommit = useCallback(
     event => {
       event.preventDefault()
-      saveAutoRevealPreference(
-        connectedAccount,
-        getVoteId(dispute.id, dispute.lastRoundId),
-        revealService
-      )
 
       onDone()
       return onCommit(
@@ -48,8 +36,7 @@ const CommitPanel = React.memo(function CommitPanel({
         dispute.id,
         dispute.lastRoundId,
         outcome,
-        oneTimeCode,
-        revealService
+        oneTimeCode
       )
     },
     [
@@ -60,7 +47,6 @@ const CommitPanel = React.memo(function CommitPanel({
       onDone,
       oneTimeCode,
       outcome,
-      revealService,
     ]
   )
 
@@ -74,18 +60,6 @@ const CommitPanel = React.memo(function CommitPanel({
     toast('One-time-use code copied')
   }, [toast])
 
-  const handleRevealService = useCallback(
-    checked => {
-      setRevealService(checked)
-      toast(
-        checked
-          ? 'Court auto-reveal service enabled'
-          : 'Court auto-reveal service disabled'
-      )
-    },
-    [toast]
-  )
-
   return (
     <form onSubmit={handleCommit}>
       <OneTimeCode
@@ -93,14 +67,10 @@ const CommitPanel = React.memo(function CommitPanel({
         onDownload={handleDownloadCode}
         onCopy={handleCopyCode}
       />
-      <RevealService
-        onRevealServiceChange={handleRevealService}
-        revealService={revealService}
-      />
+
       <InfoSection
         commitEndTime={dispute.nextTransition}
         copiedOrSaved={codeCopied || codeSaved}
-        revealService={revealService}
       />
       <Button
         css={`
@@ -226,67 +196,19 @@ const OneTimeCode = React.memo(function OneTimeCode({
   )
 })
 
-const RevealService = React.memo(function RevealService({
-  onRevealServiceChange,
-  revealService,
-}) {
-  return (
-    <React.Fragment>
-      <div
-        css={`
-          display: flex;
-          margin-top: ${4 * GU}px;
-          align-items: center;
-        `}
-      >
-        <Switch checked={revealService} onChange={onRevealServiceChange} />
-        <span
-          css={`
-            margin-left: ${2 * GU}px;
-            ${textStyle('body1')};
-          `}
-        >
-          Auto-reveal service.
-        </span>
-      </div>
-      <div
-        css={`
-          margin-top: ${1 * GU}px;
-          ${textStyle('body2')};
-        `}
-      >
-        By enabling this feature you trust Aragon One to reveal your vote on
-        your behalf in this and following disputes. You can always turn off this
-        service later if you choose.
-        <Link href="https://help.aragon.org/article/43-dispute-lifecycle#onetime">
-          Learn more
-        </Link>
-        .
-      </div>
-    </React.Fragment>
-  )
-})
-
-const InfoSection = React.memo(function InfoSection({ revealService }) {
-  const content = revealService
-    ? `As a safety measure, you must copy or download this code before you can
-       commit your vote. This code is valid for revealing your vote for this
-       dispute only. You won’t be required to enter this code unless a problem
-       occurs with our services.`
-    : `You must copy or download this code before you can commit your vote. You
-       will later be asked to provide this same code to reveal your vote.
-       Failure to provide the correct code will result in a monetary penalty to
-       your account.`
-
+const InfoSection = React.memo(function InfoSection() {
   return (
     <Info
       css={`
         margin-top: ${2 * GU}px;
       `}
-      title={!revealService && 'Action requirement'}
-      mode={revealService ? 'info' : 'warning'}
+      title="Action requirement"
+      mode="warning"
     >
-      {content}
+      You must copy or download this code before you can commit your vote. You
+      will later be asked to provide this same code to reveal your vote. Failure
+      to provide the correct code will result in a monetary penalty to your
+      account.
     </Info>
   )
 })

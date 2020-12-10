@@ -5,7 +5,6 @@ import {
   Status as DisputeStatus,
 } from '../../types/dispute-status-types'
 import DisputeAppeal from './actions/DisputeAppeal'
-import DisputeAutoReveal from './DisputeAutoReveal'
 import DisputeDraft from './actions/DisputeDraft'
 import DisputeExecuteRuling from './actions/DisputeExecuteRuling'
 import DisputeReveal from './actions/DisputeReveal'
@@ -30,7 +29,6 @@ import IconRewardsGreen from '../../assets/IconRewardsGreen.svg'
 
 function DisputeActions({
   dispute,
-  onAutoReveal,
   onDraft,
   onExecuteRuling,
   onRequestCommit,
@@ -78,17 +76,6 @@ function DisputeActions({
       {(() => {
         // If connected account not drafted for current dispute
         if (!isJurorDrafted) return null
-
-        // If juror has already voted
-        if (phase === DisputePhase.VotingPeriod)
-          return (
-            <DisputeAutoReveal
-              disputeId={dispute.id}
-              commitment={jurorDraft.commitment}
-              onAutoReveal={onAutoReveal}
-              roundId={dispute.lastRoundId}
-            />
-          )
 
         // If we are past the voting period && juror hasn't voted
         if (!jurorHasVoted) return null

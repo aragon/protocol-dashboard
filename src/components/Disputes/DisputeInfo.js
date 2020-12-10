@@ -20,7 +20,6 @@ const DisputeInfo = React.memo(function({
   loading,
   onDraft,
   onLeak,
-  onAutoReveal,
   onExecuteRuling,
   onRequestAppeal,
   onRequestCommit,
@@ -83,7 +82,6 @@ const DisputeInfo = React.memo(function({
             )}
             <DisputeActions
               dispute={dispute}
-              onAutoReveal={onAutoReveal}
               onDraft={onDraft}
               onRequestCommit={onRequestCommit}
               onRequestReveal={onRequestReveal}
