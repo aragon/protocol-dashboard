@@ -14,7 +14,7 @@ import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
 import hnySpringIcon from '../../assets/IconHNYSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
-import gavelIcon from '../../assets/IconGavel.svg'
+import warpIcon from '../../assets/IconWarp.svg'
 
 const getBannerAttributes = (
   status,
@@ -28,7 +28,7 @@ const getBannerAttributes = (
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
-        icon: gavelIcon, // TODO: (Fabri) update when new icon available
+        icon: warpIcon,
         iconBackground: theme.positive.alpha(0.2),
         title: 'You have been drafted',
         titleColor: theme.positive,

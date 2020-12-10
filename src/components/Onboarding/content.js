@@ -9,6 +9,7 @@ import large5 from './highlights/assets/rinkeby/large/5.png'
 
 import mainnetLarge1 from './highlights/assets/mainnet/large/1.png'
 import mainnetLarge2 from './highlights/assets/mainnet/large/2.png'
+import mainnetLarge3 from './highlights/assets/mainnet/large/3.png'
 import mainnetLarge4 from './highlights/assets/mainnet/large/4.png'
 import mainnetLarge5 from './highlights/assets/mainnet/large/5.png'
 import mainnetLarge6 from './highlights/assets/mainnet/large/6.png'
@@ -16,17 +17,18 @@ import mainnetLarge7 from './highlights/assets/mainnet/large/7.png'
 
 import mainnetSmall1 from './highlights/assets/mainnet/small/1.png'
 import mainnetSmall2 from './highlights/assets/mainnet/small/2.png'
+import mainnetSmall3 from './highlights/assets/mainnet/small/3.png'
 import mainnetSmall4 from './highlights/assets/mainnet/small/4.png'
 import mainnetSmall5 from './highlights/assets/mainnet/small/5.png'
 import mainnetSmall6 from './highlights/assets/mainnet/small/6.png'
 import mainnetSmall7 from './highlights/assets/mainnet/small/7.png'
 
 const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
-const MAIN_COURT_URL = 'https://court.aragon.org'
+const MAIN_COURT_URL = 'https://court.aragon.org' // TODO:(fabri) Update urls
 
 const highlights = {
-  heading: 'Aragon Court',
-  defaultVisualColor: '#FF9780',
+  heading: 'Celeste',
+  defaultVisualColor: '#8E54A5',
   defaultButtonColor: '#FFFFFF',
 }
 
@@ -34,13 +36,13 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Welcome, juror',
+      large: 'Welcome 👋',
     },
     description: {
       small: null,
       large: (
         <span>
-          This is a testnet release of the official Court Dashboard at{' '}
+          This is a testnet release of the official Celeste at{' '}
           <Link href={MAIN_COURT_URL}>court.aragon.org</Link>. We'd love for you
           to explore it and tell us what you think!
         </span>
@@ -54,15 +56,16 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Getting Rinkeby ANJ',
+      large: 'Getting Rinkeby HNY',
     },
     description: {
       small: null,
       large: (
         <span>
-          We’ve airdropped 10,000 test ANJ on Rinkeby to the same Ethereum
-          account you registered with on Mainnet. You can use this test ANJ to
-          become an active juror and participate in the arbitration process.
+          We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
+          account you registered with on xDai. You can use this test HNY to
+          become an active participant and be involved in the arbitration
+          process.
         </span>
       ),
     },
@@ -70,19 +73,19 @@ highlights.rinkeby = [
       small: null,
       large: large2,
       color: '#F9FAFC',
-      buttonColor: '#FF9780',
+      buttonColor: '#8E54A5',
     },
   },
   {
     title: {
       small: null,
-      large: 'Arbitrate your first dispute',
+      large: 'Participate on your first question',
     },
     description: {
       small: null,
       large: (
         <span>
-          Once you start exploring, you will find some mock disputes with
+          Once you start exploring, you will find some mock questions with
           realistic content that will allow you to become familiar with the
           functionality of this dashboard.
         </span>
@@ -103,7 +106,7 @@ highlights.rinkeby = [
       large: (
         <span>
           When you vote in favor of the plurality ruling, you will be rewarded
-          with Dispute Fees. Just note that these rewards will be awarded in
+          with Question Fees. Just note that these rewards will be awarded in
           Rinkeby tokens for the purpose of this test version.
         </span>
       ),
@@ -123,13 +126,13 @@ highlights.rinkeby = [
       large: (
         <>
           <p>
-            If you didn’t receive any Rinkeby ANJ, just complete
+            If you didn’t receive any Rinkeby HNY, just complete
             <Link href={TYPEFORM_LINK}>this form</Link> and we’ll send you some
             funds swiftly!
           </p>
           <p>
             You’ll also receive notifications about important announcements,
-            your assigned disputes, and upcoming tasks as a juror.
+            your assigned questions, and upcoming tasks as a pacrticipant.
           </p>
         </>
       ),
@@ -140,7 +143,7 @@ highlights.rinkeby = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Celeste',
     },
   },
 ]
@@ -149,14 +152,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Welcome, juror',
+      large: 'Welcome 👋',
     },
     description: {
       small: null,
       large: (
         <span>
-          Your first ANJ has been activated succesfully. Now, read the quick
-          guide to be a good and active juror on the court.
+          Your first HNY has been activated succesfully. Now, read the quick
+          guide to be a good and active participant on Celeste.
         </span>
       ),
     },
@@ -175,18 +178,18 @@ highlights.main = [
       large: (
         <>
           <p>
-            View and manage your ANJ across three balances: Wallet, Inactive,
+            View and manage your HNY across three balances: Wallet, Inactive,
             and Active. You can read more about these different balances and
             what they mean in the{' '}
             <Link href="https://help.aragon.org/article/42-aragon-court-dashboard">
-              Juror Dashboard Guide
+              {/* TODO: Update link */}
+              Celeste Dashboard Guide
             </Link>
             .
           </p>
-
           <p>
-            Adjusting your active ANJ balance will affect the indicator that
-            displays your chance of being drafted and your current draft status.
+            Adjusting your active HNY balance will affect the indicator that
+            displays your chance of being drafted, and current draft status.
           </p>
         </>
       ),
@@ -195,7 +198,32 @@ highlights.main = [
       small: mainnetSmall2,
       large: mainnetLarge2,
       color: '#F9FAFC',
-      buttonColor: '#FF9780',
+      buttonColor: '#8E54A5',
+    },
+  },
+  {
+    title: {
+      small: null,
+      large: 'Buying HNY 🍯 ',
+    },
+    description: {
+      small: null,
+      large: (
+        <>
+          <p>
+            HNY is the native token for Celeste and helps ensure keepers are
+            properly motivated to do their jobs well.
+          </p>
+          <p>
+            You can convert DAI, ETH, or USDC to HNY using the module at
+            honeyswap.org or clicking by ‘Buy HNY.’
+          </p>
+        </>
+      ),
+    },
+    visual: {
+      small: mainnetSmall3,
+      large: mainnetLarge3,
     },
   },
   {
@@ -212,7 +240,7 @@ highlights.main = [
             rewards and avoid penalties.
           </p>
           <p>
-            Check your pending actions in the “Upcoming tasks” section so you
+            Check your pending actions in the Upcoming tasks section so you
             always know what to do.
           </p>
         </>
@@ -226,15 +254,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Dispute list',
+      large: 'Question list',
     },
     description: {
       small: null,
       large: (
         <span>
-          View all live disputes or only the ones you are adjudicating. From
-          here you can explore the details, evidence, and timeline for any
-          dispute.
+          View all live questions or only ones your adjudicating. From here you
+          can explore the details, comments, and timeline for any question.
         </span>
       ),
     },
@@ -246,14 +273,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Dispute analysis',
+      large: 'Question analysis',
     },
     description: {
       small: null,
       large: (
         <span>
-          Upon viewing a dispute you will find the essential information
-          required to assess the dispute before casting your vote or making an
+          Upon viewing a question you will find the essential information
+          required to assess the question before casting your vote or making an
           appeal.
         </span>
       ),
@@ -273,9 +300,9 @@ highlights.main = [
       large: (
         <>
           <p>
-            Earn Dispute Fees for successfully adjudicating disputes and monthy
-            Subscription Fees for simply being an Active juror, whether you are
-            drafted or not.
+            Earn Question Fees for successfully adjudicating questions and
+            monthy Subscription Fees for simply being an Active participant,
+            whether you are drafted or not.
           </p>
           <p>Use the Rewards modules to track your earnings over time.</p>
         </>
@@ -287,7 +314,7 @@ highlights.main = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Court',
+      large: 'Discover Celeste',
     },
   },
 ]
