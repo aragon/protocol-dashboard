@@ -15,7 +15,7 @@ import actions from '../actions/court-action-types'
 import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
-import { getFunctionSignature } from '../lib/web3-utils'
+import { encodeFunctionData, getFunctionSignature } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
 import { networkReserveAddress } from '../networks'
 import {
@@ -24,10 +24,12 @@ import {
   hashVote,
   saveCodeInLocalStorage,
 } from '../utils/crvoting-utils'
+import { getVerificationsSignature } from '../utils/brightId-utils'
 
 // abis
 import agreementAbi from '../abi/Agreement.json'
 import aragonCourtAbi from '../abi/AragonCourt.json'
+import brightIdRegisterAbi from '../abi/BrightIdRegister.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
 import courtTreasuryAbi from '../abi/CourtTreasury.json'
 import disputeManagerAbi from '../abi/DisputeManager.json'
@@ -36,7 +38,7 @@ import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const HNY_ACTIVATE_GAS_LIMIT = 600000
+const HNY_ACTIVATE_GAS_LIMIT = 1000000
 const HNY_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
@@ -86,19 +88,67 @@ export function useHNYActions() {
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
-  const anjTokenContract = useHNYTokenContract()
+
+  const brightIdRegisterContract = useCourtContract(
+    CourtModuleType.BrightIdRegister,
+    brightIdRegisterAbi
+  )
+
+  const hnyTokenContract = useHNYTokenContract()
+
+  const brightIdRegisterAndCall = useCallback(
+    async (jurorAddress, calldata) => {
+      const timestamp = Math.round(new Date().getTime())
+      const signature = getVerificationsSignature(timestamp, [jurorAddress]) // TODO: Use 1hive's node when available
+
+      return brightIdRegisterContract.register(
+        [jurorAddress],
+        [timestamp],
+        [signature.v],
+        [signature.r],
+        [signature.s],
+        jurorRegistryContract.address,
+        calldata
+      )
+    },
+    [brightIdRegisterContract, jurorRegistryContract]
+  )
+
+  const approve = useCallback(
+    value => {
+      return {
+        action: () =>
+          hnyTokenContract.approve(jurorRegistryContract.address, value),
+        description: radspec[actions.APPROVE_ACTIVATION_AMOUNT]({
+          amount: formatUnits(value),
+        }),
+        type: actions.APPROVE_ACTIVATION_AMOUNT,
+      }
+    },
+    [hnyTokenContract, jurorRegistryContract]
+  )
 
   // activate HNY directly from available balance
   const activateHNY = useCallback(
-    amount => {
+    (jurorAddress, amount, hasUniqueUserId) => {
       const formattedAmount = formatUnits(amount)
+
+      const activationData = encodeFunctionData(
+        jurorRegistryContract,
+        'activate',
+        [amount.toHexString()]
+      )
 
       return processRequests([
         {
           action: () =>
-            jurorRegistryContract.activate(amount, {
-              gasLimit: HNY_ACTIVATE_GAS_LIMIT,
-            }),
+            hasUniqueUserId
+              ? jurorRegistryContract.activate(amount, {
+                  gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+                })
+              : brightIdRegisterAndCall(jurorAddress, activationData, {
+                  gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+                }),
           description: radspec[actions.ACTIVATE_HNY]({
             amount: formattedAmount,
           }),
@@ -106,7 +156,7 @@ export function useHNYActions() {
         },
       ])
     },
-    [jurorRegistryContract, processRequests]
+    [brightIdRegisterAndCall, jurorRegistryContract, processRequests]
   )
 
   const deactivateHNY = useCallback(
@@ -131,13 +181,14 @@ export function useHNYActions() {
 
   // approve, stake and activate HNY
   const stakeActivateHNY = useCallback(
-    amount => {
+    (jurorAddress, amount, hasUniqueUserId, allowance) => {
       const formattedAmount = formatUnits(amount)
 
-      return processRequests([
-        {
+      const requestQueue = []
+      if (hasUniqueUserId) {
+        requestQueue.push({
           action: () =>
-            anjTokenContract.approveAndCall(
+            hnyTokenContract.approveAndCall(
               jurorRegistryContract.address,
               amount,
               ACTIVATE_SELECTOR,
@@ -147,10 +198,52 @@ export function useHNYActions() {
             amount: formattedAmount,
           }),
           type: actions.ACTIVATE_HNY,
-        },
-      ])
+        })
+      } else {
+        // Check if requires pre-transactions
+        if (allowance.lt(amount)) {
+          // Some ERC20s don't allow setting a new allowance if the current allowance is positive
+          if (!allowance.eq(0)) {
+            // Reset allowance
+            requestQueue.push({
+              ...approve(bigNum(0)),
+              ensureConfirmation: true,
+            })
+          }
+
+          // Approve activation amount
+          requestQueue.push({
+            ...approve(amount),
+            ensureConfirmation: true,
+          })
+        }
+
+        const calldata = encodeFunctionData(jurorRegistryContract, 'stake', [
+          amount,
+          ACTIVATE_SELECTOR,
+        ])
+
+        requestQueue.push({
+          action: () =>
+            brightIdRegisterAndCall(jurorAddress, calldata, {
+              gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+            }),
+          description: radspec[actions.ACTIVATE_HNY]({
+            amount: formattedAmount,
+          }),
+          type: actions.ACTIVATE_HNY,
+        })
+      }
+
+      return processRequests(requestQueue)
     },
-    [anjTokenContract, jurorRegistryContract, processRequests]
+    [
+      approve,
+      brightIdRegisterAndCall,
+      hnyTokenContract,
+      jurorRegistryContract,
+      processRequests,
+    ]
   )
 
   const withdrawHNY = useCallback(
@@ -673,11 +766,6 @@ export function useFeeBalanceOf(account) {
 }
 
 export function useAppealFeeAllowance(owner) {
-  const [allowance, setAllowance] = useState({
-    amount: bigNum(0),
-    error: false,
-  })
-
   const courtConfig = useCourtConfig()
   const disputeManagerAddress = getModuleAddress(
     courtConfig.modules,
@@ -685,13 +773,45 @@ export function useAppealFeeAllowance(owner) {
   )
   const feeTokenContract = useFeeTokenContract()
 
+  const allowance = useTokenAllowance(
+    feeTokenContract,
+    owner,
+    disputeManagerAddress
+  )
+
+  return [allowance.amount, allowance.error]
+}
+
+export function useHNYTokenAllowance(owner) {
+  const courtConfig = useCourtConfig()
+  const jurorRegistryAddress = getModuleAddress(
+    courtConfig.modules,
+    CourtModuleType.JurorsRegistry
+  )
+  const hnyTokenContract = useHNYTokenContract()
+
+  const allowance = useTokenAllowance(
+    hnyTokenContract,
+    owner,
+    jurorRegistryAddress
+  )
+
+  return [allowance.amount, allowance.error]
+}
+
+function useTokenAllowance(contract, owner, spender) {
+  const [allowance, setAllowance] = useState({
+    amount: bigNum(0),
+    error: false,
+  })
+
   useEffect(() => {
     let cancelled = false
 
-    const getFeeAllowance = async () => {
-      if (!feeTokenContract) return
+    const fetchAllowance = async () => {
+      if (!contract) return
 
-      retryMax(() => feeTokenContract.allowance(owner, disputeManagerAddress))
+      retryMax(() => contract.allowance(owner, spender))
         .then(allowance => {
           if (!cancelled) {
             setAllowance({ amount: allowance, error: false })
@@ -708,14 +828,14 @@ export function useAppealFeeAllowance(owner) {
         })
     }
 
-    getFeeAllowance()
+    fetchAllowance()
 
     return () => {
       cancelled = true
     }
-  }, [disputeManagerAddress, feeTokenContract, owner])
+  }, [contract, owner, spender])
 
-  return [allowance.amount, allowance.error]
+  return allowance
 }
 
 export function useActiveBalanceOfAt(juror, termId) {
@@ -819,7 +939,7 @@ export function useTotalANTStakedPolling(timeout = 1000) {
 }
 
 export function useHNYBalanceOfPolling(juror) {
-  const anjTokenContract = useHNYTokenContract()
+  const hnyTokenContract = useHNYTokenContract()
   const [balance, setBalance] = useState(bigNum(-1))
 
   const timer = 3000
@@ -827,12 +947,12 @@ export function useHNYBalanceOfPolling(juror) {
   useEffect(() => {
     let cancelled = false
 
-    if (!anjTokenContract) return
+    if (!hnyTokenContract) return
 
     // Assumes jurorDraft exists
     const pollActiveBalanceOf = async () => {
       try {
-        const balance = await anjTokenContract.balanceOf(juror)
+        const balance = await hnyTokenContract.balanceOf(juror)
 
         if (!cancelled) {
           setBalance(balance)
@@ -851,7 +971,80 @@ export function useHNYBalanceOfPolling(juror) {
     return () => {
       cancelled = true
     }
-  }, [anjTokenContract, juror, timer])
+  }, [hnyTokenContract, juror, timer])
 
   return balance
+}
+
+export function useMaxActiveBalance(termId) {
+  const [maxActiveBalance, setMaxActiveBalance] = useState(bigNum(0))
+  const jurorRegistryContract = useCourtContract(
+    CourtModuleType.JurorsRegistry,
+    jurorRegistryAbi
+  )
+
+  useEffect(() => {
+    if (!jurorRegistryContract) {
+      return
+    }
+
+    let cancelled = false
+
+    const fetchMaxActiveBalance = async () => {
+      try {
+        const maxActiveBalance = await jurorRegistryContract.maxActiveBalance(
+          termId
+        )
+
+        if (!cancelled) {
+          setMaxActiveBalance(maxActiveBalance)
+        }
+      } catch (err) {
+        console.error(`Error ${err}`)
+      }
+    }
+
+    fetchMaxActiveBalance()
+
+    return () => {
+      cancelled = true
+    }
+  }, [jurorRegistryContract, termId])
+
+  return maxActiveBalance
+}
+export function useJurorUniqueUserId(juror) {
+  const [uniqueUserId, setUniqueUserID] = useState(null)
+  const brightIdRegisterContract = useCourtContract(
+    CourtModuleType.BrightIdRegister,
+    brightIdRegisterAbi
+  )
+
+  useEffect(() => {
+    if (!brightIdRegisterContract) {
+      return
+    }
+
+    let cancelled = false
+
+    const fetchUniqueUserID = async () => {
+      try {
+        const uniqueUserId = await brightIdRegisterContract.uniqueUserId(juror)
+
+        if (!cancelled) {
+          setUniqueUserID(uniqueUserId)
+        }
+      } catch (err) {
+        console.error(`Error ${err}`)
+      }
+    }
+
+    fetchUniqueUserID()
+
+    return () => {
+      cancelled = true
+    }
+  }, [brightIdRegisterContract, juror])
+
+  return uniqueUserId
 }

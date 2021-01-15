@@ -10,6 +10,10 @@ import iconExecuteRuling from './assets/activity-icon-execute-ruling.svg'
 
 // The different types of activity
 const ACTIVITY_TYPES = {
+  [actions.APPROVE_ACTIVATION_AMOUNT]: {
+    icon: iconHny,
+    title: 'Approve activation amount',
+  },
   [actions.APPROVE_FEE_DEPOSIT]: {
     icon: iconHny,
     title: 'Approve fee deposit',
