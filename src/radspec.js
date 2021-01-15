@@ -6,6 +6,9 @@ import { numberToWord } from './lib/math-utils'
 import actions from './actions/court-action-types'
 
 export default {
+  [actions.APPROVE_ACTIVATION_AMOUNT]: ({ amount }) => {
+    return `Approve activation amount: ${amount} HNY`
+  },
   [actions.APPROVE_FEE_DEPOSIT]: ({ amount }) => {
     return `Approve fee deposit: ${amount} DAI`
   },

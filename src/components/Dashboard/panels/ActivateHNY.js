@@ -2,8 +2,14 @@ import React, { useCallback } from 'react'
 import { useCourtClock } from '../../../providers/CourtClock'
 import HNYForm from './HNYForm'
 import { useCourtConfig } from '../../../providers/CourtConfig'
-import { useMaxActiveBalance } from '../../../hooks/useCourtContracts'
+import {
+  useHNYTokenAllowance,
+  useJurorUniqueUserId,
+  useMaxActiveBalance,
+} from '../../../hooks/useCourtContracts'
+import { useWallet } from '../../../providers/Wallet'
 import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
+import { ZERO_ADDRESS } from '../../../lib/web3-utils'
 
 const ActivateHNY = React.memo(function ActivateHNY({
   onActivateHNY,
@@ -13,6 +19,7 @@ const ActivateHNY = React.memo(function ActivateHNY({
   fromWallet,
   onDone,
 }) {
+  const { account } = useWallet()
   const { currentTermId } = useCourtClock()
 
   const maxActiveBalance = useMaxActiveBalance(currentTermId)
@@ -70,11 +77,22 @@ const ActivateHNY = React.memo(function ActivateHNY({
     ]
   )
 
+  const [allowance] = useHNYTokenAllowance(account)
+  const uniqueUserID = useJurorUniqueUserId(account)
+  const hasUniqueUserId = uniqueUserID && uniqueUserID !== ZERO_ADDRESS
+
+  const handleActivateHNY = useCallback(
+    amount => {
+      onActivateHNY(account, amount, hasUniqueUserId, allowance)
+    },
+    [account, allowance, hasUniqueUserId, onActivateHNY]
+  )
+
   return (
     <HNYForm
       actionLabel="Activate"
       maxAmount={maxAmount}
-      onSubmit={onActivateHNY}
+      onSubmit={handleActivateHNY}
       onDone={onDone}
       runParentValidation={validation}
     />

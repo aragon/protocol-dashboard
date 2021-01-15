@@ -5,6 +5,7 @@ const TERM_AGNOSTIC = -1
 // Some court actions cannot be executed if the court clock term is not synced or is more than a certain number of terms behind.
 // This is a mapping of every action and its number of maximum allowed terms behind to be able to be executed.
 export default {
+  [actions.APPROVE_ACTIVATION_AMOUNT]: TERM_AGNOSTIC,
   [actions.APPROVE_FEE_DEPOSIT]: TERM_AGNOSTIC,
   [actions.ACTIVATE_HNY]: 1,
   [actions.APPEAL_RULING]: 1,
