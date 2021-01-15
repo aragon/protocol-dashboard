@@ -8,9 +8,6 @@ import { useRequestQueue } from '../providers/RequestQueue'
 import { useRequestProcessor } from './useRequestProcessor'
 import { useContract, useContractReadOnly } from '../web3-contracts'
 
-// services
-import { requestAutoReveal as requestAutoRevealApi } from '../services/autoReveal'
-
 // utils
 import radspec from '../radspec'
 import { retryMax } from '../utils/retry-max'
@@ -209,29 +206,9 @@ export function useDisputeActions() {
     [disputeManagerContract, processRequests]
   )
 
-  // Request auto reveal
-  const autoReveal = useCallback(
-    (account, disputeId, roundId, outcome, password) => {
-      return {
-        action: async () =>
-          requestAutoRevealApi(account, disputeId, roundId, outcome, password),
-        isTx: false,
-        description: 'Enable auto-reveal service',
-        onError: 'Failed to enable auto-reveal service',
-        onSuccess: 'Auto-reveal service enabled!',
-      }
-    },
-    []
-  )
-
-  const requestAutoReveal = useCallback(
-    (...params) => processRequests([autoReveal(...params)]),
-    [autoReveal, processRequests]
-  )
-
   // Commit
   const commit = useCallback(
-    (account, disputeId, roundId, outcome, password, revealServiceEnabled) => {
+    (account, disputeId, roundId, outcome, password) => {
       const voteId = getVoteId(disputeId, roundId)
       const commitment = hashVote(outcome, password)
 
@@ -250,16 +227,9 @@ export function useDisputeActions() {
         },
       ]
 
-      // If juror opted-in for the reveal service we'll send the commitment and password to the court-server
-      if (revealServiceEnabled) {
-        requestQueue.push(
-          autoReveal(account, disputeId, roundId, outcome, password)
-        )
-      }
-
       return processRequests(requestQueue)
     },
-    [autoReveal, processRequests, votingContract]
+    [processRequests, votingContract]
   )
 
   // Reveal
@@ -403,7 +373,6 @@ export function useDisputeActions() {
 
   return {
     appealRound,
-    requestAutoReveal,
     commit,
     draft,
     resolveRuling,
@@ -869,7 +838,7 @@ export function useHNYBalanceOfPolling(juror) {
           setBalance(balance)
         }
       } catch (err) {
-        console.error(`Error fetching auto reveal: ${err} retrying…`)
+        console.error(`Error fetching balance: ${err} retrying…`)
       }
 
       if (!cancelled) {
