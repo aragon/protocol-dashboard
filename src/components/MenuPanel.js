@@ -67,7 +67,7 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
           onActivate={onOpenPage}
         />
         <MenuItem
-          to="/disputes"
+          to="/questions"
           icon={disputesMenuIcon}
           label="Questions"
           onActivate={onOpenPage}

@@ -67,7 +67,6 @@ const CommitPanel = React.memo(function CommitPanel({
         onDownload={handleDownloadCode}
         onCopy={handleCopyCode}
       />
-
       <InfoSection
         commitEndTime={dispute.nextTransition}
         copiedOrSaved={codeCopied || codeSaved}

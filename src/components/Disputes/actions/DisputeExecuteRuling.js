@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react'
 import { Button, GU, Info } from '@1hive/1hive-ui'
 import { useWallet } from '../../../providers/Wallet'
+import { useAgreementContract } from '../../../hooks/useCourtContracts'
 
-function DisputeExecuteRuling({ disputeId, onExecuteRuling }) {
+function DisputeExecuteRuling({ disputeId, onExecuteRuling, subject }) {
   const wallet = useWallet()
+  const arbitrableContract = useAgreementContract(subject)
 
   const handleSubmit = useCallback(
     event => {
       event.preventDefault()
 
-      onExecuteRuling(disputeId)
+      onExecuteRuling(arbitrableContract, disputeId)
     },
-    [disputeId, onExecuteRuling]
+    [arbitrableContract, disputeId, onExecuteRuling]
   )
 
   return (

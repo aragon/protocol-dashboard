@@ -26,6 +26,7 @@ import {
 } from '../utils/crvoting-utils'
 
 // abis
+import agreementAbi from '../abi/Agreement.json'
 import aragonCourtAbi from '../abi/AragonCourt.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
 import courtTreasuryAbi from '../abi/CourtTreasury.json'
@@ -35,12 +36,16 @@ import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const ANJ_ACTIVATE_GAS_LIMIT = 600000
-const ANJ_ACTIONS_GAS_LIMIT = 325000
+const HNY_ACTIVATE_GAS_LIMIT = 600000
+const HNY_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
-// ANJ contract
-function useANJTokenContract() {
+export function useAgreementContract(subject) {
+  return useContract(subject, agreementAbi)
+}
+
+// HNY contract
+function useHNYTokenContract() {
   const { anjToken } = useCourtConfig()
 
   const anjTokenAddress = anjToken ? anjToken.id : null
@@ -72,19 +77,19 @@ function useCourtContract(moduleType, abi) {
 }
 
 /**
- * All ANJ interactions
- * @returns {Object} all available functions around ANJ balances
+ * All HNY interactions
+ * @returns {Object} all available functions around HNY balances
  */
-export function useANJActions() {
+export function useHNYActions() {
   const processRequests = useRequestProcessor()
   const jurorRegistryContract = useCourtContract(
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
-  const anjTokenContract = useANJTokenContract()
+  const anjTokenContract = useHNYTokenContract()
 
-  // activate ANJ directly from available balance
-  const activateANJ = useCallback(
+  // activate HNY directly from available balance
+  const activateHNY = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -92,19 +97,19 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.activate(amount, {
-              gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+              gasLimit: HNY_ACTIVATE_GAS_LIMIT,
             }),
-          description: radspec[actions.ACTIVATE_ANJ]({
+          description: radspec[actions.ACTIVATE_HNY]({
             amount: formattedAmount,
           }),
-          type: actions.ACTIVATE_ANJ,
+          type: actions.ACTIVATE_HNY,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  const deactivateANJ = useCallback(
+  const deactivateHNY = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -112,20 +117,20 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.deactivate(amount, {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+              gasLimit: HNY_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.DEACTIVATE_ANJ]({
+          description: radspec[actions.DEACTIVATE_HNY]({
             amount: formattedAmount,
           }),
-          type: actions.DEACTIVATE_ANJ,
+          type: actions.DEACTIVATE_HNY,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  // approve, stake and activate ANJ
-  const stakeActivateANJ = useCallback(
+  // approve, stake and activate HNY
+  const stakeActivateHNY = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -136,19 +141,19 @@ export function useANJActions() {
               jurorRegistryContract.address,
               amount,
               ACTIVATE_SELECTOR,
-              { gasLimit: ANJ_ACTIVATE_GAS_LIMIT }
+              { gasLimit: HNY_ACTIVATE_GAS_LIMIT }
             ),
-          description: radspec[actions.ACTIVATE_ANJ]({
+          description: radspec[actions.ACTIVATE_HNY]({
             amount: formattedAmount,
           }),
-          type: actions.ACTIVATE_ANJ,
+          type: actions.ACTIVATE_HNY,
         },
       ])
     },
     [anjTokenContract, jurorRegistryContract, processRequests]
   )
 
-  const withdrawANJ = useCallback(
+  const withdrawHNY = useCallback(
     amount => {
       const formattedAmount = formatUnits(amount)
 
@@ -156,19 +161,19 @@ export function useANJActions() {
         {
           action: () =>
             jurorRegistryContract.unstake(amount, '0x', {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+              gasLimit: HNY_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.WITHDRAW_ANJ]({
+          description: radspec[actions.WITHDRAW_HNY]({
             amount: formattedAmount,
           }),
-          type: actions.WITHDRAW_ANJ,
+          type: actions.WITHDRAW_HNY,
         },
       ])
     },
     [jurorRegistryContract, processRequests]
   )
 
-  return { activateANJ, deactivateANJ, stakeActivateANJ, withdrawANJ }
+  return { activateHNY, deactivateHNY, stakeActivateHNY, withdrawHNY }
 }
 
 /**
@@ -182,12 +187,6 @@ export function useDisputeActions() {
     disputeManagerAbi
   )
   const votingContract = useCourtContract(CourtModuleType.Voting, votingAbi)
-
-  const aragonCourtContract = useCourtContract(
-    CourtModuleType.AragonCourt,
-    aragonCourtAbi
-  )
-
   const feeTokenContract = useFeeTokenContract()
 
   // Draft jurors
@@ -356,12 +355,12 @@ export function useDisputeActions() {
     [appeal, approveFeeDeposit, confirmAppeal, processRequests]
   )
 
-  const executeRuling = useCallback(
-    disputeId => {
+  const resolveRuling = useCallback(
+    (arbitrableContract, disputeId) => {
       return processRequests([
         {
           action: () =>
-            aragonCourtContract.executeRuling(disputeId, {
+            arbitrableContract.resolve(disputeId, {
               gasLimit: GAS_LIMIT,
             }),
           description: radspec[actions.EXECUTE_RULING]({ disputeId }),
@@ -369,14 +368,14 @@ export function useDisputeActions() {
         },
       ])
     },
-    [aragonCourtContract, processRequests]
+    [processRequests]
   )
 
   return {
     appealRound,
     commit,
     draft,
-    executeRuling,
+    resolveRuling,
     leak,
     reveal,
   }
@@ -468,7 +467,7 @@ export function useRewardActions() {
       return {
         action: () =>
           treasuryContract.withdraw(token, to, amount, {
-            gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+            gasLimit: HNY_ACTIONS_GAS_LIMIT,
           }),
         description: radspec[actions.CLAIM_REWARDS]({
           amount: formatUnits(amount),
@@ -819,8 +818,8 @@ export function useTotalANTStakedPolling(timeout = 1000) {
   return [totalANTStaked, error]
 }
 
-export function useANJBalanceOfPolling(juror) {
-  const anjTokenContract = useANJTokenContract()
+export function useHNYBalanceOfPolling(juror) {
+  const anjTokenContract = useHNYTokenContract()
   const [balance, setBalance] = useState(bigNum(-1))
 
   const timer = 3000

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 
-import { useANJBalances } from './useANJ'
+import { useHNYBalances } from './useHNY'
 import { useSidePanel } from './useSidePanel'
 import useJurorRewards from './useJurorRewards'
 import useJurorAppealCollaterals from './useJurorAppealCollaterals'
-import { useANJActions, useRewardActions } from './useCourtContracts'
+import { useHNYActions, useRewardActions } from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 export const REQUEST_MODE = {
@@ -42,35 +42,35 @@ export function usePanelRequestMode(requestPanelOpen) {
 // Requests to set new mode and open side panel
 export function usePanelRequestActions(request) {
   // TODO: Should we implement only one request function to recieve the request mode ?
-  const activateANJ = useCallback(() => {
+  const activateHNY = useCallback(() => {
     request(REQUEST_MODE.ACTIVATE)
   }, [request])
 
-  const deactivateANJ = useCallback(() => {
+  const deactivateHNY = useCallback(() => {
     request(REQUEST_MODE.DEACTIVATE)
   }, [request])
 
-  const stakeActivateANJ = useCallback(() => {
+  const stakeActivateHNY = useCallback(() => {
     request(REQUEST_MODE.STAKE_ACTIVATE)
   }, [request])
 
-  const withdrawANJ = useCallback(() => {
+  const withdrawHNY = useCallback(() => {
     request(REQUEST_MODE.WITHDRAW)
   }, [request])
 
-  return { activateANJ, deactivateANJ, stakeActivateANJ, withdrawANJ }
+  return { activateHNY, deactivateHNY, stakeActivateHNY, withdrawHNY }
 }
 
 export function useDashboardLogic() {
   const {
-    activateANJ,
-    deactivateANJ,
-    stakeActivateANJ,
-    withdrawANJ,
-  } = useANJActions()
+    activateHNY,
+    deactivateHNY,
+    stakeActivateHNY,
+    withdrawHNY,
+  } = useHNYActions()
 
   const rewards = useJurorRewards()
-  const anjBalances = useANJBalances()
+  const anjBalances = useHNYBalances()
   const panelState = useSidePanel()
 
   const appealCollaterals = useJurorAppealCollaterals()
@@ -85,10 +85,10 @@ export function useDashboardLogic() {
 
   const { claimRewards } = useRewardActions()
   const actions = {
-    activateANJ:
-      mode === REQUEST_MODE.STAKE_ACTIVATE ? stakeActivateANJ : activateANJ,
-    deactivateANJ,
-    withdrawANJ,
+    activateHNY:
+      mode === REQUEST_MODE.STAKE_ACTIVATE ? stakeActivateHNY : activateHNY,
+    deactivateHNY,
+    withdrawHNY,
     claimRewards,
   }
 

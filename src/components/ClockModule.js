@@ -148,7 +148,7 @@ function ClockModule() {
 
       <HeaderPopover
         animateHeight={false}
-        heading="Court clock"
+        heading="Celeste clock"
         height={(isSynced ? 27.5 : 26) * GU}
         width={45 * GU}
         onClose={handlePopoverClose}
@@ -182,7 +182,7 @@ function ClockModule() {
                   margin-right: ${0.5 * GU}px;
                 `}
               />
-              <span>Aragon Court</span>
+              <span>Celeste</span>
             </div>
             <div
               css={`
@@ -264,8 +264,8 @@ function ClockModule() {
                   color: ${theme.contentSecondary};
                 `}
               >
-                Term is the time unit for measuring Aragon Court phases. Each
-                term lasts {formatDuration(courtConfig.termDuration / 1000)}.
+                Term is the time unit for measuring Celeste phases. Each term
+                lasts {formatDuration(courtConfig.termDuration / 1000)}.
               </span>
             ) : (
               <Button

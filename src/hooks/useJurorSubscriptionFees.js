@@ -59,7 +59,7 @@ export default function useJurorSubscriptionFees() {
           setSubscriptionFees(jurorSubscriptionsFees)
         }
       } catch (err) {
-        console.error(`Error fetching juror subscription fees: ${err}`)
+        console.error(`Error fetching keeper subscription fees: ${err}`)
       }
     }
 

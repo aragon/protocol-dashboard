@@ -48,7 +48,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   )
 
   const handleBack = useCallback(() => {
-    history.push('/disputes')
+    history.push('/questions')
   }, [history])
 
   const noDispute = !dispute && !disputeFetching
@@ -68,7 +68,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
       onRequestReveal={requests.reveal}
       onLeak={actions.leak}
       onRequestAppeal={requests.appeal}
-      onExecuteRuling={actions.executeRuling}
+      onExecuteRuling={actions.resolveRuling}
     />
   )
 

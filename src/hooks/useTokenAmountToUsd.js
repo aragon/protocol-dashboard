@@ -13,11 +13,11 @@ const SELL_TOKEN = 'USDC'
 const SELL_TOKEN_PRECISION = bigNum(10).pow(6)
 
 /**
- * Convert ANJ amount into USD price
+ * Convert HNY amount into USD price
  * @param {BigNum} amount The amount to convert to USD
  * @returns {String} The amount value in USD
  */
-export function useANJAmountToUsd(amount) {
+export function useHNYAmountToUsd(amount) {
   const { anjToken } = useCourtConfig()
   const anjPrice = useUniswapAnjPrice()
 

@@ -27,7 +27,7 @@ function Disputes() {
   const history = useHistory()
   const handleSelectDispute = useCallback(
     id => {
-      history.push(`/disputes/${id}`)
+      history.push(`/questions/${id}`)
     },
     [history]
   )

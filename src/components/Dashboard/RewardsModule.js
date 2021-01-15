@@ -20,7 +20,7 @@ import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
 import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
 
-// anjRewards => ANJ => First settle with `onSettleReward()`, then withdraw
+// anjRewards => HNY => First settle with `onSettleReward()`, then withdraw
 // feeRewards => DAI =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
 // subscriptions fees => DAI => Can be withdrawn directly from the CourtSubscription contract
 // Only after the rewards are settled can a juror withdraw them from the treasury (`onWithdraw()`)
@@ -114,7 +114,7 @@ const RewardsModule = React.memo(function RewardsModule({
 
         return (
           <div>
-            {rewards && anjRewards.gt(0) && <ANJRewards amount={anjRewards} />}
+            {rewards && anjRewards.gt(0) && <HNYRewards amount={anjRewards} />}
             {totalFeeRewards.gt(0) && (
               <FeeSection>
                 <form onSubmit={handleFormSubmit}>
@@ -139,7 +139,7 @@ const RewardsModule = React.memo(function RewardsModule({
   )
 })
 
-const ANJRewards = ({ amount }) => {
+const HNYRewards = ({ amount }) => {
   const { anjToken } = useCourtConfig()
 
   const formattedAmount = formatTokenAmount(
@@ -192,7 +192,7 @@ const DisputesFeeRewards = ({
     <>
       {totalArbitrableFees.gt(0) && (
         <RowFee
-          label="Dispute fees"
+          label="Question fees"
           amount={totalArbitrableFormatted}
           symbol={symbol}
           showPositive
@@ -227,7 +227,7 @@ const DisputesFeeRewards = ({
           Distribution
         </span>
         <Help
-          hint="Rewards per dispute"
+          hint="Rewards per question"
           css={`
             padding: 0;
           `}
@@ -311,7 +311,7 @@ const DisputesFeeDistribution = ({ distribution, symbol, decimals }) => {
           margin-bottom: ${2 * GU}px;
         `}
       >
-        Rewards distribution per dispute
+        Rewards distribution per question
       </h3>
       {distribution
         .sort((d1, d2) => d1.disputeId - d2.disputeId)
@@ -326,8 +326,8 @@ const DisputesFeeDistribution = ({ distribution, symbol, decimals }) => {
                 margin-bottom: ${1 * GU}px;
               `}
               label={
-                <Link href={`#/disputes/${disputeId}`} external={false}>
-                  {`Dispute #${disputeId}`}
+                <Link href={`#/questions/${disputeId}`} external={false}>
+                  {`Question #${disputeId}`}
                 </Link>
               }
               isLabelLink
