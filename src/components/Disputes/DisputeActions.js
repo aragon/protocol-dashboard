@@ -37,7 +37,7 @@ function DisputeActions({
   onRequestReveal,
   onRequestAppeal,
 }) {
-  const { phase, status } = dispute
+  const { phase, status, subject } = dispute
   const lastRound = getDisputeLastRound(dispute)
 
   const wallet = useWallet()
@@ -122,6 +122,7 @@ function DisputeActions({
         <DisputeExecuteRuling
           disputeId={dispute.id}
           onExecuteRuling={onExecuteRuling}
+          subject={subject.id}
         />
       )}
     </React.Fragment>
