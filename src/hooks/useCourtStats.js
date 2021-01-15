@@ -22,7 +22,7 @@ const COURT_STATS = [
     label: 'Total Staked ANT',
     token: { ...getKnownToken('ANT'), icon: IconANT },
   },
-  { label: 'Total Active Jurors' },
+  { label: 'Total Active Keepers' },
   {
     label: 'Total Rewards DAI',
     token: { ...getKnownToken('DAI'), icon: IconDAI },
@@ -57,7 +57,7 @@ function useTotalRewards() {
   }, [error, rewards])
 }
 /**
- * Hook to get the dashboard stats ANJ active balance, ANT total stake and the active jurors number
+ * Hook to get the dashboard stats HNY active balance, ANT total stake and the active jurors number
  * @returns {Array} First item an array with the stats and the second one a loading state
  */
 function useCourtStats() {

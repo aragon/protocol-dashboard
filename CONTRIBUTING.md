@@ -1,4 +1,4 @@
-# Contributing to Aragon Court Dashboard
+# Contributing to Celeste Dashboard
 
 :tada: Thank you for being interested in contributing to Aragon! :tada:
 
@@ -10,9 +10,9 @@ All members of our community are expected to follow our [Code of Conduct](https:
 
 ## Your first contribution
 
-Unsure where to begin contributing to the Court Dashboard?
+Unsure where to begin contributing to the Celeste Dashboard?
 
-You can start with a [Good First Issue](https://github.com/aragon/court-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+You can start with a [Good First Issue](https://github.com/1hive/celeste-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
 > Good first issues are usually for small features, additional tests, spelling / grammar fixes, formatting changes, or other clean up.
 
@@ -23,7 +23,7 @@ If you're not already familiar with git or Github, here are a couple of friendly
 
 ## How to file an issue or report a bug
 
-If you see a problem, you can report it in our [issue tracker](https://github.com/aragon/court-dashboard/issues).
+If you see a problem, you can report it in our [issue tracker](https://github.com/1hive/celeste-dashboard/issues).
 
 Please take a quick look to see if the issue doesn't already exist before filing yours.
 
@@ -42,8 +42,7 @@ If the answer to either of those two questions are "yes", then you're probably d
 
 ## Fixing issues
 
-1. [Find an issue](https://github.com/aragon/court-dashboard/issues) that you are interested in.
-    - You may want to ask on the issue or in [Aragon Spectrum](https://spectrum.chat/aragon?tab=posts) if anyone has already started working on the issue.
+1. [Find an issue](https://github.com/1hive/celeste-dashboard/issues) that you are interested in.
 1. Fork and clone a local copy of the repository.
 1. Make the appropriate changes for the issue you are trying to address or the feature that you want to add.
 1. Push the changes to the remote repository.
@@ -66,4 +65,4 @@ We generally avoid adding external dependencies if they can be ported over easil
 
 ## Community
 
-If you need help, please reach out to Aragon core contributors and community members in [Aragon Spectrum](https://spectrum.chat/aragon?tab=posts).  We'd love to hear from you and know what you're working on!
+If you need help, please reach out to 1Hive community members in [Discord](https://discord.com/invite/4fm7pgB).  We'd love to hear from you and know what you're working on!

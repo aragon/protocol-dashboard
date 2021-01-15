@@ -24,11 +24,11 @@ import mainnetSmall6 from './highlights/assets/mainnet/small/6.png'
 import mainnetSmall7 from './highlights/assets/mainnet/small/7.png'
 
 const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
-const MAIN_COURT_URL = 'https://court.aragon.org' // TODO:(fabri) Update urls
+const MAIN_COURT_URL = 'https://celeste.1hive.org'
 
 const highlights = {
   heading: 'Celeste',
-  defaultVisualColor: '#8E54A5',
+  defaultVisualColor: '#FF9780',
   defaultButtonColor: '#FFFFFF',
 }
 
@@ -43,8 +43,8 @@ highlights.rinkeby = [
       large: (
         <span>
           This is a testnet release of the official Celeste at{' '}
-          <Link href={MAIN_COURT_URL}>court.aragon.org</Link>. We'd love for you
-          to explore it and tell us what you think!
+          <Link href={MAIN_COURT_URL}>celeste.1hive.org</Link>. We'd love for
+          you to explore it and tell us what you think!
         </span>
       ),
     },
@@ -64,8 +64,7 @@ highlights.rinkeby = [
         <span>
           We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
           account you registered with on xDai. You can use this test HNY to
-          become an active participant and be involved in the arbitration
-          process.
+          become an active keeper and participate answering questions.
         </span>
       ),
     },
@@ -132,7 +131,7 @@ highlights.rinkeby = [
           </p>
           <p>
             You’ll also receive notifications about important announcements,
-            your assigned questions, and upcoming tasks as a pacrticipant.
+            your assigned questions, and upcoming tasks as a keeper.
           </p>
         </>
       ),
@@ -159,7 +158,7 @@ highlights.main = [
       large: (
         <span>
           Your first HNY has been activated succesfully. Now, read the quick
-          guide to be a good and active participant on Celeste.
+          guide to be a good and active keeper on Celeste.
         </span>
       ),
     },
@@ -301,8 +300,8 @@ highlights.main = [
         <>
           <p>
             Earn Question Fees for successfully adjudicating questions and
-            monthy Subscription Fees for simply being an Active participant,
-            whether you are drafted or not.
+            monthly Subscription Fees for simply being an Active keeper, whether
+            you are drafted or not.
           </p>
           <p>Use the Rewards modules to track your earnings over time.</p>
         </>

@@ -4,7 +4,7 @@ import { GU, Link, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { formatUnits } from '../../lib/math-utils'
 
-function ANJLockedDistribution({ distribution, text }) {
+function HNYLockedDistribution({ distribution, text }) {
   const theme = useTheme()
   const {
     anjToken: { decimals, symbol },
@@ -40,8 +40,8 @@ function ANJLockedDistribution({ distribution, text }) {
             <Row
               key={disputeId}
               label={
-                <Link href={`#/disputes/${disputeId}`} external={false}>
-                  {`Dispute #${disputeId}`}
+                <Link href={`#/questions/${disputeId}`} external={false}>
+                  {`Question #${disputeId}`}
                 </Link>
               }
               weight={weight}
@@ -101,4 +101,4 @@ function Row({ label, isLabelLink, amount, symbol, weight }) {
   )
 }
 
-export default ANJLockedDistribution
+export default HNYLockedDistribution

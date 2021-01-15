@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useWallet } from '../providers/Wallet'
 import { useCourtClock } from '../providers/CourtClock'
 import { useCourtConfig } from '../providers/CourtConfig'
-import { useFirstANJActivationQuery } from './query-hooks'
+import { useFirstHNYActivationQuery } from './query-hooks'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 import {
@@ -17,9 +17,9 @@ import {
 } from '../utils/anj-movement-utils'
 import { getTermStartTime } from '../utils/court-utils'
 import { getDraftLockAmount } from '../utils/dispute-utils'
-import { ANJBalance, ANJMovement } from '../types/anj-types'
+import { HNYBalance, HNYMovement } from '../types/anj-types'
 
-export function useANJBalances() {
+export function useHNYBalances() {
   const { anjBalances, anjMovements } = useDashboardState()
 
   const {
@@ -35,23 +35,23 @@ export function useANJBalances() {
   const convertedWalletBalance = useBalanceWithMovements(
     walletBalance,
     convertedMovements,
-    ANJBalance.Wallet
+    HNYBalance.Wallet
   )
 
   const convertedInactiveBalance = useBalanceWithMovements(
     inactiveBalance,
     convertedMovements,
-    ANJBalance.Inactive
+    HNYBalance.Inactive
   )
 
   const convertedActiveBalance = useBalanceWithMovements(
     activeBalance,
     convertedMovements,
-    ANJBalance.Active
+    HNYBalance.Active
   )
 
-  // Use ANJ Locked distribution
-  const lockedDistribution = useJurorLockedANJDistribution()
+  // Use HNY Locked distribution
+  const lockedDistribution = useJurorLockedHNYDistribution()
   const convertedLockedBalance = useMemo(() => {
     return { amount: lockedBalance, distribution: lockedDistribution }
   }, [lockedBalance, lockedDistribution])
@@ -103,7 +103,7 @@ function useConvertedMovements(movements) {
       // but only Deactivations don't update the balance immediately, we'll use another attr (isImmediate) to differentiate these cases
       return movements
         .map((mov, i) => {
-          const isImmediate = ANJMovement[mov.type] !== ANJMovement.Deactivation
+          const isImmediate = HNYMovement[mov.type] !== HNYMovement.Deactivation
 
           let updatesBalanceAt = mov.createdAt
           if (!isImmediate && mov.effectiveTermId && effectiveStates[i]) {
@@ -168,7 +168,7 @@ function useBalanceWithMovements(balance, movements, balanceType) {
     )
 
     // Update latest movement if necessary
-    if (balanceType === ANJBalance.Active) {
+    if (balanceType === HNYBalance.Active) {
       if (lockedBalance?.gt(0))
         latestMovement = getUpdatedLockedMovement(lockedBalance, latestMovement)
     }
@@ -194,7 +194,7 @@ function useFilteredMovements(movements, acceptedMovements) {
       return null
     }
     return movements.filter(movement => {
-      return isMovementOf(acceptedMovements, ANJMovement[movement.type])
+      return isMovementOf(acceptedMovements, HNYMovement[movement.type])
     })
   }, [acceptedMovements, movements])
 }
@@ -202,25 +202,25 @@ function useFilteredMovements(movements, acceptedMovements) {
 /**
  * @param {Object} options query options
  * @param {Boolean} options.pause Tells whether to pause query or not
- * @return {Boolean} true if account's first ANJ activation happened on current term
+ * @return {Boolean} true if account's first HNY activation happened on current term
  */
-export function useJurorFirstTimeANJActivation(options) {
+export function useJurorFirstTimeHNYActivation(options) {
   const wallet = useWallet()
   const { currentTermId } = useCourtClock()
-  const firstANJActivation = useFirstANJActivationQuery(wallet.account, options)
+  const firstHNYActivation = useFirstHNYActivationQuery(wallet.account, options)
 
-  if (!firstANJActivation) return false
+  if (!firstHNYActivation) return false
 
-  const firstANJActivationTerm = parseInt(
-    firstANJActivation.effectiveTermId,
+  const firstHNYActivationTerm = parseInt(
+    firstHNYActivation.effectiveTermId,
     10
   )
 
   // Activation is effective on next term from when the activation was performed
-  return firstANJActivationTerm === currentTermId + 1
+  return firstHNYActivationTerm === currentTermId + 1
 }
 
-export function useJurorLockedANJDistribution() {
+export function useJurorLockedHNYDistribution() {
   const {
     maxRegularAppealRounds,
     minActiveBalance,
@@ -232,7 +232,7 @@ export function useJurorLockedANJDistribution() {
   return useMemo(() => {
     if (!lockedBalance || lockedBalance.eq(0) || !jurorDrafts) return null
 
-    // For final rounds the ANJ at stake is pre-slashed for all jurors when they commit their vote
+    // For final rounds the HNY at stake is pre-slashed for all jurors when they commit their vote
     return jurorDrafts
       .filter(
         jurorDraft =>

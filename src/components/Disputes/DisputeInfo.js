@@ -47,7 +47,7 @@ const DisputeInfo = React.memo(function({
           if (error) {
             return (
               <ErrorLoading
-                subject="dispute"
+                subject="question"
                 errors={[error.message]}
                 border={false}
               />
