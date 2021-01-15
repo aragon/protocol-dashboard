@@ -101,11 +101,11 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
       <Info mode={canJurorVote ? 'description' : 'warning'}>
         {(() => {
           if (!wallet.account)
-            return 'You cannot vote on this dispute because your Ethereum account is not connected.'
+            return 'You cannot vote on this question because your Ethereum account is not connected.'
 
           return canJurorVote
-            ? ' You will be asked a one-time-use code before you can commit your vote.'
-            : 'You cannot vote on this dispute with the current enabled address.'
+            ? 'You will be asked to enter and store a password when you commit your vote.'
+            : 'You cannot vote on this question with the current enabled address.'
         })()}
       </Info>
     </div>
@@ -141,12 +141,12 @@ const RefuseToVoteHint = ({ compactMode, width }) => {
           <Help hint="">
             <p>
               You can refuse to vote for many reasons, for example if you
-              consider that the evidence was not conclusive enough or the
+              consider that comments were not conclusive enough or the
               description was incoherent.
             </p>
             <p>
               Remember that you should vote the way that you think the plurality
-              of jurors will vote, since you will be penalized if your vote is
+              of keepers will vote, since you will be penalized if your vote is
               in the minority.
             </p>
           </Help>

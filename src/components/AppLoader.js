@@ -6,7 +6,7 @@ function AppLoader({ children }) {
   const courtConfig = useCourtConfig()
 
   if (!courtConfig) {
-    return <SyncIndicator visible label="Loading court…" /> // TODO: Add better loader
+    return <SyncIndicator visible label="Loading celeste" /> // TODO: Add better loader
   }
 
   return <React.Fragment>{children}</React.Fragment>

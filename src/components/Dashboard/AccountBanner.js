@@ -6,7 +6,7 @@ import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useJurorDrafted } from '../../hooks/useJurorDrafted'
-import { useJurorFirstTimeANJActivation } from '../../hooks/useANJ'
+import { useJurorFirstTimeHNYActivation } from '../../hooks/useHNY'
 import { useTotalActiveBalance } from '../../hooks/useCourtStats'
 
 import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
@@ -14,7 +14,7 @@ import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
 import hnySpringIcon from '../../assets/IconHNYSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
-import gavelIcon from '../../assets/IconGavel.svg'
+import warpIcon from '../../assets/IconWarp.svg'
 
 const getBannerAttributes = (
   status,
@@ -28,12 +28,12 @@ const getBannerAttributes = (
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
-        icon: gavelIcon, // TODO: (Fabri) update when new icon available
+        icon: warpIcon,
         iconBackground: theme.positive.alpha(0.2),
         title: 'You have been drafted',
         titleColor: theme.positive,
         paragraph:
-          'You can start reviewing the evidence and then commit your vote',
+          'You can start reviewing the comments and then commit your vote',
       }
     }
 
@@ -53,10 +53,10 @@ const getBannerAttributes = (
 
   return {
     icon: hnySpringIcon,
-    title: 'Activate HNY to be an active juror',
+    title: 'Activate HNY to be an active keeper',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
-    })}  HNY to participate as a juror`,
+    })}  HNY to participate as a keeper`,
   }
 }
 
@@ -69,8 +69,8 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
     pause: status !== ACCOUNT_STATUS_JUROR_ACTIVE,
   })
 
-  // check if it's the first time activating ANJ
-  const isFirstTimeActivating = useJurorFirstTimeANJActivation({
+  // check if it's the first time activating HNY
+  const isFirstTimeActivating = useJurorFirstTimeHNYActivation({
     pause: isJurorDrafted || status !== ACCOUNT_STATUS_JUROR_ACTIVE,
   })
 
@@ -201,7 +201,7 @@ const BannerWithProbability = ({ activeBalance }) => {
           margin-right: ${1 * GU}px;
         `}
       >
-        {'On average, you will be drafted into a jury '}
+        {'On average, you will be drafted into a keeper '}
         <span
           css={`
             color: ${theme.accent};
@@ -213,8 +213,9 @@ const BannerWithProbability = ({ activeBalance }) => {
       <Help hint="How is the probability calculated?">
         <p>
           This is a numerical estimate of your likelihood of being selected for
-          arbitration. It’s calculated by dividing your active ANJ balance
-          against the Court's total active ANJ balance during the current term.
+          answering questions. It’s calculated by dividing your active HNY
+          balance against the Celeste's total active HNY balance during the
+          current term.
         </p>
         <p
           css={`
@@ -223,14 +224,14 @@ const BannerWithProbability = ({ activeBalance }) => {
         >
           {probablilityTooLow
             ? `
-                You currently have <1% of all activated ANJ, hence are unlikely
-                to be drafted unless a dispute goes to the final round or many
-                disputes are created. Activate more ANJ to increase your chances
-                of being selected as a juror.
+                You currently have <1% of all activated HNY, hence are unlikely
+                to be drafted unless a question goes to the final round or many
+                questions are created. Activate more HNY to increase your chances
+                of being selected as a keeper.
               `
             : `
-                You can always activate more ANJ to increase your chances of
-                being selected as a juror.
+                You can always activate more HNY to increase your chances of
+                being selected as a keeper.
               `}
         </p>
       </Help>
@@ -238,7 +239,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    'The more ANJ you activate, the more likely you will be drafted to arbitrate a dispute'
+    'The more HNY you activate, the more likely you will be drafted to answer a question'
 
   return (
     <Wrapper

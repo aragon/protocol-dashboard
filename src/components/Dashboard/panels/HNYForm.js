@@ -13,7 +13,7 @@ import {
 import { useCourtConfig } from '../../../providers/CourtConfig'
 import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
 
-const ANJForm = React.memo(function ANJForm({
+const HNYForm = React.memo(function HNYForm({
   actionLabel,
   maxAmount,
   onDone,
@@ -162,4 +162,4 @@ const ANJForm = React.memo(function ANJForm({
   )
 })
 
-export default ANJForm
+export default HNYForm

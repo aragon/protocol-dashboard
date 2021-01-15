@@ -7,14 +7,14 @@ import { Client } from 'urql'
 const RETRY_EVERY = 3000
 
 const UNISWAP_URL = 'https://api.thegraph.com/subgraphs/name/lutter/uniswap-v2'
-const ETH_ANJ_PAIR = '0x0ffc70be6e2d841e109653ddb3034961591679d6'
+const ETH_HNY_PAIR = '0x0ffc70be6e2d841e109653ddb3034961591679d6'
 const DAI_ETH_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11'
 
 const graphqlClient = new Client({ url: UNISWAP_URL })
 
-const ANJ_PRICE_QUERY = gql`
+const HNY_PRICE_QUERY = gql`
   query {
-    pair(id: "${ETH_ANJ_PAIR}") {
+    pair(id: "${ETH_HNY_PAIR}") {
       token0Price
     }
   }
@@ -36,7 +36,7 @@ export function useUniswapAnjPrice() {
     async function fetchPrice() {
       try {
         const [anjResults, ethResults] = await Promise.all([
-          graphqlClient.query(ANJ_PRICE_QUERY).toPromise(),
+          graphqlClient.query(HNY_PRICE_QUERY).toPromise(),
           graphqlClient.query(ETH_PRICE_QUERY).toPromise(),
         ])
 

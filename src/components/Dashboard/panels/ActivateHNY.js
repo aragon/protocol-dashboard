@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
 import { useCourtClock } from '../../../providers/CourtClock'
+import HNYForm from './HNYForm'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 import { useMaxActiveBalance } from '../../../hooks/useCourtContracts'
 import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
 
-const ActivateANJ = React.memo(function ActivateANJ({
-  onActivateANJ,
+const ActivateHNY = React.memo(function ActivateHNY({
+  onActivateHNY,
   activeBalance,
   walletBalance,
   inactiveBalance,
@@ -71,14 +71,14 @@ const ActivateANJ = React.memo(function ActivateANJ({
   )
 
   return (
-    <ANJForm
+    <HNYForm
       actionLabel="Activate"
       maxAmount={maxAmount}
-      onSubmit={onActivateANJ}
+      onSubmit={onActivateHNY}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default ActivateANJ
+export default ActivateHNY

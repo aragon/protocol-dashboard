@@ -27,7 +27,7 @@ function DisputeVoided({ id, description, link }) {
             font-weight: normal;
           `}
         >
-          Void Notice for Dispute #{id}
+          Void Notice for Question #{id}
         </h1>
         <span
           css={`

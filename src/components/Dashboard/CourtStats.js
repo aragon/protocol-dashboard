@@ -5,7 +5,7 @@ import SplitAmount from '../SplitAmount'
 
 import { formatUnits } from '../../lib/math-utils'
 import {
-  useANJAmountToUsd,
+  useHNYAmountToUsd,
   useTokenAmountToUsd,
 } from '../../hooks/useTokenAmountToUsd'
 import { useCourtConfig } from '../../providers/CourtConfig'
@@ -16,7 +16,7 @@ function CourtStats() {
   const [stats, fetching] = useCourtStats()
 
   return (
-    <Box heading="Court Metrics" padding={3 * GU}>
+    <Box heading="Celeste Metrics" padding={3 * GU}>
       {(() => {
         if (fetching) {
           return <Loading height={86} size="large" />
@@ -112,7 +112,7 @@ function TokenStats({ stat, theme }) {
         $
         {!error ? (
           symbol === anjToken.symbol ? (
-            <ANJUsdValue amount={value} />
+            <HNYUsdValue amount={value} />
           ) : (
             <TokenUsdValue amount={value} decimals={decimals} symbol={symbol} />
           )
@@ -124,8 +124,8 @@ function TokenStats({ stat, theme }) {
   )
 }
 
-function ANJUsdValue({ amount }) {
-  const usdValue = useANJAmountToUsd(amount)
+function HNYUsdValue({ amount }) {
+  const usdValue = useHNYAmountToUsd(amount)
   return <span>{usdValue}</span>
 }
 

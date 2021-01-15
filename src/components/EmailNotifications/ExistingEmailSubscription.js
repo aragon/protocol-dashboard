@@ -78,7 +78,7 @@ function ExistingEmailSubscription({
             margin-top: ${3 * GU}px;
           `}
         >
-          You have previously agreed to Aragon Court's{' '}
+          You have previously agreed to Celeste's{' '}
           <Link href="https://anj.aragon.org/legal/terms-general.pdf">
             legal terms
           </Link>{' '}

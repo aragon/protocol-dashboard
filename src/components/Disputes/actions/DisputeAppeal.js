@@ -36,8 +36,8 @@ function DisputeAppeal({ onRequestAppeal, confirm }) {
         {confirm ? 'confirmed the appeal' : 'appealed'} gets rewarded if the
         ruling has switched in their favor. If not, their entire collateral
         could be re-distributed to the winning party. {confirm ? 'When' : 'If'}{' '}
-        an appeal is confirmed, a new adjudication round is initiated and a new
-        jury is drafted.{' '}
+        an appeal is confirmed, a new adjudication round is initiated and new
+        keepers are drafted.{' '}
         <Link href="https://help.aragon.org/article/43-dispute-lifecycle#appeal">
           Learn more
         </Link>

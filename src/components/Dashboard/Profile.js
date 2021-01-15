@@ -15,7 +15,7 @@ const getProfileAttributes = (status, theme) => {
       background: 'linear-gradient(126deg, #9965AE 19%, #7062B8 188%)',
       primaryColor: theme.accentContent,
       secondaryColor: theme.accentContent,
-      statusLabel: 'ACTIVE JUROR',
+      statusLabel: 'ACTIVE KEEPER',
       icon: activeJurorIcon,
     }
 
@@ -24,7 +24,7 @@ const getProfileAttributes = (status, theme) => {
       background: '#F0EEFC',
       primaryColor: theme.content,
       secondaryColor: theme.contentSecondary,
-      statusLabel: 'INACTIVE JUROR',
+      statusLabel: 'INACTIVE KEEPER',
       icon: inactiveJurorIcon,
     }
 
@@ -106,7 +106,7 @@ function Profile({ account, status }) {
                     margin-right: ${0.5 * GU}px;
                   `}
                   src={icon}
-                  alt="juror-icon"
+                  alt="keeper-icon"
                 />
               )}
               {statusLabel}

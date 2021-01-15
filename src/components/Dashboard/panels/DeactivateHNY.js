@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
+import HNYForm from './HNYForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 
-const DeactivateANJ = React.memo(function DeactivateANJ({
-  onDeactivateANJ,
+const DeactivateHNY = React.memo(function DeactivateHNY({
+  onDeactivateHNY,
   activeBalance,
   onDone,
 }) {
@@ -28,7 +28,7 @@ const DeactivateANJ = React.memo(function DeactivateANJ({
       }
 
       if (activeBalanceAfter.lt(minActiveBalance) && activeBalanceAfter.gt(0)) {
-        return `Your resulting active balance must be 0 or at least the minimum to be a juror (${minActiveBalanceFormatted} ${anjToken.symbol})`
+        return `Your resulting active balance must be 0 or at least the minimum to be a keeper (${minActiveBalanceFormatted} ${anjToken.symbol})`
       }
 
       return null
@@ -44,14 +44,14 @@ const DeactivateANJ = React.memo(function DeactivateANJ({
   )
 
   return (
-    <ANJForm
+    <HNYForm
       actionLabel="Deactivate"
       maxAmount={maxAmount}
-      onSubmit={onDeactivateANJ}
+      onSubmit={onDeactivateHNY}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default DeactivateANJ
+export default DeactivateHNY
