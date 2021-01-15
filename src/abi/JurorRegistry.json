@@ -1,6 +1,7 @@
 [
   "function activate(uint256 _amount) external",
   "function deactivate(uint256 _amount) external",
+  "function stake(uint256 _amount, bytes calldata _data) external",
   "function unstake(uint256 _amount, bytes _data) external",
   "function totalActiveBalanceAt(uint64 _termId) external view returns (uint256)",
   "function activeBalanceOfAt(address _juror, uint64 _termId) external view returns (uint256)",

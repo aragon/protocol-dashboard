@@ -2,8 +2,14 @@ import React, { useCallback } from 'react'
 import ANJForm from './ANJForm'
 import { useCourtClock } from '../../../providers/CourtClock'
 import { useCourtConfig } from '../../../providers/CourtConfig'
-import { useMaxActiveBalance } from '../../../hooks/useCourtContracts'
+import {
+  useANJTokenAllowance,
+  useJurorUniqueUserId,
+  useMaxActiveBalance,
+} from '../../../hooks/useCourtContracts'
+import { useWallet } from '../../../providers/Wallet'
 import { bigNum, formatUnits, max, min } from '../../../lib/math-utils'
+import { ZERO_ADDRESS } from '../../../lib/web3-utils'
 
 const ActivateANJ = React.memo(function ActivateANJ({
   onActivateANJ,
@@ -13,6 +19,7 @@ const ActivateANJ = React.memo(function ActivateANJ({
   fromWallet,
   onDone,
 }) {
+  const { account } = useWallet()
   const { currentTermId } = useCourtClock()
 
   const maxActiveBalance = useMaxActiveBalance(currentTermId)
@@ -70,11 +77,22 @@ const ActivateANJ = React.memo(function ActivateANJ({
     ]
   )
 
+  const [allowance] = useANJTokenAllowance(account)
+  const uniqueUserID = useJurorUniqueUserId(account)
+  const hasUniqueUserId = uniqueUserID !== ZERO_ADDRESS
+
+  const handleActivateANJ = useCallback(
+    amount => {
+      onActivateANJ(account, amount, hasUniqueUserId, allowance)
+    },
+    [account, allowance, hasUniqueUserId, onActivateANJ]
+  )
+
   return (
     <ANJForm
       actionLabel="Activate"
       maxAmount={maxAmount}
-      onSubmit={onActivateANJ}
+      onSubmit={handleActivateANJ}
       onDone={onDone}
       runParentValidation={validation}
     />

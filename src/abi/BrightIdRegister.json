@@ -1,0 +1,5 @@
+[
+  "function isVerified(address _brightIdUser) external view returns (bool)",
+  "function register(address[] memory _addrs, uint256[] memory _timestamps, uint8[] memory _v, bytes32[] memory _r, bytes32[] memory _s, address _registerAndCall, bytes _functionCallData) public",
+  "function uniqueUserId(address _brightIdUser) external view returns (address)"
+]
