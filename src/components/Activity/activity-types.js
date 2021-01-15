@@ -14,9 +14,9 @@ const ACTIVITY_TYPES = {
     icon: iconHny,
     title: 'Approve fee deposit',
   },
-  [actions.ACTIVATE_ANJ]: {
+  [actions.ACTIVATE_HNY]: {
     icon: iconHny,
-    title: 'Activate ANJ',
+    title: 'Activate HNY',
   },
   [actions.APPEAL_RULING]: {
     title: 'Appeal ruling',
@@ -38,12 +38,12 @@ const ACTIVITY_TYPES = {
     title: 'Confirm appeal',
     icon: iconAppealRuling,
   },
-  [actions.DEACTIVATE_ANJ]: {
+  [actions.DEACTIVATE_HNY]: {
     icon: iconHny,
-    title: 'Deactivate ANJ',
+    title: 'Deactivate HNY',
   },
   [actions.DRAFT_JURY]: {
-    title: 'Draft jury',
+    title: 'Draft keepers',
     icon: iconDraftJury,
   },
   [actions.EXECUTE_RULING]: {
@@ -70,9 +70,9 @@ const ACTIVITY_TYPES = {
     icon: iconHny,
     title: 'Settle appeal deposit',
   },
-  [actions.WITHDRAW_ANJ]: {
+  [actions.WITHDRAW_HNY]: {
     icon: iconHny,
-    title: 'Withdraw ANJ',
+    title: 'Withdraw HNY',
   },
 }
 

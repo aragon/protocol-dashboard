@@ -201,7 +201,7 @@ function InformationSection({
 }
 
 // Helper function that returns main attributes for the YourVoteInfo component
-// TODO: Contemplate final round cases (when a juror has voted, the ANJ amount is pre-slashed)
+// TODO: Contemplate final round cases (when a juror has voted, the HNY amount is pre-slashed)
 const useInfoAttributes = ({
   hasJurorVoted,
   jurorDraft,
@@ -233,7 +233,7 @@ const useInfoAttributes = ({
         title: voteLeaked
           ? 'Unfortunately, your vote has been leaked'
           : 'Your vote wasn’t cast on time.',
-        paragraph: <ANJDiscountedMessage />,
+        paragraph: <HNYSlashMessage />,
         background: negativeBackground,
         icon: IconVotingFailed,
         hintText: voteLeaked ? 'Vote leaked (complete)' : null, // TODO: Add hint for leaked vote
@@ -246,7 +246,7 @@ const useInfoAttributes = ({
       if (!jurorDraft.outcome) {
         return {
           title: "Your vote wasn't revealed on time",
-          paragraph: <ANJDiscountedMessage />,
+          paragraph: <HNYSlashMessage />,
           background: negativeBackground,
           icon: IconVotingFailed,
         }
@@ -258,7 +258,7 @@ const useInfoAttributes = ({
         lastRound.vote && jurorDraft.outcome === lastRound.vote.winningOutcome
 
       // We must check if the penalties were already settled so we can tell the jurors
-      // wether their ANJ locked balance has been discounted or they can claim rewards
+      // wether their HNY locked balance has been discounted or they can claim rewards
       // Note that if the penalties for the round are settled it means that the dispute has already ended
       const settledPenalties = lastRound.settledPenalties
 
@@ -269,14 +269,14 @@ const useInfoAttributes = ({
         ? positiveBackground
         : negativeBackground
 
-      // If penalties settled then the locked ANJ has been redistributed
+      // If penalties settled then the locked HNY has been redistributed
       if (settledPenalties) {
         return {
           title,
           paragraph: hasVotedInConsensus ? (
-            <ANJRewardsMessage />
+            <HNYRewardsMessage />
           ) : (
-            <ANJSlashedMessage />
+            <HNYSlashedMessage />
           ),
           background,
           icon: hasVotedInConsensus ? IconRewardsGreen : IconVotingFailed,
@@ -287,7 +287,7 @@ const useInfoAttributes = ({
       return {
         title,
         paragraph: (
-          <ANJLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
+          <HNYLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
         ),
         background,
         icon: hasVotedInConsensus ? IconVotingSuccess : IconVotingFailed,
@@ -321,29 +321,29 @@ const useInfoAttributes = ({
   ])
 }
 
-const ANJLockedMessage = ({ finalRulingConfirmed }) => {
+const HNYLockedMessage = ({ finalRulingConfirmed }) => {
   return (
-    <ANJMessage
+    <HNYMessage
       result={`will remain locked until ${
         finalRulingConfirmed
           ? 'penalties are settled'
-          : 'the dispute has been resolved'
+          : 'the question has been resolved'
       }. `}
     />
   )
 }
 
-const ANJDiscountedMessage = () => {
-  return <ANJMessage result="will be discounted" />
+const HNYSlashMessage = () => {
+  return <HNYMessage result="will be slashed" />
 }
 
-const ANJSlashedMessage = () => {
+const HNYSlashedMessage = () => {
   return (
-    <ANJMessage result="has been slashed and redistributed to other jurors" />
+    <HNYMessage result="has been slashed and redistributed to other keepers" />
   )
 }
 
-const ANJMessage = ({ result }) => {
+const HNYMessage = ({ result }) => {
   const theme = useTheme()
 
   return (
@@ -354,14 +354,14 @@ const ANJMessage = ({ result }) => {
           color: ${theme.help};
         `}
       >
-        ANJ locked balance
+        HNY locked balance
       </span>{' '}
       {result}
     </span>
   )
 }
 
-const ANJRewardsMessage = () => {
+const HNYRewardsMessage = () => {
   const theme = useTheme()
 
   return (

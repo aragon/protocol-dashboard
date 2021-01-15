@@ -41,7 +41,7 @@ function Welcome() {
           `}
         >
           Celeste is a protocol that produces answers to questions by
-          incentivizing participants to respond coherently.
+          incentivizing keepers to respond coherently.
         </p>
         <div
           css={`

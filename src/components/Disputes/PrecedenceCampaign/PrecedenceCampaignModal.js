@@ -89,7 +89,7 @@ function PrecedenceCampaignModal({ opened, onClose }) {
                   text-transform: uppercase;
                 `}
               >
-                Aragon court
+                Celeste
               </p>
               <h1
                 css={`
@@ -106,10 +106,10 @@ function PrecedenceCampaignModal({ opened, onClose }) {
                   display: block;
                 `}
               >
-                All information, arguments, and evidence presented in disputes
+                All information, arguments, and comments presented in questions
                 related to the precedence campaign portray scenarios constructed
-                by Aragon One and do not reflect the views, opinions, or
-                associations of any person or entity.
+                by 1Hive and do not reflect the views, opinions, or associations
+                of any person or entity.
               </span>
               <Button
                 mode="strong"

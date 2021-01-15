@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from 'urql'
-import { useANJBalanceOfPolling } from './useCourtContracts'
+import { useHNYBalanceOfPolling } from './useCourtContracts'
 import { useCourtConfig } from '../providers/CourtConfig'
 
 // queries
@@ -12,7 +12,8 @@ import {
 } from '../queries/court'
 import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
-import { JurorANJBalances, JurorTreasuryBalances } from '../queries/balances'
+
+import { JurorHNYBalances, JurorTreasuryBalances } from '../queries/balances'
 import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
 
 // utils
@@ -55,7 +56,7 @@ function useJuror(jurorId) {
     .subtract(1, 'day')
     .unix()
 
-  const [{ data, error }] = useQuerySub(JurorANJBalances, {
+  const [{ data, error }] = useQuerySub(JurorHNYBalances, {
     id: jurorId.toLowerCase(),
     from: yesterday,
   })
@@ -78,7 +79,7 @@ function useJurorTreasuryBalances(jurorId) {
  * latest 24h movements and all subscription fees claimed by the juror
  */
 export function useJurorBalancesSubscription(jurorId) {
-  const walletBalance = useANJBalanceOfPolling(jurorId)
+  const walletBalance = useHNYBalanceOfPolling(jurorId)
   // Juror ANJ balances, 24h movements and subscritpion claimed fees
   const { data: jurorData, error: jurorError } = useJuror(jurorId)
   const {
@@ -228,7 +229,7 @@ export function useCurrentTermJurorDraftsSubscription(
 /**
  * Subscribes to all `jurorId` drafts
  * @dev This subscription is useful to get all rewards pending for claiming as well
- * as for the amount of locked ANJ a juror has per dispute
+ * as for the amount of locked HNY a juror has per dispute
  * Ideally we would check that the round is not settled but we cannot do nested filters for now
  *
  * @param {String} jurorId Address of the juror

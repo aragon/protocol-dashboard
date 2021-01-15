@@ -13,7 +13,7 @@ export class DisputeNotFound extends Error {
   name = 'DisputeNotFound'
   constructor(disputeId) {
     super(
-      `It looks like there’s no dispute associated with the “DisputeID #${disputeId}” on the Ethereum ${getNetworkName(
+      `It looks like there’s no question associated with the QuestionID #${disputeId}” on the Ethereum ${getNetworkName(
         env('CHAIN_ID')
       )} network.`
     )

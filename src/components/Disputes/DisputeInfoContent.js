@@ -198,7 +198,7 @@ function FinalJuryOutcome({ dispute }) {
 
   return (
     <Field
-      label="Final Jury Outcome"
+      label="Final Keepers Outcome"
       value={
         <DisputeOutcomeText
           outcome={appealedRuling || voteWinningOutcome}
@@ -331,8 +331,8 @@ const DisputedActionNA = () => {
         N/A
       </span>
       <Help hint="">
-        This dispute does not involve a binding action and is simply between the
-        given context and arguments.
+        This question does not involve a binding action and is simply between
+        the given context and arguments.
       </Help>
     </div>
   )

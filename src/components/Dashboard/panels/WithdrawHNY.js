@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
+import HNYForm from './HNYForm'
 import { formatUnits } from '../../../lib/math-utils'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 
-const WithdrawANJ = React.memo(function WithdrawANJ({
-  onWithdrawANJ,
+const WithdrawHNY = React.memo(function WithdrawHNY({
+  onWithdrawHNY,
   inactiveBalance,
   onDone,
 }) {
@@ -28,14 +28,14 @@ const WithdrawANJ = React.memo(function WithdrawANJ({
   )
 
   return (
-    <ANJForm
+    <HNYForm
       actionLabel="Withdraw"
       maxAmount={maxAmount}
-      onSubmit={onWithdrawANJ}
+      onSubmit={onWithdrawHNY}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default WithdrawANJ
+export default WithdrawHNY

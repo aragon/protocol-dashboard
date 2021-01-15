@@ -16,7 +16,7 @@ function DisputeNotFoundError({ disputeId }) {
           text-align: center;
         `}
       >
-        Dispute not found
+        Question not found
       </h1>
       <div
         css={`
@@ -26,8 +26,8 @@ function DisputeNotFoundError({ disputeId }) {
           ${textStyle('body2')};
         `}
       >
-        It looks like there’s no dispute associated with{' '}
-        {`“DisputeID #${disputeId}”`} on the Ethereum{' '}
+        It looks like there’s no question associated with{' '}
+        {`“QuestionID #${disputeId}”`} on the Ethereum{' '}
         {getNetworkName(env('CHAIN_ID'))} network
       </div>
       <div
@@ -39,7 +39,7 @@ function DisputeNotFoundError({ disputeId }) {
         <Button
           mode="strong"
           label="Go back to dashboard"
-          onClick={() => (window.location.href = '/disputes')}
+          onClick={() => (window.location.href = '/questions')}
         />
       </div>
     </React.Fragment>

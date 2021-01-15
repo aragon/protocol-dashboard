@@ -1,6 +1,6 @@
 import {
-  ANJMovement as anjMovementTypes,
-  ANJBalance as anjBalanceTypes,
+  HNYMovement as anjMovementTypes,
+  HNYBalance as anjBalanceTypes,
   movementDirection,
   STAKE_ACTIVATION_MOVEMENT,
 } from '../types/anj-types'
@@ -9,7 +9,7 @@ import { bigNum } from '../lib/math-utils'
 /**
  * Function intended to group Stake and Activation movements that were created at the same time
  *  into one StakeActivation movement
- * This is needed since moving ANJ from wallet to Active Balance, two movements
+ * This is needed since moving HNY from wallet to Active Balance, two movements
  *  are performed (Wallet (stake) => InactiveBalance; Inactive balance (activate) => Active balance)
  * @param {Array} movements Array of original movements
  * @returns {Array} Resuling array of movements grouped by the logic described above

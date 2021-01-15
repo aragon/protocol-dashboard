@@ -19,7 +19,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
-      - name: Build Court Dashboard
+      - name: Build Celeste Dashboard
         run: yarn build
       - name: Run BundleWatch
         run: yarn bundlewatch

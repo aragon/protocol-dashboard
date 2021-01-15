@@ -79,8 +79,8 @@ const CommitPanel = React.memo(function CommitPanel({
       setRevealService(checked)
       toast(
         checked
-          ? 'Court auto-reveal service enabled'
-          : 'Court auto-reveal service disabled'
+          ? 'Celeste auto-reveal service enabled'
+          : 'Celeste auto-reveal service disabled'
       )
     },
     [toast]
@@ -97,6 +97,7 @@ const CommitPanel = React.memo(function CommitPanel({
         onRevealServiceChange={handleRevealService}
         revealService={revealService}
       />
+      {/* TODO: Remove */}
       <InfoSection
         commitEndTime={dispute.nextTransition}
         copiedOrSaved={codeCopied || codeSaved}
@@ -256,8 +257,8 @@ const RevealService = React.memo(function RevealService({
         `}
       >
         By enabling this feature you trust Aragon One to reveal your vote on
-        your behalf in this and following disputes. You can always turn off this
-        service later if you choose.
+        your behalf in this and following questions. You can always turn off
+        this service later if you choose.
         <Link href="https://help.aragon.org/article/43-dispute-lifecycle#onetime">
           Learn more
         </Link>
@@ -271,7 +272,7 @@ const InfoSection = React.memo(function InfoSection({ revealService }) {
   const content = revealService
     ? `As a safety measure, you must copy or download this code before you can
        commit your vote. This code is valid for revealing your vote for this
-       dispute only. You won’t be required to enter this code unless a problem
+       question only. You won’t be required to enter this code unless a problem
        occurs with our services.`
     : `You must copy or download this code before you can commit your vote. You
        will later be asked to provide this same code to reveal your vote.

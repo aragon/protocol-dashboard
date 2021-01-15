@@ -142,7 +142,7 @@ function DisputeList({
 
         if (errorLoading) {
           return (
-            <ErrorLoading subject="dispute" errors={[errorLoading.message]} />
+            <ErrorLoading subject="question" errors={[errorLoading.message]} />
           )
         }
 
@@ -173,14 +173,14 @@ function DisputeList({
 }
 
 const NoDisputes = () => {
-  const title = 'No disputes yet!'
+  const title = 'No questions yet!'
   return <MessageCard title={title} icon={noDataSvg} />
 }
 
 const NoMyDisputes = () => {
   const theme = useTheme()
 
-  const title = 'You haven’t been drafted to arbitrate a dispute yet'
+  const title = 'You haven’t been drafted to answer a question yet'
   const paragraph = (
     <span>
       The more{' '}
@@ -189,9 +189,9 @@ const NoMyDisputes = () => {
           color: ${theme.help};
         `}
       >
-        ANJ you activate
+        HNY you activate
       </span>
-      , more chances you have to be drafted to arbitrate a dispute
+      , more chances you have to be drafted to answer a question
     </span>
   )
 

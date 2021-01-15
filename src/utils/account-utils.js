@@ -12,12 +12,12 @@ export function getAccountStatus(balances, minActiveBalance) {
   if (activeBalance.amount.gte(minActiveBalance))
     return ACCOUNT_STATUS_JUROR_ACTIVE
 
-  if (!isANJHolder(balances)) return ACCOUNT_STATUS_ANONYMUS
+  if (!isHNYHolder(balances)) return ACCOUNT_STATUS_ANONYMUS
 
   return ACCOUNT_STATUS_JUROR_INACTIVE
 }
 
-function isANJHolder(balances) {
+function isHNYHolder(balances) {
   return Object.values(balances).reduce(
     (isHolder, balance) => isHolder || balance.amount.gt(0),
     false
