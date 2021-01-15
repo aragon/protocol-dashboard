@@ -29,6 +29,7 @@ import {
 } from '../utils/crvoting-utils'
 
 // abis
+import agreementAbi from '../abi/Agreement.json'
 import aragonCourtAbi from '../abi/AragonCourt.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
 import courtTreasuryAbi from '../abi/CourtTreasury.json'
@@ -41,6 +42,10 @@ const GAS_LIMIT = 1200000
 const ANJ_ACTIVATE_GAS_LIMIT = 600000
 const ANJ_ACTIONS_GAS_LIMIT = 325000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
+
+export function useAgreementContract(subject) {
+  return useContract(subject, agreementAbi)
+}
 
 // ANJ contract
 function useANJTokenContract() {
@@ -185,12 +190,6 @@ export function useDisputeActions() {
     disputeManagerAbi
   )
   const votingContract = useCourtContract(CourtModuleType.Voting, votingAbi)
-
-  const aragonCourtContract = useCourtContract(
-    CourtModuleType.AragonCourt,
-    aragonCourtAbi
-  )
-
   const feeTokenContract = useFeeTokenContract()
 
   // Draft jurors
@@ -386,12 +385,12 @@ export function useDisputeActions() {
     [appeal, approveFeeDeposit, confirmAppeal, processRequests]
   )
 
-  const executeRuling = useCallback(
-    disputeId => {
+  const resolveRuling = useCallback(
+    (arbitrableContract, disputeId) => {
       return processRequests([
         {
           action: () =>
-            aragonCourtContract.executeRuling(disputeId, {
+            arbitrableContract.resolve(disputeId, {
               gasLimit: GAS_LIMIT,
             }),
           description: radspec[actions.EXECUTE_RULING]({ disputeId }),
@@ -399,7 +398,7 @@ export function useDisputeActions() {
         },
       ])
     },
-    [aragonCourtContract, processRequests]
+    [processRequests]
   )
 
   return {
@@ -407,7 +406,7 @@ export function useDisputeActions() {
     requestAutoReveal,
     commit,
     draft,
-    executeRuling,
+    resolveRuling,
     leak,
     reveal,
   }
