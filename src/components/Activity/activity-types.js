@@ -4,7 +4,7 @@ import iconHny from './assets/activity-icon-hny.svg'
 import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
 import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
 import iconCommitVote from './assets/activity-icon-commit-vote.svg'
-import iconCourtLogo from './assets/activity-icon-court-logo.svg'
+import iconCelesteLogo from './assets/activity-icon-celeste-logo.svg'
 import iconDraftJury from './assets/activity-icon-draft-jury.svg'
 import iconExecuteRuling from './assets/activity-icon-execute-ruling.svg'
 
@@ -56,7 +56,7 @@ const ACTIVITY_TYPES = {
   },
   [actions.HEARTBEAT]: {
     title: 'Update term',
-    icon: iconCourtLogo,
+    icon: iconCelesteLogo,
   },
   [actions.LEAK_VOTE]: {
     title: 'Leak vote',

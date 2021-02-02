@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU, textStyle } from '@1hive/1hive-ui'
+import { GU } from '@1hive/1hive-ui'
 import headerLogoSvg from '../../assets/HeaderLogo.svg'
 
 function HeaderLogo() {
@@ -13,21 +13,11 @@ function HeaderLogo() {
       <img
         alt=""
         src={headerLogoSvg}
-        width={4 * GU}
+        width={16 * GU}
         css={`
           margin-right: ${1 * GU}px;
         `}
       />
-      <h1
-        css={`
-          display: flex;
-          height: 100%;
-          align-items: center;
-          ${textStyle('body1')};
-        `}
-      >
-        Celeste
-      </h1>
     </div>
   )
 }
