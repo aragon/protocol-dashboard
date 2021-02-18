@@ -1,0 +1,5 @@
+[
+  "function getProposal(uint256 _proposalId) external view returns (uint256 requestedAmount, bool stableRequestAmount, address beneficiary, uint256 stakedTokens, uint256 convictionLast, uint64 blockLast, uint256 agreementActionId, uint8 proposalStatus, address submitter, uint256 threshold)",
+  "function stableToken() external view returns (address)",
+  "function requestToken() external view returns (address)"
+]

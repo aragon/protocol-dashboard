@@ -1,4 +1,5 @@
 export const KnownArbitrables = {
+  // TODO: Add honeypot
   main: new Map(
     [
       {

@@ -1,4 +1,8 @@
 // Disputable appIds
+export const CONVICTION_VOTING_APP_IDS = [
+  '0xf9922b12f9337914d011b26375f00580059da4721f4be3f1c7e0935d4d5cb7a6', // disputable-conviction-voting.aragonpm.eth
+  '0xca60629a22f03bcad7738fee1a6f0c5863eb89463621b40566a6799b82cbe184', // disputable-conviction-voting.open.aragonpm.eth
+]
 export const DANDELION_VOTING_APP_IDS = [
   '0x0a85f166c21ad90fc107023e825457adfa137ef94f52f4f695ec00023bd05742', // disputable-dandelion-voting.aragonpm.eth
 ]
