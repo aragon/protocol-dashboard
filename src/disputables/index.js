@@ -100,8 +100,13 @@ export async function describeDisputedAction(
  *                    and the second item, the app belonging to the organization where the disputed action is taking place.
  */
 async function describeActionScript(evmScript, organization) {
+  if (evmScript.description) {
+    return [evmScript.description]
+  }
+
   // No EVM script, means it's not an executable action (e.g. signaling vote)
-  if (evmScript === '0x') {
+  const script = evmScript.script
+  if (script === '0x' || script === '0x00000001') {
     return []
   }
 
@@ -115,7 +120,7 @@ async function describeActionScript(evmScript, organization) {
   const apps = await org.apps()
 
   const transactionRequests =
-    (await describeScript(evmScript, apps, org.provider)) || []
+    (await describeScript(script, apps, org.provider)) || []
 
   if (!transactionRequests.length) {
     return [ERROR_MSG]
