@@ -4,7 +4,6 @@ import AccountBanner from './AccountBanner'
 import Balance from './Balance'
 import Profile from './Profile'
 
-import { useBrightIdVerification } from '../../hooks/useBrightIdVerification'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useWallet } from '../../providers/Wallet'
 import {
@@ -31,8 +30,6 @@ const BalanceModule = React.memo(
     const theme = useTheme()
     const { name: layout } = useLayout()
     const { minActiveBalance } = useCourtConfig()
-    const brightIdVerification = useBrightIdVerification(wallet.account)
-    console.log('verification', brightIdVerification)
 
     const oneColumn = layout === 'small' || layout === 'medium'
     const status = balances && getAccountStatus(balances, minActiveBalance)

@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { useCourtClock } from '../../../providers/CourtClock'
 import HNYForm from './HNYForm'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+import { useBrightIdVerification } from '../../../hooks/useBrightIdVerification'
 import {
   useHNYTokenAllowance,
   useJurorUniqueUserId,
@@ -20,9 +21,16 @@ const ActivateHNY = React.memo(function ActivateHNY({
   onDone,
 }) {
   const { account } = useWallet()
-  const { currentTermId } = useCourtClock()
+  const { currentTermId, neededTransitions } = useCourtClock()
 
-  const maxActiveBalance = useMaxActiveBalance(currentTermId)
+  const [allowance] = useHNYTokenAllowance(account)
+  const brightIdVerification = useBrightIdVerification(account)
+  const uniqueUserID = useJurorUniqueUserId(account)
+  const hasUniqueUserId = uniqueUserID && uniqueUserID !== ZERO_ADDRESS
+
+  const maxActiveBalance = useMaxActiveBalance(
+    currentTermId - neededTransitions
+  )
   const maxToActivate = max(maxActiveBalance.sub(activeBalance), bigNum(0))
 
   const maxAmount = min(
@@ -62,12 +70,26 @@ const ActivateHNY = React.memo(function ActivateHNY({
         return `You must have at least ${minActiveBalanceFormatted} ${anjToken.symbol} activated`
       }
 
+      if (hasUniqueUserId) {
+        return null
+      }
+
+      if (!brightIdVerification.addressExist) {
+        return `You are not registered in BrightId`
+      }
+
+      if (!brightIdVerification.userVerified) {
+        return `You are yet to be identified as a unique individual by BrightID`
+      }
+
       return null
     },
     [
       activeBalance,
       anjToken.symbol,
+      brightIdVerification,
       fromWallet,
+      hasUniqueUserId,
       maxAmount,
       maxAmountFormatted,
       maxToActivate,
@@ -77,15 +99,15 @@ const ActivateHNY = React.memo(function ActivateHNY({
     ]
   )
 
-  const [allowance] = useHNYTokenAllowance(account)
-  const uniqueUserID = useJurorUniqueUserId(account)
-  const hasUniqueUserId = uniqueUserID && uniqueUserID !== ZERO_ADDRESS
-
   const handleActivateHNY = useCallback(
     amount => {
-      onActivateHNY(account, amount, hasUniqueUserId, allowance)
+      const brightIdData = {
+        ...brightIdVerification,
+        hasUniqueUserId,
+      }
+      onActivateHNY(account, amount, brightIdData, allowance)
     },
-    [account, allowance, hasUniqueUserId, onActivateHNY]
+    [account, allowance, brightIdVerification, hasUniqueUserId, onActivateHNY]
   )
 
   return (
