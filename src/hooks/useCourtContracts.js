@@ -15,7 +15,11 @@ import actions from '../actions/court-action-types'
 import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
-import { encodeFunctionData, getFunctionSignature } from '../lib/web3-utils'
+import {
+  encodeFunctionData,
+  getFunctionSignature,
+  sanitizeSignature,
+} from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
 import { networkReserveAddress } from '../networks'
 import {
@@ -97,12 +101,13 @@ export function useHNYActions() {
 
   const brightIdRegisterAndCall = useCallback(
     async (jurorAddress, brightIdData, calldata) => {
+      const signature = sanitizeSignature(brightIdData.signature)
       return brightIdRegisterContract.register(
         [jurorAddress],
         [brightIdData.timestamp],
-        [brightIdData.signature.v],
-        [brightIdData.signature.r],
-        [brightIdData.signature.s],
+        [signature.v],
+        [signature.r],
+        [signature.s],
         jurorRegistryContract.address,
         calldata
       )
