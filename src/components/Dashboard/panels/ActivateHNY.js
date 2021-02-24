@@ -75,7 +75,7 @@ const ActivateHNY = React.memo(function ActivateHNY({
       }
 
       if (!brightIdVerification.addressExist) {
-        return `You are not registered in BrightId`
+        return `You are not registered with BrightId`
       }
 
       if (!brightIdVerification.userVerified) {
