@@ -208,5 +208,13 @@ export async function signMessage(wallet, message) {
   return { signHash, error }
 }
 
+export function sanitizeSignature(signature) {
+  return {
+    ...signature,
+    r: `0x${signature.r}`,
+    s: `0x${signature.s}`,
+  }
+}
+
 // ethers utils exports
 export { keccak256, soliditySha3, toUtf8String }

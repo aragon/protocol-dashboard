@@ -29,6 +29,8 @@ import {
 
 import logoSvg from '../assets/LogoAccent.svg'
 
+const MAX_TRANSITIONS = 100
+
 function ClockModule() {
   const buttonRef = useRef()
   const [opened, setOpened] = useState(false)
@@ -54,7 +56,7 @@ function ClockModule() {
   const handleOnClick = useCallback(() => {
     handlePopoverClose()
 
-    onHeartbeat(neededTransitions)
+    onHeartbeat(Math.min(neededTransitions, MAX_TRANSITIONS))
   }, [handlePopoverClose, neededTransitions, onHeartbeat])
 
   const IconSync = isSynced ? IconCheck : IconCross

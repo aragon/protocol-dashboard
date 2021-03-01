@@ -15,7 +15,11 @@ import actions from '../actions/court-action-types'
 import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
-import { encodeFunctionData, getFunctionSignature } from '../lib/web3-utils'
+import {
+  encodeFunctionData,
+  getFunctionSignature,
+  sanitizeSignature,
+} from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
 import { networkReserveAddress } from '../networks'
 import {
@@ -24,7 +28,6 @@ import {
   hashVote,
   saveCodeInLocalStorage,
 } from '../utils/crvoting-utils'
-import { getVerificationsSignature } from '../utils/brightId-utils'
 
 // abis
 import agreementAbi from '../abi/Agreement.json'
@@ -97,13 +100,11 @@ export function useHNYActions() {
   const hnyTokenContract = useHNYTokenContract()
 
   const brightIdRegisterAndCall = useCallback(
-    async (jurorAddress, calldata) => {
-      const timestamp = Math.round(new Date().getTime())
-      const signature = getVerificationsSignature(timestamp, [jurorAddress]) // TODO: Use 1hive's node when available
-
+    async (jurorAddress, brightIdData, calldata) => {
+      const signature = sanitizeSignature(brightIdData.signature)
       return brightIdRegisterContract.register(
         [jurorAddress],
-        [timestamp],
+        [brightIdData.timestamp],
         [signature.v],
         [signature.r],
         [signature.s],
@@ -130,7 +131,7 @@ export function useHNYActions() {
 
   // activate HNY directly from available balance
   const activateHNY = useCallback(
-    (jurorAddress, amount, hasUniqueUserId) => {
+    (jurorAddress, amount, brightIdData) => {
       const formattedAmount = formatUnits(amount)
 
       const activationData = encodeFunctionData(
@@ -142,13 +143,18 @@ export function useHNYActions() {
       return processRequests([
         {
           action: () =>
-            hasUniqueUserId
+            brightIdData.hasUniqueUserId
               ? jurorRegistryContract.activate(amount, {
                   gasLimit: HNY_ACTIVATE_GAS_LIMIT,
                 })
-              : brightIdRegisterAndCall(jurorAddress, activationData, {
-                  gasLimit: HNY_ACTIVATE_GAS_LIMIT,
-                }),
+              : brightIdRegisterAndCall(
+                  jurorAddress,
+                  brightIdData,
+                  activationData,
+                  {
+                    gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+                  }
+                ),
           description: radspec[actions.ACTIVATE_HNY]({
             amount: formattedAmount,
           }),
@@ -181,11 +187,11 @@ export function useHNYActions() {
 
   // approve, stake and activate HNY
   const stakeActivateHNY = useCallback(
-    (jurorAddress, amount, hasUniqueUserId, allowance) => {
+    (jurorAddress, amount, brightIdData, allowance) => {
       const formattedAmount = formatUnits(amount)
 
       const requestQueue = []
-      if (hasUniqueUserId) {
+      if (brightIdData.hasUniqueUserId) {
         requestQueue.push({
           action: () =>
             hnyTokenContract.approveAndCall(
@@ -225,7 +231,7 @@ export function useHNYActions() {
 
         requestQueue.push({
           action: () =>
-            brightIdRegisterAndCall(jurorAddress, calldata, {
+            brightIdRegisterAndCall(jurorAddress, brightIdData, calldata, {
               gasLimit: HNY_ACTIVATE_GAS_LIMIT,
             }),
           description: radspec[actions.ACTIVATE_HNY]({
