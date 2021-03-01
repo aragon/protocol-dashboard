@@ -55,7 +55,9 @@ export function transformRoundDataAttributes(round) {
  */
 function parseMetadata(dispute) {
   if (dispute.disputable) {
-    return [dispute.disputable.title]
+    return [
+      `${dispute.disputable.title} Action # ${dispute.disputable.actionId}`,
+    ]
   }
 
   try {
