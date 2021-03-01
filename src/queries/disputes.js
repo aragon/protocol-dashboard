@@ -9,6 +9,7 @@ export const AllDisputes = gql`
       state
       metadata
       disputable {
+        actionId
         title
       }
       rounds {
