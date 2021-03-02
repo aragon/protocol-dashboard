@@ -29,7 +29,6 @@ const getBannerAttributes = (
     if (drafted) {
       return {
         icon: warpIcon,
-        iconBackground: theme.positive.alpha(0.2),
         title: 'You have been drafted',
         titleColor: theme.positive,
         paragraph:
@@ -40,7 +39,6 @@ const getBannerAttributes = (
     if (isFirstTimeActivating) {
       return {
         icon: userIcon,
-        iconBackground: theme.positive.alpha(0.2),
         title: 'You are eligible to be drafted',
         titleColor: theme.positive,
         paragraph: 'You are eligible to be drafted starting from the next term',
@@ -89,14 +87,7 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
   if (attributes.showProbability) {
     return <BannerWithProbability activeBalance={activeBalance} />
   }
-  const {
-    icon,
-    title,
-    titleColor,
-    paragraph,
-    iconBackground,
-    showTimer,
-  } = attributes
+  const { icon, title, titleColor, paragraph, showTimer } = attributes
 
   return (
     <Wrapper
@@ -105,9 +96,7 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
           css={`
             display: flex;
             align-items: center;
-            background: ${iconBackground};
             height: ${7 * GU}px;
-            width: ${iconBackground ? 7 * GU + 'px' : 'auto'};
             border-radius: 50%;
           `}
         >
@@ -116,7 +105,7 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
               display: block;
               margin: 0 auto;
             `}
-            height={iconBackground ? 3 * GU : 8 * GU}
+            height={8 * GU}
             src={icon}
             alt=""
           />
