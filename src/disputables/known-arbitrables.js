@@ -16,6 +16,11 @@ export const KnownArbitrables = {
         urlBuilder: actionId =>
           `https://network-dashboard.vercel.app/#/proposals/${actionId}`,
       },
+      {
+        address: '0xc08d59bfe2337d45fa5e77ad8d683fd5bdfcde95',
+        urlBuilder: actionId =>
+          `https://honey-pot-git-disputable-version-1hive.vercel.app/#/proposal/${actionId}`,
+      },
     ].map(arbitrable => [arbitrable.address.toLowerCase(), arbitrable])
   ),
 }
