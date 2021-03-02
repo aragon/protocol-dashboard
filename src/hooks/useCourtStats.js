@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useTotalANTStakedPolling } from './useCourtContracts'
 import { useActiveJurorsNumber } from '../hooks/query-hooks'
 import {
   useJurorRegistrySubscription,
@@ -8,24 +7,16 @@ import {
 import { getKnownToken } from '../utils/known-tokens'
 import { bigNum } from '../lib/math-utils'
 import IconHNY from '../assets/IconHNY.svg'
-import IconANT from '../assets/IconANT.svg'
-import IconDAI from '../assets/IconDAI.svg'
-
-const STATS_FETCHING_TIMEOUT = 15000
 
 const COURT_STATS = [
   {
     label: 'Total Active HNY',
     token: { ...getKnownToken('HNY'), icon: IconHNY },
   },
-  {
-    label: 'Total Staked ANT',
-    token: { ...getKnownToken('ANT'), icon: IconANT },
-  },
   { label: 'Total Active Keepers' },
   {
-    label: 'Total Rewards DAI',
-    token: { ...getKnownToken('DAI'), icon: IconDAI },
+    label: 'Total Rewards HNY',
+    token: { ...getKnownToken('HNY'), icon: IconHNY },
   },
 ]
 
@@ -62,38 +53,23 @@ function useTotalRewards() {
  */
 function useCourtStats() {
   const [anjActiveBalance, anjActiveBalanceError] = useTotalActiveBalance()
-  const [antTotalStake, antTotalStakeError] = useTotalANTStakedPolling(
-    STATS_FETCHING_TIMEOUT
-  )
   const [activeJurors, activeJurorsError] = useActiveJurorsNumber()
   const [totalRewards, totalRewardsError] = useTotalRewards()
 
   // Loading states
   const anjFetching = anjActiveBalance.eq(bigNum(-1)) && !anjActiveBalanceError
-  const antFetching = antTotalStake.eq(bigNum(-1)) && !antTotalStakeError
   const activeJurorsFetching = activeJurors === null && !activeJurorsError
   const totalRewardsFetching = totalRewards.eq(bigNum(-1)) && !totalRewardsError
 
   return useMemo(
     () => {
-      if (
-        anjFetching ||
-        antFetching ||
-        activeJurorsFetching ||
-        totalRewardsFetching
-      ) {
+      if (anjFetching || activeJurorsFetching || totalRewardsFetching) {
         return [null, true]
       }
 
-      const statsData = [
-        anjActiveBalance,
-        antTotalStake,
-        activeJurors,
-        totalRewards,
-      ]
+      const statsData = [anjActiveBalance, activeJurors, totalRewards]
       const statsError = [
         anjActiveBalanceError,
-        antTotalStakeError,
         activeJurorsError,
         totalRewardsError,
       ]
@@ -115,9 +91,6 @@ function useCourtStats() {
       anjActiveBalance.toString(),
       anjActiveBalanceError,
       anjFetching,
-      antFetching,
-      antTotalStake.toString(),
-      antTotalStakeError,
       totalRewards.toString(),
       totalRewardsError,
       totalRewardsFetching,
