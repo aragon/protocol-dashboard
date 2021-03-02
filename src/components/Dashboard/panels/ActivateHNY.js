@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { Link } from '@1hive/1hive-ui'
 import { useCourtClock } from '../../../providers/CourtClock'
 import HNYForm from './HNYForm'
 import { useCourtConfig } from '../../../providers/CourtConfig'
@@ -75,11 +76,27 @@ const ActivateHNY = React.memo(function ActivateHNY({
       }
 
       if (!brightIdVerification.addressExist) {
-        return `You are not registered with BrightId`
+        return (
+          <div>
+            You are not registered with BrightId.{' '}
+            <Link href="https://wiki.1hive.org/guides/brightid">
+              Learn more
+            </Link>
+            .
+          </div>
+        )
       }
 
       if (!brightIdVerification.userVerified) {
-        return `You are yet to be identified as a unique individual by BrightID`
+        return (
+          <div>
+            You are yet to be identified as a unique individual by BrightID.{' '}
+            <Link href="https://wiki.1hive.org/guides/brightid">
+              Learn more
+            </Link>
+            .
+          </div>
+        )
       }
 
       return null
