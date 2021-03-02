@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
 // hooks
@@ -6,13 +6,12 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useActivity } from '../providers/ActivityProvider'
 import { useRequestQueue } from '../providers/RequestQueue'
 import { useRequestProcessor } from './useRequestProcessor'
-import { useContract, useContractReadOnly } from '../web3-contracts'
+import { useContract } from '../web3-contracts'
 
 // utils
 import radspec from '../radspec'
 import { retryMax } from '../utils/retry-max'
 import actions from '../actions/court-action-types'
-import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
 import {
@@ -21,7 +20,6 @@ import {
   sanitizeSignature,
 } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
-import { networkReserveAddress } from '../networks'
 import {
   getVoteId,
   hashPassword,
@@ -885,63 +883,6 @@ export function useActiveBalanceOfAt(juror, termId) {
   }, [juror, jurorRegistryContract, termId])
 
   return [activeBalance.amount, activeBalance.error]
-}
-
-export function useTotalANTStakedPolling(timeout = 1000) {
-  const [totalANTStaked, setTotalANTStaked] = useState(bigNum(-1))
-  const [error, setError] = useState(false)
-  const { address: antAddress } = getKnownToken('ANT') || {}
-  const antContract = useContractReadOnly(antAddress, tokenAbi)
-
-  // We are starting in 0 in order to immediately make the fetch call
-  const controlledTimeout = useRef(0)
-
-  useEffect(() => {
-    let cancelled = false
-    let timeoutId
-
-    // This stat is only relevant and shown on mainnet
-    if (!networkReserveAddress) {
-      return setError(true)
-    }
-
-    if (!antContract) {
-      return
-    }
-
-    const fetchTotalANTBalance = () => {
-      timeoutId = setTimeout(() => {
-        const vaultBalancePromise = antContract.balanceOf(networkReserveAddress)
-
-        return vaultBalancePromise
-          .then(antInVault => {
-            if (!cancelled) {
-              setTotalANTStaked(antInVault)
-            }
-          })
-          .catch(err => {
-            console.error(`Error fetching balance: ${err} retrying...`)
-            setError(true)
-          })
-          .finally(() => {
-            if (!cancelled) {
-              clearTimeout(timeoutId)
-              controlledTimeout.current = timeout
-              fetchTotalANTBalance()
-            }
-          })
-      }, controlledTimeout.current)
-    }
-
-    fetchTotalANTBalance()
-
-    return () => {
-      cancelled = true
-      clearTimeout(timeoutId)
-    }
-  }, [antContract, controlledTimeout, timeout])
-
-  return [totalANTStaked, error]
 }
 
 export function useHNYBalanceOfPolling(juror) {
