@@ -5,7 +5,6 @@ import large1 from './highlights/assets/rinkeby/large/1.png'
 import large2 from './highlights/assets/rinkeby/large/2.png'
 import large3 from './highlights/assets/rinkeby/large/3.png'
 import large4 from './highlights/assets/rinkeby/large/4.png'
-import large5 from './highlights/assets/rinkeby/large/5.png'
 
 import mainnetLarge1 from './highlights/assets/mainnet/large/1.png'
 import mainnetLarge2 from './highlights/assets/mainnet/large/2.png'
@@ -23,8 +22,8 @@ import mainnetSmall5 from './highlights/assets/mainnet/small/5.png'
 import mainnetSmall6 from './highlights/assets/mainnet/small/6.png'
 import mainnetSmall7 from './highlights/assets/mainnet/small/7.png'
 
-const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
-const MAIN_COURT_URL = 'https://celeste.1hive.org'
+const TYPEFORM_LINK = 'https://t0ybf228z8j.typeform.com/to/bCQP2NAS'
+const MAIN_COURT_URL = 'https://celeste.1hive.org' // TODO: Update
 
 const highlights = {
   heading: 'Celeste',
@@ -62,9 +61,11 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          We’ve airdropped 10,000 test HNY on Rinkeby to the same Ethereum
-          account you registered with on xDai. You can use this test HNY to
-          become an active keeper and participate answering questions.
+          If you would like to participate in the testing phase and answer
+          questions as a keeper, just complete
+          <Link href={TYPEFORM_LINK}>this form</Link> and we’ll send you some
+          funds swiftly! We'll ask fo your Discord username and Rinkeby address
+          and you'll get some sweet test 🍯 !
         </span>
       ),
     },
@@ -113,32 +114,6 @@ highlights.rinkeby = [
     visual: {
       small: null,
       large: large4,
-    },
-  },
-  {
-    title: {
-      small: null,
-      large: 'Stay up to date!',
-    },
-    description: {
-      small: null,
-      large: (
-        <>
-          <p>
-            If you didn’t receive any Rinkeby HNY, just complete
-            <Link href={TYPEFORM_LINK}>this form</Link> and we’ll send you some
-            funds swiftly!
-          </p>
-          <p>
-            You’ll also receive notifications about important announcements,
-            your assigned questions, and upcoming tasks as a keeper.
-          </p>
-        </>
-      ),
-    },
-    visual: {
-      small: null,
-      large: large5,
     },
     start: {
       small: null,
