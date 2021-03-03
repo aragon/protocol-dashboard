@@ -12,7 +12,7 @@ const CHAIN_ID = environment('CHAIN_ID')
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
 
 // BrightId endpoints
-export const BRIGHT_ID_ENDPOINT_V5 = 'http://brightid.1hive.org/node/v5'
+export const BRIGHT_ID_ENDPOINT_V5 = 'https://brightid.1hive.org/node/v5'
 export const BRIGHTID_VERIFICATION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/verifications`
 export const BRIGHTID_1HIVE_INFO_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/apps/1hive`
 export const BRIGHTID_SUBSCRIPTION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/operations`
