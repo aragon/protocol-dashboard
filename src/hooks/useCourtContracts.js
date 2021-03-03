@@ -101,7 +101,7 @@ export function useHNYActions() {
     async (jurorAddress, brightIdData, calldata) => {
       const signature = sanitizeSignature(brightIdData.signature)
       return brightIdRegisterContract.register(
-        [jurorAddress],
+        brightIdData.userAddresses,
         [brightIdData.timestamp],
         [signature.v],
         [signature.r],
