@@ -72,7 +72,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
       <Row compactMode={compactMode}>
         {agreementText ? (
           <Field
-            label="Link to agreement"
+            label="Link to covenant"
             value={
               <Link
                 external
