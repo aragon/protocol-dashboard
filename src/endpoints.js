@@ -29,9 +29,9 @@ export function courtServerEndpoint() {
   }
 
   const networkType = getNetworkType(CHAIN_ID)
-  return `https://celeste${
+  return `https://celeste-server${
     networkType === 'main' ? '' : `-${COURT_SERVER_NAME || networkType}`
-  }.backend.1hive.org`
+  }.1hive.org`
 }
 
 export function graphEndpoint() {
