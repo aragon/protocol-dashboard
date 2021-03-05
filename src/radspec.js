@@ -10,7 +10,7 @@ export default {
     return `Approve activation amount: ${amount} HNY`
   },
   [actions.APPROVE_FEE_DEPOSIT]: ({ amount }) => {
-    return `Approve fee deposit: ${amount} DAI`
+    return `Approve fee deposit: ${amount} HNY`
   },
   [actions.ACTIVATE_HNY]: ({ amount }) => {
     return `Activate the total amount of ${amount} HNY`
@@ -23,7 +23,7 @@ export default {
     )}`
   },
   [actions.CLAIM_REWARDS]: ({ amount }) => {
-    return `Claim rewards for a total amount of ${amount} DAI`
+    return `Claim rewards for a total amount of ${amount} HNY`
   },
   [actions.CLAIM_SUBSCRIPTION_FEES]: ({ periodId }) => {
     return `Claim subscription rewards for period ${periodId}`

@@ -21,8 +21,8 @@ import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
 
 // anjRewards => HNY => First settle with `onSettleReward()`, then withdraw
-// feeRewards => DAI =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
-// subscriptions fees => DAI => Can be withdrawn directly from the CourtSubscription contract
+// feeRewards => HNY =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
+// subscriptions fees => HNY => Can be withdrawn directly from the CourtSubscription contract
 // Only after the rewards are settled can a juror withdraw them from the treasury (`onWithdraw()`)
 // As opposed to fee rewards, subscription fees are directly withdrawn to the juror's wallet when claimed
 const RewardsModule = React.memo(function RewardsModule({

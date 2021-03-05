@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react'
 import { Button, GU, Info, Link } from '@1hive/1hive-ui'
+
+import { useCourtConfig } from '../../../providers/CourtConfig'
 import { useWallet } from '../../../providers/Wallet'
 
 function DisputeAppeal({ onRequestAppeal, confirm }) {
   const wallet = useWallet()
 
   const actionLabel = confirm ? 'Confirm appeal' : 'Appeal Ruling'
+
+  const { feeToken } = useCourtConfig()
 
   const handleRequestAppeal = useCallback(() => {
     onRequestAppeal(confirm)
@@ -27,7 +31,7 @@ function DisputeAppeal({ onRequestAppeal, confirm }) {
       <Info>
         <strong>Anyone</strong> can{' '}
         <strong>
-          lock DAI as collateral to{' '}
+          lock {feeToken.symbol} as collateral to{' '}
           {confirm ? 'confirm an appeal' : 'initiate an appeal'}{' '}
         </strong>
         if they believe the{' '}
