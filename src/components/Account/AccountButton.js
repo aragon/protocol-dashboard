@@ -2,13 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@1hive/1hive-ui'
 
-import { useWallet } from 'use-wallet'
 import HeaderModule from '../Header/HeaderModule'
+import useProfileName from '../../hooks/useProfileName'
+import { useWallet } from 'use-wallet'
 import { shortenAddress } from '../../lib/web3-utils'
 
 function AccountButton({ label, onClick }) {
   const theme = useTheme()
   const wallet = useWallet()
+  const profileName = useProfileName(wallet.account)
 
   return (
     <HeaderModule
@@ -37,20 +39,16 @@ function AccountButton({ label, onClick }) {
               ${textStyle('body2')}
             `}
           >
-            {label ? (
-              <div
-                css={`
-                  overflow: hidden;
-                  max-width: ${16 * GU}px;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                `}
-              >
-                {label}
-              </div>
-            ) : (
-              <div>{shortenAddress(wallet.account)}</div>
-            )}
+            <div
+              css={`
+                overflow: hidden;
+                max-width: ${16 * GU}px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              `}
+            >
+              {profileName || shortenAddress(wallet.account)}
+            </div>
           </div>
           <div
             css={`
