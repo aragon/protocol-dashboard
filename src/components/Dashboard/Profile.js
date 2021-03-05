@@ -1,5 +1,6 @@
 import React from 'react'
 import { EthIdenticon, GU, useTheme, textStyle } from '@1hive/1hive-ui'
+import useProfileName from '../../hooks/useProfileName'
 import { shortenAddress } from '../../lib/web3-utils'
 import {
   ACCOUNT_STATUS_JUROR_ACTIVE,
@@ -46,6 +47,8 @@ function Profile({ account, status }) {
     icon,
   } = getProfileAttributes(status, theme)
 
+  const profileName = useProfileName(account)
+
   return (
     <div
       css={`
@@ -89,7 +92,7 @@ function Profile({ account, status }) {
                 line-height: 1.2;
               `}
             >
-              {shortenAddress(account)}
+              {profileName || shortenAddress(account)}
             </span>
             <span
               css={`
