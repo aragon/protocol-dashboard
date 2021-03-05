@@ -8,12 +8,10 @@ export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
 
 export const networkConfigs = {
-  main: {
-    court: '0xee4650cBe7a2B23701D416f58b41D8B76b617797',
-    network_agent: '0x5e8c17a6065c35b172b10e80493d2266e2947df4',
-    network_reserve: '0xec0dd1579551964703246becfbf199c27cb84485',
+  xdai: {
+    court: '',
     nodes: {
-      defaultEth: 'https://mainnet.eth.aragon.network/',
+      defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: 'https://graph.backend.aragon.org/subgraphs/name/1hive/celeste',
     },
   },
