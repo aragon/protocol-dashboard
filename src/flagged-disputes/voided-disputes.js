@@ -8,7 +8,7 @@ import {
 import env from '../environment'
 
 const VOIDED_DISPUTES = {
-  main: new Map([[networkConfigs.main.court, new Map([])]]),
+  xdai: new Map([[networkConfigs.xdai.court, new Map([])]]),
   rinkeby: new Map([
     [RINKEBY_COURT, new Map([])],
     [RINKEBY_STAGING_COURT, new Map([])],

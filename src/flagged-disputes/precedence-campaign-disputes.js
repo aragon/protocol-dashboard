@@ -7,9 +7,9 @@ import {
 } from '../networks'
 
 const PRECEDENCE_CAMPAIGN_DISPUTES = {
-  main: new Map([
+  xdai: new Map([
     [
-      networkConfigs.main.court,
+      networkConfigs.xdai.court,
       new Map(new Array(21).fill().map((_, index) => [String(index + 1)])),
     ],
   ]),

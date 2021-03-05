@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
 import { useCourtConfig } from '../providers/CourtConfig'
-import { useUniswapAnjPrice } from './useUniswapAnjPrice'
+import { useUniswapHnyPrice } from './useUniswapHnyPrice'
 import { bigNum, formatUnits } from '../lib/math-utils'
 import { getNetworkType } from '../lib/web3-utils'
 
@@ -19,9 +19,10 @@ const SELL_TOKEN_PRECISION = bigNum(10).pow(6)
  */
 export function useHNYAmountToUsd(amount) {
   const { anjToken } = useCourtConfig()
-  const anjPrice = useUniswapAnjPrice()
+  const anjPrice = useUniswapHnyPrice()
+  const networkType = getNetworkType()
 
-  if (!amount || anjPrice === 0) {
+  if (!amount || anjPrice === 0 || networkType !== 'xdai') {
     return '-'
   }
 
@@ -87,9 +88,9 @@ export function useTokenAmountToUsd(symbol, decimals, amount) {
 }
 
 function convertAmount(amount, price, decimals, precision) {
-  const rate = (price * precision).toFixed()
+  const rate = precision.mul(price)
 
-  return formatUnits(amount.mul(rate.toString()).div(precision), {
+  return formatUnits(amount.mul(rate).div(precision), {
     digits: decimals,
   })
 }
