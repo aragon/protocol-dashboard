@@ -40,7 +40,7 @@ import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
 const HNY_ACTIVATE_GAS_LIMIT = 1000000
-const HNY_ACTIONS_GAS_LIMIT = 325000
+const HNY_ACTIONS_GAS_LIMIT = 400000
 const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
 
 export function useAgreementContract(subject) {
