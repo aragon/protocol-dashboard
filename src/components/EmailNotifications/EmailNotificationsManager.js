@@ -117,7 +117,7 @@ const EmailNotificationsManager = React.memo(
     const wallet = useWallet()
     const account = wallet.account
     const [insideModal] = useInside('NotificationsModal')
-    const provider = getProviderFromUseWalletId(wallet.activated)
+    const provider = getProviderFromUseWalletId(wallet.connector)
     const toast = useToast()
 
     const { below } = useViewport()
