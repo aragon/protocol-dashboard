@@ -55,8 +55,8 @@ function RequestStatusInfo({
   requests,
   requestStatus,
 }) {
-  const { activated } = useWallet()
-  const provider = getProviderFromUseWalletId(activated)
+  const { connector } = useWallet()
+  const provider = getProviderFromUseWalletId(connector)
 
   if (allSuccess) {
     return (
