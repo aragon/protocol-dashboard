@@ -62,7 +62,7 @@ highlights.rinkeby = [
       large: (
         <span>
           If you would like to participate in the testing phase and answer
-          questions as a keeper, just complete
+          disputes as a keeper, just complete
           <Link href={TYPEFORM_LINK}>this form</Link> and we’ll send you some
           funds swiftly! We'll ask fo your Discord username and Rinkeby address
           and you'll get some sweet test 🍯 !
@@ -79,13 +79,13 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Participate on your first question',
+      large: 'Participate on your first dispute',
     },
     description: {
       small: null,
       large: (
         <span>
-          Once you start exploring, you will find some mock questions with
+          Once you start exploring, you will find some mock disputes with
           realistic content that will allow you to become familiar with the
           functionality of this dashboard.
         </span>
@@ -106,7 +106,7 @@ highlights.rinkeby = [
       large: (
         <span>
           When you vote in favor of the plurality ruling, you will be rewarded
-          with Question Fees. Just note that these rewards will be awarded in
+          with Dispute Fees. Just note that these rewards will be awarded in
           Rinkeby tokens for the purpose of this test version.
         </span>
       ),
@@ -228,14 +228,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Question list',
+      large: 'Dispute list',
     },
     description: {
       small: null,
       large: (
         <span>
-          View all live questions or only ones your adjudicating. From here you
-          can explore the details, comments, and timeline for any question.
+          View all live disputes or only ones your adjudicating. From here you
+          can explore the details, comments, and timeline for any dispute.
         </span>
       ),
     },
@@ -247,14 +247,14 @@ highlights.main = [
   {
     title: {
       small: null,
-      large: 'Question analysis',
+      large: 'Dispute analysis',
     },
     description: {
       small: null,
       large: (
         <span>
-          Upon viewing a question you will find the essential information
-          required to assess the question before casting your vote or making an
+          Upon viewing a dispute you will find the essential information
+          required to assess the dispute before casting your vote or making an
           appeal.
         </span>
       ),
@@ -274,9 +274,9 @@ highlights.main = [
       large: (
         <>
           <p>
-            Earn Question Fees for successfully adjudicating questions and
-            monthly Subscription Fees for simply being an Active keeper, whether
-            you are drafted or not.
+            Earn Dispute Fees for successfully adjudicating disputes and monthly
+            Subscription Fees for simply being an Active keeper, whether you are
+            drafted or not.
           </p>
           <p>Use the Rewards modules to track your earnings over time.</p>
         </>

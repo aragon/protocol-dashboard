@@ -40,7 +40,7 @@ function DisputeCard({ dispute, onSelectDispute }) {
             ${textStyle('body1')}
           `}
         >
-          <strong> Question #{id}</strong>
+          <strong> Dispute #{id}</strong>
         </h3>
         <DisputeText
           text={voidedText || description}

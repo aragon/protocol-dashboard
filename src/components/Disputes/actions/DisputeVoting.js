@@ -101,11 +101,11 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
       <Info mode={canJurorVote ? 'description' : 'warning'}>
         {(() => {
           if (!wallet.account)
-            return 'You cannot vote on this question because your Ethereum account is not connected.'
+            return 'You cannot vote on this dispute because your Ethereum account is not connected.'
 
           return canJurorVote
             ? 'You will be asked to enter and store a password when you commit your vote.'
-            : 'You cannot vote on this question with the current enabled address.'
+            : 'You cannot vote on this dispute with the current enabled address.'
         })()}
       </Info>
     </div>

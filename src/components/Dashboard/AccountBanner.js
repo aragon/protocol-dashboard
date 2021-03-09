@@ -202,7 +202,7 @@ const BannerWithProbability = ({ activeBalance }) => {
       <Help hint="How is the probability calculated?">
         <p>
           This is a numerical estimate of your likelihood of being selected for
-          answering questions. It’s calculated by dividing your active HNY
+          answering disputes. It’s calculated by dividing your active HNY
           balance against the Celeste's total active HNY balance during the
           current term.
         </p>
@@ -214,8 +214,8 @@ const BannerWithProbability = ({ activeBalance }) => {
           {probablilityTooLow
             ? `
                 You currently have <1% of all activated HNY, hence are unlikely
-                to be drafted unless a question goes to the final round or many
-                questions are created. Activate more HNY to increase your chances
+                to be drafted unless a dispute goes to the final round or many
+                disputes are created. Activate more HNY to increase your chances
                 of being selected as a keeper.
               `
             : `
@@ -228,7 +228,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    'The more HNY you activate, the more likely you will be drafted to answer a question'
+    'The more HNY you activate, the more likely you will be drafted to answer a dispute'
 
   return (
     <Wrapper

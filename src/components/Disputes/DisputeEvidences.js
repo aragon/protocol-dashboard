@@ -45,7 +45,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                         margin-left: ${1.5 * GU}px;
                       `}
                     >
-                      Argument #{index + 1}
+                      Comment #{index + 1}
                     </span>
                   </div>,
                   <EvidenceContent
@@ -163,11 +163,11 @@ const EvidenceContent = React.memo(function EvidenceContent({
 
 function getSubmitterLabel(submitter, defendant, plaintiff) {
   if (addressesEqual(submitter, defendant)) {
-    return 'Defendant'
+    return 'Proposer'
   }
 
   if (addressesEqual(submitter, plaintiff)) {
-    return 'Plaintiff'
+    return 'Challenger'
   }
 
   return ''

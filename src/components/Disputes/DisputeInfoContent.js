@@ -67,7 +67,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
             overflow-wrap: anywhere;
           `}
         />
-        {creator && <Field label="Plaintiff" value={creator} />}
+        {creator && <Field label="Challenger" value={creator} />}
       </Row>
       <Row compactMode={compactMode}>
         {agreementText ? (
@@ -88,7 +88,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
         ) : (
           <div />
         )}
-        {defendant && <Field label="Defendant" value={defendant} />}
+        {defendant && <Field label="Proposer" value={defendant} />}
       </Row>
     </>
   )
@@ -331,8 +331,8 @@ const DisputedActionNA = () => {
         N/A
       </span>
       <Help hint="">
-        This question does not involve a binding action and is simply between
-        the given context and arguments.
+        This dispute does not involve a binding action and is simply between the
+        given context and comments.
       </Help>
     </div>
   )

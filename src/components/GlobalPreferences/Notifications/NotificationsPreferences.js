@@ -184,10 +184,10 @@ function EmailNotificationBox({
         >
           {notificationsDisabled
             ? `We strongly advise you to enable these notifications. 
-            By disabling these email alerts, you will not be notified when you are drafted to answer a question or 
+            By disabling these email alerts, you will not be notified when you are drafted to answer a dispute or 
             when your upcoming tasks are due. Failure to complete your duties as a keeper will result in monetary penalties.`
             : `We will notify you for any relevant Celeste events, such as when you are drafted to answer a
-            question, when your upcoming tasks are due, and when you have rewards to claim.`}
+            dispute, when your upcoming tasks are due, and when you have rewards to claim.`}
         </Info>
       </div>
     </Box>

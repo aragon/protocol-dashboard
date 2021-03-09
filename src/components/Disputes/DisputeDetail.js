@@ -48,7 +48,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   )
 
   const handleBack = useCallback(() => {
-    history.push('/questions')
+    history.push('/disputes')
   }, [history])
 
   const noDispute = !dispute && !disputeFetching
@@ -75,7 +75,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   return (
     <React.Fragment>
       {dispute?.marksPrecedent && <Banner disputeId={disputeId} />}
-      <TitleHeader title="Questions" />
+      <TitleHeader title="Disputes" />
       <Bar>
         <BackButton onClick={handleBack} />
       </Bar>
@@ -102,14 +102,14 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
           secondary={
             <React.Fragment>
               <Box
-                heading="Question timeline"
+                heading="Dispute timeline"
                 padding={error?.fromGraph ? 3 * GU : 0}
               >
                 {(() => {
                   if (error?.fromGraph) {
                     return (
                       <MessageCard
-                        title="We couldn’t load the question timeline"
+                        title="We couldn’t load the dispute timeline"
                         paragraph="Something went wrong! Please restart the app"
                         icon={timelineErrorSvg}
                         mode="compact"
@@ -157,17 +157,17 @@ const PanelTitle = ({ requestMode, disputeId }) => {
   const { mode, data } = requestMode
 
   if (mode === REQUEST_MODE.COMMIT) {
-    return `Commit your vote on question #${disputeId}`
+    return `Commit your vote on dispute #${disputeId}`
   }
 
   if (mode === REQUEST_MODE.REVEAL) {
-    return `Reveal your vote on question #${disputeId}`
+    return `Reveal your vote on dispute #${disputeId}`
   }
 
   if (mode === REQUEST_MODE.APPEAL) {
     return data.confirm
-      ? `Confirm an appeal on question #${disputeId}`
-      : `Appeal ruling on question #${disputeId}`
+      ? `Confirm an appeal on dispute #${disputeId}`
+      : `Appeal ruling on dispute #${disputeId}`
   }
 
   return null

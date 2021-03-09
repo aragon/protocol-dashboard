@@ -18,7 +18,7 @@ export default {
   [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling }) => {
     return `Appeal round ${numberToWord(
       roundId
-    )} of question #${disputeId} in favor of ruling: ${appealOptionToString(
+    )} of dispute #${disputeId} in favor of ruling: ${appealOptionToString(
       ruling
     )}`
   },
@@ -31,13 +31,13 @@ export default {
   [actions.COMMIT_VOTE]: ({ disputeId, roundId, outcome }) => {
     return `Vote ${voteOptionToString(outcome)} on round ${numberToWord(
       roundId
-    )} of question #${disputeId}`
+    )} of dispute #${disputeId}`
   },
   [actions.CONFIRM_APPEAL]: ({ disputeId, roundId, ruling }) => {
     return `
         Confirm appeal round ${numberToWord(
           roundId
-        )} of question #${disputeId} in favor of
+        )} of dispute #${disputeId} in favor of
         ruling: ${appealOptionToString(ruling)}
       `
   },
@@ -48,12 +48,12 @@ export default {
   },
   [actions.DRAFT_JURY]: ({ disputeId }) => {
     return `
-        Draft keepers for the next round of question #${disputeId}
+        Draft keepers for the next round of dispute #${disputeId}
       `
   },
   [actions.EXECUTE_RULING]: ({ disputeId }) => {
     return `
-        Compute the final ruling for question #${disputeId}
+        Compute the final ruling for dispute #${disputeId}
       `
   },
   [actions.HEARTBEAT]: ({ transitions }) => {
@@ -68,21 +68,21 @@ export default {
   },
   [actions.REVEAL_VOTE]: ({ disputeId, roundId }) => {
     return `
-        Reveal vote on round ${numberToWord(roundId)} for question #${disputeId}
+        Reveal vote on round ${numberToWord(roundId)} for dispute #${disputeId}
       `
   },
   [actions.SETTLE_REWARD]: ({ roundId, disputeId }) => {
     return `
         Settle reward for round ${numberToWord(
           roundId
-        )} of question #${disputeId}
+        )} of dispute #${disputeId}
       `
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: ({ roundId, disputeId }) => {
     return `
         Settle appeal deposit for round ${numberToWord(
           roundId
-        )} of question #${disputeId}
+        )} of dispute #${disputeId}
       `
   },
   [actions.WITHDRAW_HNY]: ({ amount }) => {

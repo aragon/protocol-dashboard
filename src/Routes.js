@@ -15,8 +15,8 @@ export default function Routes() {
       <Redirect exact from="/" to="/dashboard" />
       <Route path="/dashboard" component={Dashboard} />
       <Route exact path="/tasks" component={Tasks} />
-      <Route exact path="/questions" component={Disputes} />
-      <Route exact path="/questions/:id" component={DisputeDetail} />
+      <Route exact path="/disputes" component={Disputes} />
+      <Route exact path="/disputes/:id" component={DisputeDetail} />
       <Redirect to="/dashboard" />
     </Switch>
   )
