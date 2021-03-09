@@ -20,6 +20,7 @@ import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
+import { validHttpFormat } from '../../lib/uri-utils'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
@@ -120,11 +121,13 @@ function Field({ label, loading, value, ...props }) {
 
         if (typeof value === 'string') {
           const ipfsPath = getIpfsCidFromUri(value)
-          if (ipfsPath) {
-            const ipfsUrl = resolvePathname(ipfsPath, `${IPFS_ENDPOINT}/`)
+          if (ipfsPath || validHttpFormat(value)) {
+            const url = ipfsPath
+              ? resolvePathname(ipfsPath, `${IPFS_ENDPOINT}/`)
+              : value
             return (
               <Link
-                href={ipfsUrl}
+                href={url}
                 css={`
                   text-decoration: none;
                 `}
