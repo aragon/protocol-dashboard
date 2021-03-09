@@ -106,10 +106,10 @@ function PrecedenceCampaignModal({ opened, onClose }) {
                   display: block;
                 `}
               >
-                All information, arguments, and comments presented in questions
-                related to the precedence campaign portray scenarios constructed
-                by 1Hive and do not reflect the views, opinions, or associations
-                of any person or entity.
+                All information and comments presented in disputes related to
+                the precedence campaign portray scenarios constructed by 1Hive
+                and do not reflect the views, opinions, or associations of any
+                person or entity.
               </span>
               <Button
                 mode="strong"

@@ -46,7 +46,7 @@ const DisputeInfo = React.memo(function({
           if (error) {
             return (
               <ErrorLoading
-                subject="question"
+                subject="dispute"
                 errors={[error.message]}
                 border={false}
               />
@@ -131,7 +131,7 @@ function DisputeHeader({ dispute, error }) {
             `}
           >
             <span>
-              Question #{id}: {description}
+              Dispute #{id}: {description}
             </span>
             {!error && dispute && (
               <DisputeStatus

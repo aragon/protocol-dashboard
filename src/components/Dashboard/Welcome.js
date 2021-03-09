@@ -40,7 +40,7 @@ function Welcome() {
             margin-bottom: ${3 * GU}px;
           `}
         >
-          Celeste is a protocol that produces answers to questions by
+          Celeste is a protocol that produces answers to disputes by
           incentivizing keepers to respond coherently.
         </p>
         <div

@@ -40,8 +40,8 @@ function HNYLockedDistribution({ distribution, text }) {
             <Row
               key={disputeId}
               label={
-                <Link href={`#/questions/${disputeId}`} external={false}>
-                  {`Question #${disputeId}`}
+                <Link href={`#/disputes/${disputeId}`} external={false}>
+                  {`Dispute #${disputeId}`}
                 </Link>
               }
               weight={weight}

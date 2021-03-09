@@ -314,7 +314,7 @@ const HNYLockedMessage = ({ finalRulingConfirmed }) => {
       result={`will remain locked until ${
         finalRulingConfirmed
           ? 'penalties are settled'
-          : 'the question has been resolved'
+          : 'the dispute has been resolved'
       }. `}
     />
   )

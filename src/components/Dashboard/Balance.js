@@ -261,7 +261,7 @@ function useHelpAttributes(distribution) {
   return useMemo(() => {
     if (distribution.inProcess.gt(0)) {
       return {
-        showDistribution: !!distribution.lockedPerDispute, // If juror has  HNY locked in questions, we'll show distribution
+        showDistribution: !!distribution.lockedPerDispute, // If juror has  HNY locked in disputes, we'll show distribution
         text:
           'Deactivating HNY does not happen immediately and requires one term before it can be processed.',
       }
@@ -287,10 +287,10 @@ function useHelpAttributes(distribution) {
 
     if (isJurorDraftedMultipleTimesSameDispute) {
       text =
-        'The same keeper can be drafted multiple times to answer the same question for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of HNY locked in the Active balance.'
+        'The same keeper can be drafted multiple times to answer the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of HNY locked in the Active balance.'
     } else {
       text = onlyOneDispute
-        ? `A portion of your active HNY has been locked because you were drafted in a question. This amount will be locked until the question has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get drafted. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} HNY.`
+        ? `A portion of your active HNY has been locked because you were drafted in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get drafted. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} HNY.`
         : ''
     }
 

@@ -1,6 +1,6 @@
 # Celeste Dashboard <a href="https://celeste.1hive.org/"><img align="right" src="docs/assets/LogoAccent.svg" height="80px" /></a>
 
-### Celeste handles subjective questions requiring judgment from human keepers.
+### Celeste handles subjective disputes requiring judgment from human keepers.
 
 <a href="https://celeste.1hive.org/dashboard"><img src="docs/assets/screenshot.png" /></a>
 
@@ -31,7 +31,7 @@ In order to start the dashboard locally, you will need to setup a few processes 
 
 You can also setup the [court services](https://github.com/1hive/celeste-backend/tree/master/packages/services), which include some automation for auto-revealing commitments, penalty settlements and heartbeats.
 
-To start populating Celeste with questions, you can use the [CLI tool](https://github.com/1hive/celeste-backend/tree/master/packages/cli).
+To start populating Celeste with disputes, you can use the [CLI tool](https://github.com/1hive/celeste-backend/tree/master/packages/cli).
 
 ## Contributing
 

@@ -192,7 +192,7 @@ const DisputesFeeRewards = ({
     <>
       {totalArbitrableFees.gt(0) && (
         <RowFee
-          label="Question fees"
+          label="Dispute fees"
           amount={totalArbitrableFormatted}
           symbol={symbol}
           showPositive
@@ -227,7 +227,7 @@ const DisputesFeeRewards = ({
           Distribution
         </span>
         <Help
-          hint="Rewards per question"
+          hint="Rewards per dispute"
           css={`
             padding: 0;
           `}
@@ -311,7 +311,7 @@ const DisputesFeeDistribution = ({ distribution, symbol, decimals }) => {
           margin-bottom: ${2 * GU}px;
         `}
       >
-        Rewards distribution per question
+        Rewards distribution per dispute
       </h3>
       {distribution
         .sort((d1, d2) => d1.disputeId - d2.disputeId)
@@ -326,8 +326,8 @@ const DisputesFeeDistribution = ({ distribution, symbol, decimals }) => {
                 margin-bottom: ${1 * GU}px;
               `}
               label={
-                <Link href={`#/questions/${disputeId}`} external={false}>
-                  {`Question #${disputeId}`}
+                <Link href={`#/disputes/${disputeId}`} external={false}>
+                  {`Dispute #${disputeId}`}
                 </Link>
               }
               isLabelLink

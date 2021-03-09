@@ -27,7 +27,7 @@ function Disputes() {
   const history = useHistory()
   const handleSelectDispute = useCallback(
     id => {
-      history.push(`/questions/${id}`)
+      history.push(`/disputes/${id}`)
     },
     [history]
   )
@@ -38,7 +38,7 @@ function Disputes() {
 
   return (
     <>
-      <TitleHeader title="Questions" />
+      <TitleHeader title="Disputes" />
       <div
         css={`
           & > div {
@@ -50,7 +50,7 @@ function Disputes() {
         <Tabs
           items={[
             <div>
-              <span>All questions </span>
+              <span>All disputes </span>
               <Tag
                 limitDigits={4}
                 label={disputes ? disputes.length : 0}
@@ -58,7 +58,7 @@ function Disputes() {
               />
             </div>,
             <div>
-              <span>My questions </span>
+              <span>My disputes </span>
               <Tag
                 limitDigits={4}
                 label={jurorDisputes ? jurorDisputes.length : 0}
