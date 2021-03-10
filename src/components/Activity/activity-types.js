@@ -1,6 +1,6 @@
 import actions from '../../actions/court-action-types'
 
-import iconAnj from './assets/activity-icon-ant.svg'
+import iconANT from './assets/activity-icon-ant.svg' 
 import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
 import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
 import iconCommitVote from './assets/activity-icon-commit-vote.svg'
@@ -11,11 +11,11 @@ import iconExecuteRuling from './assets/activity-icon-execute-ruling.svg'
 // The different types of activity
 const ACTIVITY_TYPES = {
   [actions.APPROVE_FEE_DEPOSIT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Approve fee deposit',
   },
   [actions.ACTIVATE_ANT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Activate ANT',
   },
   [actions.APPEAL_RULING]: {
@@ -39,7 +39,7 @@ const ACTIVITY_TYPES = {
     icon: iconAppealRuling,
   },
   [actions.DEACTIVATE_ANT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Deactivate ANT',
   },
   [actions.DRAFT_JURY]: {
@@ -60,18 +60,18 @@ const ACTIVITY_TYPES = {
   },
   [actions.REVEAL_VOTE]: {
     title: 'Reveal vote',
-    icon: iconAnj,
+    icon: iconANT,
   },
   [actions.SETTLE_REWARD]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Settle reward',
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Settle appeal deposit',
   },
   [actions.WITHDRAW_ANT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Withdraw ANT',
   },
 }

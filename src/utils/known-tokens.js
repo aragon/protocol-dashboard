@@ -8,7 +8,7 @@ export const KNOWN_TOKEN_BY_ENV = {
       symbol: 'ANT',
     },
     rinkeby: {
-      address: '0x8cf8196c14A654dc8Aceb3cbb3dDdfd16C2b652D',
+      address: '0xf0f8D83CdaB2F9514bEf0319F1b434267be36B5c',
       decimals: 18,
       symbol: 'ANT',
     },
@@ -25,7 +25,7 @@ export const KNOWN_TOKEN_BY_ENV = {
       symbol: 'DAI',
     },
     rinkeby: {
-      address: '0xe9A083D88Eed757B1d633321Ce0519F432c6284d',
+      address: '0xb08E32D658700f768f5bADf0679E153ffFEC42e6',
       decimals: 18,
       symbol: 'DAI',
     },
