@@ -752,7 +752,14 @@ const AnimatedContainer = React.memo(function AnimatedModal({
     >
       {({ children, screenId }) => props =>
         insideModal ? (
-          <animated.div style={{ ...props }}>{children}</animated.div>
+          <animated.div
+            style={{ ...props }}
+            css={`
+              margin-top: ${6 * GU}px;
+            `}
+          >
+            {children}
+          </animated.div>
         ) : (
           <animated.div
             ref={refCallback}
