@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
-import { Accordion, GU, textStyle, useTheme, Timer } from '@1hive/1hive-ui'
+import { GU, textStyle, useTheme, Timer } from '@1hive/1hive-ui'
 
 import DisputeOutcomeText from './DisputeOutcomeText'
 import DisputeRoundPill from './DisputeRoundPill'
@@ -24,6 +23,7 @@ import {
   getPhaseStringForStatus,
 } from '../../types/dispute-status-types'
 import { dateFormat } from '../../utils/date-utils'
+import Accordion from '../Accordion/Accordion'
 
 const Timeline = React.memo(function Timeline({ timeline }) {
   const theme = useTheme()
@@ -57,47 +57,52 @@ const Timeline = React.memo(function Timeline({ timeline }) {
                       width: 100%;
                     `}
                   >
-                    <StyledAccordion borderColor={theme.accent}>
-                      <Accordion
-                        key={roundIndex}
-                        items={[
-                          [
-                            <div
+                    <Accordion
+                      key={roundIndex}
+                      items={[
+                        [
+                          <div
+                            css={`
+                              display: flex;
+                              align-items: center;
+                            `}
+                          >
+                            <img
+                              alt={18}
+                              src={IconRound}
                               css={`
-                                display: flex;
-                                align-items: center;
+                                margin-right: ${1 * GU}px;
                               `}
-                            >
-                              <img
-                                alt={18}
-                                src={IconRound}
-                                css={`
-                                  margin-right: ${1 * GU}px;
-                                `}
-                              />
-                              <DisputeRoundPill roundId={round[0].roundId} />
-                            </div>,
+                            />
+                            <DisputeRoundPill roundId={round[0].roundId} />
+                          </div>,
 
-                            <Stepper
-                              lineColor={theme.accent.alpha(0.3)}
-                              lineTop={12}
-                              css={`
-                                padding: ${3 * GU}px 0;
-                              `}
-                            >
-                              {round.map((roundItem, phaseIndex) => (
-                                <ItemStep
-                                  key={phaseIndex}
-                                  item={roundItem}
-                                  index={phaseIndex}
-                                  roundStepContainer
-                                />
-                              ))}
-                            </Stepper>,
-                          ],
-                        ]}
-                      />
-                    </StyledAccordion>
+                          <Stepper
+                            lineColor={theme.accent.alpha(0.3)}
+                            lineTop={12}
+                            css={`
+                              padding: ${3 * GU}px 0;
+                            `}
+                          >
+                            {round.map((roundItem, phaseIndex) => (
+                              <ItemStep
+                                key={phaseIndex}
+                                item={roundItem}
+                                index={phaseIndex}
+                                roundStepContainer
+                              />
+                            ))}
+                          </Stepper>,
+                        ],
+                      ]}
+                      round={false}
+                      css={`
+                        &::after {
+                          height: 0px !important;
+                          width: 0px !important;
+                        }
+                      `}
+                    />
                   </div>
                 }
                 displayPoint={false}
@@ -276,27 +281,6 @@ function OutcomePoint() {
     </div>
   )
 }
-
-const StyledAccordion = styled.div`
-  padding: 0;
-
-  & > div:first-child {
-    border-radius: 0px;
-    border-left: 0;
-    border-right: 0;
-  }
-
-  &::after {
-    height: 0px !important;
-    width: 0px !important;
-  }
-
-  & tbody > tr:nth-child(2) {
-    & > td > div:first-child {
-      background: ${({ borderColor }) => borderColor};
-    }
-  }
-`
 
 export default function DisputeTimeline({ dispute }) {
   const disputeTimeLine = useDisputeTimeline(dispute)

@@ -1,17 +1,14 @@
 import React from 'react'
-import {
-  Accordion,
-  GU,
-  SyncIndicator,
-  textStyle,
-  useTheme,
-} from '@1hive/1hive-ui'
+import { GU, SyncIndicator, textStyle, useTheme } from '@1hive/1hive-ui'
 import { useWallet } from 'use-wallet'
-import useEvidences from '../../hooks/useEvidences'
-import { addressesEqual } from '../../lib/web3-utils'
+
+import Accordion from '../Accordion/Accordion'
 import ErrorLoadingEvidence from './ErrorLoadingEvidence'
 import IdentityBadge from '../IdentityBadge'
 import Markdown from '../Markdown'
+
+import useEvidences from '../../hooks/useEvidences'
+import { addressesEqual } from '../../lib/web3-utils'
 import { dateFormat } from '../../utils/date-utils'
 
 import folderIcon from '../../assets/folderIcon.svg'
@@ -61,6 +58,9 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                   />,
                 ],
               ]}
+              css={`
+                margin-top: ${2 * GU}px;
+              `}
             />
           )
         })}
@@ -85,7 +85,7 @@ const EvidenceContent = React.memo(function EvidenceContent({
     <div
       css={`
         margin-bottom: ${2 * GU}px;
-        padding: ${3 * GU}px ${8 * GU - 3}px;
+        padding: ${3 * GU}px ${8 * GU}px;
       `}
     >
       <div

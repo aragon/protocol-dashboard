@@ -14,7 +14,7 @@ Url of the default Ethereum node to read blockchain data from. If you intend to 
 
 ### `REACT_APP_IPFS_GATEWAY`
 
-Url of the [IPFS](https://ipfs.io) Gateway to load questions metadata from. If you intend to connect to a local IPFS daemon's Gateway, by default you should set this to `http://localhost:8080/ipfs`.
+Url of the [IPFS](https://ipfs.io) Gateway to load disputes metadata from. If you intend to connect to a local IPFS daemon's Gateway, by default you should set this to `http://localhost:8080/ipfs`.
 
 ### `REACT_APP_SUBGRAPH_NAME`
 
@@ -34,7 +34,7 @@ API key from [Portis](portis.io). Requires separate keys for testnet / mainnet.
 
 ### `REACT_APP_SKIP_VOIDING`
 
-To disable flagging of voided questions.
+To disable flagging of voided disputes.
 
 ## 3rd Party APIs
 
