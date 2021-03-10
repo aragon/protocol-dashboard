@@ -110,7 +110,6 @@ function Item({ cells, opened, round, rowHeight, sidePadding }) {
         `}
       >
         {cells.map((content, index) => {
-          // const first = index === 0
           return (
             <div
               key={index}
@@ -184,8 +183,6 @@ function EntryExpansion({ expansion, opened, round }) {
               `}
             `}
           >
-            {/* // // ${opened && `border-left: 3px solid ${theme.surfaceOpened}`};
-            // // transition: border-width 0.1s ease; */}
             <div>
               <animated.div css="overflow: hidden" style={{ height }}>
                 {expansion.map((child, i) => (
