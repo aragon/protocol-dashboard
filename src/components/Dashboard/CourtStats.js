@@ -97,7 +97,7 @@ function TokenStats({ stat, theme }) {
                 margin-right: ${0.5 * GU}px;
               `}
               height="20"
-              width="18"
+              width="20"
               src={icon}
             />
           </div>
