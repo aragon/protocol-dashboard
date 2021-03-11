@@ -5,6 +5,8 @@ import large1 from './highlights/assets/rinkeby/large/1.png'
 import large2 from './highlights/assets/rinkeby/large/2.png'
 import large3 from './highlights/assets/rinkeby/large/3.png'
 import large4 from './highlights/assets/rinkeby/large/4.png'
+import large5 from './highlights/assets/rinkeby/large/5.png'
+import large6 from './highlights/assets/rinkeby/large/6.png'
 
 import mainnetLarge1 from './highlights/assets/mainnet/large/1.png'
 import mainnetLarge2 from './highlights/assets/mainnet/large/2.png'
@@ -79,21 +81,65 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Participate on your first dispute',
+      large: 'Upcoming tasks',
     },
     description: {
       small: null,
       large: (
-        <span>
-          Once you start exploring, you will find some mock disputes with
-          realistic content that will allow you to become familiar with the
-          functionality of this dashboard.
-        </span>
+        <>
+          <p>
+            When drafted, you must perform certain actions on time to earn
+            rewards and avoid penalties.
+          </p>
+          <p>
+            Check your pending actions in the Upcoming tasks section so you
+            always know what to do.
+          </p>
+        </>
       ),
     },
     visual: {
       small: null,
       large: large3,
+    },
+  },
+  {
+    title: {
+      small: null,
+      large: 'Dispute analysis',
+    },
+    description: {
+      small: null,
+      large: (
+        <span>
+          Upon viewing a dispute you will find the essential information
+          required to assess the dispute before casting your vote or making an
+          appeal.
+        </span>
+      ),
+    },
+    visual: {
+      small: null,
+      large: large4,
+    },
+  },
+  {
+    title: {
+      small: null,
+      large: 'Dispute list',
+    },
+    description: {
+      small: null,
+      large: (
+        <span>
+          View all live disputes or only ones your adjudicating. From here you
+          can explore the details, comments, and timeline for any dispute.
+        </span>
+      ),
+    },
+    visual: {
+      small: null,
+      large: large5,
     },
   },
   {
@@ -113,7 +159,7 @@ highlights.rinkeby = [
     },
     visual: {
       small: null,
-      large: large4,
+      large: large6,
     },
     start: {
       small: null,

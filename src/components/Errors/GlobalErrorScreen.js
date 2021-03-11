@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
 import globalError from '../../assets/error.svg'
 import backgroundError from '../../assets/backgroundError.svg'
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/HeaderLogo.svg'
 
 function GlobalErrorScreen({ children }) {
   return (
