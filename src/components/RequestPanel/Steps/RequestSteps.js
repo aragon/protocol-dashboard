@@ -90,7 +90,7 @@ export function RequestStepItem({
 
     if (status === REQUEST_STATUS_PENDING) {
       return {
-        background: theme.info,
+        background: theme.accentStart,
         iconColor: theme.accentContent,
         labelColor: theme.contentSecondary.alpha(0.6),
         labelText,
