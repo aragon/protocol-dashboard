@@ -178,8 +178,8 @@ function EntryExpansion({ expansion, opened, round }) {
 
               ${round &&
                 `
-                border-bottom-left-radius: 16px;
-                border-bottom-right-radius: 16px;
+                border-bottom-left-radius: ${BIG_RADIUS}px;
+                border-bottom-right-radius: ${BIG_RADIUS}px;
               `}
             `}
           >
