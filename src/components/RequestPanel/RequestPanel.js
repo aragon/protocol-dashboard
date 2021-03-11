@@ -246,7 +246,9 @@ function RequestPanel() {
   }, [allSuccess, handleSignerClose, maxAttemptsReached, requests])
 
   const blockPanel =
-    !maxAttemptsReached && requests.length > 1 && Boolean(progress.requesting)
+    progress.errorProcessing === -1 &&
+    requests.length > 1 &&
+    Boolean(progress.requesting)
 
   return (
     <SidePanel
