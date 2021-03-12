@@ -377,7 +377,7 @@ const VoteInfo = ({ commitmentDate, outcome, revealDate }) => {
 
   const outcomeDescription = useMemo(() => {
     if (outcome === OUTCOMES.Refused) {
-      return { text: 'Refused to vote' }
+      return { text: 'Abstained from voting' }
     }
 
     return { prefix: 'voted ', text: voteOptionToString(outcome) }

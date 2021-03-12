@@ -94,7 +94,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
           onClick={() => onRequestCommit(VOTE_OPTION_REFUSE)}
           width={buttonWidth}
         >
-          Refuse to vote
+          Abstain from voting
         </VotingButton>
       </div>
       <RefuseToVoteHint compactMode={compactMode} width={buttonWidth} />
@@ -136,11 +136,11 @@ const RefuseToVoteHint = ({ compactMode, width }) => {
               margin-right: ${0.5 * GU}px;
             `}
           >
-            Why refuse to vote?
+            Why abstain from voting?
           </span>
           <Help hint="">
             <p>
-              You can refuse to vote for many reasons, for example if you
+              You can abstain from voting for many reasons, for example if you
               consider that comments were not conclusive enough or the
               description was incoherent.
             </p>
