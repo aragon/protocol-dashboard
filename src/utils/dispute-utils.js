@@ -294,7 +294,7 @@ export function getAdjudicationPhase(dispute, round, termId, courtConfig) {
   // above by the first check and considered 'Ended'.
   const appealConfirmationEndTerm = appealEndTerm + appealConfirmationTerms
 
-  if (termId < appealConfirmationEndTerm) {
+  if (termId <= appealConfirmationEndTerm) {
     return {
       phase: DisputesTypes.Phase.ConfirmAppeal,
       phaseEndTerm: appealConfirmationEndTerm,
