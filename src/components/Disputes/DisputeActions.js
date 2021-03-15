@@ -402,7 +402,7 @@ function getAttributesWhenRevealed(
       finalRulingConfirmed ? (
         <HNYSlashedMessage />
       ) : (
-        <HNYSlashMessage extra=" if no one confirms the appeal starting a new round of voting" />
+        <HNYSlashMessage extra="if no one confirms the appeal starting a new round of voting" />
       )
     ) : settledPenalties ? (
       <HNYRewardsMessage />
