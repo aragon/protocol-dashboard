@@ -47,7 +47,7 @@ export function parseUnits(value, digits) {
  */
 export function formatUnits(
   value,
-  { digits = 18, commas = true, replaceZeroBy = '0', precision = 2 } = {}
+  { digits = 18, commas = true, replaceZeroBy = '0', precision = 3 } = {}
 ) {
   if (value.lt(0) || digits < 0) {
     return ''
