@@ -38,6 +38,7 @@ import jurorRegistryAbi from '../abi/JurorRegistry.json'
 import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
+const DRAFT_JURORS_GAS_LIMIT = 1400000
 const GAS_LIMIT = 1200000
 const HNY_ACTIVATE_GAS_LIMIT = 1000000
 const HNY_ACTIONS_GAS_LIMIT = 400000
@@ -293,7 +294,7 @@ export function useDisputeActions() {
         {
           action: () =>
             disputeManagerContract.draft(disputeId, {
-              gasLimit: GAS_LIMIT,
+              gasLimit: DRAFT_JURORS_GAS_LIMIT,
             }),
           description: radspec[actions.DRAFT_JURY]({ disputeId }),
           type: actions.DRAFT_JURY,
