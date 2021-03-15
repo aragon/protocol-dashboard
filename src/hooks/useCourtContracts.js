@@ -431,7 +431,7 @@ export function useDisputeActions() {
         if (!allowance.eq(0)) {
           // Reset allowance
           requestQueue.push({
-            ...approveFeeDeposit(0),
+            ...approveFeeDeposit(bigNum(0)),
             ensureConfirmation: true,
           })
         }
