@@ -384,8 +384,8 @@ function getAttributesWhenRevealed(
   backgroundColor
 ) {
   const { appeal, vote } = lastRound
-  // Check if has voted in consensus with the plurality for the last round
 
+  // Check if has voted in consensus with the plurality for the last round
   const hasVotedInConsensus = vote && jurorDraft.outcome === vote.winningOutcome
   // We must check if the penalties were already settled so we can tell the jurors
   // wether their HNY locked balance has been discounted or they can claim rewards
@@ -399,7 +399,7 @@ function getAttributesWhenRevealed(
     background = backgroundColor[appeal ? 'negative' : 'positive']
     icon = appeal ? IconVotingFailed : IconRewardsGreen
     paragraph = appeal ? (
-      finalRulingConfirmed ? (
+      settledPenalties ? (
         <HNYSlashedMessage />
       ) : (
         <HNYSlashMessage extra="if no one confirms the appeal starting a new round of voting" />
@@ -426,7 +426,7 @@ function getAttributesWhenRevealed(
       ) : (
         <HNYLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
       )
-    ) : finalRulingConfirmed ? (
+    ) : settledPenalties ? (
       <HNYSlashedMessage />
     ) : (
       <HNYSlashMessage />
