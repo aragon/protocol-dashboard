@@ -1,6 +1,6 @@
 import actions from '../../actions/court-action-types'
 
-import iconANT from './assets/activity-icon-ant.svg' 
+import iconANT from './assets/activity-icon-ant.svg'
 import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
 import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
 import iconCommitVote from './assets/activity-icon-commit-vote.svg'
