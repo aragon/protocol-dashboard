@@ -128,7 +128,12 @@ const RewardsModule = React.memo(function RewardsModule({
                       distribution={feeRewards.distribution}
                     />
                   )}
-                  <TotalFees totalFees={totalFeeRewards} />
+                  <TotalFees
+                    totalFees={totalFeeRewards}
+                    withBorder={totalSubscriptionFees
+                      .add(totalDisputesFees)
+                      .gt(0)}
+                  />
                 </form>
               </FeeSection>
             )}
@@ -265,7 +270,7 @@ function SubscriptionFeeRewards({ totalFees }) {
   )
 }
 
-function TotalFees({ totalFees }) {
+function TotalFees({ totalFees, withBorder }) {
   const theme = useTheme()
   const { feeToken } = useCourtConfig()
 
@@ -275,7 +280,7 @@ function TotalFees({ totalFees }) {
   return (
     <div
       css={`
-        border-top: 1px solid ${theme.border};
+        ${withBorder && `border-top: 1px solid ${theme.border};`}
         margin-top: ${2 * GU}px;
         padding-top: ${2 * GU}px;
       `}
