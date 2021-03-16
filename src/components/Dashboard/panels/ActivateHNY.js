@@ -130,7 +130,7 @@ const ActivateHNY = React.memo(function ActivateHNY({
   return (
     <HNYForm
       actionLabel="Activate"
-      info={`Each keeper is restricted to activating a maximum amount determined by the total amount activated to Celeste. The higher the total amount activated the less individual keepers can activate. The max you can currently activate is ${maxToActivateFormatted} ${anjToken.symbol}.`}
+      info={`Each keeper is restricted to activating a maximum amount determined by the total amount activated in Celeste. The higher the total amount activated the less individual keepers can activate. The max you can currently activate is ${maxToActivateFormatted} ${anjToken.symbol}.`}
       maxAmount={maxAmount}
       onSubmit={handleActivateHNY}
       onDone={onDone}
