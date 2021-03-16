@@ -15,6 +15,7 @@ import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
 
 const HNYForm = React.memo(function HNYForm({
   actionLabel,
+  info,
   maxAmount,
   onDone,
   onSubmit,
@@ -151,13 +152,14 @@ const HNYForm = React.memo(function HNYForm({
       )}
       <Button
         css={`
-          margin-bottom: ${1 * GU}px;
+          margin-bottom: ${2 * GU}px;
         `}
         label={actionLabel}
         mode="strong"
         type="submit"
         wide
       />
+      {info && <Info>{info}</Info>}
     </form>
   )
 })
