@@ -36,7 +36,7 @@ type Disputable @entity {
 }
 ```
 
-### Aragon Protocol handles two different types of disputes:
+### Aragon Court handles two different types of disputes:
 
 - **Raw disputes**: disputes that were not created through an Agreement; most likely created manually
 - **Disputables**: disputes that were created through an Agreement due to an action being challenged on an Aragon organization

@@ -1,4 +1,4 @@
-# Contributing to Aragon Protocol Dashboard
+# Contributing to Aragon Court Dashboard
 
 :tada: Thank you for being interested in contributing to Aragon! :tada:
 
@@ -10,7 +10,7 @@ All members of our community are expected to follow our [Code of Conduct](https:
 
 ## Your first contribution
 
-Unsure where to begin contributing to the Aragon Protocol Dashboard?
+Unsure where to begin contributing to the Aragon Court Dashboard?
 
 You can start with a [Good First Issue](https://github.com/aragon/protocol-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
