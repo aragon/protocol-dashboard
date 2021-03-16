@@ -34,60 +34,43 @@ export default {
     )} of dispute #${disputeId}`
   },
   [actions.CONFIRM_APPEAL]: ({ disputeId, roundId, ruling }) => {
-    return `
-        Confirm appeal round ${numberToWord(
-          roundId
-        )} of dispute #${disputeId} in favor of
-        ruling: ${appealOptionToString(ruling)}
-      `
+    return `Confirm appeal round ${numberToWord(
+      roundId
+    )} of dispute #${disputeId} in favor of ruling: ${appealOptionToString(
+      ruling
+    )}`
   },
   [actions.DEACTIVATE_HNY]: ({ amount }) => {
-    return `
-        Deactivate the total amount of ${amount} HNY
-      `
+    return `Deactivate the total amount of ${amount} HNY`
   },
   [actions.DRAFT_JURY]: ({ disputeId }) => {
-    return `
-        Draft keepers for the next round of dispute #${disputeId}
-      `
+    return `Draft keepers for the next round of dispute #${disputeId}`
   },
   [actions.EXECUTE_RULING]: ({ disputeId }) => {
-    return `
-        Compute the final ruling for dispute #${disputeId}
-      `
+    return `Compute the final ruling for dispute #${disputeId}`
   },
   [actions.HEARTBEAT]: ({ transitions }) => {
-    return `
-        Transition ${transitions} term${transitions > 1 ? 's' : ''}
-      `
+    return `Transition ${transitions} term${transitions > 1 ? 's' : ''}`
   },
   [actions.LEAK_VOTE]: ({ voteId, voter }) => {
-    return `
-        Report code leaked by ${voter} for vote #${voteId}
-      `
+    return `Report code leaked by ${voter} for vote #${voteId}`
   },
   [actions.REVEAL_VOTE]: ({ disputeId, roundId }) => {
-    return `
-        Reveal vote on round ${numberToWord(roundId)} for dispute #${disputeId}
-      `
+    return `Reveal vote on round ${numberToWord(
+      roundId
+    )} for dispute #${disputeId}`
   },
   [actions.SETTLE_REWARD]: ({ roundId, disputeId }) => {
-    return `
-        Settle reward for round ${numberToWord(
-          roundId
-        )} of dispute #${disputeId}
-      `
+    return `Settle reward for round ${numberToWord(
+      roundId
+    )} of dispute #${disputeId}`
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: ({ roundId, disputeId }) => {
-    return `
-        Settle appeal deposit for round ${numberToWord(
-          roundId
-        )} of dispute #${disputeId}
-      `
+    return `Settle appeal deposit for round ${numberToWord(
+      roundId
+    )} of dispute #${disputeId}`
   },
   [actions.WITHDRAW_HNY]: ({ amount }) => {
-    return `
-        Withdraw the total amount of ${amount} HNY
-      `
+    return `Withdraw the total amount of ${amount} HNY`
   },
 }
