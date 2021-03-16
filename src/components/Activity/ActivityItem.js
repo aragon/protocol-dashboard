@@ -94,7 +94,7 @@ function ActivityItem({ activity }) {
                 margin-right: ${1 * GU}px;
               `}
             >
-              <img src={icon} alt="" />
+              <img src={icon} alt="" height="28" />
             </div>
             <div
               css={`
