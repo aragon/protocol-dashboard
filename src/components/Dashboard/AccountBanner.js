@@ -215,8 +215,7 @@ const BannerWithProbability = ({ activeBalance }) => {
         <p>
           This is a numerical estimate of your likelihood of being selected for
           arbitration. It’s calculated by dividing your active ANT balance
-          against the Protocol's total active ANT balance during the current
-          term.
+          against the court's total active ANT balance during the current term.
         </p>
         <p
           css={`

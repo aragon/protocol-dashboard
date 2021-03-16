@@ -185,7 +185,7 @@ function LegalTermsAndPolicy({ termsAccepted, onChange }) {
             text-align: left;
           `}
         >
-          By continuing with your email, you agree to Aragon Protocol's{' '}
+          By continuing with your email, you agree to Aragon Court's{' '}
           <Link href="https://ant.aragon.org/legal/terms-general.pdf">
             legal terms
           </Link>{' '}

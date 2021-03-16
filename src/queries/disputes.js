@@ -8,17 +8,14 @@ export const AllDisputes = gql`
       lastRoundId
       state
       metadata
-      disputable {
-        title
-      }
       rounds {
         id
         state
         number
         draftTermId
         delayedTerms
-        jurors {
-          juror {
+        guardians {
+          guardian {
             id
           }
           commitment

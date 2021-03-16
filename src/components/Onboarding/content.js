@@ -25,7 +25,7 @@ const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
 const MAIN_COURT_URL = 'https://court.aragon.org'
 
 const highlights = {
-  heading: 'Aragon Protocol',
+  heading: 'Aragon Court',
   defaultVisualColor: '#FF9780',
   defaultButtonColor: '#FFFFFF',
 }
@@ -40,7 +40,7 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          This is a testnet release of the official Aragon Protocol Dashboard at{' '}
+          This is a testnet release of the official Aragon Court Dashboard at{' '}
           <Link href={MAIN_COURT_URL}>court.aragon.org</Link>. We'd love for you
           to explore it and tell us what you think!
         </span>
@@ -140,7 +140,7 @@ highlights.rinkeby = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Protocol',
+      large: 'Discover Aragon Court',
     },
   },
 ]
@@ -156,7 +156,7 @@ highlights.main = [
       large: (
         <span>
           Your first ANT has been activated succesfully. Now, read the quick
-          guide to be a good and active guardian on the protocol.
+          guide to be a good and active guardian on the court.
         </span>
       ),
     },
@@ -288,7 +288,7 @@ highlights.main = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Protocol',
+      large: 'Discover Aragon Court',
     },
   },
 ]

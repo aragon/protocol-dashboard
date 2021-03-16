@@ -79,8 +79,8 @@ const CommitPanel = React.memo(function CommitPanel({
       setRevealService(checked)
       toast(
         checked
-          ? 'Protocol auto-reveal service enabled'
-          : 'Protocol auto-reveal service disabled'
+          ? 'Court auto-reveal service enabled'
+          : 'Court auto-reveal service disabled'
       )
     },
     [toast]

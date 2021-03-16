@@ -174,10 +174,7 @@ export function useCourtConfigSubscription(courtAddress) {
 
   // TODO: handle possible errors
   const courtConfig = useMemo(
-    () =>
-      data?.courtConfig
-        ? transformCourtConfigDataAttributes(data.courtConfig)
-        : null,
+    () => (data?.court ? transformCourtConfigDataAttributes(data.court) : null),
     [data]
   )
 

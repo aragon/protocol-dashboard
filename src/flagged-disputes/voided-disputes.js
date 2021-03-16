@@ -18,7 +18,7 @@ const VOIDED_DISPUTES = {
             link:
               'https://blog.aragon.one/update-on-aragon-courts-first-mock-dispute/',
             description:
-              'Dispute #0 is void and all related content has been removed from the Dashboard. Aragon One has made the decision to void the dispute and consider it non-existent when considering precedence for future Aragon Protocol cases.',
+              'Dispute #0 is void and all related content has been removed from the Dashboard. Aragon One has made the decision to void the dispute and consider it non-existent when considering precedence for future Aragon Court cases.',
             text: 'This dispute has been voided and discontinued',
           },
         ].map(dispute => [dispute.id, dispute])

@@ -3,7 +3,7 @@ import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
 
 const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
 
-export const RINKEBY_COURT = '0xe9180dBE762Fe39520fC9883f7f7EFeBA6506534'
+export const RINKEBY_COURT = '0xA88c52E80f15440B223a24c1e8f22f21D18D8d5f'
 
 export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
@@ -63,6 +63,6 @@ function getRinkebyCourtAddress(subgraphName) {
 }
 
 function getRinkebySubgraphUrls(subgraphName) {
-  return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court-${subgraphName ||
+  return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-${subgraphName ||
     'rinkeby'}`
 }

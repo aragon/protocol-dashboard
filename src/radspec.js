@@ -55,7 +55,7 @@ export default {
   },
   [actions.HEARTBEAT]: ({ transitions }) => {
     return `
-        Transition ${transitions} protocol term${transitions > 1 ? 's' : ''}
+        Transition ${transitions} court term${transitions > 1 ? 's' : ''}
       `
   },
   [actions.LEAK_VOTE]: ({ voteId, voter }) => {
