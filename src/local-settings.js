@@ -1,11 +1,12 @@
 import env from './environment'
 import { graphEndpoint, IPFS_ENDPOINT } from './endpoints'
 
+const CLIENT_THEME = 'THEME'
 const DEFAULT_ETH_NODE = 'DEFAULT_ETH_NODE'
+const DEFAULT_SUBGRAPH_HTTP_ENDPOINT = graphEndpoint()
 const IPFS_GATEWAY = 'IPFS_GATEWAY'
 const PACKAGE_VERSION = 'PACKAGE_VERSION'
 const SUBGRAPH_HTTP_ENDPOINT = 'SUBGRAPH_HTTP_ENDPOINT'
-const DEFAULT_SUBGRAPH_HTTP_ENDPOINT = graphEndpoint()
 
 // Get a setting from localStorage
 function getLocalStorageSetting(confKey) {
@@ -68,4 +69,24 @@ export function getSubgraphHttpEndpoint() {
 
 export function setSubgraphHttpEndpoint(endpoint) {
   return setLocalSetting(SUBGRAPH_HTTP_ENDPOINT, endpoint)
+}
+
+export function getClientTheme() {
+  const storedClientTheme = getLocalStorageSetting(CLIENT_THEME)
+  if (storedClientTheme) {
+    try {
+      return JSON.parse(storedClientTheme)
+    } catch (err) {}
+  }
+  return {
+    // To be replaced by an “auto” state
+    appearance: window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light',
+    theme: null,
+  }
+}
+
+export function setClientTheme(appearance, theme = null) {
+  return setLocalSetting(CLIENT_THEME, JSON.stringify({ appearance, theme }))
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonIcon, GU, IconMenu } from '@1hive/1hive-ui'
+import { ButtonIcon, GU, IconMenu, useTheme } from '@1hive/1hive-ui'
 import AccountModule from '../Account/AccountModule'
 import ClockModule from '../ClockModule'
 import ActivityButton from '../Activity/ActivityButton'
@@ -11,13 +11,15 @@ const Header = React.memo(function Header({
   toggleMenuPanel,
   onOpenPreferences,
 }) {
+  const theme = useTheme()
+
   return (
     <header
       css={`
         position: relative;
         z-index: 3;
         height: ${8 * GU}px;
-        background: #fff;
+        background: ${theme.surface};
         box-shadow: rgba(0, 0, 0, 0.05) 0 2px 3px;
         display: flex;
         align-items: center;

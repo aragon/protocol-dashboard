@@ -7,16 +7,19 @@ import {
   IconSettings,
   Popover,
   RADIUS,
+  Switch,
   textStyle,
   useTheme,
   useViewport,
 } from '@1hive/1hive-ui'
+import { useClientTheme } from '../../providers/ClientTheme'
 
 import iconNetwork from '../../assets/global-preferences-network.svg'
 import iconNotifications from '../../assets/global-preferences-notifications.svg'
 
 function GlobalPreferencesButton({ onOpen }) {
   const theme = useTheme()
+  const clientTheme = useClientTheme()
   const { below } = useViewport()
 
   const [opened, setOpened] = useState(false)
@@ -31,6 +34,10 @@ function GlobalPreferencesButton({ onOpen }) {
     },
     [onOpen]
   )
+
+  const toggleDarkMode = useCallback(() => {
+    clientTheme.toggleAppearance()
+  }, [clientTheme])
 
   return (
     <React.Fragment>
@@ -94,7 +101,24 @@ function GlobalPreferencesButton({ onOpen }) {
             icon={iconNotifications}
             label="Notifications"
           />
-          <Item href="https://help.aragon.org/article/48-aragon-court-faq">
+          <Item
+            onClick={toggleDarkMode}
+            label={
+              <React.Fragment>
+                <div
+                  css={`
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                  `}
+                >
+                  <span>Dark mode</span>
+                  <Switch checked={clientTheme.appearance === 'dark'} />
+                </div>
+              </React.Fragment>
+            }
+          />
+          <Item href="https://wiki.1hive.org/projects/celeste">
             <div
               css={`
                 flex-grow: 1;

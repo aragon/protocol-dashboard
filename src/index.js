@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 import App from './App'
+import { ClientThemeProvider } from './providers/ClientTheme'
+import { SubGraphProvider } from './providers/Subgraph'
 import initializeSentry from './sentry'
 import { checkMigrations } from './migrations'
-import { SubGraphProvider } from './providers/Subgraph'
 
 initializeSentry()
 checkMigrations()
@@ -18,7 +19,9 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.render(
   <SubGraphProvider>
     <GlobalStyle />
-    <App />
+    <ClientThemeProvider>
+      <App />
+    </ClientThemeProvider>
   </SubGraphProvider>,
   document.getElementById('root')
 )

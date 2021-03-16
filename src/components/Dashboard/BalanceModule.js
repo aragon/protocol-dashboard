@@ -123,7 +123,6 @@ const BalanceModule = React.memo(
           <Box
             padding={0}
             css={`
-              overflow: hidden;
               border: 0;
               height: 100%;
             `}

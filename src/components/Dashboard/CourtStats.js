@@ -78,6 +78,7 @@ function TokenStats({ stat, theme }) {
           css={`
             ${textStyle('title2')};
             font-weight: 300;
+            color: ${theme.content};
           `}
         >
           {!error ? (

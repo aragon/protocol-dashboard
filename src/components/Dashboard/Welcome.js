@@ -56,7 +56,6 @@ function Welcome() {
             css={`
               width: ${19 * GU}px;
               margin-right: ${1.5 * GU}px;
-              background: linear-gradient(89deg, #6050b0 -42%, #8e54a5 117%);
             `}
           />
           <Button
