@@ -14,52 +14,46 @@ export default function useJurorSubscriptionFees() {
 
   const [subscriptionFees, setSubscriptionFees] = useState([])
 
+  // subscriptionModule.periods contains the latest period
+  // Jurors failing to claim for a period, will forfeit the unclaimed amount
+  // The unclaimed amount won't accrue for the juror and instead will be available for distribution for all jurors in the next period
+  // For this reason we should only check if the juror has unclaimed amount for the latest period
   const periods = subscriptionModule?.periods || []
 
   useEffect(() => {
     let cancelled = false
 
     const fetchSubscriptionFees = async () => {
-      if (periods.length === 0 || !getters || !claimedSubscriptionFees) {
+      if (periods.length < 1 || !getters || !claimedSubscriptionFees) {
         return
       }
 
+      // getJurorShare could fail if the termRandomness cannot yet be computed for the designated term (meaning that the current block is not yet > the block at which the court was heartbeated + 1)
       try {
         const jurorSubscriptionsFees = []
-        // Subscription fees can be only claimed for past periods
-        for (let index = 0; index < periods.length - 1; index++) {
-          if (cancelled) {
-            break
-          }
+        const period = periods[0] // Remember as noted before, periods only contains the latest period
+        const periodId = period.id
 
-          const period = periods[index]
-          if (period.donatedFees.gt(0)) {
-            const periodId = period.id
-
-            // TODO: See if we can get the juror share directly from the period data
-            const jurorShare = await getters.getJurorShare(
-              wallet.account,
-              periodId
-            )
-
-            // jurorShare is conformed by [address: token, BigNum: shareAmount]
-            if (
-              jurorShare[1].gt(0) &&
-              !hasJurorClaimed(claimedSubscriptionFees, periodId)
-            ) {
-              jurorSubscriptionsFees.push({
-                periodId,
-                amount: jurorShare[1],
-              })
-            }
-          }
+        // jurorShare is conformed by [address: token, BigNum: shareAmount]
+        const jurorShare = await getters.getJurorShare(wallet.account)
+        if (
+          jurorShare[1].gt(0) &&
+          !hasJurorClaimed(claimedSubscriptionFees, periodId)
+        ) {
+          jurorSubscriptionsFees.push({
+            periodId,
+            amount: jurorShare[1],
+          })
         }
 
         if (!cancelled) {
           setSubscriptionFees(jurorSubscriptionsFees)
         }
       } catch (err) {
-        console.error(`Error fetching keeper subscription fees: ${err}`)
+        console.error(`Error fetching keeper subscription fees: ${err.message}`)
+        if (!cancelled) {
+          setSubscriptionFees([])
+        }
       }
     }
 

@@ -640,7 +640,7 @@ export function useCourtSubscriptionActions() {
   const claimFees = useCallback(
     periodId => {
       return {
-        action: () => courtSubscriptionsContract.claimFees(periodId),
+        action: () => courtSubscriptionsContract.claimFees(),
         description: radspec[actions.CLAIM_SUBSCRIPTION_FEES]({
           periodId,
         }),
@@ -651,8 +651,8 @@ export function useCourtSubscriptionActions() {
   )
 
   const getJurorShare = useCallback(
-    (juror, periodId) => {
-      return courtSubscriptionsContract.getJurorShare(juror, periodId)
+    juror => {
+      return courtSubscriptionsContract.getJurorShare(juror)
     },
     [courtSubscriptionsContract]
   )
