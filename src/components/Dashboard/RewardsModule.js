@@ -251,7 +251,7 @@ const DisputesFeeRewards = ({
 }
 
 function SubscriptionFeeRewards({ totalFees }) {
-  const { feeToken, terms, termDuration, subscriptionModule } = useCourtConfig()
+  const { feeToken, subscriptionModule, terms, termDuration } = useCourtConfig()
   const formattedAmount = formatTokenAmount(
     totalFees,
     true,
