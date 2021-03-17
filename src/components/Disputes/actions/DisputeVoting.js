@@ -97,7 +97,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
           Abstain from voting
         </VotingButton>
       </div>
-      <RefuseToVoteHint compactMode={compactMode} width={buttonWidth} />
+      <AbstainFromVotingHint compactMode={compactMode} width={buttonWidth} />
       <Info mode={canJurorVote ? 'description' : 'warning'}>
         {(() => {
           if (!wallet.account)
@@ -112,7 +112,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
   )
 }
 
-const RefuseToVoteHint = ({ compactMode, width }) => {
+const AbstainFromVotingHint = ({ compactMode, width }) => {
   const theme = useTheme()
 
   return (

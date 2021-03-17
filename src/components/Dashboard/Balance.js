@@ -9,9 +9,9 @@ import SplitAmount from '../SplitAmount'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useHNYAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 
-import { PCT_BASE } from '../../utils/dispute-utils'
 import { formatTokenAmount, formatUnits } from '../../lib/math-utils'
 import { movementDirection, convertToString } from '../../types/anj-types'
+import { PCT_BASE } from '../../utils/dispute-utils'
 
 import HNYIcon from '../../assets/IconHNY.svg'
 import lockIcon from '../../assets/IconLock.svg'
