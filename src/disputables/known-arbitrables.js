@@ -17,7 +17,7 @@ export const KnownArbitrables = {
           `https://network-dashboard.vercel.app/#/proposals/${actionId}`,
       },
       {
-        address: '0x7777cd7c9c6d3537244871ac8e73b3cb9710d45a',
+        address: '0x15d99c0ba7cd951a9cadeb9bff4d603a1af23c3c',
         urlBuilder: actionId =>
           `https://honey-pot-git-disputable-version-1hive.vercel.app/#/proposal/${actionId}`,
       },
