@@ -40,7 +40,7 @@ function DisputeOutcomeText({
         css={`
           color: ${color};
           display: flex;
-          align-items: center;
+          align-items: flex-start;
         `}
       >
         <Icon size="medium" />

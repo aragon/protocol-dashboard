@@ -119,7 +119,7 @@ function MainView({ children }) {
               <footer
                 css={`
                   flex-shrink: 0;
-                  margin-bottom: ${5 * GU}px;
+                  padding-bottom: ${5 * GU}px;
                   width: 100%;
                   text-align: center;
                   ${textStyle('body2')};
@@ -127,12 +127,7 @@ function MainView({ children }) {
                 `}
               >
                 Supporting services provided by{' '}
-                <Link href="https://aragon.one">1Hive</Link>. Read 1Hive
-                Celeste's{' '}
-                <Link href="https://anj.aragon.org/legal/terms-general.pdf">
-                  Terms of Service
-                </Link>
-                .
+                <Link href="https://wiki.1hive.org">1Hive</Link>.
               </footer>
             </div>
           </ScrollView>

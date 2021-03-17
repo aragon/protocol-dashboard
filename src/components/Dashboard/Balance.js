@@ -9,9 +9,9 @@ import SplitAmount from '../SplitAmount'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useHNYAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 
-import { PCT_BASE } from '../../utils/dispute-utils'
-import { bigNum, formatTokenAmount, formatUnits } from '../../lib/math-utils'
+import { formatTokenAmount, formatUnits } from '../../lib/math-utils'
 import { movementDirection, convertToString } from '../../types/anj-types'
+import { PCT_BASE } from '../../utils/dispute-utils'
 
 import HNYIcon from '../../assets/IconHNY.svg'
 import lockIcon from '../../assets/IconLock.svg'
@@ -276,21 +276,17 @@ function useHelpAttributes(distribution) {
 
     let text
     const { decimals, symbol } = anjToken
-    const penaltyPercentage = bigNum(penaltyPct).div(PCT_BASE.div(100))
-    const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
-      digits: decimals,
-    })
+
     const minLockedAmountFormatted = formatUnits(
       minActiveBalance.mul(penaltyPct).div(PCT_BASE),
       { digits: decimals }
     )
 
     if (isJurorDraftedMultipleTimesSameDispute) {
-      text =
-        'The same keeper can be drafted multiple times to answer the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of HNY locked in the Active balance.'
+      text = `The same keeper can be drafted multiple times to participate on the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are drafted, as well as the % of ${symbol} locked in the Active balance.`
     } else {
       text = onlyOneDispute
-        ? `A portion of your active HNY has been locked because you were drafted in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount corresponds to the ${penaltyPercentage}% of the minimum active balance for each time you get drafted. The minimum active balance is currently ${minActiveBalanceFormatted} ${symbol}, therefore the amount locked would be ${minLockedAmountFormatted} HNY.`
+        ? `A portion of your active ${symbol} has been locked because you were drafted in a dispute. This amount will be locked until the dispute has been resolved. The exact locked amount is ${minLockedAmountFormatted} ${symbol} per dispute you have been drafted in.`
         : ''
     }
 

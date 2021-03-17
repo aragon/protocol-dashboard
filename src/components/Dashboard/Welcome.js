@@ -21,7 +21,7 @@ function Welcome() {
       <div
         css={`
           padding: ${4 * GU}px;
-          width: 600px;
+          max-width: 600px;
           color: white;
         `}
       >

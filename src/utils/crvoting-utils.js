@@ -18,7 +18,7 @@ export const NOBODY_APPEALED = 'Nobody appealed'
 export const NOBODY_CONFIRMED = 'No confirmation'
 
 const voteOptionStringMapping = {
-  [VOTE_OPTION_REFUSE]: 'REFUSE TO VOTE',
+  [VOTE_OPTION_REFUSE]: 'ABSTAIN FROM VOTING',
   [VOTE_OPTION_AGAINST]: 'BLOCK ACTION',
   [VOTE_OPTION_IN_FAVOR]: 'ALLOW ACTION',
 }
@@ -28,7 +28,7 @@ export function voteOptionToString(outcome) {
 }
 
 const appealOptionStringMapping = {
-  [VOTE_OPTION_REFUSE]: 'Refuse',
+  [VOTE_OPTION_REFUSE]: 'Abstain from voting',
   [VOTE_OPTION_AGAINST]: 'Block action',
   [VOTE_OPTION_IN_FAVOR]: 'Allow action',
 }
@@ -39,7 +39,7 @@ export function appealOptionToString(outcome) {
 
 const outcomeStringMapping = {
   [OUTCOMES.Leaked]: 'Invalid ruling',
-  [OUTCOMES.Refused]: 'Refused to vote',
+  [OUTCOMES.Refused]: 'Abstained from voting',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',
 }
@@ -53,7 +53,7 @@ export function juryOutcomeToString(outcome) {
 
 const appealRulingStringMapping = {
   [OUTCOMES.Leaked]: 'Invalid ruling',
-  [OUTCOMES.Refused]: 'Refused',
+  [OUTCOMES.Refused]: 'Abstained from voting',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',
 }
@@ -67,7 +67,7 @@ export function appealRulingToString(outcome, confirm) {
 
 const finalRulingStringMapping = {
   [OUTCOMES.Leaked]: 'Invalid ruling',
-  [OUTCOMES.Refused]: 'Refused',
+  [OUTCOMES.Refused]: 'Abstained from voting',
   [OUTCOMES.Against]: 'Blocked action',
   [OUTCOMES.InFavor]: 'Allowed action',
 }
