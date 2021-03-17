@@ -7,6 +7,7 @@ import {
   Info,
   Link,
   textStyle,
+  Timer,
   useTheme,
 } from '@1hive/1hive-ui'
 
@@ -19,6 +20,7 @@ import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
 
 import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
+import { getTermEndTime } from '../../utils/court-utils'
 
 // anjRewards => HNY => First settle with `onSettleReward()`, then withdraw
 // feeRewards => HNY =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
@@ -249,7 +251,7 @@ const DisputesFeeRewards = ({
 }
 
 function SubscriptionFeeRewards({ totalFees }) {
-  const { feeToken } = useCourtConfig()
+  const { feeToken, terms, termDuration, subscriptionModule } = useCourtConfig()
   const formattedAmount = formatTokenAmount(
     totalFees,
     true,
@@ -257,16 +259,50 @@ function SubscriptionFeeRewards({ totalFees }) {
     true
   )
 
+  const { currentPeriod, periodDuration } = subscriptionModule
+  const periodEndTerm = currentPeriod * periodDuration + periodDuration
+
   return (
-    <RowFee
-      label="Subscriptions"
-      amount={formattedAmount}
-      symbol={feeToken.symbol}
-      showPositive
-      css={`
-        margin-bottom: ${2 * GU}px;
-      `}
-    />
+    <>
+      <RowFee
+        label="Subscriptions"
+        amount={formattedAmount}
+        symbol={feeToken.symbol}
+        showPositive
+        css={`
+          margin-bottom: ${2 * GU}px;
+        `}
+      />
+      <Info
+        mode="warning"
+        css={`
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: ${2 * GU}px;
+        `}
+      >
+        <div>
+          Failing to claim subscription rewards during the current period will
+          forfeit the unclaimed amount.
+        </div>
+        <Help hint="Time left to claim">
+          {' '}
+          <div>
+            <span
+              css={`
+                ${textStyle('body1')};
+              `}
+            >
+              Time left to claim:{' '}
+            </span>
+            <Timer
+              end={getTermEndTime(periodEndTerm, { terms, termDuration })}
+              showIcon={false}
+            />
+          </div>
+        </Help>
+      </Info>
+    </>
   )
 }
 

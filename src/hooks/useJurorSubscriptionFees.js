@@ -28,6 +28,7 @@ export default function useJurorSubscriptionFees() {
         return
       }
 
+      // getJurorShare could fail if the termRandomness cannot yet be computed for the designated term (meaning that the current block is not yet > the block at which the court was heartbeated + 1)
       try {
         const jurorSubscriptionsFees = []
         const period = periods[0] // Remember as noted before, periods only contains the latest period
@@ -49,7 +50,10 @@ export default function useJurorSubscriptionFees() {
           setSubscriptionFees(jurorSubscriptionsFees)
         }
       } catch (err) {
-        console.error(`Error fetching keeper subscription fees: ${err}`)
+        console.error(`Error fetching keeper subscription fees: ${err.message}`)
+        if (!cancelled) {
+          setSubscriptionFees([])
+        }
       }
     }
 

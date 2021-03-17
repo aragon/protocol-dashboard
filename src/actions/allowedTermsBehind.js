@@ -10,7 +10,7 @@ export default {
   [actions.ACTIVATE_HNY]: 1,
   [actions.APPEAL_RULING]: 1,
   [actions.CLAIM_REWARDS]: TERM_AGNOSTIC,
-  [actions.CLAIM_SUBSCRIPTION_FEES]: 0,
+  [actions.CLAIM_SUBSCRIPTION_FEES]: TERM_AGNOSTIC,
   [actions.COMMIT_VOTE]: 1,
   [actions.CONFIRM_APPEAL]: 1,
   [actions.DEACTIVATE_HNY]: 1,
