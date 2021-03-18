@@ -49,11 +49,18 @@ export const DISPUTABLE_SUBGRAPH_URLS = new Map([
     appId,
     {
       main:
-        'https://graph.backend.aragon.org/subgraphs/name/aragon/aragon-dvoting-mainnet-staging', // TODO: Update to main subgraph when available
+        'https://graph.backend.aragon.org/subgraphs/name/aragon/aragon-dvoting-mainnet-staging', // TODO: - Update to main subgraph when available, - Add xdai
       rinkeby:
         'https://api.thegraph.com/subgraphs/name/aragon/aragon-dvoting-rinkeby',
       ropsten:
         'https://api.thegraph.com/subgraphs/name/aragon/aragon-dvoting-ropsten',
+    },
+  ]),
+  ...CONVICTION_VOTING_APP_IDS.map(appId => [
+    appId,
+    {
+      rinkeby:
+        'https://api.thegraph.com/subgraphs/name/1hive/disputable-honey-pot-rinkeby', // TODO:  - Update to general subgraph, - Add xdai
     },
   ]),
 ])

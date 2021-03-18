@@ -49,9 +49,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
       <Row compactMode={compactMode}>
         <DisputedAction
           actionText={disputedAction}
-          dispute={dispute}
           executionPath={executionPath}
-          isFinalRulingEnsured={isFinalRulingEnsured}
           loading={loading}
           url={disputedActionURL}
         />
@@ -214,42 +212,49 @@ function FinalJuryOutcome({ dispute }) {
   )
 }
 
-function DisputedAction({
-  actionText,
-  dispute,
-  executionPath,
-  isFinalRulingEnsured,
-  loading,
-  url,
-}) {
+function DisputedAction({ actionText, executionPath, loading, url }) {
   const ActionTextComponent = useMemo(() => {
     // Disputes may not include an embedded executable action
-    if (!actionText && !loading) {
-      return <DisputedActionNA />
+
+    let action
+    if (actionText) {
+      if (Array.isArray(executionPath)) {
+        action = <DisputeDetailDescription path={executionPath} />
+      } else {
+        action = actionText
+      }
     }
 
-    const action = Array.isArray(executionPath) ? (
-      <DisputeDetailDescription path={executionPath} />
-    ) : (
-      actionText
-    )
-
     return url ? (
-      <Link
-        external
-        href={url}
+      <div
         css={`
-          text-decoration: none;
-          white-space: break-spaces;
-          text-align: left;
+          display: flex;
+          align-items: center;
         `}
       >
-        {action}
-      </Link>
+        <Link
+          external
+          href={url}
+          css={`
+            text-decoration: none;
+            white-space: break-spaces;
+            text-align: left;
+            margin-right: ${1 * GU}px;
+          `}
+        >
+          {action || 'N/A'}
+        </Link>
+        {!action && (
+          <Help hint="">
+            This dispute does not involve a binding action and is simply between
+            the given context and comments.
+          </Help>
+        )}
+      </div>
     ) : (
       action
     )
-  }, [actionText, executionPath, loading, url])
+  }, [actionText, executionPath, url])
 
   return (
     <Field
@@ -316,29 +321,6 @@ function useDisputeFields(dispute) {
     loading,
     organization,
   }
-}
-
-const DisputedActionNA = () => {
-  return (
-    <div
-      css={`
-        display: flex;
-        align-items: center;
-      `}
-    >
-      <span
-        css={`
-          margin-right: ${1 * GU}px;
-        `}
-      >
-        N/A
-      </span>
-      <Help hint="">
-        This dispute does not involve a binding action and is simply between the
-        given context and comments.
-      </Help>
-    </div>
-  )
 }
 
 function useDisputedAction({

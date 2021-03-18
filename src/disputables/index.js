@@ -49,7 +49,8 @@ export async function describeDisputedAction(
       const evmScript = await scriptExtractor(
         disputableAddress,
         disputableActionId,
-        appId
+        appId,
+        disputeId
       )
 
       const disputedActionURL = buildDisputedActionUrl(
@@ -256,7 +257,12 @@ function buildDisputedActionUrl(
 
   let url
   if (arbitrableKnown) {
-    url = buildArbitrableUrl(arbitrableAddress, actionId, networkType)
+    url = buildArbitrableUrl(
+      arbitrableAddress,
+      actionId,
+      entityPath,
+      networkType
+    )
   } else {
     // Fallback to Aragon client url
     url = buildClientUrl(
