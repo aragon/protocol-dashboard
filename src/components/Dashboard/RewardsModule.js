@@ -162,6 +162,7 @@ const HNYRewards = ({ amount }) => {
         label="Ruling rewards"
         amount={formattedAmount}
         symbol={anjToken.symbol}
+        help="These rewards are from keepers who failed to vote with the plurality ruling."
         showPositive
         css={`
           margin-bottom: ${2 * GU}px;
@@ -252,6 +253,7 @@ const DisputesFeeRewards = ({
 }
 
 function SubscriptionFeeRewards({ totalFees }) {
+  const theme = useTheme()
   const { feeToken, subscriptionModule, terms, termDuration } = useCourtConfig()
   const formattedAmount = formatTokenAmount(
     totalFees,
@@ -287,6 +289,11 @@ function SubscriptionFeeRewards({ totalFees }) {
             & > time {
               ${textStyle('body3')};
               display: inline-block;
+
+              & span {
+                color: ${theme.warningSurfaceContent};
+                font-weight: bold;
+              }
             }
           `}
         >
@@ -383,6 +390,7 @@ const RowFee = ({
   isLabelLink,
   amount,
   symbol,
+  help,
   showPositive,
   ...props
 }) => {
@@ -401,7 +409,23 @@ const RowFee = ({
       `}
       {...props}
     >
-      {isLabelLink ? label : <span>{label}</span>}
+      {isLabelLink ? (
+        label
+      ) : (
+        <div
+          css={`
+            display: flex;
+            align-items: center;
+
+            & > button {
+              margin-left: ${0.5 * GU}px;
+            }
+          `}
+        >
+          <span>{label}</span>
+          {help && <Help hint="">{help}</Help>}
+        </div>
+      )}
 
       <span
         css={`
