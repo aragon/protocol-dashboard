@@ -81,7 +81,7 @@ function TokenStats({ stat, theme }) {
           `}
         >
           {!error ? (
-            <SplitAmount amount={formatUnits(value, { digits: decimals })} />
+            <SplitAmount amount={formatUnits(value, { decimals })} />
           ) : (
             '-'
           )}

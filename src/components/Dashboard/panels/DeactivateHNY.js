@@ -12,10 +12,10 @@ const DeactivateHNY = React.memo(function DeactivateHNY({
   const maxAmount = activeBalance
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
   })
   const maxAmountFormatted = formatUnits(maxAmount, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
     precision: anjToken.decimals,
   })
 

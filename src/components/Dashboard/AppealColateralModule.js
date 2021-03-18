@@ -52,7 +52,7 @@ const AppealColateralModule = React.memo(function AppealColateralModule({
                     margin-right: ${0.5 * GU}px;
                   `}
                 >
-                  {formatUnits(amountStaked, { digits: feeToken.decimals })}{' '}
+                  {formatUnits(amountStaked, { decimals: feeToken.decimals })}{' '}
                   {feeToken.symbol}
                 </span>
                 Staked

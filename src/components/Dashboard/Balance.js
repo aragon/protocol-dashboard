@@ -83,9 +83,7 @@ const Balance = React.memo(function Balance({
                   align-items: center;
                 `}
               >
-                <SplitAmount
-                  amount={formatUnits(amount, { digits: decimals })}
-                />
+                <SplitAmount amount={formatUnits(amount, { decimals })} />
                 <img height="20" width="18" src={HNYIcon} alt="HNY" />
               </div>
               <span
@@ -279,7 +277,7 @@ function useHelpAttributes(distribution) {
 
     const minLockedAmountFormatted = formatUnits(
       minActiveBalance.mul(penaltyPct).div(PCT_BASE),
-      { digits: decimals }
+      { decimals }
     )
 
     if (isJurorDraftedMultipleTimesSameDispute) {

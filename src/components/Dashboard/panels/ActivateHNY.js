@@ -42,13 +42,13 @@ const ActivateHNY = React.memo(function ActivateHNY({
   const { anjToken, minActiveBalance } = useCourtConfig()
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
   })
   const maxToActivateFormatted = formatUnits(maxToActivate, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
   })
   const maxAvailableFormatted = formatUnits(maxAvailable, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
     precision: anjToken.decimals,
   })
 
