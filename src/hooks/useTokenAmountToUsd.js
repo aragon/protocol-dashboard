@@ -91,6 +91,6 @@ function convertAmount(amount, price, decimals, precision) {
   const rate = precision.mul(price)
 
   return formatUnits(amount.mul(rate).div(precision), {
-    digits: decimals,
+    decimals,
   })
 }

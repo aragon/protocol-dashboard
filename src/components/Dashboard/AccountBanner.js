@@ -53,7 +53,7 @@ const getBannerAttributes = (
     icon: hnySpringIcon,
     title: 'Activate HNY to be an active keeper',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
-      digits: decimals,
+      decimals,
     })}  HNY to participate as a keeper`,
   }
 }

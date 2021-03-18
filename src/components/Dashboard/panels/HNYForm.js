@@ -35,7 +35,7 @@ const HNYForm = React.memo(function HNYForm({
       setAmount(amount => ({
         ...amount,
         value: formatUnits(amount.valueBN, {
-          digits: anjToken.decimals,
+          decimals: anjToken.decimals,
           commas: !editMode,
           replaceZeroBy: editMode ? '' : '0',
           precision: anjToken.decimals,
@@ -71,7 +71,7 @@ const HNYForm = React.memo(function HNYForm({
     setAmount(amount => ({
       ...amount,
       value: formatUnits(maxAmount, {
-        digits: anjToken.decimals,
+        decimals: anjToken.decimals,
         precision: anjToken.decimals,
       }),
       valueBN: maxAmount,

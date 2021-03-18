@@ -11,7 +11,7 @@ function HNYLockedDistribution({ distribution, text }) {
   } = useCourtConfig()
 
   const formattedInProcessAmount = formatUnits(distribution.inProcess, {
-    digits: decimals,
+    decimals,
   })
 
   return (
@@ -33,7 +33,7 @@ function HNYLockedDistribution({ distribution, text }) {
         .sort((d1, d2) => d1.disputeId - d2.disputeId)
         .map(({ disputeId, amount, weight }) => {
           const formattedAmount = formatUnits(amount.div(weight), {
-            digits: decimals,
+            decimals,
           })
 
           return (

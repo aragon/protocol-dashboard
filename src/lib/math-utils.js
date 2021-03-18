@@ -1,4 +1,5 @@
 import { utils as EthersUtils, BigNumber } from 'ethers'
+import { formatTokenAmount as formatAmount } from '@1hive/1hive-ui'
 
 export function bigNum(value) {
   return BigNumber.from(value)
@@ -18,10 +19,10 @@ export function formatTokenAmount(
   decimals = 0,
   displaySign = false
 ) {
-  return (
-    (displaySign ? (isIncoming ? '+' : '-') : '') +
-    formatUnits(amount, { digits: decimals })
-  )
+  return formatUnits(isIncoming ? amount : amount.mul(-1), {
+    digits: decimals,
+    displaySign,
+  })
 }
 
 /**
@@ -47,25 +48,14 @@ export function parseUnits(value, digits) {
  */
 export function formatUnits(
   value,
-  { digits = 18, commas = true, replaceZeroBy = '0', precision = 3 } = {}
+  { decimals = 18, commas = true, precision = 3, displaySign = false } = {}
 ) {
-  if (value.lt(0) || digits < 0) {
-    return ''
-  }
+  const formatedAmount = formatAmount(value, decimals, {
+    digits: precision,
+    displaySign,
+  })
 
-  let valueBeforeCommas = EthersUtils.formatUnits(value.toString(), digits)
-
-  // Replace 0 by an empty value
-  if (valueBeforeCommas === '0.0') {
-    return replaceZeroBy
-  }
-
-  // EthersUtils.formatUnits() adds a decimal even when 0, this removes it.
-  valueBeforeCommas = valueBeforeCommas.replace(/\.0$/, '')
-
-  const roundedValue = round(valueBeforeCommas, precision)
-
-  return commas ? EthersUtils.commify(roundedValue) : roundedValue
+  return commas ? formatedAmount : formatedAmount.replace(',', '')
 }
 
 /**
