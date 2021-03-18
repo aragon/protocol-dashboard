@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, GU, textStyle } from '@1hive/1hive-ui'
+import BuyHNY from '../BuyHNY'
 import banner from '../../assets/Welcome.png'
 
 function Welcome() {
@@ -49,10 +50,7 @@ function Welcome() {
             align-items: center;
           `}
         >
-          <Button
-            label="Buy HNY"
-            href="https://honeyswap.org/#/swap?inputCurrency=0xe91d153e0b41518a2ce8dd3d7944fa863463a97d&outputCurrency=0x71850b7e9ee3f13ab46d67167341e4bdc905eef9"
-            mode="strong"
+          <BuyHNY
             css={`
               width: ${19 * GU}px;
               margin-right: ${1.5 * GU}px;
