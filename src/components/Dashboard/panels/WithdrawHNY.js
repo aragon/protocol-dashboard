@@ -12,7 +12,7 @@ const WithdrawHNY = React.memo(function WithdrawHNY({
 
   const maxAmount = inactiveBalance
   const maxAmountFormatted = formatUnits(maxAmount, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
     precision: anjToken.decimals,
   })
 

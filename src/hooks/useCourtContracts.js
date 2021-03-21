@@ -587,6 +587,11 @@ export function useRewardActions() {
     ) => {
       const requestQueue = []
 
+      // Claim subscription fees
+      for (const subscriptionFee of subscriptionFees) {
+        requestQueue.push(claimFees(subscriptionFee.periodId))
+      }
+
       // Claim all arbitrable fee rewards
       for (const arbitrableFee of arbitrableFees) {
         const { disputeId, rounds } = arbitrableFee
@@ -618,11 +623,6 @@ export function useRewardActions() {
         requestQueue.push(withdraw(feeTokenAddress, account, treasuryFees))
       }
 
-      // Claim subscription fees
-      for (const subscriptionFee of subscriptionFees) {
-        requestQueue.push(claimFees(subscriptionFee.periodId))
-      }
-
       return processRequests(requestQueue)
     },
     [claimFees, processRequests, settleAppealDeposit, settleReward, withdraw]
@@ -640,7 +640,10 @@ export function useCourtSubscriptionActions() {
   const claimFees = useCallback(
     periodId => {
       return {
-        action: () => courtSubscriptionsContract.claimFees(periodId),
+        action: () =>
+          courtSubscriptionsContract.claimFees({
+            gasLimit: HNY_ACTIONS_GAS_LIMIT,
+          }),
         description: radspec[actions.CLAIM_SUBSCRIPTION_FEES]({
           periodId,
         }),
@@ -651,8 +654,8 @@ export function useCourtSubscriptionActions() {
   )
 
   const getJurorShare = useCallback(
-    (juror, periodId) => {
-      return courtSubscriptionsContract.getJurorShare(juror, periodId)
+    juror => {
+      return courtSubscriptionsContract.getJurorShare(juror)
     },
     [courtSubscriptionsContract]
   )

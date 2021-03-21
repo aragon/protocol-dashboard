@@ -1,33 +1,47 @@
 import { getContract } from '../web3-contracts'
-import { performDisputableVotingQuery } from './queries'
+import {
+  performDisputableProposalQuery,
+  performDisputableVotingQuery,
+} from './queries'
 
 import disputableConvictionVotingAbi from '../abi/disputables/DisputableConvictionVoting.json'
 import disputableDandelionVotingAbi from '../abi/disputables/DisputableDandelionVoting.json'
 import disputableDelayAbi from '../abi/disputables/DisputableDelay.json'
 import tokenAbi from '../abi/ERC20.json'
-import { formatTokenAmount } from '../lib/math-utils'
+import { bigNum, formatTokenAmount } from '../lib/math-utils'
 
+// TODO: Make a general propsoal extractor, ideally by arbitrable
 export async function convictionVotingExtractor(
   disputableAddress,
-  disputableActionId
+  disputableActionId,
+  disputableAppId,
+  disputeId
 ) {
   const disputableConvictionVotingContract = getContract(
     disputableAddress,
     disputableConvictionVotingAbi
   )
-  const result = await disputableConvictionVotingContract.getProposal(
-    disputableActionId
+  const { data } = await performDisputableProposalQuery(
+    disputableAddress,
+    disputableActionId,
+    disputableAppId,
+    disputeId
   )
 
-  const requestedAmount = result[0]
-  const isStableRequestAmount = result[1]
+  if (!data?.proposals?.length) {
+    throw new Error('Failed to fetch description from subgraph')
+  }
+  const proposal = data.proposals[0]
+  const requestedAmount = bigNum(proposal.requestedAmount)
 
+  // Signaling proposal
   if (requestedAmount.eq('0')) {
-    return { script: '0x' }
+    return { description: data.proposals[0].metadata }
   }
 
+  // Proposal requesting funds
   const tokenAddress = await disputableConvictionVotingContract[
-    isStableRequestAmount ? 'stableToken' : 'requestToken'
+    proposal.stable ? 'stableToken' : 'requestToken'
   ]()
 
   const tokenContract = getContract(tokenAddress, tokenAbi)
@@ -37,7 +51,7 @@ export async function convictionVotingExtractor(
   ])
 
   return {
-    description: `Requesting ${formatTokenAmount(
+    description: `${proposal.metadata} \n- Requesting ${formatTokenAmount(
       requestedAmount,
       false,
       tokenDecimals

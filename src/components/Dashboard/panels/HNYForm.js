@@ -15,6 +15,7 @@ import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
 
 const HNYForm = React.memo(function HNYForm({
   actionLabel,
+  info,
   maxAmount,
   onDone,
   onSubmit,
@@ -34,7 +35,7 @@ const HNYForm = React.memo(function HNYForm({
       setAmount(amount => ({
         ...amount,
         value: formatUnits(amount.valueBN, {
-          digits: anjToken.decimals,
+          decimals: anjToken.decimals,
           commas: !editMode,
           replaceZeroBy: editMode ? '' : '0',
           precision: anjToken.decimals,
@@ -70,7 +71,7 @@ const HNYForm = React.memo(function HNYForm({
     setAmount(amount => ({
       ...amount,
       value: formatUnits(maxAmount, {
-        digits: anjToken.decimals,
+        decimals: anjToken.decimals,
         precision: anjToken.decimals,
       }),
       valueBN: maxAmount,
@@ -151,13 +152,14 @@ const HNYForm = React.memo(function HNYForm({
       )}
       <Button
         css={`
-          margin-bottom: ${1 * GU}px;
+          margin-bottom: ${2 * GU}px;
         `}
         label={actionLabel}
         mode="strong"
         type="submit"
         wide
       />
+      {info && <Info>{info}</Info>}
     </form>
   )
 })

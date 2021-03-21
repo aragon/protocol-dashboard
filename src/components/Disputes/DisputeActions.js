@@ -165,7 +165,11 @@ function InformationSection({
             `}
           />
         </div>
-        <div>
+        <div
+          css={`
+            max-width: 550px;
+          `}
+        >
           <div
             css={`
               ${textStyle('body1')}
@@ -203,11 +207,6 @@ const useInfoAttributes = ({
   return useMemo(() => {
     if (!jurorDraft) return {}
 
-    // If the dispute is in the execute ruling phase it means that the final ruling can already be ensured.
-    // If the dispute is closed it means that the final ruling was already ensured.
-    const finalRulingConfirmed =
-      status === DisputeStatus.Closed || phase === DisputePhase.ExecuteRuling
-
     // Note that we can assume that the evidence submission and drafting phases have already passed since we do an early return above
     const votingPeriodEnded =
       phase !== DisputePhase.VotingPeriod && phase !== DisputePhase.RevealVote
@@ -239,46 +238,18 @@ const useInfoAttributes = ({
         }
       }
 
+      // If the dispute is in the execute ruling phase it means that the final ruling can already be ensured.
+      // If the dispute is closed it means that the final ruling was already ensured.
+      const finalRulingConfirmed =
+        status === DisputeStatus.Closed || phase === DisputePhase.ExecuteRuling
+
       // Juror has revealed
-      // Check if has voted in consensus with the plurality for the last round
-      const hasVotedInConsensus =
-        lastRound.vote && jurorDraft.outcome === lastRound.vote.winningOutcome
-
-      // We must check if the penalties were already settled so we can tell the jurors
-      // wether their HNY locked balance has been discounted or they can claim rewards
-      // Note that if the penalties for the round are settled it means that the dispute has already ended
-      const settledPenalties = lastRound.settledPenalties
-
-      const title = hasVotedInConsensus
-        ? 'You have voted in consensus with the plurality'
-        : 'You have not voted in consensus with the plurality'
-      const background = hasVotedInConsensus
-        ? positiveBackground
-        : negativeBackground
-
-      // If penalties settled then the locked HNY has been redistributed
-      if (settledPenalties) {
-        return {
-          title,
-          paragraph: hasVotedInConsensus ? (
-            <HNYRewardsMessage />
-          ) : (
-            <HNYSlashedMessage />
-          ),
-          background,
-          icon: hasVotedInConsensus ? IconRewardsGreen : IconVotingFailed,
-        }
-      }
-
-      // Includes the cases where penalties weren't settled or the last round hasn't ended
-      return {
-        title,
-        paragraph: (
-          <HNYLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
-        ),
-        background,
-        icon: hasVotedInConsensus ? IconVotingSuccess : IconVotingFailed,
-      }
+      return getAttributesWhenRevealed(
+        lastRound,
+        jurorDraft,
+        finalRulingConfirmed,
+        { positive: positiveBackground, negative: negativeBackground }
+      )
     }
 
     // Juror has voted and reveal period hasn't ended
@@ -299,8 +270,7 @@ const useInfoAttributes = ({
   }, [
     hasJurorVoted,
     jurorDraft,
-    lastRound.settledPenalties,
-    lastRound.vote,
+    lastRound,
     negativeBackground,
     phase,
     positiveBackground,
@@ -320,8 +290,8 @@ const HNYLockedMessage = ({ finalRulingConfirmed }) => {
   )
 }
 
-const HNYSlashMessage = () => {
-  return <HNYMessage result="will be slashed" />
+const HNYSlashMessage = ({ extra = '' }) => {
+  return <HNYMessage result={`will be slashed ${extra}`} />
 }
 
 const HNYSlashedMessage = () => {
@@ -377,7 +347,7 @@ const VoteInfo = ({ commitmentDate, outcome, revealDate }) => {
 
   const outcomeDescription = useMemo(() => {
     if (outcome === OUTCOMES.Refused) {
-      return { text: 'Refused to vote' }
+      return { text: 'Abstained from voting' }
     }
 
     return { prefix: 'voted ', text: voteOptionToString(outcome) }
@@ -404,6 +374,74 @@ const VoteInfo = ({ commitmentDate, outcome, revealDate }) => {
       </span>
     </span>
   )
+}
+
+// Assumes juror revealed vote
+function getAttributesWhenRevealed(
+  lastRound,
+  jurorDraft,
+  finalRulingConfirmed,
+  backgroundColor
+) {
+  const { appeal, vote } = lastRound
+
+  // Check if has voted in consensus with the plurality for the last round
+  const hasVotedInConsensus = vote && jurorDraft.outcome === vote.winningOutcome
+  // We must check if the penalties were already settled so we can tell the jurors
+  // wether their HNY locked balance has been discounted or they can claim rewards
+  // Note that if the penalties for the round are settled it means that the dispute has already ended
+  const settledPenalties = lastRound.settledPenalties
+
+  let background, icon, paragraph, title
+
+  // Juror voted in consensus during voting phase
+  if (hasVotedInConsensus) {
+    background = backgroundColor[appeal ? 'negative' : 'positive']
+    icon = appeal ? IconVotingFailed : IconRewardsGreen
+    paragraph = appeal ? (
+      settledPenalties ? (
+        <HNYSlashedMessage />
+      ) : (
+        <HNYSlashMessage extra="if no one confirms the appeal starting a new round of voting" />
+      )
+    ) : settledPenalties ? (
+      <HNYRewardsMessage />
+    ) : (
+      <HNYLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
+    )
+    title = appeal
+      ? 'Although you voted in consensus with the plurality during the voting phase, the dispute was appealed with a different outcome'
+      : 'You have voted in consensus with the plurality'
+  } else {
+    // Juror didn't vote in consenus during voting pahse
+    // Check if juror voted in favor of the appealed outcome
+    const inConsensusWithAppealer =
+      appeal && jurorDraft.outcome === appeal.appealedRuling
+    background =
+      backgroundColor[inConsensusWithAppealer ? 'positive' : 'negative']
+    icon = inConsensusWithAppealer ? IconRewardsGreen : IconVotingFailed
+    paragraph = inConsensusWithAppealer ? (
+      settledPenalties ? (
+        <HNYRewardsMessage />
+      ) : (
+        <HNYLockedMessage finalRulingConfirmed={finalRulingConfirmed} />
+      )
+    ) : settledPenalties ? (
+      <HNYSlashedMessage />
+    ) : (
+      <HNYSlashMessage />
+    )
+    title = inConsensusWithAppealer
+      ? "Altough you didn't vote in consensus with the plurality during the voting phase, the dispute was appealed with the outcome you voted for"
+      : 'You have not voted in consensus with the plurality'
+  }
+
+  return {
+    background,
+    icon,
+    paragraph,
+    title,
+  }
 }
 
 export default DisputeActions

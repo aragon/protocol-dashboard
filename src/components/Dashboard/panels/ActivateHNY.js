@@ -29,27 +29,26 @@ const ActivateHNY = React.memo(function ActivateHNY({
   const uniqueUserID = useJurorUniqueUserId(account)
   const hasUniqueUserId = uniqueUserID && uniqueUserID !== ZERO_ADDRESS
 
+  // Max amount a juror can activate
   const maxActiveBalance = useMaxActiveBalance(
     currentTermId - neededTransitions
   )
   const maxToActivate = max(maxActiveBalance.sub(activeBalance), bigNum(0))
+  const maxAvailable = fromWallet ? walletBalance : inactiveBalance
 
-  const maxAmount = min(
-    fromWallet ? walletBalance : inactiveBalance,
-    maxToActivate
-  )
+  // Minimum between the max a juror can activate and wallet/inactive balance
+  const maxAmount = min(maxAvailable, maxToActivate)
 
   const { anjToken, minActiveBalance } = useCourtConfig()
 
   const minActiveBalanceFormatted = formatUnits(minActiveBalance, {
-    digits: anjToken.decimals,
+    decimals: anjToken.decimals,
   })
   const maxToActivateFormatted = formatUnits(maxToActivate, {
-    digits: anjToken.decimals,
-    precision: anjToken.decimals,
+    decimals: anjToken.decimals,
   })
-  const maxAmountFormatted = formatUnits(maxAmount, {
-    digits: anjToken.decimals,
+  const maxAvailableFormatted = formatUnits(maxAvailable, {
+    decimals: anjToken.decimals,
     precision: anjToken.decimals,
   })
 
@@ -64,7 +63,7 @@ const ActivateHNY = React.memo(function ActivateHNY({
           fromWallet
             ? 'wallet balance is'
             : 'inactive balance available for activation is'
-        } ${maxAmountFormatted} ${anjToken.symbol} `
+        } ${maxAvailableFormatted} ${anjToken.symbol} `
       }
 
       if (activeBalance.add(amountBN).lt(minActiveBalance)) {
@@ -104,11 +103,12 @@ const ActivateHNY = React.memo(function ActivateHNY({
     [
       activeBalance,
       anjToken.symbol,
-      brightIdVerification,
+      brightIdVerification.addressExist,
+      brightIdVerification.userVerified,
       fromWallet,
       hasUniqueUserId,
       maxAmount,
-      maxAmountFormatted,
+      maxAvailableFormatted,
       maxToActivate,
       maxToActivateFormatted,
       minActiveBalance,
@@ -130,6 +130,7 @@ const ActivateHNY = React.memo(function ActivateHNY({
   return (
     <HNYForm
       actionLabel="Activate"
+      info={`Each keeper is restricted to activating a maximum amount determined by the total amount activated in Celeste. The higher the total amount activated the less individual keepers can activate. The max you can currently activate is ${maxToActivateFormatted} ${anjToken.symbol}.`}
       maxAmount={maxAmount}
       onSubmit={handleActivateHNY}
       onDone={onDone}

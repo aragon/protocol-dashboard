@@ -46,8 +46,9 @@ export const CourtConfig = gql`
         id
         currentPeriod
         periodDuration
-        periods {
+        periods(first: 1, orderBy: "createdAt", orderDirection: "desc") {
           id
+          createdAt
           donatedFees
         }
       }
