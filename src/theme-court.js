@@ -35,8 +35,8 @@ export default {
     background: '#110F3A',
     border: '#373582',
 
-    content: '#ffffff',
-    contentSecondary: '#ffffff',
+    content: '#E1E1E8',
+    contentSecondary: '#B2B2C6',
 
     disabled: '#171551',
     disabledContent: '#ffffff',
@@ -56,17 +56,20 @@ export default {
     selectedDisabled: '#C4CDD5',
 
     surface: '#171551',
-    surfaceContent: '#ffffff',
-    surfaceContentSecondary: '#ffffff',
+    surfaceContent: '#E1E1E8',
+    surfaceContentSecondary: '#B2B2C6',
     surfaceInteractive: '#1E1B68',
     surfaceOpened: '#8E54A5',
     surfacePressed: '#1E1B68',
     surfaceUnder: '#F9F8F9',
 
-    tagIndicator: '#FFF5F1',
-    tagIndicatorContent: '#CD625C',
+    tagIndicator: '#dbd2f8',
+    tagIndicatorContent: '#B19AFF',
 
     tagActivity: '#8E54A5',
     tagActivityContent: '#FFFFFF',
+
+    warningSurface: '#442D45',
+    warningSurfaceContent: '#FFA410',
   },
 }
