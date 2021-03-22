@@ -42,7 +42,7 @@ function DisputeAppeal({ onRequestAppeal, confirm }) {
         could be re-distributed to the winning party. {confirm ? 'When' : 'If'}{' '}
         an appeal is confirmed, a new adjudication round is initiated and new
         keepers are drafted.{' '}
-        <Link href="https://help.aragon.org/article/43-dispute-lifecycle#appeal">
+        <Link href="https://1hive.gitbook.io/celeste/keepers/dispute-lifecycle">
           Learn more
         </Link>
         .

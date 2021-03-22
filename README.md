@@ -4,7 +4,7 @@
 
 <a href="https://celeste.1hive.org/dashboard"><img src="docs/assets/screenshot.png" /></a>
 
-- 📚 Read the [User Guide](https://help.aragon.org/category/47-aragoncourt) first, if you have any questions as a user.
+- 📚 Read the [User Guide](https://1hive.gitbook.io/celeste/) first, if you have any questions as a user.
 - 📝 Please report any issues and feedback in the [1Hive discord channels](https://discord.com/invite/4fm7pgB).
 - 🔧 For technical discussions, use this project's [issues](https://github.com/1hive/celeste-dashboard/issues)
 - 📖 To learn more about contributing to Celeste Dashboard, please check the [contributing guide](./CONTRIBUTING.md)

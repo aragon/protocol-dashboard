@@ -94,7 +94,8 @@ function GlobalPreferencesButton({ onOpen }) {
             icon={iconNotifications}
             label="Notifications"
           />
-          <Item href="https://help.aragon.org/article/48-aragon-court-faq">
+          <Item href="https://1hive.gitbook.io/celeste/">
+            {/* TODO: Update link when faq section available */}
             <div
               css={`
                 flex-grow: 1;
