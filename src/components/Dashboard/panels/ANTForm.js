@@ -9,6 +9,7 @@ import {
   useSidePanelFocusOnReady,
   useTheme,
 } from '@aragon/ui'
+import { useWallet } from 'use-wallet'
 import { useCourtConfig } from '../../../providers/CourtConfig'
 
 import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
@@ -20,6 +21,9 @@ const ANTForm = React.memo(function ANTForm({
   onSubmit,
   runParentValidation,
 }) {
+
+  const wallet = useWallet()
+
   const [amount, setAmount] = useState({
     value: '0',
     valueBN: bigNum(0),
@@ -103,7 +107,7 @@ const ANTForm = React.memo(function ANTForm({
     setAmount(amount => ({ ...amount, error: null }))
 
     onDone()
-    onSubmit(amount.valueBN)
+    onSubmit(wallet.account, amount.valueBN)
   }
 
   const errorMessage = amount.error

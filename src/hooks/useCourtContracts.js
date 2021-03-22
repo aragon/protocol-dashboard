@@ -87,14 +87,14 @@ export function useANTActions() {
 
   // activate ANT directly from available balance
   const activateANT = useCallback(
-    amount => {
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
             // TODO:Giorgi change the address to the connected wallet address
-            guardianRegistryContract.activate("0x94C34FB5025e054B24398220CBDaBE901bd8eE5e", amount, {
+            guardianRegistryContract.activate(account, amount, {
               gasLimit: ANT_ACTIVATE_GAS_LIMIT,
             }),
           description: radspec[actions.ACTIVATE_ANT]({
@@ -108,14 +108,14 @@ export function useANTActions() {
   )
 
   const deactivateANT = useCallback(
-    amount => {
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
             // TODO:Giorgi change the address to the connected wallet address
-            guardianRegistryContract.deactivate("0x94C34FB5025e054B24398220CBDaBE901bd8eE5e", amount, {
+            guardianRegistryContract.deactivate(account, amount, {
               gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
           description: radspec[actions.DEACTIVATE_ANT]({
@@ -155,14 +155,14 @@ export function useANTActions() {
   )
 
   const withdrawANT = useCallback(
-    amount => {
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
             // TODO:GIORGI change it to the connected wallet address
-            guardianRegistryContract.unstake("0x94C34FB5025e054B24398220CBDaBE901bd8eE5e", amount, {
+            guardianRegistryContract.unstake(account, amount, {
               gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
           description: radspec[actions.WITHDRAW_ANT]({
@@ -242,7 +242,7 @@ export function useDisputeActions() {
 
       const requestQueue = [
         {
-          action: () => votingContract.commit(voteId, commitment),
+          action: () => votingContract.commit(voteId, account, commitment),
           description: radspec[actions.COMMIT_VOTE]({
             disputeId,
             roundId,
