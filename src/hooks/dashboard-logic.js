@@ -41,7 +41,6 @@ export function usePanelRequestMode(requestPanelOpen) {
 
 // Requests to set new mode and open side panel
 export function usePanelRequestActions(request) {
-  // TODO: Should we implement only one request function to recieve the request mode ?
   const activateHNY = useCallback(() => {
     request(REQUEST_MODE.ACTIVATE)
   }, [request])

@@ -59,7 +59,7 @@ function Welcome() {
           />
           <Button
             label="User guide"
-            href="https://help.aragon.org/article/41-aragon-court"
+            href="https://1hive.gitbook.io/celeste/"
             css={`
               width: ${19 * GU}px;
             `}
