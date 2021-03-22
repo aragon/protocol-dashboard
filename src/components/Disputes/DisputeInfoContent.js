@@ -18,6 +18,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
   const compactMode = below('medium')
 
+  // TODO:GIORGI what to do about this since organization and defendant and other fields don't exist anymore.
   const {
     agreementText,
     agreementUrl,
@@ -35,7 +36,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
     <>
       {isFinalRulingEnsured && (
         <Row>
-          <FinalJuryOutcome dispute={dispute} />
+          <FinalGuardianOutcome dispute={dispute} />
         </Row>
       )}
       <Row compactMode={compactMode}>
@@ -183,7 +184,7 @@ function Field({ label, loading, value, ...props }) {
   )
 }
 
-function FinalJuryOutcome({ dispute }) {
+function FinalGuardianOutcome({ dispute }) {
   const { lastRoundId, rounds } = dispute
   const lastRound = rounds?.[lastRoundId]
   const voteWinningOutcome = lastRound?.vote?.winningOutcome

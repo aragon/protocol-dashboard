@@ -43,41 +43,12 @@ export function transformRoundDataAttributes(round) {
   }
 }
 
-/**
- * Parses metadata of the given dispute
 
- * Disputes metadata comes in two forms:
- *        1 - Raw disputes: metadata is usually a JSON object containing `description` and `metadata` where the later is the metadata uri.
- *        2 - Disputables: there's no useful information in `metadata` itself, in this case we'll get the dispute information from the `disputable` attr.
- *  Note that this function is meant to parse only dispute description and metadata uri (in case it exists). More relevant information will be processed elsewhere.
- * @param {Object} dispute Dispute in question
- * @returns {Array<String>} Array where the first item is the dispute description and second item is the metadata uri if it exists
- */
-function parseMetadata(dispute) {
-  if (dispute.disputable) {
-    return [dispute.disputable.title]
-  }
-
-  try {
-    const { description, metadata } = JSON.parse(dispute.metadata)
-    return [description, metadata]
-  } catch (error) {
-    // if is not a json return the metadata as the description
-    return [dispute.metadata]
-  }
-}
 
 export function transformDisputeDataAttributes(dispute) {
-  const [description, metadataUri] = parseMetadata(dispute)
-
-  
-  // TODO:GIORGI we need to decode rawMetadata instead of metadata with the container type ERC3000 types. 
-  console.log(description) // logging in here to make the eslint shut up :) 
   const transformedDispute = {
     ...dispute,
     createdAt: toMs(parseInt(dispute.createdAt, 10)),
-    description: 'giorgi',
-    metadataUri, // TODO:GIORGI metadataUri is not defined, which means fetching from ipfs doesn't work
     rounds: dispute.rounds.map(transformRoundDataAttributes),
     state: DisputesTypes.convertFromString(dispute.state),
     status:
@@ -127,7 +98,6 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
 
   const { state } = dispute
   const lastRound = dispute.rounds[dispute.lastRoundId]
-  console.log(lastRound, ' round here', dispute.lastRoundId)
   const { number } = lastRound
 
   // Dispute already ruled

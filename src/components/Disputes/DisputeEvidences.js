@@ -11,10 +11,8 @@ import { dateFormat } from '../../utils/date-utils'
 import folderIcon from '../../assets/folderIcon.svg'
 
 const DisputeEvidences = React.memo(function DisputeEvidences({
-  defendant,
   evidences,
   loading,
-  plaintiff,
 }) {
   return (
     <React.Fragment>
@@ -22,7 +20,6 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
       {evidences &&
         evidences.map((evidence, index) => {
           const { createdAt, submitter, metadata, error } = evidence
-          console.log(evidence, ' evidence')
           return (
             <Accordion
               key={index}
@@ -48,11 +45,6 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                     error={error}
                     metadata={metadata}
                     submitter={submitter}
-                    submitterLabel={getSubmitterLabel(
-                      submitter,
-                      defendant,
-                      plaintiff
-                    )}
                   />,
                 ],
               ]}
@@ -65,10 +57,9 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
 
 const EvidenceContent = React.memo(function EvidenceContent({
   createdAt,
-  error,
-  metadata,
   submitter,
-  submitterLabel,
+  metadata,
+  error
 }) {
   const theme = useTheme()
   const wallet = useWallet()
@@ -110,7 +101,7 @@ const EvidenceContent = React.memo(function EvidenceContent({
             <IdentityBadge
               connectedAccount={addressesEqual(submitter, wallet.account)}
               entity={submitter}
-              label={submitterLabel}
+              label={submitter}
             />
           </div>
         </div>
@@ -156,17 +147,6 @@ const EvidenceContent = React.memo(function EvidenceContent({
   )
 })
 
-function getSubmitterLabel(submitter, defendant, plaintiff) {
-  if (addressesEqual(submitter, defendant)) {
-    return 'Defendant'
-  }
-
-  if (addressesEqual(submitter, plaintiff)) {
-    return 'Plaintiff'
-  }
-
-  return ''
-}
 
 export default function Evidences({ dispute, evidences }) {
   // This hook ensures us that evidenceProcessed won't be updated unless there are new evidences.
@@ -177,10 +157,8 @@ export default function Evidences({ dispute, evidences }) {
 
   return (
     <DisputeEvidences
-      defendant={dispute.defendant}
       evidences={evidenceProcessed}
       loading={fetchingEvidences}
-      plaintiff={dispute.plaintiff}
     />
   )
 }
