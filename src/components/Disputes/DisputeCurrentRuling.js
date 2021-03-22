@@ -9,7 +9,7 @@ import {
   OUTCOMES,
 } from '../../utils/crvoting-utils'
 import { getPercentage } from '../../lib/math-utils'
-import { getJurorDraft } from '../../utils/juror-draft-utils'
+import { getGuardianDraft } from '../../utils/guardian-draft-utils'
 import { getDisputeLastRound } from '../../utils/dispute-utils'
 
 const getOutcomeColor = (outcome, theme) => {
@@ -24,9 +24,9 @@ function DisputeCurrentRuling({ dispute }) {
   const wallet = useWallet()
 
   const lastRound = getDisputeLastRound(dispute)
-  const jurorDraft = getJurorDraft(lastRound, wallet.account)
+  const guardianDraft = getGuardianDraft(lastRound, wallet.account)
 
-  const { outcome: myOutcome = 0, weight: myWeight = 0 } = jurorDraft || {}
+  const { outcome: myOutcome = 0, weight: myWeight = 0 } = guardianDraft || {}
   const distribution = useOutcomeDistribution(lastRound)
 
   // distribution is sorted by weight so we can return colors in corresponding order
@@ -56,9 +56,9 @@ function DisputeCurrentRuling({ dispute }) {
           percentage: weight,
         }))}
         renderFullLegendItem={({ color, item, index, percentage }) => {
-          // We'll show the juror voting weight hint if any juror has been drafted more than once for this last round
+          // We'll show the guardian voting weight hint if any guardian has been drafted more than once for this last round
           const showVotingWeightHint =
-            index === 0 && lastRound.jurorsNumber !== lastRound.jurors.length
+            index === 0 && lastRound.guardiansNumber !== lastRound.guardians.length
           const showMyWeight = myWeight > 1
 
           return (
@@ -141,14 +141,14 @@ function DisputeCurrentRuling({ dispute }) {
 }
 
 const useFilteredOutcomes = round => {
-  const { jurors } = round
+  const { guardians } = round
 
   return useMemo(() => {
-    const totalValidOutcomes = jurors.filter(({ outcome }) =>
+    const totalValidOutcomes = guardians.filter(({ outcome }) =>
       isValidOutcome(outcome)
     )
     return [totalValidOutcomes, filterByValidOutcome(totalValidOutcomes)]
-  }, [jurors])
+  }, [guardians])
 }
 
 function useOutcomeDistribution(round) {

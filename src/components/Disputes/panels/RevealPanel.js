@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Field, GU, Info, TextInput } from '@aragon/ui'
 import { useWallet } from '../../../providers/Wallet'
-import { getJurorDraft } from '../../../utils/juror-draft-utils'
+import { getGuardianDraft } from '../../../utils/guardian-draft-utils'
 import { getDisputeLastRound } from '../../../utils/dispute-utils'
 import {
   getCodeFromLocalStorage,
@@ -19,7 +19,7 @@ const RevealPanel = React.memo(function RevealPanel({
   const [password, setPassword] = useState('')
   const lastRound = getDisputeLastRound(dispute)
 
-  const jurorDraft = getJurorDraft(lastRound, wallet.account)
+  const guardianDraft = getGuardianDraft(lastRound, wallet.account)
 
   const handlePasswordChange = useCallback(event => {
     setError(null)
@@ -27,13 +27,13 @@ const RevealPanel = React.memo(function RevealPanel({
   }, [])
 
   const validatePassword = useCallback(() => {
-    const outcome = getOutcomeFromCommitment(jurorDraft.commitment, password)
+    const outcome = getOutcomeFromCommitment(guardianDraft.commitment, password)
     if (!isValidOutcome(outcome)) {
       return { error: 'Invalid one time code' }
     }
 
     return { outcome }
-  }, [jurorDraft.commitment, password])
+  }, [guardianDraft.commitment, password])
 
   const handleReveal = useCallback(
     event => {

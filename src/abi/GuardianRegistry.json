@@ -1,0 +1,7 @@
+[
+  "function activate(address _guardian, uint256 _amount) external",
+  "function deactivate(address _guardian, uint256 _amount) external",
+  "function unstake(address _guardian, uint256 _amount) external",
+  "function totalActiveBalanceAt(uint64 _termId) external view returns (uint256)",
+  "function activeBalanceOfAt(address _guardian, uint64 _termId) external view returns (uint256) "
+]

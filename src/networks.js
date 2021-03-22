@@ -3,7 +3,7 @@ import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
 
 const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
 
-export const RINKEBY_COURT = '0xA88c52E80f15440B223a24c1e8f22f21D18D8d5f'
+export const RINKEBY_COURT = '0xf8538bE1e1749991F79142705Fce0b28355774a8'
 
 export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'

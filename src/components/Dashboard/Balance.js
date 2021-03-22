@@ -266,7 +266,7 @@ function useHelpAttributes(distribution) {
   return useMemo(() => {
     if (distribution.inProcess.gt(0)) {
       return {
-        showDistribution: !!distribution.lockedPerDispute, // If juror has  ANT locked in disputes, we'll show distribution
+        showDistribution: !!distribution.lockedPerDispute, // If guardian has ANT locked in disputes, we'll show distribution
         text:
           'Deactivating ANT does not happen immediately and requires one term before it can be processed.',
       }
@@ -275,7 +275,7 @@ function useHelpAttributes(distribution) {
     const { lockedPerDispute } = distribution
 
     const onlyOneDispute = lockedPerDispute.length === 1
-    const isJurorDraftedMultipleTimesSameDispute = lockedPerDispute.some(lock =>
+    const isGuardianDraftedMultipleTimesSameDispute = lockedPerDispute.some(lock =>
       lock.weight.gt(1)
     )
 
@@ -290,7 +290,7 @@ function useHelpAttributes(distribution) {
       { digits: decimals }
     )
 
-    if (isJurorDraftedMultipleTimesSameDispute) {
+    if (isGuardianDraftedMultipleTimesSameDispute) {
       text =
         'The same guardian can be summoned multiple times to arbitrate the same dispute for the same round.  When that happens, their voting weight will be proportional to the number of times they are summoned, as well as the % of ANT locked in the Active balance.'
     } else {
@@ -302,7 +302,7 @@ function useHelpAttributes(distribution) {
     return {
       text,
       showDistribution:
-        !onlyOneDispute || isJurorDraftedMultipleTimesSameDispute,
+        !onlyOneDispute || isGuardianDraftedMultipleTimesSameDispute,
     }
   }, [antToken, distribution, minActiveBalance, penaltyPct])
 }

@@ -18,11 +18,11 @@ export function transformRoundDataAttributes(round) {
     draftTermId: parseInt(round.draftTermId, 10),
     delayedTerms: parseInt(round.delayedTerms, 10),
     number: parseInt(round.number),
-    jurors: round.jurors.map(juror => ({
-      ...juror,
-      commitmentDate: toMs(parseInt(juror.commitmentDate || 0, 10)),
-      revealDate: toMs(parseInt(juror.revealDate || 0, 10)),
-      weight: parseInt(juror.weight, 10),
+    guardians: round.guardians.map(guardian => ({
+      ...guardian,
+      commitmentDate: toMs(parseInt(guardian.commitmentDate || 0, 10)),
+      revealDate: toMs(parseInt(guardian.revealDate || 0, 10)),
+      weight: parseInt(guardian.weight, 10),
     })),
     vote: vote
       ? {
@@ -70,11 +70,14 @@ function parseMetadata(dispute) {
 export function transformDisputeDataAttributes(dispute) {
   const [description, metadataUri] = parseMetadata(dispute)
 
+  
+  // TODO:GIORGI we need to decode rawMetadata instead of metadata with the container type ERC3000 types. 
+  console.log(description) // logging in here to make the eslint shut up :) 
   const transformedDispute = {
     ...dispute,
     createdAt: toMs(parseInt(dispute.createdAt, 10)),
-    description,
-    metadataUri,
+    description: 'giorgi',
+    metadataUri, // TODO:GIORGI metadataUri is not defined, which means fetching from ipfs doesn't work
     rounds: dispute.rounds.map(transformRoundDataAttributes),
     state: DisputesTypes.convertFromString(dispute.state),
     status:
@@ -124,6 +127,7 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
 
   const { state } = dispute
   const lastRound = dispute.rounds[dispute.lastRoundId]
+  console.log(lastRound, ' round here', dispute.lastRoundId)
   const { number } = lastRound
 
   // Dispute already ruled
@@ -148,7 +152,7 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
     )
 
     if (currentTerm > evidenceSubmissionEndTerm) {
-      phase = DisputesTypes.Phase.JuryDrafting
+      phase = DisputesTypes.Phase.GuardianDrafting
     } else {
       phase = state
       nextTransition = evidenceSubmissionEndTime
@@ -156,8 +160,9 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
     return { phase, nextTransition, roundId: number }
   }
 
-  // Jury Drafting phase
-  if (state === DisputesTypes.Phase.JuryDrafting) {
+  // Guardian Drafting phase
+  if (state === DisputesTypes.Phase.GuardianDrafting) {
+    console.log(currentTerm, lastRound.draftTermId, ' always null')
     // When a new round is created, it could happen that the draft term has not been reached yet
     // because the confirm appeal phase of the previous round has not yet ended
     if (currentTerm < lastRound.draftTermId) {
@@ -169,7 +174,7 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
       phase = DisputesTypes.Phase.NotStarted
       nextTransition = draftStartTime
     } else {
-      phase = DisputesTypes.Phase.JuryDrafting
+      phase = DisputesTypes.Phase.GuardianDrafting
     }
     return { phase, nextTransition, roundId: number }
   }
@@ -238,7 +243,7 @@ export function getAdjudicationPhase(dispute, round, termId, courtConfig) {
     }
   }
 
-  // Jurors can commit their votes between when the commit phase term starts and ends
+  // Guardians can commit their votes between when the commit phase term starts and ends
   // Note that the commit start term is the same as the draft end term
   const commitEndTerm = draftEndTerm + commitTerms - 1
   if (termId <= commitEndTerm) {
@@ -250,7 +255,7 @@ export function getAdjudicationPhase(dispute, round, termId, courtConfig) {
     }
   }
 
-  // Jurors can reveal their votes between when the reveal phase term starts and ends
+  // Guardians can reveal their votes between when the reveal phase term starts and ends
   const revealEndTerm = commitEndTerm + revealTerms
   if (termId <= revealEndTerm) {
     return {
@@ -360,16 +365,16 @@ export function getRoundPhasesAndTime(
 
   const roundPhasesAndTime = [
     {
-      // Jurors can be drafted at any time, so we'll only set the
+      // Guardians can be drafted at any time, so we'll only set the
       // `endTime` when the drafting phase has already passed
-      phase: DisputesTypes.Phase.JuryDrafting,
+      phase: DisputesTypes.Phase.GuardianDrafting,
       endTime:
-        DisputesTypes.Phase.JuryDrafting !== currentPhase.phase
+        DisputesTypes.Phase.GuardianDrafting !== currentPhase.phase
           ? getTermEndTime(draftEndTerm, courtConfig)
           : null,
       active:
         isCurrentRound &&
-        DisputesTypes.Phase.JuryDrafting === currentPhase.phase,
+        DisputesTypes.Phase.GuardianDrafting === currentPhase.phase,
       roundId,
     },
     {
@@ -506,31 +511,31 @@ export function getRoundFees(round, courtConfig) {
   const {
     draftFee,
     settleFee,
-    jurorFee,
+    guardianFee,
     finalRoundReduction,
     maxRegularAppealRounds,
   } = courtConfig
 
   // Final round
   if (round.number === maxRegularAppealRounds) {
-    return jurorFee
-      .mul(round.jurorsNumber)
+    return guardianFee
+      .mul(round.guardiansNumber)
       .div(FINAL_ROUND_WEIGHT_PRECISION.mul(finalRoundReduction).div(PCT_BASE))
   }
 
   // Regular round
   return draftFee
     .add(settleFee)
-    .add(jurorFee)
-    .mul(round.jurorsNumber)
+    .add(guardianFee)
+    .mul(round.guardiansNumber)
 }
 
 /**
  *
- * @param {BigNum} minActiveBalance The minimum active balance required to become an active juror
- * @param {BigNum} penaltyPct Percentage (against PCT_BASE) of min active tokens balance to be locked to each drafted juror
- * @param {BigNum} weight Weight computed for a juror on a round
- * @returns {BigNum} The amount that will be locked each time a juror is drafted
+ * @param {BigNum} minActiveBalance The minimum active balance required to become an active guardian
+ * @param {BigNum} penaltyPct Percentage (against PCT_BASE) of min active tokens balance to be locked to each drafted guardian
+ * @param {BigNum} weight Weight computed for a guardian on a round
+ * @returns {BigNum} The amount that will be locked each time a guardian is drafted
  */
 export function getDraftLockAmount(minActiveBalance, penaltyPct, weight) {
   return minActiveBalance

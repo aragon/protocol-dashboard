@@ -40,6 +40,7 @@ export const CourtConfig = gql`
       minActiveBalance
       penaltyPct
       modules {
+        id
         type
       }
       terms {
@@ -49,9 +50,9 @@ export const CourtConfig = gql`
     }
   }
 `
-export const JurorsRegistryModule = gql`
-  query JurorsRegistryModule($id: ID!) {
-    jurorsRegistryModule(id: $id) {
+export const GuardiansRegistryModule = gql`
+  query GuardiansRegistryModule($id: ID!) {
+    guardiansRegistryModule(id: $id) {
       id
       totalStaked
       totalActive

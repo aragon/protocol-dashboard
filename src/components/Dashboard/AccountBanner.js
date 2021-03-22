@@ -5,16 +5,16 @@ import { GU, Help, LoadingRing, useTheme } from '@aragon/ui'
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
 import { useTotalActiveBalance } from '../../hooks/useCourtStats'
-import { useJurorFirstTimeANTActivation } from '../../hooks/useANT'
+import { useGuardianFirstTimeANTActivation } from '../../hooks/useANT'
 import { useCourtConfig } from '../../providers/CourtConfig'
 
-import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
+import { ACCOUNT_STATUS_GUARDIAN_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
 import antSpringIcon from '../../assets/IconANTSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
 import hexagonIcon from '../../assets/IconHexagonGreen.svg'
-import { useJurorDrafted } from '../../hooks/useJurorDrafted'
+import { useGuardianDrafted } from '../../hooks/useGuardianDrafted'
 
 const getBannerAttributes = (
   status,
@@ -24,7 +24,7 @@ const getBannerAttributes = (
   decimals,
   theme
 ) => {
-  if (status === ACCOUNT_STATUS_JUROR_ACTIVE) {
+  if (status === ACCOUNT_STATUS_GUARDIAN_ACTIVE) {
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
@@ -65,19 +65,19 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
   const theme = useTheme()
   const { token: antToken } = useCourtConfig()
 
-  // check if juror has been drafted in this current term
-  const isJurorDrafted = useJurorDrafted({
-    pause: status !== ACCOUNT_STATUS_JUROR_ACTIVE,
+  // check if guardian has been drafted in this current term
+  const isGuardianDrafted = useGuardianDrafted({
+    pause: status !== ACCOUNT_STATUS_GUARDIAN_ACTIVE,
   })
 
   // check if it's the first time activating ANT
-  const isFirstTimeActivating = useJurorFirstTimeANTActivation({
-    pause: isJurorDrafted || status !== ACCOUNT_STATUS_JUROR_ACTIVE,
+  const isFirstTimeActivating = useGuardianFirstTimeANTActivation({
+    pause: isGuardianDrafted || status !== ACCOUNT_STATUS_GUARDIAN_ACTIVE,
   })
 
   const attributes = getBannerAttributes(
     status,
-    isJurorDrafted,
+    isGuardianDrafted,
     isFirstTimeActivating,
     minActiveBalance,
     antToken.decimals,
@@ -170,7 +170,7 @@ const BannerWithProbability = ({ activeBalance }) => {
     return <BannerLoadingRing />
   }
 
-  // Calculate juror's active balance and total active balance for current term
+  // Calculate guardian's active balance and total active balance for current term
   const {
     amount: activeAmount,
     amountNotEffective: activeAmountNotEffective,
@@ -182,7 +182,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   // Calculate probability (since the total active balance is asynchronous
-  // it can happen that it has not been updated yet when the juror active balance has)
+  // it can happen that it has not been updated yet when the guardian active balance has)
   const draftingProbability = Math.min(1, totalPercentage / 100)
   const probablilityTooLow = totalPercentage < 1
 

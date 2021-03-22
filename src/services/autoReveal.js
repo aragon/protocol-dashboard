@@ -4,7 +4,7 @@ import { getVoteId, hashPassword } from '../utils/crvoting-utils'
 const COURT_SERVER_ENDPOINT = courtServerEndpoint()
 
 export async function requestAutoReveal(
-  juror,
+  guardian,
   disputeId,
   roundId,
   outcome,
@@ -18,7 +18,7 @@ export async function requestAutoReveal(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        juror: juror.toLowerCase(),
+        guardian: guardian.toLowerCase(),
         voteId,
         outcome: outcome.toString(),
         salt,
@@ -43,12 +43,12 @@ export async function requestAutoReveal(
   }
 }
 
-export async function getAutoRevealRequest(juror, disputeId, roundId) {
+export async function getAutoRevealRequest(guardian, disputeId, roundId) {
   const voteId = getVoteId(disputeId, roundId).toString()
 
   try {
     const rawResponse = await fetch(
-      `${COURT_SERVER_ENDPOINT}/reveals/${juror}/${voteId}`,
+      `${COURT_SERVER_ENDPOINT}/reveals/${guardian}/${voteId}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },

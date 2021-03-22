@@ -4,9 +4,9 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useCourtSubscriptionActions } from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
-import { hasJurorClaimed } from '../utils/subscription-utils'
+import { hasGuardianClaimed } from '../utils/subscription-utils'
 
-export default function useJurorSubscriptionFees() {
+export default function useGuardianSubscriptionFees() {
   const wallet = useWallet()
   const { subscriptionModule } = useCourtConfig()
   const { getters } = useCourtSubscriptionActions()
@@ -25,7 +25,7 @@ export default function useJurorSubscriptionFees() {
       }
 
       try {
-        const jurorSubscriptionsFees = []
+        const guardianSubscriptionsFees = []
         // Subscription fees can be only claimed for past periods
         for (let index = 0; index < periods.length - 1; index++) {
           if (cancelled) {
@@ -36,27 +36,27 @@ export default function useJurorSubscriptionFees() {
           if (period.collectedFees.gt(0)) {
             const periodId = period.id
 
-            // TODO: See if we can get the juror share directly from the period data
-            const jurorShare = await getters.getJurorShare(
+            // TODO: See if we can get the guardian share directly from the period data
+            const guardianShare = await getters.getGuardianShare(
               wallet.account,
               periodId
             )
 
-            // jurorShare is conformed by [address: token, BigNum: shareAmount]
+            // guardianShare is conformed by [address: token, BigNum: shareAmount]
             if (
-              jurorShare[1].gt(0) &&
-              !hasJurorClaimed(claimedSubscriptionFees, periodId)
+              guardianShare[1].gt(0) &&
+              !hasGuardianClaimed(claimedSubscriptionFees, periodId)
             ) {
-              jurorSubscriptionsFees.push({
+              guardianSubscriptionsFees.push({
                 periodId,
-                amount: jurorShare[1],
+                amount: guardianShare[1],
               })
             }
           }
         }
 
         if (!cancelled) {
-          setSubscriptionFees(jurorSubscriptionsFees)
+          setSubscriptionFees(guardianSubscriptionsFees)
         }
       } catch (err) {
         console.error(`Error fetching guardian subscription fees: ${err}`)

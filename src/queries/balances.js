@@ -1,15 +1,15 @@
 import gql from 'graphql-tag'
 
-export const JurorANTWalletBalance = gql`
-  query JurorANTWalletBalance($id: ID!) {
+export const GuardianANTWalletBalance = gql`
+  query GuardianANTWalletBalance($id: ID!) {
     antbalance(id: $id) {
       amount
     }
   }
 `
 
-export const JurorANTBalances = gql`
-  query JurorANTBalances($id: ID!, $from: BigInt!) {
+export const GuardianANTBalances = gql`
+  query GuardianANTBalances($id: ID!, $from: BigInt!) {
     guardian(id: $id) {
       activeBalance
       lockedBalance
@@ -36,8 +36,8 @@ export const JurorANTBalances = gql`
   }
 `
 
-export const JurorTreasuryBalances = gql`
-  query JurorTreasuryBalances($owner: Bytes!) {
+export const GuardianTreasuryBalances = gql`
+  query GuardianTreasuryBalances($owner: Bytes!) {
     treasuryBalances(where: { owner: $owner }) {
       token {
         id
@@ -47,9 +47,9 @@ export const JurorTreasuryBalances = gql`
   }
 `
 
-export const JurorFirstANTActivationMovement = gql`
-  query JurorFirstANTActivationMovement($id: ID!) {
-    juror(id: $id) {
+export const GuardianFirstANTActivationMovement = gql`
+  query GuardianFirstANTActivationMovement($id: ID!) {
+    guardian(id: $id) {
       stakingMovements(
         where: { type: "Activation" }
         orderBy: createdAt

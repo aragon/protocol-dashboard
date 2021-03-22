@@ -2,14 +2,14 @@ import React from 'react'
 import { EthIdenticon, GU, useTheme, textStyle } from '@aragon/ui'
 import { shortenAddress } from '../../lib/web3-utils'
 import {
-  ACCOUNT_STATUS_JUROR_ACTIVE,
-  ACCOUNT_STATUS_JUROR_INACTIVE,
+  ACCOUNT_STATUS_GUARDIAN_ACTIVE,
+  ACCOUNT_STATUS_GUARDIAN_INACTIVE,
 } from '../../types/account-status-types'
 
 import shieldIcon from '../../assets/IconShield.svg'
 
 const getProfileAttributes = (status, theme) => {
-  if (status === ACCOUNT_STATUS_JUROR_ACTIVE)
+  if (status === ACCOUNT_STATUS_GUARDIAN_ACTIVE)
     return {
       background: `linear-gradient(35deg, ${theme.accentStart}  -75%, ${theme.accentEnd} 105%)`,
       primaryColor: theme.accentContent,
@@ -18,7 +18,7 @@ const getProfileAttributes = (status, theme) => {
       icon: shieldIcon,
     }
 
-  if (status === ACCOUNT_STATUS_JUROR_INACTIVE)
+  if (status === ACCOUNT_STATUS_GUARDIAN_INACTIVE)
     return {
       background: 'linear-gradient(208deg, #FFFAF1 -3%, #FFEBEB 216%)',
       primaryColor: theme.content,
@@ -105,7 +105,7 @@ function Profile({ account, status }) {
                     margin-right: ${0.5 * GU}px;
                   `}
                   src={icon}
-                  alt="juror-icon"
+                  alt="guardian-icon"
                 />
               )}
               {statusLabel}

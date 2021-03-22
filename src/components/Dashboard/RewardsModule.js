@@ -15,7 +15,7 @@ import NoRewards from './NoRewards'
 
 import { useWallet } from '../../providers/Wallet'
 import { useCourtConfig } from '../../providers/CourtConfig'
-import useJurorSubscriptionFees from '../../hooks/useJurorSubscriptionFees'
+import useGuardianSubscriptionFees from '../../hooks/useGuardianSubscriptionFees'
 
 import { addressesEqual } from '../../lib/web3-utils'
 import { bigNum, formatTokenAmount } from '../../lib/math-utils'
@@ -23,8 +23,8 @@ import { bigNum, formatTokenAmount } from '../../lib/math-utils'
 // antRewards => ANT => First settle with `onSettleReward()`, then withdraw
 // feeRewards => DAI =>  First settle with `onSettleReward()` or `onSettleAppealDeposit()`, then withdraw
 // subscriptions fees => DAI => Can be withdrawn directly from the CourtSubscription contract
-// Only after the rewards are settled can a juror withdraw them from the treasury (`onWithdraw()`)
-// As opposed to fee rewards, subscription fees are directly withdrawn to the juror's wallet when claimed
+// Only after the rewards are settled can a guardian withdraw them from the treasury (`onWithdraw()`)
+// As opposed to fee rewards, subscription fees are directly withdrawn to the guardian's wallet when claimed
 const RewardsModule = React.memo(function RewardsModule({
   rewards,
   treasury,
@@ -35,7 +35,7 @@ const RewardsModule = React.memo(function RewardsModule({
   const { feeToken } = useCourtConfig()
 
   // Subscriptions are fetched directly from the subscriptions contract
-  const subscriptionFees = useJurorSubscriptionFees()
+  const subscriptionFees = useGuardianSubscriptionFees()
   const { antRewards, feeRewards } = rewards || {}
 
   const {
@@ -49,8 +49,8 @@ const RewardsModule = React.memo(function RewardsModule({
     subscriptionFees
   )
 
-  // We'll get the total juror's balance held in the treasury
-  // TODO: feeToken can change over time, this means jurors could have multiple balances in the treasury (one for each fee token).
+  // We'll get the total guardian's balance held in the treasury
+  // TODO: feeToken can change over time, this means guardians could have multiple balances in the treasury (one for each fee token).
   //       - Handle potential multiple fee token balances
   const treasuryToken = treasury?.find(({ token }) =>
     addressesEqual(token.id, feeToken.id)

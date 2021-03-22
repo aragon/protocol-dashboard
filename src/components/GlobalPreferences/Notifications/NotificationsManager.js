@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useWallet } from '../../../providers/Wallet'
 import {
-  verifyJurorEmail,
-  getJurorEmail,
+  verifyGuardianEmail,
+  getGuardianEmail,
 } from '../../../services/notificationServiceApi'
 import { useSubscriptionDetails } from '../../../hooks/useEmailNotifications'
 import EmailNotificationsManager from '../../EmailNotifications/EmailNotificationsManager'
@@ -23,8 +23,8 @@ const NotificationsManager = React.memo(function NotificationsManager({
   const { account } = useWallet()
   const { search } = useLocation()
   const [startingScreenId, setStartingScreenId] = useState()
-  const [jurorNeedsSignature, setJurorNeedsSignature] = useState()
-  const [jurorEmail, setJurorEmail] = useState('')
+  const [guardianNeedsSignature, setGuardianNeedsSignature] = useState()
+  const [guardianEmail, setGuardianEmail] = useState('')
   const [fetchingEmail, setFetchingEmail] = useState()
 
   const {
@@ -46,7 +46,7 @@ const NotificationsManager = React.memo(function NotificationsManager({
     }
 
     const verifyEmailAddress = async () => {
-      const { error } = await verifyJurorEmail(address, token)
+      const { error } = await verifyGuardianEmail(address, token)
 
       if (!cancelled) {
         if (error) {
@@ -73,7 +73,7 @@ const NotificationsManager = React.memo(function NotificationsManager({
     if (fetchingSubscriptionData || fetchingEmail) {
       return setStartingScreenId(LOADING_SCREEN)
     }
-    if (jurorNeedsSignature) {
+    if (guardianNeedsSignature) {
       return setStartingScreenId(UNLOCK_NOTIFICATIONS_SCREEN)
     }
 
@@ -84,7 +84,7 @@ const NotificationsManager = React.memo(function NotificationsManager({
       return setStartingScreenId(EMAIL_NOTIFICATIONS_FORM_SCREEN)
     }
 
-    if (emailVerified && !jurorNeedsSignature) {
+    if (emailVerified && !guardianNeedsSignature) {
       return setStartingScreenId(NOTIFICATIONS_PREFERENCES_SCREEN)
     }
   }, [
@@ -93,7 +93,7 @@ const NotificationsManager = React.memo(function NotificationsManager({
     emailVerified,
     fetchingEmail,
     fetchingSubscriptionData,
-    jurorNeedsSignature,
+    guardianNeedsSignature,
     address,
     token,
   ])
@@ -107,10 +107,10 @@ const NotificationsManager = React.memo(function NotificationsManager({
       setFetchingEmail(true)
 
       if (!cancelled) {
-        const { needsSignature, email } = await getJurorEmail(account)
+        const { needsSignature, email } = await getGuardianEmail(account)
 
-        setJurorNeedsSignature(needsSignature)
-        setJurorEmail(email)
+        setGuardianNeedsSignature(needsSignature)
+        setGuardianEmail(email)
         setFetchingEmail(false)
       }
     }
@@ -123,11 +123,11 @@ const NotificationsManager = React.memo(function NotificationsManager({
   return (
     startingScreenId && (
       <EmailNotificationsManager
-        needsUnlockSettings={jurorNeedsSignature}
+        needsUnlockSettings={guardianNeedsSignature}
         emailExists={emailExists}
         emailVerified={emailVerified}
         notificationsDisabled={notificationsDisabled}
-        email={jurorEmail}
+        email={guardianEmail}
         startingScreen={startingScreenId}
         onReturnToDashboard={onReturnToDashboard}
       />

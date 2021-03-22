@@ -27,7 +27,7 @@ const DISPUTES_STATUS_STRING = DISPUTES_STATUS_TYPES.map(
 const DISPUTES_PHASE_TYPES = [
   DisputesTypes.Phase.All,
   DisputesTypes.Phase.Evidence,
-  DisputesTypes.Phase.JuryDrafting,
+  DisputesTypes.Phase.GuardianDrafting,
   DisputesTypes.Phase.VotingPeriod,
   DisputesTypes.Phase.AppealRuling,
   DisputesTypes.Phase.ConfirmAppeal,

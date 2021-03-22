@@ -15,7 +15,7 @@ import { bigNum } from '../lib/math-utils'
  * @returns {Array} Resuling array of movements grouped by the logic described above
  */
 export const groupMovements = movements => {
-  // If the juror is activating from the wallet we need to just show an incoming movement in the Active balance
+  // If the guardian is activating from the wallet we need to just show an incoming movement in the Active balance
   // and an outgoing movement in the Wallet balance
   return movements.reduce(
     (movements, currentMovement, index, prevMovements) => {
@@ -273,7 +273,7 @@ export function getUpdatedLockedMovement(lockedBalance, latestMovement) {
     return latestMovement
   }
 
-  // In the case that the juror has locked balance, we must update the active balance latest movement
+  // In the case that the guardian has locked balance, we must update the active balance latest movement
   const movementTypeLock = antMovementTypes.Lock
   let newLockedAmount = lockedBalance
 

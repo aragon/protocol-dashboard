@@ -13,7 +13,7 @@ import {
 function DisputeVoting({
   draftTermId,
   isFinalRound,
-  isJurorDrafted,
+  isGuardianDrafted,
   onRequestCommit,
 }) {
   if (isFinalRound) {
@@ -27,7 +27,7 @@ function DisputeVoting({
 
   return (
     <VotingActions
-      canJurorVote={isJurorDrafted}
+      canGuardianVote={isGuardianDrafted}
       onRequestCommit={onRequestCommit}
     />
   )
@@ -38,20 +38,20 @@ function VotingFinalRound({ draftTermId, onRequestCommit }) {
   const { minActiveBalance } = useCourtConfig()
 
   // On a final round we must check if the connected account had the minimum active balance at term `disputeDraftTermId` to be able to vote
-  // Note that in a final round, every juror can vote (there's no drafting phase).
+  // Note that in a final round, every guardian can vote (there's no drafting phase).
   const [activeBalance] = useActiveBalanceOfAt(wallet.account, draftTermId)
 
-  const canJurorVoteFinalRound = activeBalance.gte(minActiveBalance)
+  const canGuardianVoteFinalRound = activeBalance.gte(minActiveBalance)
 
   return (
     <VotingActions
-      canJurorVote={canJurorVoteFinalRound}
+      canGuardianVote={canGuardianVoteFinalRound}
       onRequestCommit={onRequestCommit}
     />
   )
 }
 
-function VotingActions({ canJurorVote, onRequestCommit }) {
+function VotingActions({ canGuardianVote, onRequestCommit }) {
   const wallet = useWallet()
   const { below } = useViewport()
   const compactMode = below('medium')
@@ -71,7 +71,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
       >
         <VotingButton
           compactMode={compactMode}
-          disabled={!canJurorVote}
+          disabled={!canGuardianVote}
           mode="positive"
           onClick={() => onRequestCommit(VOTE_OPTION_IN_FAVOR)}
           width={buttonWidth}
@@ -80,7 +80,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
         </VotingButton>
         <VotingButton
           compactMode={compactMode}
-          disabled={!canJurorVote}
+          disabled={!canGuardianVote}
           mode="negative"
           onClick={() => onRequestCommit(VOTE_OPTION_AGAINST)}
           width={buttonWidth}
@@ -90,7 +90,7 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
 
         <VotingButton
           compactMode={compactMode}
-          disabled={!canJurorVote}
+          disabled={!canGuardianVote}
           onClick={() => onRequestCommit(VOTE_OPTION_REFUSE)}
           width={buttonWidth}
         >
@@ -98,12 +98,12 @@ function VotingActions({ canJurorVote, onRequestCommit }) {
         </VotingButton>
       </div>
       <RefuseToVoteHint compactMode={compactMode} width={buttonWidth} />
-      <Info mode={canJurorVote ? 'description' : 'warning'}>
+      <Info mode={canGuardianVote ? 'description' : 'warning'}>
         {(() => {
           if (!wallet.account)
             return 'You cannot vote on this dispute because your Ethereum account is not connected.'
 
-          return canJurorVote
+          return canGuardianVote
             ? ' You will be asked a one-time-use code before you can commit your vote.'
             : 'You cannot vote on this dispute with the current enabled address.'
         })()}

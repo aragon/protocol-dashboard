@@ -1,36 +1,36 @@
 import { useQuery } from 'urql'
 
-import { JurorFirstANTActivationMovement } from '../queries/balances'
-import { ActiveJurors, JurorFeesClaimed } from '../queries/juror'
-import { JurorDrafts } from '../queries/jurorDrafts'
+import { GuardianFirstANTActivationMovement } from '../queries/balances'
+import { ActiveGuardians, GuardianFeesClaimed } from '../queries/guardian'
+import { GuardianDrafts } from '../queries/guardianDrafts'
 
-export function useJurorDraftQuery(jurorId) {
+export function useGuardianDraftQuery(guardianId) {
   const [result] = useQuery({
-    query: JurorDrafts,
-    variables: { id: jurorId?.toLowerCase() },
-    pause: !jurorId,
+    query: GuardianDrafts,
+    variables: { id: guardianId?.toLowerCase() },
+    pause: !guardianId,
   })
 
   if (result.fetching || result.error) {
     return []
   }
 
-  const { juror } = result.data || {}
+  const { guardian } = result.data || {}
 
-  return juror ? juror.drafts.map(draft => draft.round.dispute.id) : []
+  return guardian ? guardian.drafts.map(draft => draft.round.dispute.id) : []
 }
 
 /**
- * Queries if the juror  by id `jurorId` has ever claimed rewards
- * Rewards can be claimed from two places: Subscriptions fees or Dispute fees (the later includes appeal and juror fees)
+ * Queries if the guardian  by id `guardianId` has ever claimed rewards
+ * Rewards can be claimed from two places: Subscriptions fees or Dispute fees (the later includes appeal and guardian fees)
  *
- * @param {String} jurorId Address of the juror
- * @returns {Boolean} True if juror has ever claimed rewards
+ * @param {String} guardianId Address of the guardian
+ * @returns {Boolean} True if guardian has ever claimed rewards
  */
-export function useJurorRewardsEverClaimedQuery(jurorId) {
+export function useGuardianRewardsEverClaimedQuery(guardianId) {
   const [{ data }] = useQuery({
-    query: JurorFeesClaimed,
-    variables: { owner: jurorId.toLowerCase() },
+    query: GuardianFeesClaimed,
+    variables: { owner: guardianId.toLowerCase() },
   })
 
   if (!data) {
@@ -40,22 +40,22 @@ export function useJurorRewardsEverClaimedQuery(jurorId) {
   return data.feeMovements.length > 0
 }
 
-export function useFirstANTActivationQuery(jurorId, { pause = false }) {
+export function useFirstANTActivationQuery(guardianId, { pause = false }) {
   const [result] = useQuery({
-    query: JurorFirstANTActivationMovement,
-    variables: { id: jurorId.toLowerCase() },
+    query: GuardianFirstANTActivationMovement,
+    variables: { id: guardianId.toLowerCase() },
     pause,
   })
 
-  const { juror } = result.data || {}
+  const { guardian } = result.data || {}
 
-  return juror ? juror.antMovements[0] : null
+  return guardian ? guardian.stakingMovements[0] : null
 }
 
-export function useActiveJurorsNumber() {
+export function useActiveGuardiansNumber() {
   const [{ data, error }] = useQuery({
-    query: ActiveJurors,
+    query: ActiveGuardians,
   })
 
-  return [data?.jurors?.length, error]
+  return [data?.guardians?.length, error]
 }

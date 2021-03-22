@@ -41,17 +41,6 @@ export const SingleDispute = gql`
       lastRoundId
       state
       metadata
-      disputable {
-        actionId
-        address
-        agreement
-        actionContext
-        defendant
-        disputableActionId
-        organization
-        plaintiff
-        title
-      }
       createdAt
       subject {
         id
@@ -70,16 +59,16 @@ export const SingleDispute = gql`
         state
         number
         draftTermId
-        jurorsNumber
+        guardiansNumber
         settledPenalties
-        jurorFees
+        guardianFees
         delayedTerms
-        selectedJurors
-        coherentJurors
+        selectedGuardians
+        coherentGuardians
         collectedTokens
         createdAt
-        jurors {
-          juror {
+        guardians {
+          guardian {
             id
           }
           weight

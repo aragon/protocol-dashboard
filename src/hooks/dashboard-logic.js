@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react'
 
 import { useANTBalances } from './useANT'
 import { useSidePanel } from './useSidePanel'
-import useJurorRewards from './useJurorRewards'
-import useJurorAppealCollaterals from './useJurorAppealCollaterals'
+import useGuardianRewards from './useGuardianRewards'
+import useGuardianAppealCollaterals from './useGuardianAppealCollaterals'
 import { useANTActions, useRewardActions } from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
@@ -69,11 +69,11 @@ export function useDashboardLogic() {
     withdrawANT,
   } = useANTActions()
 
-  const rewards = useJurorRewards()
+  const rewards = useGuardianRewards()
   const antBalances = useANTBalances()
   const panelState = useSidePanel()
 
-  const appealCollaterals = useJurorAppealCollaterals()
+  const appealCollaterals = useGuardianAppealCollaterals()
   const {
     treasury,
     fetching: fetchingData,

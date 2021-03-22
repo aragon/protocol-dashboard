@@ -20,7 +20,7 @@ import { getDraftLockAmount } from '../utils/dispute-utils'
 import { ANTBalance, ANTMovement } from '../types/ant-types'
 
 export function useANTBalances() {
-  const { antBalances, antMovements } = useDashboardState()
+  const { antBalances, stakingMovements } = useDashboardState()
 
   const {
     walletBalance,
@@ -30,7 +30,7 @@ export function useANTBalances() {
     deactivationBalance,
   } = antBalances || {}
 
-  const convertedMovements = useConvertedMovements(antMovements)
+  const convertedMovements = useConvertedMovements(stakingMovements)
 
   const convertedWalletBalance = useBalanceWithMovements(
     walletBalance,
@@ -51,7 +51,7 @@ export function useANTBalances() {
   )
 
   // Use ANT Locked distribution
-  const lockedDistribution = useJurorLockedANTDistribution()
+  const lockedDistribution = useGuardianLockedANTDistribution()
   const convertedLockedBalance = useMemo(() => {
     return { amount: lockedBalance, distribution: lockedDistribution }
   }, [lockedBalance, lockedDistribution])
@@ -204,7 +204,7 @@ function useFilteredMovements(movements, acceptedMovements) {
  * @param {Boolean} options.pause Tells whether to pause query or not
  * @return {Boolean} true if account's first ANT activation happened on current term
  */
-export function useJurorFirstTimeANTActivation(options) {
+export function useGuardianFirstTimeANTActivation(options) {
   const wallet = useWallet()
   const { currentTermId } = useCourtClock()
   const firstANTActivation = useFirstANTActivationQuery(wallet.account, options)
@@ -220,24 +220,24 @@ export function useJurorFirstTimeANTActivation(options) {
   return firstANTActivationTerm === currentTermId + 1
 }
 
-export function useJurorLockedANTDistribution() {
+export function useGuardianLockedANTDistribution() {
   const {
     maxRegularAppealRounds,
     minActiveBalance,
     penaltyPct,
   } = useCourtConfig()
-  const { jurorDrafts, antBalances } = useDashboardState()
+  const { guardianDrafts, antBalances } = useDashboardState()
   const { lockedBalance } = antBalances || {}
 
   return useMemo(() => {
-    if (!lockedBalance || lockedBalance.eq(0) || !jurorDrafts) return null
+    if (!lockedBalance || lockedBalance.eq(0) || !guardianDrafts) return null
 
-    // For final rounds the ANT at stake is pre-slashed for all jurors when they commit their vote
-    return jurorDrafts
+    // For final rounds the ANT at stake is pre-slashed for all guardians when they commit their vote
+    return guardianDrafts
       .filter(
-        jurorDraft =>
-          !jurorDraft.round.settledPenalties &&
-          jurorDraft.round.number < maxRegularAppealRounds
+        guardianDraft =>
+          !guardianDraft.round.settledPenalties &&
+          guardianDraft.round.number < maxRegularAppealRounds
       )
       .reduce((lockDistribution, { weight, round }) => {
         const { dispute } = round
@@ -274,7 +274,7 @@ export function useJurorLockedANTDistribution() {
         return lockDistribution
       }, [])
   }, [
-    jurorDrafts,
+    guardianDrafts,
     lockedBalance,
     maxRegularAppealRounds,
     minActiveBalance,

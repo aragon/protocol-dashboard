@@ -40,7 +40,7 @@ const Tasks = React.memo(({ onlyTable }) => {
     selectedPhase,
     handleSelectedPhaseChange,
     openTasksNumber,
-    jurorOpenTaskNumber,
+    guardianOpenTaskNumber,
     taskActionsString,
   } = useFilteredTasks(myTasksSelected, wallet.account)
 
@@ -71,7 +71,7 @@ const Tasks = React.memo(({ onlyTable }) => {
           items={[
             <div>
               <span>My Tasks </span>
-              <Tag limitDigits={4} label={jurorOpenTaskNumber} size="small" />
+              <Tag limitDigits={4} label={guardianOpenTaskNumber} size="small" />
             </div>,
             <div>
               <span>All Tasks </span>

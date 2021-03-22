@@ -22,6 +22,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
       {evidences &&
         evidences.map((evidence, index) => {
           const { createdAt, submitter, metadata, error } = evidence
+          console.log(evidence, ' evidence')
           return (
             <Accordion
               key={index}

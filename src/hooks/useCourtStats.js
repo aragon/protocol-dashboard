@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { useActiveJurorsNumber } from '../hooks/query-hooks'
+import { useActiveGuardiansNumber } from '../hooks/query-hooks'
 import {
-  useJurorRegistrySubscription,
+  useGuardianRegistrySubscription,
   useTotalRewardsSubscription,
 } from '../hooks/subscription-hooks'
 import { getKnownToken } from '../utils/known-tokens'
@@ -22,14 +22,14 @@ const COURT_STATS = [
 ]
 
 export function useTotalActiveBalance() {
-  const { data: jurorRegistryStats, error } = useJurorRegistrySubscription()
+  const { data: guardianRegistryStats, error } = useGuardianRegistrySubscription()
 
   return useMemo(() => {
-    if (!jurorRegistryStats || error) {
+    if (!guardianRegistryStats || error) {
       return [bigNum(-1), error]
     }
-    return [bigNum(jurorRegistryStats.totalActive), error]
-  }, [error, jurorRegistryStats])
+    return [bigNum(guardianRegistryStats.totalActive), error]
+  }, [error, guardianRegistryStats])
 }
 
 function useTotalRewards() {
@@ -49,29 +49,29 @@ function useTotalRewards() {
   }, [error, rewards])
 }
 /**
- * Hook to get the dashboard stats ANT active balance, ANT total stake and the active jurors number
+ * Hook to get the dashboard stats ANT active balance, ANT total stake and the active guardians number
  * @returns {Array} First item an array with the stats and the second one a loading state
  */
 function useCourtStats() {
   const [antActiveBalance, antActiveBalanceError] = useTotalActiveBalance()
-  const [activeJurors, activeJurorsError] = useActiveJurorsNumber()
+  const [activeGuardians, activeGuardiansError] = useActiveGuardiansNumber()
   const [totalRewards, totalRewardsError] = useTotalRewards()
 
   // Loading states
   const antFetching = antActiveBalance.eq(bigNum(-1)) && !antActiveBalanceError
-  const activeJurorsFetching = activeJurors === null && !activeJurorsError
+  const activeGuardiansFetching = activeGuardians === null && !activeGuardiansError
   const totalRewardsFetching = totalRewards.eq(bigNum(-1)) && !totalRewardsError
 
   return useMemo(
     () => {
-      if (antFetching || activeJurorsFetching || totalRewardsFetching) {
+      if (antFetching || activeGuardiansFetching || totalRewardsFetching) {
         return [null, true]
       }
 
-      const statsData = [antActiveBalance, activeJurors, totalRewards]
+      const statsData = [antActiveBalance, activeGuardians, totalRewards]
       const statsError = [
         antActiveBalanceError,
-        activeJurorsError,
+        activeGuardiansError,
         totalRewardsError,
       ]
       return [
@@ -86,9 +86,9 @@ function useCourtStats() {
       ]
     } /* eslint-disable react-hooks/exhaustive-deps */,
     [
-      activeJurors,
-      activeJurorsError,
-      activeJurorsFetching,
+      activeGuardians,
+      activeGuardiansError,
+      activeGuardiansFetching,
       antActiveBalance.toString(),
       antActiveBalanceError,
       antFetching,

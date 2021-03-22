@@ -28,7 +28,7 @@ import { actions } from './actions'
 import {
   createSession,
   deleteCurrentSession,
-  deleteJurorEmail,
+  deleteGuardianEmail,
   resendVerificationEmail,
   subscribeToNotifications,
   subscribeExistingEmail,
@@ -262,7 +262,7 @@ const EmailNotificationsManager = React.memo(
     }, [subscriptionProgress.previousScreen])
 
     const handleOnDelete = useCallback(async () => {
-      const { error, needsSignature } = await deleteJurorEmail(account)
+      const { error, needsSignature } = await deleteGuardianEmail(account)
 
       if (error && !needsSignature) {
         setSubscriptionProgress({ serviceError: true })
@@ -420,7 +420,7 @@ const EmailNotificationsManager = React.memo(
         }
 
         const action = actions[subscriptionProgress.mode]
-        let returnedJurorEmail = ''
+        let returnedGuardianEmail = ''
 
         if (action.request) {
           let params = [account]
@@ -444,7 +444,7 @@ const EmailNotificationsManager = React.memo(
             }
 
             if (email) {
-              returnedJurorEmail = email
+              returnedGuardianEmail = email
             }
           }
         }
@@ -459,7 +459,7 @@ const EmailNotificationsManager = React.memo(
             setSubscriptionProgress(subscriptionProgress => ({
               ...subscriptionProgress,
               needSignature: false,
-              email: returnedJurorEmail || subscriptionProgress.email,
+              email: returnedGuardianEmail || subscriptionProgress.email,
               startRequest: false,
             }))
 
@@ -468,7 +468,7 @@ const EmailNotificationsManager = React.memo(
           setSubscriptionProgress(subscriptionProgress => ({
             ...subscriptionProgress,
             needSignature: false,
-            email: returnedJurorEmail || subscriptionProgress.email,
+            email: returnedGuardianEmail || subscriptionProgress.email,
             startRequest: false,
           }))
         }
