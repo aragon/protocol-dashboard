@@ -120,15 +120,15 @@ const RewardsModule = React.memo(function RewardsModule({
             {totalFeeRewards.gt(0) && (
               <FeeSection>
                 <form onSubmit={handleFormSubmit}>
-                  {totalSubscriptionFees.gt(0) && (
-                    <SubscriptionFeeRewards totalFees={totalSubscriptionFees} />
-                  )}
                   {totalDisputesFees.gt(0) && (
                     <DisputesFeeRewards
                       totalAppealFees={totalAppealFees}
                       totalArbitrableFees={totalArbitrableFees}
                       distribution={feeRewards.distribution}
                     />
+                  )}
+                  {totalSubscriptionFees.gt(0) && (
+                    <SubscriptionFeeRewards totalFees={totalSubscriptionFees} />
                   )}
                   <TotalFees
                     totalFees={totalFeeRewards}
@@ -159,15 +159,16 @@ const HNYRewards = ({ amount }) => {
   return (
     <FeeSection>
       <RowFee
-        label="Ruling fees"
+        label="Ruling rewards"
         amount={formattedAmount}
         symbol={anjToken.symbol}
+        help="These rewards are from keepers who failed to vote with the plurality ruling."
         showPositive
         css={`
           margin-bottom: ${2 * GU}px;
         `}
       />
-      <Info>This amount will be sent to your inactive wallet</Info>
+      <Info>This amount will be sent to your inactive wallet.</Info>
     </FeeSection>
   )
 }
@@ -199,7 +200,7 @@ const DisputesFeeRewards = ({
     <>
       {totalArbitrableFees.gt(0) && (
         <RowFee
-          label="Dispute fees"
+          label="Dispute rewards"
           amount={totalArbitrableFormatted}
           symbol={symbol}
           showPositive
@@ -210,7 +211,7 @@ const DisputesFeeRewards = ({
       )}
       {totalAppealFees.gt(0) && (
         <RowFee
-          label="Appeal fees"
+          label="Appeal rewards"
           amount={totalAppealFormatted}
           symbol={symbol}
           showPositive
@@ -223,6 +224,7 @@ const DisputesFeeRewards = ({
         css={`
           display: flex;
           align-items: center;
+          margin-bottom: ${2 * GU}px;
         `}
       >
         <span
@@ -251,6 +253,7 @@ const DisputesFeeRewards = ({
 }
 
 function SubscriptionFeeRewards({ totalFees }) {
+  const theme = useTheme()
   const { feeToken, subscriptionModule, terms, termDuration } = useCourtConfig()
   const formattedAmount = formatTokenAmount(
     totalFees,
@@ -265,7 +268,7 @@ function SubscriptionFeeRewards({ totalFees }) {
   return (
     <>
       <RowFee
-        label="Subscriptions"
+        label="Staking rewards"
         amount={formattedAmount}
         symbol={feeToken.symbol}
         showPositive
@@ -281,26 +284,26 @@ function SubscriptionFeeRewards({ totalFees }) {
           margin-bottom: ${2 * GU}px;
         `}
       >
-        <div>
-          Failing to claim subscription rewards during the current period will
-          forfeit the unclaimed amount.
+        <div
+          css={`
+            & > time {
+              ${textStyle('body3')};
+              display: inline-block;
+
+              & span {
+                color: ${theme.warningSurfaceContent};
+                font-weight: bold;
+              }
+            }
+          `}
+        >
+          You must claim your staking rewards within{' '}
+          <Timer
+            end={getTermEndTime(periodEndTerm, { terms, termDuration })}
+            showIcon={false}
+          />{' '}
+          or you will forfeit them.
         </div>
-        <Help hint="Time left to claim">
-          {' '}
-          <div>
-            <span
-              css={`
-                ${textStyle('body1')};
-              `}
-            >
-              Time left to claim:{' '}
-            </span>
-            <Timer
-              end={getTermEndTime(periodEndTerm, { terms, termDuration })}
-              showIcon={false}
-            />
-          </div>
-        </Help>
       </Info>
     </>
   )
@@ -387,6 +390,7 @@ const RowFee = ({
   isLabelLink,
   amount,
   symbol,
+  help,
   showPositive,
   ...props
 }) => {
@@ -405,7 +409,23 @@ const RowFee = ({
       `}
       {...props}
     >
-      {isLabelLink ? label : <span>{label}</span>}
+      {isLabelLink ? (
+        label
+      ) : (
+        <div
+          css={`
+            display: flex;
+            align-items: center;
+
+            & > button {
+              margin-left: ${0.5 * GU}px;
+            }
+          `}
+        >
+          <span>{label}</span>
+          {help && <Help hint="">{help}</Help>}
+        </div>
+      )}
 
       <span
         css={`
