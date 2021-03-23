@@ -255,7 +255,7 @@ const RevealService = React.memo(function RevealService({
           ${textStyle('body2')};
         `}
       >
-        By enabling this feature you trust Aragon One to reveal your vote on
+        By enabling this feature you trust Aragon to reveal your vote on
         your behalf in this and following disputes. You can always turn off this
         service later if you choose.
         <Link href="https://help.aragon.org/article/43-dispute-lifecycle#onetime">

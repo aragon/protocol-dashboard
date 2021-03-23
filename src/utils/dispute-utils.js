@@ -132,7 +132,6 @@ export function getPhaseAndTransition(dispute, currentTerm, courtConfig) {
 
   // Guardian Drafting phase
   if (state === DisputesTypes.Phase.GuardianDrafting) {
-    console.log(currentTerm, lastRound.draftTermId, ' always null')
     // When a new round is created, it could happen that the draft term has not been reached yet
     // because the confirm appeal phase of the previous round has not yet ended
     if (currentTerm < lastRound.draftTermId) {

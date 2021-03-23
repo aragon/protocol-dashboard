@@ -130,7 +130,7 @@ export function useANTActions() {
 
   // approve, stake and activate ANT
   const stakeActivateANT = useCallback(
-    amount => {
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { animated, useSpring } from 'react-spring'
 import { GU, Help, LoadingRing, useTheme } from '@aragon/ui'
@@ -197,49 +198,12 @@ const BannerWithProbability = ({ activeBalance }) => {
         align-items: center;
       `}
     >
-      <span
-        css={`
-          margin-right: ${1 * GU}px;
-        `}
-      >
-        {'On average, you will be summoned into a guardian '}
-        <span
-          css={`
-            color: ${theme.accent};
-          `}
-        >
-          1 in {chances} times
-        </span>
-      </span>
-      <Help hint="How is the probability calculated?">
-        <p>
-          This is a numerical estimate of your likelihood of being selected for
-          arbitration. It’s calculated by dividing your active ANT balance
-          against the court's total active ANT balance during the current term.
-        </p>
-        <p
-          css={`
-            margin-top: ${1 * GU}px;
-          `}
-        >
-          {probablilityTooLow
-            ? `
-                You currently have <1% of all activated ANT, hence are unlikely
-                to be summoned unless a dispute goes to the final round or many
-                disputes are created. Activate more ANT to increase your chances
-                of being selected as a guardian.
-              `
-            : `
-                You can always activate more ANT to increase your chances of
-                being selected as a guardian.
-              `}
-        </p>
-      </Help>
+      
     </div>
   )
 
   const paragraph =
-    'The more ANT you activate, the more likely you will be summoned to arbitrate a dispute'
+    `The more ANT you activate, the more likely you will be summoned to arbitrate a dispute ${draftingProbability}`
 
   return (
     <Wrapper

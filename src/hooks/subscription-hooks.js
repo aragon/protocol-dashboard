@@ -1,6 +1,6 @@
 /* eslint-disable */ 
 // TODO:GIORGI enable it again above.
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useQuery } from 'urql'
 import { useCourtConfig } from '../providers/CourtConfig'
 
@@ -56,20 +56,18 @@ function useQuerySub(query, variables = {}, options = {}) {
 
 // Subscription to get guardian's wallet balance
 function useANTBalance(guardianId) {
-  // TODO:GIORGI This was before
-  // const [{ data, error }] = useQuerySub(GuardianANTWalletBalance, {
-  //   id: guardianId.toLowerCase(),
-  // })
-  // TODO:GIORGI It has to become this, but than every function that uses useANTBalance has to become async 
-  // which results in an error of using react hooks wrongly.
-  // const antTokenContract = useANTTokenContract();
-  // const amount = await antTokenContract.balanceOf("0x94C34FB5025e054B24398220CBDaBE901bd8eE5e")
-  // let data = { antbalance: { amount : amount }}
-  // let error = null
-  // return { data, error }
+  const antTokenContract = useANTTokenContract();
+  const error = null
+  let [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
 
-  let error = null;
-  let data = { antbalance: { amount : bigNum("199000000000000000000") }}
+  useEffect(() => {
+    async function getData() {
+      const amount = await antTokenContract.balanceOf(guardianId)
+      setData({ antbalance: { amount : bigNum(amount) }} )
+    }
+    getData();
+  }, [])
+  
   return { data, error }
 }
 
@@ -131,16 +129,13 @@ export function useGuardianBalancesSubscription(guardianId) {
       return {}
     }
 
-    console.log(antBalanceData, ' nice123')
     // If the account doesn't hold any ANT we set 0 as default
     const { amount: walletBalance = NO_AMOUNT } =
       antBalanceData.antbalance || {}
 
-      console.log(bigNum(walletBalance), ' wallet bal')
     // If the guardian is null then means that the connnected account is not a guardian but we are already done fetching
     // We set 0 as default values
 
-    console.log(guardianData.guardian, ' comon bla')
     const {
       activeBalance = NO_AMOUNT,
       stakingMovements = [],
@@ -149,13 +144,7 @@ export function useGuardianBalancesSubscription(guardianId) {
       deactivationBalance = NO_AMOUNT,
       lockedBalance = NO_AMOUNT,
     } = guardianData.guardian || {}
-    
-    console.log(bigNum(activeBalance).toString(),
-     bigNum(deactivationBalance).toString(),
-     bigNum(availableBalance).toString(),
-     bigNum(lockedBalance).toString(),
-     bigNum(walletBalance).toString(), ' whating')
-
+  
     const { treasuryBalances = [] } = treasuryBalancesData || {}
 
     return {
