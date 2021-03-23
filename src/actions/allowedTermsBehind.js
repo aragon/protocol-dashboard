@@ -7,6 +7,8 @@ const TERM_AGNOSTIC = -1
 export default {
   [actions.APPROVE_FEE_DEPOSIT]: TERM_AGNOSTIC,
   [actions.ACTIVATE_ANT]: 1,
+  [actions.APPROVE_ANT] : TERM_AGNOSTIC,
+  [actions.STAKE_AND_ACTIVATE_ANT]: 1,
   [actions.APPEAL_RULING]: 1,
   [actions.CLAIM_REWARDS]: TERM_AGNOSTIC,
   [actions.CLAIM_SUBSCRIPTION_FEES]: TERM_AGNOSTIC,

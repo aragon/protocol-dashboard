@@ -1,4 +1,3 @@
-/* eslint-disable */ 
 // TODO:GIORGI enable it again above.
 import { useMemo, useEffect, useState } from 'react'
 import { useQuery } from 'urql'
@@ -15,7 +14,6 @@ import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
 import {
   GuardianANTBalances,
-  GuardianANTWalletBalance,
   GuardianTreasuryBalances,
 } from '../queries/balances'
 import { GuardianDraftsFrom, GuardianDraftsRewards } from '../queries/guardianDrafts'
@@ -58,14 +56,17 @@ function useQuerySub(query, variables = {}, options = {}) {
 function useANTBalance(guardianId) {
   const antTokenContract = useANTTokenContract();
   const error = null
-  let [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
-
+  const [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
+  
+  // TODO:GIORGI this doesn't get called after activate balance happens which results
+  // in balance never gets updated in real-time without changing views.
   useEffect(() => {
     async function getData() {
       const amount = await antTokenContract.balanceOf(guardianId)
       setData({ antbalance: { amount : bigNum(amount) }} )
     }
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   return { data, error }

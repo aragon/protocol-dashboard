@@ -6,6 +6,12 @@ import { numberToWord } from './lib/math-utils'
 import actions from './actions/court-action-types'
 
 export default {
+  [actions.APPROVE_ANT]: ({ amount }) => {
+    return `Approve ${amount} ANT`
+  },
+  [actions.STAKE_AND_ACTIVATE_ANT]: ({ amount }) => {
+    return `stake and activate ${amount} ANT on the Guardians Registry`
+  },
   [actions.APPROVE_FEE_DEPOSIT]: ({ amount }) => {
     return `Approve fee deposit: ${amount} DAI`
   },

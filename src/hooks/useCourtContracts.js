@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
@@ -44,7 +46,7 @@ const ACTIVATE_SELECTOR = getFunctionSignature('activate(address, uint256)')
 export function useANTTokenContract() {
   const { token: antToken } = useCourtConfig()
 
-  const antTokenAddress = antToken ? antToken.id : null // TODO:GIORGI from address to id
+  const antTokenAddress = antToken ? antToken.id : null
 
   return useContract(antTokenAddress, tokenAbi)
 }
@@ -93,7 +95,6 @@ export function useANTActions() {
       return processRequests([
         {
           action: () =>
-            // TODO:Giorgi change the address to the connected wallet address
             guardianRegistryContract.activate(account, amount, {
               gasLimit: ANT_ACTIVATE_GAS_LIMIT,
             }),
@@ -114,7 +115,6 @@ export function useANTActions() {
       return processRequests([
         {
           action: () =>
-            // TODO:Giorgi change the address to the connected wallet address
             guardianRegistryContract.deactivate(account, amount, {
               gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
@@ -132,24 +132,24 @@ export function useANTActions() {
   const stakeActivateANT = useCallback(
     (account, amount) => {
       const formattedAmount = formatUnits(amount)
-
-      return processRequests([
+      
+      const requestQueue = [
         {
           action: () =>
-            // TODO:GIORGI approveAndCall doesn't exist anymore on the ANT. So, approve and stakeAndActivate should happen 
-            // separately which means design and one more button needs to be added.
-            antTokenContract.approveAndCall(
-              guardianRegistryContract.address,
-              amount,
-              ACTIVATE_SELECTOR,
-              { gasLimit: ANT_ACTIVATE_GAS_LIMIT }
-            ),
-          description: radspec[actions.ACTIVATE_ANT]({
-            amount: formattedAmount,
-          }),
-          type: actions.ACTIVATE_ANT,
+          antTokenContract.approve(guardianRegistryContract.address, amount, { gasLimit: ANT_ACTIVATE_GAS_LIMIT }),
+          description: radspec[actions.APPROVE_ANT]({ amount: formattedAmount }),
+          type: actions.APPROVE_ANT,
+          ensureConfirmation: true
         },
-      ])
+        {
+          action: () =>
+          guardianRegistryContract.stakeAndActivate(account, amount, { gasLimit: ANT_ACTIVATE_GAS_LIMIT }),
+          description: radspec[actions.STAKE_AND_ACTIVATE_ANT]({ amount: formattedAmount }),
+          type: actions.STAKE_AND_ACTIVATE_ANT,
+          ensureConfirmation: true
+        }
+      ]
+      return processRequests(requestQueue)
     },
     [antTokenContract, guardianRegistryContract, processRequests]
   )
@@ -161,7 +161,6 @@ export function useANTActions() {
       return processRequests([
         {
           action: () =>
-            // TODO:GIORGI change it to the connected wallet address
             guardianRegistryContract.unstake(account, amount, {
               gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),

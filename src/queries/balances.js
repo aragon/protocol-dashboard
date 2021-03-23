@@ -1,13 +1,5 @@
 import gql from 'graphql-tag'
 
-export const GuardianANTWalletBalance = gql`
-  query GuardianANTWalletBalance($id: ID!) {
-    antbalance(id: $id) {
-      amount
-    }
-  }
-`
-
 export const GuardianANTBalances = gql`
   query GuardianANTBalances($id: ID!, $from: BigInt!) {
     guardian(id: $id) {

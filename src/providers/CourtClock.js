@@ -11,7 +11,6 @@ function CourtClockProvider({ children }) {
   const now = useNow()
   const courtConfig = useCourtConfig()
 
-  console.log(courtConfig, ' courtconfig')
   const { currentTerm: actualCurrentTerm, terms = [], termDuration = 0 } =
     courtConfig || {}
 

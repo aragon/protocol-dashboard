@@ -140,7 +140,7 @@ const BalanceModule = React.memo(
                 mainIcon={walletIcon}
                 actions={[
                   {
-                    label: 'Activate',
+                    label: 'Approve, Stake and Activate',
                     mode: 'strong',
                     onClick: onRequestStakeActivate,
                   },
