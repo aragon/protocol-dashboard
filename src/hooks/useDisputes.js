@@ -84,7 +84,7 @@ export function useDispute(disputeId) {
         dispute
           ? {
               ...dispute,
-              ...disputePhase,
+              ...disputePhase
             }
           : null,
         fetching,
@@ -100,7 +100,11 @@ export function useDispute(disputeId) {
       disputeErrorMessage,
       disputePhaseKey,
       graphErrorMessage,
-      graphFetching
+      graphFetching,
+      // This is needed in order to make the views rerender after commit/reveal/leak and
+      // many other calls get made in order to update views accordingly. Better way could be
+      // to use JSON.stringify on this.
+      dispute
     ]
   )
 }

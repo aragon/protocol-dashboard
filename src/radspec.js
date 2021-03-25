@@ -49,7 +49,7 @@ export default {
         Deactivate the total amount of ${amount} ANT
       `
   },
-  [actions.DRAFT_JURY]: ({ disputeId }) => {
+  [actions.DRAFT_GUARDIAN]: ({ disputeId }) => {
     return `
         Summon guardians for the next round of dispute #${disputeId}
       `
@@ -57,6 +57,11 @@ export default {
   [actions.EXECUTE_RULING]: ({ disputeId }) => {
     return `
         Compute the final decision for dispute #${disputeId}
+      `
+  },
+  [actions.SETTLE_PENALTIES]: ({ disputeId, roundId }) => {
+    return `
+       Settle penalties for dispute #${disputeId} and round #${roundId}
       `
   },
   [actions.HEARTBEAT]: ({ transitions }) => {

@@ -50,7 +50,7 @@ const ACTIVITY_TYPES = {
     icon: iconANT,
     title: 'Deactivate ANT',
   },
-  [actions.DRAFT_JURY]: {
+  [actions.DRAFT_GUARDIAN]: {
     title: 'Summon guardians',
     icon: iconDraftJury,
   },
@@ -73,6 +73,10 @@ const ACTIVITY_TYPES = {
   [actions.SETTLE_REWARD]: {
     icon: iconANT,
     title: 'Settle reward',
+  },
+  [actions.SETTLE_PENALTIES]: {
+    icon: iconANT,
+    title: 'Settle penalties',
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: {
     icon: iconANT,

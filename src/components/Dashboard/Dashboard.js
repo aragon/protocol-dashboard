@@ -147,6 +147,7 @@ function PanelComponent({ mode, actions, balances, ...props }) {
           inactiveBalance={effectiveInactiveBalance}
           walletBalance={walletBalance.amount}
           onActivateANT={activateANT}
+          label={mode === REQUEST_MODE.STAKE_ACTIVATE ? 'Approve, Stake and Activate' : 'Activate'}
           fromWallet={mode === REQUEST_MODE.STAKE_ACTIVATE}
           {...props}
         />
@@ -161,3 +162,4 @@ export default function DashboardWithSubscritpion(props) {
     </DashboardStateProvider>
   )
 }
+

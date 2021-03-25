@@ -10,7 +10,9 @@ const ActivateANT = React.memo(function ActivateANT({
   inactiveBalance,
   fromWallet,
   onDone,
+  label
 }) {
+
   const { minActiveBalance, token: antToken } = useCourtConfig()
   const maxAmount = fromWallet ? walletBalance : inactiveBalance
 
@@ -51,7 +53,7 @@ const ActivateANT = React.memo(function ActivateANT({
 
   return (
     <ANTForm
-      actionLabel="Activate"
+      actionLabel={label}
       maxAmount={maxAmount}
       onSubmit={onActivateANT}
       onDone={onDone}

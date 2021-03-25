@@ -25,6 +25,7 @@ const DisputeInfo = React.memo(function({
   onRequestAppeal,
   onRequestCommit,
   onRequestReveal,
+  onSettlePenalties
 }) {
   const { phase, status } = dispute || {}
 
@@ -90,6 +91,7 @@ const DisputeInfo = React.memo(function({
               onLeak={onLeak}
               onRequestAppeal={onRequestAppeal}
               onExecuteRuling={onExecuteRuling}
+              onSettlePenalties={onSettlePenalties}
             />
           </>
         )}

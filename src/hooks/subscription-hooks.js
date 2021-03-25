@@ -58,7 +58,7 @@ function useANTBalance(guardianId) {
   const error = null
   const [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
   
-  // TODO:GIORGI this doesn't get called after activate balance happens which results
+  // TODO:GIORGI this doesn't get called after approve,stake,activate balance happens which results
   // in balance never gets updated in real-time without changing views.
   useEffect(() => {
     async function getData() {

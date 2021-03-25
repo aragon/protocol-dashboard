@@ -40,7 +40,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   const evidences = useMemo(
     () =>
       (evidenceList || []).map(evidence => {
-        let data = "The evidence data couldn't be decoded"; // TODO:GIORGI quick hack to show information when data couldn't be decoded
+        let data = "The evidence data couldn't be decoded"; 
         try {
           data = toUtf8String(evidence.data)
         }catch(err) {
@@ -78,6 +78,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
       onRequestAppeal={requests.appeal}
       onAutoReveal={actions.requestAutoReveal}
       onExecuteRuling={actions.executeRuling}
+      onSettlePenalties={actions.settlePenalties}
     />
   )
 

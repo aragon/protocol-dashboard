@@ -10,6 +10,8 @@ import DisputeDraft from './actions/DisputeDraft'
 import DisputeExecuteRuling from './actions/DisputeExecuteRuling'
 import DisputeReveal from './actions/DisputeReveal'
 import DisputeVoting from './actions/DisputeVoting'
+import DisputeSettlePenalties from './actions/DisputeSettlePenalties'
+
 import { useWallet } from '../../providers/Wallet'
 import {
   getGuardianDraft,
@@ -36,6 +38,7 @@ function DisputeActions({
   onRequestCommit,
   onRequestReveal,
   onRequestAppeal,
+  onSettlePenalties
 }) {
   const { phase, status } = dispute
   const lastRound = getDisputeLastRound(dispute)
@@ -124,6 +127,16 @@ function DisputeActions({
           onExecuteRuling={onExecuteRuling}
         />
       )}
+
+      {phase === DisputePhase.ClaimRewards && (
+        <DisputeSettlePenalties 
+          rounds={dispute.rounds}
+          disputeId={dispute.id}
+          onSettlePenalties={onSettlePenalties}
+        />
+      )}
+
+
     </React.Fragment>
   )
 }

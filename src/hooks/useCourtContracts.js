@@ -205,8 +205,8 @@ export function useDisputeActions() {
             disputeManagerContract.draft(disputeId, {
               gasLimit: GAS_LIMIT,
             }),
-          description: radspec[actions.DRAFT_JURY]({ disputeId }),
-          type: actions.DRAFT_JURY,
+          description: radspec[actions.DRAFT_GUARDIAN]({ disputeId }),
+          type: actions.DRAFT_GUARDIAN,
         },
       ])
     },
@@ -405,6 +405,21 @@ export function useDisputeActions() {
     [aragonCourtContract, processRequests]
   )
 
+  const settlePenalties = useCallback(
+    (disputeId, roundId) => {
+      return processRequests([
+        {
+          action: () =>
+          disputeManagerContract.settlePenalties(disputeId, roundId, 0, {
+              gasLimit: GAS_LIMIT,
+          }),
+          description: radspec[actions.SETTLE_PENALTIES]({ disputeId, roundId }),
+          type: actions.SETTLE_PENALTIES,
+        },
+      ])
+    }
+  )
+
   return {
     appealRound,
     requestAutoReveal,
@@ -413,6 +428,7 @@ export function useDisputeActions() {
     executeRuling,
     leak,
     reveal,
+    settlePenalties
   }
 }
 
