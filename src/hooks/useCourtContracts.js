@@ -557,10 +557,13 @@ export function useRewardActions() {
       }
 
       // Claim subscription fees
-      for (const subscriptionFee of subscriptionFees) {
-        // TODO:GIORGI this doesn't exist anymore.
-        requestQueue.push(claimFees(subscriptionFee.periodId))
-      }
+      /*
+        The below claimFees need to be changed to reflect PaymentsBook since subscriptions
+        was changed to PaymentsBook.
+      */
+      // for (const subscriptionFee of subscriptionFees) {
+      //   requestQueue.push(claimFees(subscriptionFee.periodId))
+      // }
 
       return processRequests(requestQueue)
     },
@@ -570,6 +573,10 @@ export function useRewardActions() {
   return { claimRewards }
 }
 
+/*
+TODO: below code needs to be changed to reflect newest changes on PaymentsBook, because
+subscription was changed to PaymentsBook. Abi changes too.
+*/
 export function useCourtSubscriptionActions() {
   const courtSubscriptionsContract = useCourtContract(
     CourtModuleType.Subscriptions,

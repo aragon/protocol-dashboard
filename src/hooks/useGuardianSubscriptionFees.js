@@ -6,6 +6,16 @@ import { useDashboardState } from '../components/Dashboard/DashboardStateProvide
 
 import { hasGuardianClaimed } from '../utils/subscription-utils'
 
+/*
+
+Below code tries to calculate subscription fees. The idea is that subscriptions was changed to PaymentsBook on the court itself.
+This means that `subscriptions` doesn't exist on the court's graphql anymore and should be changed to paymentsBook.
+paymentsBook has a little bit different logic which means the below calculation in the useGuardianSubscriptionFees
+needs to change a little bit to reflect the payments book changes. since subscriptionModule.periods below always returns []
+due to the fact that subscriptions doesn't exist anymore on the graphql, We are safe to leave it even without being commented.
+But as a todo task, this will need to be changed to reflect payments book logic or completelly removed.
+
+*/
 export default function useGuardianSubscriptionFees() {
   const wallet = useWallet()
   const { subscriptionModule } = useCourtConfig()
