@@ -62,7 +62,7 @@ export default {
     surfaceInteractive: '#1E1B68',
     surfaceOpened: '#8E54A5',
     surfacePressed: '#1E1B68',
-    surfaceUnder: '#F9F8F9',
+    surfaceUnder: '#110F3A',
 
     tagIndicator: '#dbd2f8',
     tagIndicatorContent: '#B19AFF',

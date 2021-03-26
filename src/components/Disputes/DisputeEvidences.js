@@ -36,7 +36,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                       align-items: center;
                     `}
                   >
-                    <img src={folderIcon} width="17" height="20" alt="" />
+                    <img src={folderIcon} width="20" height="20" alt="" />
                     <span
                       css={`
                         margin-left: ${1.5 * GU}px;
