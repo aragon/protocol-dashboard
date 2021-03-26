@@ -13,14 +13,17 @@ import {
   useViewport,
 } from '@1hive/1hive-ui'
 import { useClientTheme } from '../../providers/ClientTheme'
-
-import iconNetwork from '../../assets/global-preferences-network.svg'
-import iconNotifications from '../../assets/global-preferences-notifications.svg'
+import { useAsset } from '../../hooks/useAsset'
+import {
+  IconDarkMode,
+  IconNetwork,
+  IconNotifications,
+} from '../../utils/asset-utils'
 
 function GlobalPreferencesButton({ onOpen }) {
   const theme = useTheme()
-  const clientTheme = useClientTheme()
   const { below } = useViewport()
+  const clientTheme = useClientTheme()
 
   const [opened, setOpened] = useState(false)
   const containerRef = useRef()
@@ -38,6 +41,10 @@ function GlobalPreferencesButton({ onOpen }) {
   const toggleDarkMode = useCallback(() => {
     clientTheme.toggleAppearance()
   }, [clientTheme])
+
+  const iconDarkMode = useAsset(IconDarkMode)
+  const iconNetwork = useAsset(IconNetwork)
+  const iconNotifications = useAsset(IconNotifications)
 
   return (
     <React.Fragment>
@@ -103,6 +110,7 @@ function GlobalPreferencesButton({ onOpen }) {
           />
           <Item
             onClick={toggleDarkMode}
+            icon={iconDarkMode}
             label={
               <React.Fragment>
                 <div

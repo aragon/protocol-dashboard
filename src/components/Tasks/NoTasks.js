@@ -1,10 +1,12 @@
 import React from 'react'
-import noData from '../../assets/noData.svg'
 import MessageCard from '../MessageCard'
+import { useAsset } from '../../hooks/useAsset'
+import { NoData } from '../../utils/asset-utils'
 
 function NoTasks() {
   const title = 'No tasks yet!'
-  return <MessageCard icon={noData} title={title} />
+  const noDataSvg = useAsset(NoData)
+  return <MessageCard title={title} icon={noDataSvg} />
 }
 
 export default NoTasks

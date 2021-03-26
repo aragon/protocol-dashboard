@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button, GU, textStyle } from '@1hive/1hive-ui'
 import BuyHNY from '../BuyHNY'
-import useIcon from '../../hooks/useIcon'
-import { HomeBanner } from '../../utils/icons'
+import { useAsset } from '../../hooks/useAsset'
+import { HomeBanner } from '../../utils/asset-utils'
 
 function Welcome() {
-  const banner = useIcon(HomeBanner)
+  const banner = useAsset(HomeBanner)
 
   return (
     <div

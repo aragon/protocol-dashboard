@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
+import { useAsset } from '../../hooks/useAsset'
+import { Logo } from '../../utils/asset-utils'
 import globalError from '../../assets/error.svg'
 import backgroundError from '../../assets/backgroundError.svg'
-import logo from '../../assets/HeaderLogo.svg'
 
 function GlobalErrorScreen({ children }) {
+  const logo = useAsset(Logo)
+
   return (
     <div
       css={`

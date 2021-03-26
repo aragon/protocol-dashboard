@@ -11,7 +11,7 @@ import LoadingCard from '../LoadingCard'
 import { Phase as DisputePhase, Status } from '../../types/dispute-status-types'
 import { getNetworkType } from '../../lib/web3-utils'
 
-import iconStar from '../../assets/starIcon.svg'
+import iconStar from '../../assets/IconStar.svg'
 
 const DisputeInfo = React.memo(function({
   id,
