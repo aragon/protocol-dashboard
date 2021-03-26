@@ -42,14 +42,15 @@ export default {
     disabledContent: '#ffffff',
 
     helpSurface: '#33276D',
+    hint: '#E1E1E8',
 
     link: '#FFC46D',
 
     negative: '#FF7272',
-    negativeContent: '#171551',
+    negativeContent: '#321F54',
 
     positive: '#2BC58E',
-    positiveContent: '#171551',
+    positiveContent: '#192A58',
 
     selected: '#8E54A5',
     selectedContent: '#FFFFFF',
