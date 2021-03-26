@@ -45,12 +45,12 @@ function GlobalPreferencesButton({ onOpen }) {
         <ButtonIcon
           element="div"
           onClick={handleToggle}
+          label="Global preferences"
           css={`
             width: ${4.25 * GU}px;
             height: 100%;
             border-radius: 0;
           `}
-          label="Global preferences"
         >
           <IconSettings
             css={`
@@ -85,7 +85,7 @@ function GlobalPreferencesButton({ onOpen }) {
               height: ${4 * GU}px;
               padding-left: ${2 * GU}px;
               border-bottom: 1px solid ${theme.border};
-              ${textStyle('label2')}
+              ${textStyle('label2')};
               color: ${theme.surfaceContentSecondary};
             `}
           >

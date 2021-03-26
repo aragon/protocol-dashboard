@@ -41,7 +41,7 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
       )}
       <div
         css={`
-          padding: ${2 * GU}px 0;
+          padding: ${4.5 * GU}px 0;
         `}
       >
         <h2
