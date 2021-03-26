@@ -1,10 +1,12 @@
 import React from 'react'
 import { GU, textStyle, useTheme } from '@1hive/1hive-ui'
-
-import errorLoadingSvg from '../../assets/error.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { ERROR } from '../../utils/asset-utils'
 
 export default function ErrorLoadingEvidence() {
   const theme = useTheme()
+
+  const errorSvg = useAsset(ERROR)
   return (
     <div
       css={`
@@ -23,7 +25,7 @@ export default function ErrorLoadingEvidence() {
         `}
       >
         <img
-          src={errorLoadingSvg}
+          src={errorSvg}
           alt=""
           css={`
             display: block;

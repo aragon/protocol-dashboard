@@ -1,9 +1,11 @@
 import React from 'react'
 import MessageCard from './MessageCard'
-import loadingSVG from '../assets/Loading.svg'
+import { useAsset } from '../hooks/useAsset'
+import { LOADING } from '../utils/asset-utils'
 
 function LoadingCard({ border }) {
-  return <MessageCard icon={loadingSVG} loading border={border} />
+  const loadingSvg = useAsset(LOADING)
+  return <MessageCard icon={loadingSvg} loading border={border} />
 }
 
 export default LoadingCard

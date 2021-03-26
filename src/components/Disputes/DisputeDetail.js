@@ -13,13 +13,14 @@ import NoEvidence from './NoEvidence'
 import RevealPanel from './panels/RevealPanel'
 import TitleHeader from '../TitleHeader'
 
-import { Status as DisputeStatus } from '../../types/dispute-status-types'
+import { useAsset } from '../../hooks/useAsset'
 import { useDisputeLogic, REQUEST_MODE } from '../../hooks/dispute-logic'
+
+import { Status as DisputeStatus } from '../../types/dispute-status-types'
 import { DisputeNotFound } from '../../errors'
 import { toMs } from '../../utils/date-utils'
 import { toUtf8String } from '../../lib/web3-utils'
-
-import timelineErrorSvg from '../../assets/noResults.svg'
+import { NO_RESULTS } from '../../utils/asset-utils'
 
 const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   const history = useHistory()
@@ -36,6 +37,8 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   } = useDisputeLogic(disputeId)
 
   const evidenceList = dispute?.evidences
+
+  const timelineErrorSvg = useAsset(NO_RESULTS)
 
   const evidences = useMemo(
     () =>

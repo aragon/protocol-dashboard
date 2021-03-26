@@ -1,8 +1,10 @@
 import React from 'react'
 import { GU, LoadingRing, textStyle } from '@1hive/1hive-ui'
-import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
+import { useAsset } from '../../../hooks/useAsset'
+import { EMAIL_NOTIFICATIONS } from '../../../utils/asset-utils'
 
 const LoadingPreferences = React.memo(function LoadingPreferences() {
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
   return (
     <div
       css={`
@@ -13,12 +15,7 @@ const LoadingPreferences = React.memo(function LoadingPreferences() {
       `}
     >
       <div>
-        <img
-          src={emailNotifcationIllustration}
-          width={181}
-          height={181}
-          alt=""
-        />
+        <img src={emailNotificationsSvg} width={181} height={181} alt="" />
       </div>
       <div
         css={`

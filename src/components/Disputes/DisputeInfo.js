@@ -8,10 +8,11 @@ import DisputeStatus from './DisputeStatus'
 import DisputeVoided from './DisputeVoided'
 import ErrorLoading from '../Errors/ErrorLoading'
 import LoadingCard from '../LoadingCard'
+
+import { useAsset } from '../../hooks/useAsset'
 import { Phase as DisputePhase, Status } from '../../types/dispute-status-types'
 import { getNetworkType } from '../../lib/web3-utils'
-
-import iconStar from '../../assets/IconStar.svg'
+import { ICON_STAR } from '../../utils/asset-utils'
 
 const DisputeInfo = React.memo(function({
   id,
@@ -26,7 +27,6 @@ const DisputeInfo = React.memo(function({
   onRequestReveal,
 }) {
   const { phase, status } = dispute || {}
-
   const isDisputeVoided = status === Status.Voided
   const isFinalRulingEnsured =
     phase === DisputePhase.ExecuteRuling || status === Status.Closed
@@ -98,6 +98,7 @@ const DisputeInfo = React.memo(function({
 
 function DisputeHeader({ dispute, error }) {
   const { id, description, txHash } = dispute || {}
+  const iconStarSvg = useAsset(ICON_STAR)
 
   return (
     <div
@@ -113,7 +114,7 @@ function DisputeHeader({ dispute, error }) {
           width: 100%;
         `}
       >
-        <img src={iconStar} alt="" height="70" width="70" />
+        <img src={iconStarSvg} alt="" height="70" width="70" />
         <div
           css={`
             margin-left: ${3 * GU}px;

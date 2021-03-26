@@ -15,8 +15,9 @@ import {
   textStyle,
   useTheme,
 } from '@1hive/1hive-ui'
+import { useAsset } from '../../../hooks/useAsset'
 
-import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
+import { EMAIL_NOTIFICATIONS } from '../../../utils/asset-utils'
 
 export default function NotificationsPreferences({
   email,
@@ -134,6 +135,8 @@ function EmailNotificationBox({
   notificationsDisabled,
   onSwitchNotificationsStatus,
 }) {
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
+
   const handleSwitchNotificationsStatus = useCallback(() => {
     onSwitchNotificationsStatus(!notificationsDisabled)
   }, [notificationsDisabled, onSwitchNotificationsStatus])
@@ -148,12 +151,7 @@ function EmailNotificationBox({
         `}
       >
         <div>
-          <img
-            src={emailNotifcationIllustration}
-            width={180}
-            height={180}
-            alt=""
-          />
+          <img src={emailNotificationsSvg} width={180} height={180} alt="" />
         </div>
         <div
           css={`

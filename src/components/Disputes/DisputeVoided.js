@@ -1,9 +1,11 @@
 import React from 'react'
 import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
-import iconWarningSvg from '../../assets/IconWarning.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { ERROR } from '../../utils/asset-utils'
 
 function DisputeVoided({ id, description, link }) {
   const theme = useTheme()
+  const errorSvg = useAsset(ERROR)
 
   return (
     <div
@@ -46,7 +48,7 @@ function DisputeVoided({ id, description, link }) {
           `}
         />
       </div>
-      <img src={iconWarningSvg} alt="" height={40 * GU} />
+      <img src={errorSvg} alt="" height={40 * GU} />
     </div>
   )
 }

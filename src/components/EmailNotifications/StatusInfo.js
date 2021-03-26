@@ -1,7 +1,10 @@
 import React from 'react'
 import { Button, GU, textStyle, useTheme, useViewport } from '@1hive/1hive-ui'
-import successIllustration from '../../assets/notificationsSuccess.svg'
-import errorIllustration from '../../assets/notificationsError.png'
+import { useAsset } from '../../hooks/useAsset'
+import {
+  EMAIL_VERIFICATION_FAILED,
+  EMAIL_VERIFICATION_SUCCESS,
+} from '../../utils/asset-utils'
 
 const StatusInfo = React.memo(function StatusInfo({
   error,
@@ -14,6 +17,10 @@ const StatusInfo = React.memo(function StatusInfo({
   const { below } = useViewport()
   const compact = below('medium')
 
+  const iconSvg = useAsset(
+    error ? EMAIL_VERIFICATION_FAILED : EMAIL_VERIFICATION_SUCCESS
+  )
+
   return (
     <div
       css={`
@@ -23,12 +30,7 @@ const StatusInfo = React.memo(function StatusInfo({
       `}
     >
       <div>
-        <img
-          src={error ? errorIllustration : successIllustration}
-          width={141}
-          height={141}
-          alt=""
-        />
+        <img src={iconSvg} width={141} height={141} alt="" />
       </div>
       <h3
         css={`

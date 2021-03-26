@@ -9,7 +9,7 @@ import MessageCard from '../MessageCard'
 import { dayjs } from '../../utils/date-utils'
 import * as DisputesTypes from '../../types/dispute-status-types'
 
-import { NoData, NoDraft } from '../../utils/asset-utils'
+import { NO_DATA, NO_DRAFT } from '../../utils/asset-utils'
 import { useAsset } from '../../hooks/useAsset'
 
 const ALL_FILTER = 0
@@ -174,13 +174,13 @@ function DisputeList({
 
 const NoDisputes = () => {
   const title = 'No disputes yet!'
-  const noDataSvg = useAsset(NoData)
+  const noDataSvg = useAsset(NO_DATA)
   return <MessageCard title={title} icon={noDataSvg} />
 }
 
 const NoMyDisputes = () => {
   const theme = useTheme()
-  const noDraftSvg = useAsset(NoDraft)
+  const noDraftSvg = useAsset(NO_DRAFT)
 
   const title = 'You haven’t been drafted to answer a dispute yet'
   const paragraph = (

@@ -15,9 +15,9 @@ import {
 import { useClientTheme } from '../../providers/ClientTheme'
 import { useAsset } from '../../hooks/useAsset'
 import {
-  IconDarkMode,
-  IconNetwork,
-  IconNotifications,
+  ICON_DARK_MODE,
+  ICON_NETWORK,
+  ICON_NOTIFICATIONS,
 } from '../../utils/asset-utils'
 
 function GlobalPreferencesButton({ onOpen }) {
@@ -42,9 +42,9 @@ function GlobalPreferencesButton({ onOpen }) {
     clientTheme.toggleAppearance()
   }, [clientTheme])
 
-  const iconDarkMode = useAsset(IconDarkMode)
-  const iconNetwork = useAsset(IconNetwork)
-  const iconNotifications = useAsset(IconNotifications)
+  const iconDarkMode = useAsset(ICON_DARK_MODE)
+  const iconNetwork = useAsset(ICON_NETWORK)
+  const iconNotifications = useAsset(ICON_NOTIFICATIONS)
 
   return (
     <React.Fragment>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { GU } from '@1hive/1hive-ui'
 import { useAsset } from '../../hooks/useAsset'
-import { Logo } from '../../utils/asset-utils'
+import { LOGO } from '../../utils/asset-utils'
 
 function HeaderLogo() {
-  const logo = useAsset(Logo)
+  const logo = useAsset(LOGO)
 
   return (
     <div

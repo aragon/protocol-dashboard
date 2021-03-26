@@ -1,7 +1,7 @@
 import React from 'react'
 import MessageCard from '../MessageCard'
 import { useAsset } from '../../hooks/useAsset'
-import { NoDraft } from '../../utils/asset-utils'
+import { NO_DRAFT } from '../../utils/asset-utils'
 
 function NoMyTasks() {
   const title = 'You have no open tasks right now'
@@ -11,7 +11,7 @@ function NoMyTasks() {
     </span>
   )
 
-  const noDraftSvg = useAsset(NoDraft)
+  const noDraftSvg = useAsset(NO_DRAFT)
 
   return <MessageCard title={title} paragraph={paragraph} icon={noDraftSvg} />
 }

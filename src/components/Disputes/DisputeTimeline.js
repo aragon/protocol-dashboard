@@ -5,6 +5,7 @@ import DisputeOutcomeText from './DisputeOutcomeText'
 import DisputeRoundPill from './DisputeRoundPill'
 import Step from '../Step'
 import Stepper from '../Stepper'
+import { useAsset } from '../../hooks/useAsset'
 import useDisputeTimeline from '../../hooks/useDisputeTimeline'
 
 import {
@@ -203,7 +204,7 @@ function Outcome({ outcome, phase }) {
 }
 
 function PhaseIcon({ phase, active }) {
-  const icon = useMemo(() => {
+  const Icon = useMemo(() => {
     if (phase === DisputePhase.Created || phase === DisputePhase.NotStarted) {
       return IconStars
     }
@@ -231,14 +232,9 @@ function PhaseIcon({ phase, active }) {
     return IconRewards
   }, [phase])
 
-  return (
-    <img
-      src={active ? icon.active : icon.inactive}
-      width={6 * GU}
-      height={6 * GU}
-      alt=""
-    />
-  )
+  const iconSvg = useAsset(Icon[active ? 'active' : 'inactive'])
+
+  return <img src={iconSvg} width={6 * GU} height={6 * GU} alt="" />
 }
 
 function DisplayTime({ item }) {

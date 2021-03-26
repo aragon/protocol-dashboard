@@ -5,9 +5,9 @@ import { ButtonBase, GU, springs, textStyle, useTheme } from '@1hive/1hive-ui'
 import { Spring, animated } from 'react-spring/renderprops'
 import HeaderLogo from './Header/HeaderLogo'
 
-import dashboardMenuIcon from '../assets/dashboardMenuIcon.svg'
-import tasksMenuIcon from '../assets/tasksMenuIcon.svg'
-import disputesMenuIcon from '../assets/disputesMenuIcon.svg'
+import dashboardMenuIcon from '../assets/IconMenuDashboard.svg'
+import disputesMenuIcon from '../assets/IconMenuDisputes.svg'
+import tasksMenuIcon from '../assets/IconMenuTasks.svg'
 import { lerp } from '../lib/math-utils'
 
 export const MENU_PANEL_SHADOW_WIDTH = 3
