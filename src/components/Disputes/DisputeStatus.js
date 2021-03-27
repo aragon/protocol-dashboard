@@ -4,11 +4,15 @@ import { useTheme } from '@1hive/1hive-ui'
 import { Status } from '../../types/dispute-status-types'
 
 const getStatusAttributes = (dispute, theme) => {
+  const darkMode = theme._appearance === 'dark'
+
   if (dispute.status === Status.Open) {
     return {
       label: 'Open',
       color: '#22B187',
-      background: 'rgba(53, 214, 167, 0.1)',
+      background: darkMode
+        ? 'rgba(43, 197, 142, 0.2);'
+        : 'rgba(53, 214, 167, 0.1)',
     }
   }
 
@@ -16,7 +20,7 @@ const getStatusAttributes = (dispute, theme) => {
     return {
       label: 'Closed',
       color: theme.content,
-      background: 'rgba(200, 215, 234, 0.4)', // TODO: use theme when available
+      background: `rgba(200, 215, 234, ${darkMode ? '0.2' : '0.4'})`, // TODO: use theme when available
     }
   }
 

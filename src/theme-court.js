@@ -27,7 +27,7 @@ export default {
     _name: 'celeste',
     _appearance: 'dark',
 
-    accent: '#8E54A5',
+    accent: '#675AB0',
     accentStart: '#E9507D',
     accentEnd: '#9B32A5',
     accentContent: '#FFFFFF',
@@ -46,7 +46,7 @@ export default {
 
     link: '#FFC46D',
 
-    negative: '#FF7272',
+    negative: '#FF6D6D',
     negativeContent: '#321F54',
 
     positive: '#2BC58E',
@@ -64,7 +64,7 @@ export default {
     surfacePressed: '#1E1B68',
     surfaceUnder: '#110F3A',
 
-    tagIndicator: '#dbd2f8',
+    tagIndicator: '#4D22DF',
     tagIndicatorContent: '#B19AFF',
 
     tagActivity: '#8E54A5',

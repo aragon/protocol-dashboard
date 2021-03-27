@@ -32,6 +32,7 @@ function Stepper({
           top: ${lineTop}px;
           left: calc(50% - (${lineWidth}px / 2));
           z-index: -1;
+          opacity: 0.5;
         }
       `}
       {...props}

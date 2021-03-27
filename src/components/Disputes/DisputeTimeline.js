@@ -28,10 +28,11 @@ import Accordion from '../Accordion/Accordion'
 
 const Timeline = React.memo(function Timeline({ timeline }) {
   const theme = useTheme()
+  const lineColor = theme._appearance === 'light' ? '#FFC497' : '#3A3280;'
 
   return (
     <div>
-      <Stepper lineColor={theme.accent.alpha(0.3)} lineTop={12}>
+      <Stepper lineColor={lineColor} lineTop={12}>
         {timeline.map((item, index) => {
           if (!Array.isArray(item)) {
             return <ItemStep key={index} item={item} index={index} />
@@ -79,7 +80,7 @@ const Timeline = React.memo(function Timeline({ timeline }) {
                           </div>,
 
                           <Stepper
-                            lineColor={theme.accent.alpha(0.3)}
+                            lineColor={lineColor}
                             lineTop={12}
                             css={`
                               padding: ${3 * GU}px 0;
@@ -126,9 +127,6 @@ function ItemStep({ item, index, roundStepContainer }) {
       stepPoint={
         <div
           css={`
-            background: ${item.active
-              ? 'linear-gradient(51.69deg, #FFB36D -0.55%, #FF8888 88.44%)'
-              : '#FFE2D7'};
             border-radius: 80%;
             position: relative;
             z-index: 1;
@@ -250,6 +248,7 @@ function DisplayTime({ item }) {
 
 function OutcomePoint() {
   const theme = useTheme()
+  const darkMode = theme._appearance === 'dark'
 
   return (
     <div
@@ -259,19 +258,29 @@ function OutcomePoint() {
         left: -44px;
         width: 16px;
         height: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fef3f1;
-        border-radius: 50%;
       `}
     >
       <div
         css={`
+          width: 100%;
+          height: 100%;
+          background: ${darkMode
+            ? '#3A3280'
+            : 'linear-gradient(51deg, #FFF0D9 0%, #FFDFD1 88%)'};
+          opacity: 0.3;
+          border-radius: 50%;
+        `}
+      />
+      <div
+        css={`
           width: 6px;
           height: 6px;
-          background: ${theme.accent.alpha(0.3)};
+          position: absolute;
+          top: 5px;
+          left: 4.75px;
+          background: ${darkMode ? '#675AB0' : '#FFE1CB'};
           border-radius: 50%;
+          z-index: 2;
         `}
       />
     </div>
