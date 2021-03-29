@@ -1,36 +1,65 @@
 import React from 'react'
 import { Link } from '@1hive/1hive-ui'
 
-import large1 from './highlights/assets/rinkeby/large/1.png'
-import large2 from './highlights/assets/rinkeby/large/2.png'
-import large3 from './highlights/assets/rinkeby/large/3.png'
-import large4 from './highlights/assets/rinkeby/large/4.png'
-import large5 from './highlights/assets/rinkeby/large/5.png'
-import large6 from './highlights/assets/rinkeby/large/6.png'
+import large1 from './highlights/assets/rinkeby/large/light/1.png'
+import large2 from './highlights/assets/rinkeby/large/light/2.png'
+import large3 from './highlights/assets/rinkeby/large/light/3.png'
+import large4 from './highlights/assets/rinkeby/large/light/4.png'
+import large5 from './highlights/assets/rinkeby/large/light/5.png'
+import large6 from './highlights/assets/rinkeby/large/light/6.png'
 
-import mainnetLarge1 from './highlights/assets/mainnet/large/1.png'
-import mainnetLarge2 from './highlights/assets/mainnet/large/2.png'
-import mainnetLarge3 from './highlights/assets/mainnet/large/3.png'
-import mainnetLarge4 from './highlights/assets/mainnet/large/4.png'
-import mainnetLarge5 from './highlights/assets/mainnet/large/5.png'
-import mainnetLarge6 from './highlights/assets/mainnet/large/6.png'
-import mainnetLarge7 from './highlights/assets/mainnet/large/7.png'
+import largeDark1 from './highlights/assets/rinkeby/large/dark/1.png'
+import largeDark2 from './highlights/assets/rinkeby/large/dark/2.png'
+import largeDark3 from './highlights/assets/rinkeby/large/dark/3.png'
+import largeDark4 from './highlights/assets/rinkeby/large/dark/4.png'
+import largeDark5 from './highlights/assets/rinkeby/large/dark/5.png'
+import largeDark6 from './highlights/assets/rinkeby/large/dark/6.png'
 
-import mainnetSmall1 from './highlights/assets/mainnet/small/1.png'
-import mainnetSmall2 from './highlights/assets/mainnet/small/2.png'
-import mainnetSmall3 from './highlights/assets/mainnet/small/3.png'
-import mainnetSmall4 from './highlights/assets/mainnet/small/4.png'
-import mainnetSmall5 from './highlights/assets/mainnet/small/5.png'
-import mainnetSmall6 from './highlights/assets/mainnet/small/6.png'
-import mainnetSmall7 from './highlights/assets/mainnet/small/7.png'
+import mainnetLarge1 from './highlights/assets/mainnet/large/light/1.png'
+import mainnetLarge2 from './highlights/assets/mainnet/large/light/2.png'
+import mainnetLarge3 from './highlights/assets/mainnet/large/light/3.png'
+import mainnetLarge4 from './highlights/assets/mainnet/large/light/4.png'
+import mainnetLarge5 from './highlights/assets/mainnet/large/light/5.png'
+import mainnetLarge6 from './highlights/assets/mainnet/large/light/6.png'
+import mainnetLarge7 from './highlights/assets/mainnet/large/light/7.png'
+
+import mainnetLargeDark1 from './highlights/assets/mainnet/large/dark/1.png'
+import mainnetLargeDark2 from './highlights/assets/mainnet/large/dark/2.png'
+import mainnetLargeDark3 from './highlights/assets/mainnet/large/dark/3.png'
+import mainnetLargeDark4 from './highlights/assets/mainnet/large/dark/4.png'
+import mainnetLargeDark5 from './highlights/assets/mainnet/large/dark/5.png'
+import mainnetLargeDark6 from './highlights/assets/mainnet/large/dark/6.png'
+import mainnetLargeDark7 from './highlights/assets/mainnet/large/dark/7.png'
+
+import mainnetSmall1 from './highlights/assets/mainnet/small/light/1.png'
+import mainnetSmall2 from './highlights/assets/mainnet/small/light/2.png'
+import mainnetSmall3 from './highlights/assets/mainnet/small/light/3.png'
+import mainnetSmall4 from './highlights/assets/mainnet/small/light/4.png'
+import mainnetSmall5 from './highlights/assets/mainnet/small/light/5.png'
+import mainnetSmall6 from './highlights/assets/mainnet/small/light/6.png'
+import mainnetSmall7 from './highlights/assets/mainnet/small/light/7.png'
+
+import mainnetSmallDark1 from './highlights/assets/mainnet/small/dark/1.png'
+import mainnetSmallDark2 from './highlights/assets/mainnet/small/dark/2.png'
+import mainnetSmallDark3 from './highlights/assets/mainnet/small/dark/3.png'
+import mainnetSmallDark4 from './highlights/assets/mainnet/small/dark/4.png'
+import mainnetSmallDark5 from './highlights/assets/mainnet/small/dark/5.png'
+import mainnetSmallDark6 from './highlights/assets/mainnet/small/dark/6.png'
+import mainnetSmallDark7 from './highlights/assets/mainnet/small/dark/7.png'
 
 const TYPEFORM_LINK = 'https://t0ybf228z8j.typeform.com/to/bCQP2NAS'
-const MAIN_COURT_URL = 'https://celeste.1hive.org' // TODO: Update
+const MAIN_COURT_URL = 'https://celeste.1hive.org'
 
 const highlights = {
   heading: 'Celeste',
-  defaultVisualColor: '#FF9780',
-  defaultButtonColor: '#FFFFFF',
+  light: {
+    defaultVisualColor: '#FF9780',
+    defaultButtonColor: '#FFFFFF',
+  },
+  dark: {
+    defaultVisualColor: '#171551',
+    defaultButtonColor: '#FFFFFF',
+  },
 }
 
 highlights.rinkeby = [
@@ -50,8 +79,14 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large1,
+      light: {
+        small: null,
+        large: large1,
+      },
+      dark: {
+        small: null,
+        large: largeDark1,
+      },
     },
   },
   {
@@ -72,10 +107,14 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large2,
-      color: '#F9FAFC',
-      buttonColor: '#8E54A5',
+      light: {
+        small: null,
+        large: large2,
+      },
+      dark: {
+        small: null,
+        large: largeDark2,
+      },
     },
   },
   {
@@ -99,8 +138,11 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large3,
+      light: {
+        small: null,
+        large: large3,
+      },
+      dark: { small: null, large: largeDark3 },
     },
   },
   {
@@ -119,8 +161,14 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large4,
+      light: {
+        small: null,
+        large: large4,
+      },
+      dark: {
+        small: null,
+        large: largeDark4,
+      },
     },
   },
   {
@@ -138,8 +186,11 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large5,
+      light: {
+        small: null,
+        large: large5,
+      },
+      dark: { small: null, large: largeDark5 },
     },
   },
   {
@@ -158,8 +209,14 @@ highlights.rinkeby = [
       ),
     },
     visual: {
-      small: null,
-      large: large6,
+      light: {
+        small: null,
+        large: large6,
+      },
+      dark: {
+        small: null,
+        large: largeDark6,
+      },
     },
     start: {
       small: null,
@@ -184,8 +241,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall1,
-      large: mainnetLarge1,
+      light: {
+        small: mainnetSmall1,
+        large: mainnetLarge1,
+      },
+      dark: {
+        small: mainnetSmallDark1,
+        large: mainnetLargeDark1,
+      },
     },
   },
   {
@@ -215,10 +278,16 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall2,
-      large: mainnetLarge2,
-      color: '#F9FAFC',
-      buttonColor: '#8E54A5',
+      light: {
+        small: mainnetSmall2,
+        large: mainnetLarge2,
+        color: '#F9FAFC',
+        buttonColor: '#8E54A5',
+      },
+      dark: {
+        small: mainnetSmallDark2,
+        large: mainnetLargeDark2,
+      },
     },
   },
   {
@@ -242,8 +311,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall3,
-      large: mainnetLarge3,
+      light: {
+        small: mainnetSmall3,
+        large: mainnetLarge3,
+      },
+      dark: {
+        small: mainnetSmallDark3,
+        large: mainnetLargeDark3,
+      },
     },
   },
   {
@@ -267,8 +342,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall4,
-      large: mainnetLarge4,
+      light: {
+        small: mainnetSmall4,
+        large: mainnetLarge4,
+      },
+      dark: {
+        small: mainnetSmallDark4,
+        large: mainnetLargeDark4,
+      },
     },
   },
   {
@@ -286,8 +367,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall5,
-      large: mainnetLarge5,
+      light: {
+        small: mainnetSmall5,
+        large: mainnetLarge5,
+      },
+      dark: {
+        small: mainnetSmallDark5,
+        large: mainnetLargeDark5,
+      },
     },
   },
   {
@@ -306,8 +393,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall6,
-      large: mainnetLarge6,
+      light: {
+        small: mainnetSmall6,
+        large: mainnetLarge6,
+      },
+      dark: {
+        small: mainnetSmallDark6,
+        large: mainnetLargeDark6,
+      },
     },
   },
   {
@@ -329,8 +422,14 @@ highlights.main = [
       ),
     },
     visual: {
-      small: mainnetSmall7,
-      large: mainnetLarge7,
+      light: {
+        small: mainnetSmall7,
+        large: mainnetLarge7,
+      },
+      dark: {
+        small: mainnetSmallDark7,
+        large: mainnetLargeDark7,
+      },
     },
     start: {
       small: null,

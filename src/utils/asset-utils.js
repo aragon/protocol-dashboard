@@ -17,6 +17,8 @@ import ErrorBackgroundLight from '../assets/light/ErrorBackground.svg'
 import ErrorBackgroundDark from '../assets/dark/ErrorBackground.svg'
 import HomeBannerLight from '../assets/light/HomeBanner.png'
 import HomeBannerDark from '../assets/dark/HomeBanner.png'
+import IconArrowLight from '../assets/light/IconArrow.svg'
+import IconArrowDark from '../assets/dark/IconArrow.svg'
 import IconDarkModeLight from '../assets/light/IconDarkMode.svg'
 import IconDarkModeDark from '../assets/dark/IconDarkMode.svg'
 import IconHNYActiveLight from '../assets/light/IconHNYActive.svg'
@@ -100,6 +102,7 @@ export const EMAIL_VERIFICATION_FAILED = Symbol('EMAIL_VERIFICATION_FAILED')
 export const EMAIL_VERIFICATION_SUCCESS = Symbol('EMAIL_VERIFICATION_SUCCESS')
 export const ERROR_BACKGROUND = Symbol('ERROR_BACKGROUND')
 export const HOME_BANNER = Symbol('HOME_BANNER')
+export const ICON_ARROW = Symbol('ICON_ARROW')
 export const ICON_DARK_MODE = Symbol('ICON_DARK_MODE')
 export const ICON_HNY_ACTIVE = Symbol('ICON_HNY_ACTIVE')
 export const ICON_HNY_INACTIVE = Symbol('ICON_HNY_INACTIVE')
@@ -176,6 +179,10 @@ export default {
   [HOME_BANNER]: {
     light: HomeBannerLight,
     dark: HomeBannerDark,
+  },
+  [ICON_ARROW]: {
+    light: IconArrowLight,
+    dark: IconArrowDark,
   },
   [ICON_DARK_MODE]: {
     light: IconDarkModeLight,

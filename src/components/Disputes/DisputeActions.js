@@ -206,8 +206,9 @@ const useInfoAttributes = ({
   status,
 }) => {
   const theme = useTheme()
-  const positiveBackground = theme.positive.alpha(0.1)
-  const negativeBackground = theme.accent.alpha(0.2)
+  const darkMode = theme._appearance === 'dark'
+  const positiveBackground = darkMode ? '#1c385e' : '#EBFBF6'
+  const negativeBackground = darkMode ? '#442858' : '#FFE8E8'
 
   return useMemo(() => {
     if (!jurorDraft) return {}
@@ -269,10 +270,13 @@ const useInfoAttributes = ({
           revealDate={jurorDraft.revealDate}
         />
       ),
-      background: '#FFFCF7',
+      background: darkMode
+        ? '#1E1B68'
+        : 'linear-gradient(235deg, #FFFCF7 -3%, #FFF6E9 216%)',
       icon: ICON_VOTING_SUCCESS,
     }
   }, [
+    darkMode,
     hasJurorVoted,
     jurorDraft,
     lastRound,

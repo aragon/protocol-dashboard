@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, GU, springs, useImageExists } from '@1hive/1hive-ui'
+import { Button, GU, springs, useImageExists, useTheme } from '@1hive/1hive-ui'
 import { Transition, animated } from 'react-spring/renderprops'
 import { ReactSpringStateType } from '../../prop-types'
 
@@ -26,7 +26,10 @@ const HighlightScreen = ({
   verticalMode,
   visual,
 }) => {
-  const visualSrc = compactMode && visual.small ? visual.small : visual.large
+  const theme = useTheme()
+  const visualByMode = visual[theme._appearance]
+  const visualSrc =
+    compactMode && visualByMode.small ? visualByMode.small : visualByMode.large
   const [leaving, setLeaving] = useState(false)
 
   const { exists: visualSrcExists } = useImageExists(visualSrc)
@@ -78,7 +81,7 @@ const HighlightScreen = ({
       >
         <animated.p
           css={`
-            color: rgba(0, 0, 0, 0.5);
+            color: ${theme.contentSecondary};
             text-transform: uppercase;
             font-size: ${compactMode ? 12 : 16}px;
           `}
@@ -118,7 +121,7 @@ const HighlightScreen = ({
               }
               line-height: 1.8;
               font-size: ${compactMode ? 16 : 18}px;
-              color: ${compactMode ? '#8E97B5' : '#000000'};
+              color: ${theme.content};
             `}
           >
             {compactMode && description.small

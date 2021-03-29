@@ -98,7 +98,7 @@ function MenuItem({ to, icon, label, onActivate }) {
         padding: 0 ${2 * GU}px 0 ${3 * GU}px;
         border-radius: 0;
         text-align: left;
-        background: ${active ? theme.surfacePressed : 'transparent'};
+        background: ${active ? theme.surfaceSelected : 'transparent'};
         &:active {
           background: ${theme.surfacePressed};
         }
