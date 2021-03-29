@@ -13,6 +13,7 @@ import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
+// import { dateFormat } from '../../utils/date-utils'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
@@ -34,6 +35,9 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
 
   return (
     <>
+      <Row>
+        <DisputeContainerData dispute={dispute} />
+      </Row>
       {isFinalRulingEnsured && (
         <Row>
           <FinalGuardianOutcome dispute={dispute} />
@@ -182,6 +186,71 @@ function Field({ label, loading, value, ...props }) {
       })()}
     </div>
   )
+}
+
+
+function DisputeContainerData({ dispute }) {
+  if(!dispute.metadata) return ('')
+  const { config, payload } = dispute.metadata
+
+  return (
+    <div>
+      <Field
+        label="Rules"
+        value={config.rules}
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `} 
+      />
+      <Field
+        label="Executor"
+        value={payload.executor}
+      />
+      <Field
+        label="Proof"
+        value={payload.proof}
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `} 
+      />
+       <Field
+        label="Allow Failures Map"
+        value={payload.allowFailuresMap} 
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `}
+      />
+      <hr />
+      {payload.actions.map( (action, index)=> {
+        return (
+          <div key={index}>
+          <Field
+            label="To"
+            value={action.to} 
+          />
+          <Field
+            label="Value"
+            value={action.value.toString()} 
+          />
+          <Field
+            label="Data"
+            value={action.calldata ? JSON.stringify(action.calldata) : action.data }
+            css={`
+              word-break: break-word;
+              overflow-wrap: anywhere;
+            `}
+          />
+          <hr />
+          </div>
+        )
+      })}
+      </div>
+
+  )
+   
 }
 
 function FinalGuardianOutcome({ dispute }) {

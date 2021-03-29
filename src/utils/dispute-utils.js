@@ -43,6 +43,9 @@ export function transformRoundDataAttributes(round) {
   }
 }
 
+// const transformedData = transformDisputeDataAttributes(data.dispute)
+          // transformedData.metadata = await decodeMetadata(data.dispute.rawMetadata)
+          // return transformedData
 
 
 export function transformDisputeDataAttributes(dispute) {
@@ -50,6 +53,7 @@ export function transformDisputeDataAttributes(dispute) {
     ...dispute,
     createdAt: toMs(parseInt(dispute.createdAt, 10)),
     rounds: dispute.rounds.map(transformRoundDataAttributes),
+    metadata: null,
     state: DisputesTypes.convertFromString(dispute.state),
     status:
       DisputesTypes.convertFromString(dispute.state) ===

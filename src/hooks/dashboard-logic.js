@@ -83,8 +83,6 @@ export function useDashboardLogic() {
   const [mode, setMode] = usePanelRequestMode(panelState.requestOpen)
   const requests = usePanelRequestActions(setMode)
 
-  console.log(mode, 'mode123')
-
   const { claimRewards } = useRewardActions()
   const actions = {
     activateANT:

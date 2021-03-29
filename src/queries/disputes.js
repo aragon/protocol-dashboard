@@ -41,6 +41,7 @@ export const SingleDispute = gql`
       lastRoundId
       state
       metadata
+      rawMetadata
       createdAt
       subject {
         id
