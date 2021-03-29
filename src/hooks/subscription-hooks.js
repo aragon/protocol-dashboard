@@ -48,7 +48,7 @@ function useQuerySub(query, variables = {}, options = {}) {
     query: query,
     variables: variables,
     requestPolicy: 'cache-and-network',
-    // pollInterval: 13 * 1000,
+    pollInterval: 13 * 1000,
     ...options,
   })
 }
