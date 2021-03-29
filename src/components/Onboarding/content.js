@@ -264,8 +264,7 @@ highlights.main = [
             View and manage your HNY across three balances: Wallet, Inactive,
             and Active. You can read more about these different balances and
             what they mean in the{' '}
-            <Link href="https://help.aragon.org/article/42-aragon-court-dashboard">
-              {/* TODO: Update link */}
+            <Link href="https://1hive.gitbook.io/celeste/keepers/keeper-dashboard">
               Celeste Dashboard Guide
             </Link>
             .

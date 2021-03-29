@@ -197,7 +197,7 @@ function AppealPanel({
       <Info>
         Please note that if the final ruling outcome is different from your
         selected appeal, the entire amount of your collateral could be slashed.{' '}
-        <Link href="https://help.aragon.org/article/43-dispute-lifecycle#appeal">
+        <Link href="https://1hive.gitbook.io/celeste/keepers/dispute-lifecycle">
           Learn more
         </Link>
         .

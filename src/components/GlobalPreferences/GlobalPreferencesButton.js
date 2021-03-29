@@ -126,7 +126,7 @@ function GlobalPreferencesButton({ onOpen }) {
               </React.Fragment>
             }
           />
-          <Item href="https://wiki.1hive.org/projects/celeste">
+          <Item href="https://1hive.gitbook.io/celeste/">
             <div
               css={`
                 flex-grow: 1;

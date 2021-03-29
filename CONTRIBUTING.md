@@ -1,12 +1,10 @@
 # Contributing to Celeste Dashboard
 
-:tada: Thank you for being interested in contributing to Aragon! :tada:
+:tada: Thank you for being interested in contributing to 1Hive! :tada:
 
 Feel welcome and read the following sections in order to know how to ask questions and how to work on something.
 
 There are many ways to contribute, from writing tutorials or blog posts, improving the documentation, submitting bug reports and feature requests or writing code which can be incorporated into the project.
-
-All members of our community are expected to follow our [Code of Conduct](https://wiki.aragon.org/about/code_of_conduct/). Please make sure you are welcoming and friendly in all of our spaces.
 
 ## Your first contribution
 
@@ -29,16 +27,7 @@ Please take a quick look to see if the issue doesn't already exist before filing
 
 Do your best to include as many details as needed in order for someone else to fix the problem and resolve the issue.
 
-#### If you find a security vulnerability, do NOT open an issue. Email security@aragon.org instead.
-
-In order to determine whether you are dealing with a security issue, ask yourself these two questions:
-
-- Can I access or steal something that's not mine, or access something I shouldn't have access to?
-- Can I disable something for other people?
-
-If the answer to either of those two questions are "yes", then you're probably dealing with a security issue. Note that even if you answer "no" to both questions, you may still be dealing with a security issue, so if you're unsure, please send a email.
-
-#### If you're interested in the smart contracts underlying the Aragon Network, a [bug bounty program](https://wiki.aragon.org/association/security/an_bug_bounty/) with payouts up to $50,000 is available for rewarding contributors who find security vulnerabilities.
+#### If you're interested in the smart contracts underlying the 1hive Protocol, a [bug bounty program](https://wiki.1hive.org/community/swarms/bug-bounty) with payouts up to $40,000 in HNY is available for rewarding contributors who find security vulnerabilities.
 
 ## Fixing issues
 
