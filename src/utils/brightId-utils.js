@@ -1,5 +1,3 @@
-import ethers from 'ethers'
-import { soliditySha3 } from '../lib/web3-utils'
 export const BRIGHT_ID_CONTEXT = '1hive'
 export const BRIGHT_ID_CONTEXT_BYTES =
   '0x3168697665000000000000000000000000000000000000000000000000000000' // stringToBytes32("1hive")
