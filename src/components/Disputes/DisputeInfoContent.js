@@ -193,7 +193,7 @@ function DisputeContainerData({ dispute }) {
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 
-  return (
+  return (  
     <div>
       <Field
         label="Rules"
@@ -223,6 +223,13 @@ function DisputeContainerData({ dispute }) {
           overflow-wrap: anywhere;
         `}
       />
+      <h1
+        css={`
+          padding-top: ${2 * GU}px;
+          ${textStyle('body1')};
+          font-weight: 600;
+        `}
+      >Actions</h1>
       <hr />
       {payload.actions.map( (action, index)=> {
         return (

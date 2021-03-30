@@ -39,6 +39,7 @@ export async function decodeCalldata(to, calldata) {
             const sigHash = calldata.substring(0,10)
             try {
                 const decodedData = contract.interface.decodeFunctionData(sigHash, calldata)
+                console.log(decodedData, ' decoded data')
                 return _removeNumericKeys(decodedData)
             } catch(err) {
                 

@@ -61,6 +61,3 @@ export async function decode(metadata) {
         payload: payload
     }
 }
-    
-
-
