@@ -59,5 +59,5 @@ export function getModuleAddress(modules, moduleType) {
     mod => CourtModuleType[mod.type] === moduleType
   )
 
-  return courtModule ? courtModule.id : null // TODO:GIORGI from courtModule.address to courtModule.id
+  return courtModule ? courtModule.id : null
 }

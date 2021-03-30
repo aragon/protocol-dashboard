@@ -1,4 +1,3 @@
-// TODO:GIORGI enable it again above.
 import { useMemo, useEffect, useState } from 'react'
 import { useQuery } from 'urql'
 import { useCourtConfig } from '../providers/CourtConfig'
