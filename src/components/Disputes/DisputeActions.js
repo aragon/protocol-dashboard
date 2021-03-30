@@ -9,6 +9,7 @@ import DisputeDraft from './actions/DisputeDraft'
 import DisputeExecuteRuling from './actions/DisputeExecuteRuling'
 import DisputeReveal from './actions/DisputeReveal'
 import DisputeVoting from './actions/DisputeVoting'
+import { useAsset } from '../../hooks/useAsset'
 import { useWallet } from '../../providers/Wallet'
 import {
   getJurorDraft,
@@ -22,10 +23,12 @@ import {
 } from '../../utils/crvoting-utils'
 import { dateFormat } from '../../utils/date-utils'
 
-import IconVotingSuccess from '../../assets/IconVotingSuccess.svg'
-import IconVotingFailed from '../../assets/IconVotingFailed.svg'
 import { getDisputeLastRound } from '../../utils/dispute-utils'
-import IconRewardsGreen from '../../assets/IconRewardsGreen.svg'
+import {
+  ICON_REWARDS,
+  ICON_VOTING_FAILED,
+  ICON_VOTING_SUCCESS,
+} from '../../utils/asset-utils'
 
 function DisputeActions({
   dispute,
@@ -133,6 +136,8 @@ function InformationSection({
     status,
   })
 
+  const iconSrc = useAsset(icon)
+
   if (!jurorDraft) return null
 
   return (
@@ -158,7 +163,7 @@ function InformationSection({
         >
           <img
             alt=""
-            src={icon}
+            src={iconSrc}
             height="42"
             css={`
               display: block;
@@ -201,8 +206,9 @@ const useInfoAttributes = ({
   status,
 }) => {
   const theme = useTheme()
-  const positiveBackground = theme.positive.alpha(0.1)
-  const negativeBackground = theme.accent.alpha(0.2)
+  const darkMode = theme._appearance === 'dark'
+  const positiveBackground = darkMode ? '#1c385e' : '#EBFBF6'
+  const negativeBackground = darkMode ? '#442858' : '#FFE8E8'
 
   return useMemo(() => {
     if (!jurorDraft) return {}
@@ -221,7 +227,7 @@ const useInfoAttributes = ({
           : 'Your vote wasn’t cast on time.',
         paragraph: <HNYSlashMessage />,
         background: negativeBackground,
-        icon: IconVotingFailed,
+        icon: ICON_VOTING_FAILED,
         hintText: voteLeaked ? 'Vote leaked (complete)' : null, // TODO: Add hint for leaked vote
       }
     }
@@ -234,7 +240,7 @@ const useInfoAttributes = ({
           title: "Your vote wasn't revealed on time",
           paragraph: <HNYSlashMessage />,
           background: negativeBackground,
-          icon: IconVotingFailed,
+          icon: ICON_VOTING_FAILED,
         }
       }
 
@@ -264,10 +270,13 @@ const useInfoAttributes = ({
           revealDate={jurorDraft.revealDate}
         />
       ),
-      background: '#FFFCF7',
-      icon: IconVotingSuccess,
+      background: darkMode
+        ? '#1E1B68'
+        : 'linear-gradient(235deg, #FFFCF7 -3%, #FFF6E9 216%)',
+      icon: ICON_VOTING_SUCCESS,
     }
   }, [
+    darkMode,
     hasJurorVoted,
     jurorDraft,
     lastRound,
@@ -397,7 +406,7 @@ function getAttributesWhenRevealed(
   // Juror voted in consensus during voting phase
   if (hasVotedInConsensus) {
     background = backgroundColor[appeal ? 'negative' : 'positive']
-    icon = appeal ? IconVotingFailed : IconRewardsGreen
+    icon = appeal ? ICON_VOTING_FAILED : ICON_REWARDS
     paragraph = appeal ? (
       settledPenalties ? (
         <HNYSlashedMessage />
@@ -419,7 +428,7 @@ function getAttributesWhenRevealed(
       appeal && jurorDraft.outcome === appeal.appealedRuling
     background =
       backgroundColor[inConsensusWithAppealer ? 'positive' : 'negative']
-    icon = inConsensusWithAppealer ? IconRewardsGreen : IconVotingFailed
+    icon = inConsensusWithAppealer ? ICON_REWARDS : ICON_VOTING_FAILED
     paragraph = inConsensusWithAppealer ? (
       settledPenalties ? (
         <HNYRewardsMessage />

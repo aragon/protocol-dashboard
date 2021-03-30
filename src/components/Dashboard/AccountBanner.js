@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { animated, useSpring } from 'react-spring'
 import { GU, Help, LoadingRing, useTheme } from '@1hive/1hive-ui'
 
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
+import { useAsset } from '../../hooks/useAsset'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useJurorDrafted } from '../../hooks/useJurorDrafted'
 import { useJurorFirstTimeHNYActivation } from '../../hooks/useHNY'
@@ -11,12 +12,9 @@ import { useTotalActiveBalance } from '../../hooks/useCourtStats'
 
 import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
+import { ICON_HNY_SPRING, ICON_USER, ICON_WARP } from '../../utils/asset-utils'
 
-import hnySpringIcon from '../../assets/IconHNYSpring.svg'
-import userIcon from '../../assets/IconUser.svg'
-import warpIcon from '../../assets/IconWarp.svg'
-
-const getBannerAttributes = (
+const useBannerAttributes = (
   status,
   drafted,
   isFirstTimeActivating,
@@ -24,38 +22,55 @@ const getBannerAttributes = (
   decimals,
   theme
 ) => {
-  if (status === ACCOUNT_STATUS_JUROR_ACTIVE) {
-    // NOTE: This one could not be included in the final version
-    if (drafted) {
-      return {
-        icon: warpIcon,
-        title: 'You have been drafted',
-        titleColor: theme.positive,
-        paragraph:
-          'You can start reviewing the comments and then commit your vote',
+  const hnySpringIcon = useAsset(ICON_HNY_SPRING)
+  const userIcon = useAsset(ICON_USER)
+  const warpIcon = useAsset(ICON_WARP)
+
+  return useMemo(() => {
+    if (status === ACCOUNT_STATUS_JUROR_ACTIVE) {
+      // NOTE: This one could not be included in the final version
+      if (drafted) {
+        return {
+          icon: warpIcon,
+          title: 'You have been drafted',
+          titleColor: theme.positive,
+          paragraph:
+            'You can start reviewing the comments and then commit your vote',
+        }
       }
+
+      if (isFirstTimeActivating) {
+        return {
+          icon: userIcon,
+          title: 'You are eligible to be drafted',
+          titleColor: theme.positive,
+          paragraph:
+            'You are eligible to be drafted starting from the next term',
+          showTimer: true,
+        }
+      }
+
+      return { showProbability: true }
     }
 
-    if (isFirstTimeActivating) {
-      return {
-        icon: userIcon,
-        title: 'You are eligible to be drafted',
-        titleColor: theme.positive,
-        paragraph: 'You are eligible to be drafted starting from the next term',
-        showTimer: true,
-      }
+    return {
+      icon: hnySpringIcon,
+      title: 'Activate HNY to be an active keeper',
+      paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
+        decimals,
+      })}  HNY to participate as a keeper`,
     }
-
-    return { showProbability: true }
-  }
-
-  return {
-    icon: hnySpringIcon,
-    title: 'Activate HNY to be an active keeper',
-    paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
-      decimals,
-    })}  HNY to participate as a keeper`,
-  }
+  }, [
+    decimals,
+    drafted,
+    hnySpringIcon,
+    isFirstTimeActivating,
+    minActiveBalance,
+    status,
+    theme.positive,
+    userIcon,
+    warpIcon,
+  ])
 }
 
 function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
@@ -72,7 +87,7 @@ function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
     pause: isJurorDrafted || status !== ACCOUNT_STATUS_JUROR_ACTIVE,
   })
 
-  const attributes = getBannerAttributes(
+  const attributes = useBannerAttributes(
     status,
     isJurorDrafted,
     isFirstTimeActivating,

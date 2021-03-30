@@ -1,23 +1,19 @@
 import React from 'react'
 import { GU } from '@1hive/1hive-ui'
-import headerLogoSvg from '../../assets/HeaderLogo.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { LOGO } from '../../utils/asset-utils'
 
 function HeaderLogo() {
+  const logo = useAsset(LOGO)
+
   return (
     <div
       css={`
+        margin-right: ${1 * GU}px;
         display: flex;
-        align-items: center;
       `}
     >
-      <img
-        alt=""
-        src={headerLogoSvg}
-        width={20.625 * GU}
-        css={`
-          margin-right: ${1 * GU}px;
-        `}
-      />
+      <img alt="" src={logo} />
     </div>
   )
 }

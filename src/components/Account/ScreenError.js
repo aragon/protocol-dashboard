@@ -2,12 +2,16 @@ import React, { useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { GU, Link, textStyle, useTheme } from '@1hive/1hive-ui'
 import { ChainUnsupportedError } from 'use-wallet'
+import { useAsset } from '../../hooks/useAsset'
+
 import { getNetworkName } from '../../lib/web3-utils'
-import connectionError from './assets/connection-error.svg'
+import { ACCOUNT_ERROR } from '../../utils/asset-utils'
 
 function AccountModuleErrorScreen({ error, onBack }) {
   const theme = useTheme()
   const elementRef = useRef()
+
+  const accountErrorSvg = useAsset(ACCOUNT_ERROR)
 
   const [title, secondary] = useMemo(() => {
     if (error instanceof ChainUnsupportedError) {
@@ -49,7 +53,7 @@ function AccountModuleErrorScreen({ error, onBack }) {
             position: relative;
             width: 281px;
             height: 188px;
-            background: 50% 50% / 100% 100% no-repeat url(${connectionError});
+            background: 50% 50% / 100% 100% no-repeat url(${accountErrorSvg});
           `}
         />
         <h1

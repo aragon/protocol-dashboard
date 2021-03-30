@@ -14,8 +14,8 @@ import { useInput } from '../../hooks/useInput'
 import IdentityBadge from '../IdentityBadge'
 import EmailInput from './EmailInput'
 import { validateEmail } from '../../utils/validate-utils'
-
-import emailNotifcationIllustration from '../../../src/assets/emailNotifications.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { EMAIL_NOTIFICATIONS } from '../../utils/asset-utils'
 
 function EmailNotificationsForm({
   existingEmail,
@@ -30,6 +30,7 @@ function EmailNotificationsForm({
   const [insideModal] = useInside('NotificationsModal')
   const { below } = useViewport()
   const compactMode = below('medium')
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
 
   const { inputProps, status } = useInput(validateEmail)
 
@@ -78,12 +79,7 @@ function EmailNotificationsForm({
             align-items: center;
           `}
         >
-          <img
-            src={emailNotifcationIllustration}
-            width="141"
-            height="141"
-            alt=""
-          />
+          <img src={emailNotificationsSvg} width="141" height="141" alt="" />
         </div>
         <span
           css={`

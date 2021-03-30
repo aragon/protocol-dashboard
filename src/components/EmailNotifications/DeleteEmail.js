@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, GU, textStyle, useInside, useTheme } from '@1hive/1hive-ui'
-
-import emailNotifcationIllustration from '../../assets/emailNotifications.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { EMAIL_NOTIFICATIONS } from '../../utils/asset-utils'
 
 const DeleteEmail = React.memo(function DeleteEmail({
   email,
@@ -10,6 +10,7 @@ const DeleteEmail = React.memo(function DeleteEmail({
 }) {
   const theme = useTheme()
   const [insideModal] = useInside('NotificationsModal')
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
 
   return (
     <div
@@ -25,12 +26,7 @@ const DeleteEmail = React.memo(function DeleteEmail({
             text-align: center;
           `}
         >
-          <img
-            src={emailNotifcationIllustration}
-            width={180}
-            height={180}
-            alt=""
-          />
+          <img src={emailNotificationsSvg} width={180} height={180} alt="" />
         </div>
       )}
       <div

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button, GU, Link, textStyle, useTheme } from '@1hive/1hive-ui'
-import { useWallet } from '../../providers/Wallet'
 import IdentityBadge from '../IdentityBadge'
-
-import emailNotifcationIllustration from '../../../src/assets/emailNotifications.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { useWallet } from '../../providers/Wallet'
+import { EMAIL_NOTIFICATIONS } from '../../utils/asset-utils'
 
 function ExistingEmailSubscription({
   compactMode,
@@ -12,6 +12,7 @@ function ExistingEmailSubscription({
 }) {
   const theme = useTheme()
   const { account } = useWallet()
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
 
   return (
     <>
@@ -35,12 +36,7 @@ function ExistingEmailSubscription({
               align-items: center;
             `}
           >
-            <img
-              src={emailNotifcationIllustration}
-              width={141}
-              height={141}
-              alt=""
-            />
+            <img src={emailNotificationsSvg} width={141} height={141} alt="" />
           </div>
           <h3
             css={`

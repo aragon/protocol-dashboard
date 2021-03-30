@@ -7,17 +7,23 @@ import {
   IconSettings,
   Popover,
   RADIUS,
+  Switch,
   textStyle,
   useTheme,
   useViewport,
 } from '@1hive/1hive-ui'
-
-import iconNetwork from '../../assets/global-preferences-network.svg'
-import iconNotifications from '../../assets/global-preferences-notifications.svg'
+import { useClientTheme } from '../../providers/ClientTheme'
+import { useAsset } from '../../hooks/useAsset'
+import {
+  ICON_DARK_MODE,
+  ICON_NETWORK,
+  ICON_NOTIFICATIONS,
+} from '../../utils/asset-utils'
 
 function GlobalPreferencesButton({ onOpen }) {
   const theme = useTheme()
   const { below } = useViewport()
+  const clientTheme = useClientTheme()
 
   const [opened, setOpened] = useState(false)
   const containerRef = useRef()
@@ -32,18 +38,26 @@ function GlobalPreferencesButton({ onOpen }) {
     [onOpen]
   )
 
+  const toggleDarkMode = useCallback(() => {
+    clientTheme.toggleAppearance()
+  }, [clientTheme])
+
+  const iconDarkMode = useAsset(ICON_DARK_MODE)
+  const iconNetwork = useAsset(ICON_NETWORK)
+  const iconNotifications = useAsset(ICON_NOTIFICATIONS)
+
   return (
     <React.Fragment>
       <div ref={containerRef}>
         <ButtonIcon
           element="div"
           onClick={handleToggle}
+          label="Global preferences"
           css={`
             width: ${4.25 * GU}px;
             height: 100%;
             border-radius: 0;
           `}
-          label="Global preferences"
         >
           <IconSettings
             css={`
@@ -78,7 +92,7 @@ function GlobalPreferencesButton({ onOpen }) {
               height: ${4 * GU}px;
               padding-left: ${2 * GU}px;
               border-bottom: 1px solid ${theme.border};
-              ${textStyle('label2')}
+              ${textStyle('label2')};
               color: ${theme.surfaceContentSecondary};
             `}
           >
@@ -94,8 +108,25 @@ function GlobalPreferencesButton({ onOpen }) {
             icon={iconNotifications}
             label="Notifications"
           />
+          <Item
+            onClick={toggleDarkMode}
+            icon={iconDarkMode}
+            label={
+              <React.Fragment>
+                <div
+                  css={`
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                  `}
+                >
+                  <span>Dark mode</span>
+                  <Switch checked={clientTheme.appearance === 'dark'} />
+                </div>
+              </React.Fragment>
+            }
+          />
           <Item href="https://1hive.gitbook.io/celeste/">
-            {/* TODO: Update link when faq section available */}
             <div
               css={`
                 flex-grow: 1;

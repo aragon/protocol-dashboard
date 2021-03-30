@@ -14,8 +14,10 @@ import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
 import { WalletProvider } from './providers/Wallet'
+import { useClientTheme } from './providers/ClientTheme'
 
 function App() {
+  const { appearance } = useClientTheme()
   return (
     <WalletProvider>
       <HashRouter>
@@ -24,7 +26,7 @@ function App() {
             assetsUrl="./aragon-ui/"
             layout={false}
             scrollView={false}
-            theme={theme}
+            theme={theme[appearance]}
           >
             <GlobalErrorHandler>
               <ToastHub threshold={1} timeout={1500}>

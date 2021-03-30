@@ -235,12 +235,7 @@ const DisputesFeeRewards = ({
         >
           Distribution
         </span>
-        <Help
-          hint="Rewards per dispute"
-          css={`
-            padding: 0;
-          `}
-        >
+        <Help hint="Rewards per dispute">
           <DisputesFeeDistribution
             symbol={symbol}
             decimals={decimals}

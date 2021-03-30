@@ -1,5 +1,5 @@
 import React from 'react'
-import { GU } from '@1hive/1hive-ui'
+import { GU, useTheme } from '@1hive/1hive-ui'
 
 export default function Step({
   stepPoint,
@@ -8,12 +8,16 @@ export default function Step({
   displayPoint,
   ...props
 }) {
+  const theme = useTheme()
+
   if (displayPoint) {
     return (
       <div
         css={`
           background: ${active
-            ? 'linear-gradient(235deg, #FFFCF7 -3%, #FFF6E9 216%)'
+            ? theme._appearance === 'light'
+              ? 'linear-gradient(235deg, #FFFCF7 -3%, #FFF6E9 216%)'
+              : 'rgba(77, 75, 144, 0.2)'
             : ''};
         `}
       >

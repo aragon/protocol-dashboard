@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, GU, IconConnect, textStyle, useTheme } from '@1hive/1hive-ui'
-import emailNotifcationIllustration from '../../../../src/assets/emailNotifications.svg'
+import { useAsset } from '../../../hooks/useAsset'
+import { EMAIL_NOTIFICATIONS } from '../../../utils/asset-utils'
 
 const UnlockNotifications = React.memo(function UnlockNotifications({
   compactMode,
@@ -9,6 +10,7 @@ const UnlockNotifications = React.memo(function UnlockNotifications({
   onReturnToDashboard,
 }) {
   const theme = useTheme()
+  const emailNotificationsSvg = useAsset(EMAIL_NOTIFICATIONS)
 
   return (
     <div
@@ -19,12 +21,7 @@ const UnlockNotifications = React.memo(function UnlockNotifications({
       `}
     >
       <div>
-        <img
-          src={emailNotifcationIllustration}
-          width={141}
-          height={141}
-          alt=""
-        />
+        <img src={emailNotificationsSvg} width={141} height={141} alt="" />
       </div>
       <h3
         css={`

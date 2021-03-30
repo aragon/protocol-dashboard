@@ -11,7 +11,8 @@ import IdentityBadge from '../IdentityBadge'
 import TasksFilters from './TasksFilters'
 import TaskDueDate from './TaskDueDate'
 
-import noResults from '../../assets/noResults.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { NO_RESULTS } from '../../utils/asset-utils'
 
 const ENTRIES_PER_PAGE = 6
 
@@ -29,6 +30,7 @@ const TaskTable = React.memo(function TaskTable({
   const theme = useTheme()
   const { below } = useViewport()
   const compactMode = below('medium')
+  const noResultsSvg = useAsset(NO_RESULTS)
 
   return (
     <DataView
@@ -93,7 +95,7 @@ const TaskTable = React.memo(function TaskTable({
           displayLoader: false,
           title: 'No results found',
           subtitle: 'We couldn’t find any task matching your filter selection.',
-          illustration: <img src={noResults} alt="" />,
+          illustration: <img src={noResultsSvg} alt="" />,
           clearLabel: 'Clear filters',
         },
       }}

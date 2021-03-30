@@ -11,7 +11,7 @@ import useEvidences from '../../hooks/useEvidences'
 import { addressesEqual } from '../../lib/web3-utils'
 import { dateFormat } from '../../utils/date-utils'
 
-import folderIcon from '../../assets/folderIcon.svg'
+import folderIcon from '../../assets/IconFolder.svg'
 
 const DisputeEvidences = React.memo(function DisputeEvidences({
   defendant,
@@ -36,7 +36,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                       align-items: center;
                     `}
                   >
-                    <img src={folderIcon} width="17" height="20" alt="" />
+                    <img src={folderIcon} width="20" height="20" alt="" />
                     <span
                       css={`
                         margin-left: ${1.5 * GU}px;

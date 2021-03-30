@@ -5,9 +5,9 @@ import { ButtonBase, GU, springs, textStyle, useTheme } from '@1hive/1hive-ui'
 import { Spring, animated } from 'react-spring/renderprops'
 import HeaderLogo from './Header/HeaderLogo'
 
-import dashboardMenuIcon from '../assets/dashboardMenuIcon.svg'
-import tasksMenuIcon from '../assets/tasksMenuIcon.svg'
-import disputesMenuIcon from '../assets/disputesMenuIcon.svg'
+import dashboardMenuIcon from '../assets/IconMenuDashboard.svg'
+import disputesMenuIcon from '../assets/IconMenuDisputes.svg'
+import tasksMenuIcon from '../assets/IconMenuTasks.svg'
 import { lerp } from '../lib/math-utils'
 
 export const MENU_PANEL_SHADOW_WIDTH = 3
@@ -41,7 +41,7 @@ function MenuPanel({ showHeaderLogo, onOpenPage }) {
       )}
       <div
         css={`
-          padding: ${2 * GU}px 0;
+          padding: ${4.5 * GU}px 0;
         `}
       >
         <h2
@@ -98,7 +98,7 @@ function MenuItem({ to, icon, label, onActivate }) {
         padding: 0 ${2 * GU}px 0 ${3 * GU}px;
         border-radius: 0;
         text-align: left;
-        background: ${active ? theme.surfacePressed : 'transparent'};
+        background: ${active ? theme.surfaceSelected : 'transparent'};
         &:active {
           background: ${theme.surfacePressed};
         }

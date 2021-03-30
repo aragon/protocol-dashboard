@@ -9,9 +9,10 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 import EmailInput from './EmailInput'
+import { useAsset } from '../../hooks/useAsset'
 import { useInput } from '../../hooks/useInput'
 import { validateEmail } from '../../utils/validate-utils'
-import emailIllustration from '../../assets/emailIllustration.svg'
+import { EMAIL } from '../../utils/asset-utils'
 
 const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
   updateMode,
@@ -24,9 +25,9 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
   const theme = useTheme()
   const [error, setError] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
+  const emailSvg = useAsset(EMAIL)
 
   const [insideModal] = useInside('NotificationsModal')
-
   const { inputProps, status } = useInput(validateEmail)
 
   const emailInvalid = status === 'invalid'
@@ -65,7 +66,7 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
           align-items: center;
         `}
       >
-        <img src={emailIllustration} width={141} height={141} alt="" />
+        <img src={emailSvg} width={141} height={141} alt="" />
       </div>
       <h3
         css={`

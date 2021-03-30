@@ -24,7 +24,7 @@ function ScreenProviders({ onActivate }) {
         flex-direction: column;
         justify-content: center;
         width: 100%;
-        padding: ${2 * GU}px ${2 * GU}px 0;
+        padding: ${2 * GU}px;
       `}
     >
       <div

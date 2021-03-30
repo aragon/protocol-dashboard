@@ -29,7 +29,7 @@ function TransactionProgress({ createdAt }) {
           width: ${15 * GU}px;
         `}
       >
-        <ProgressBar animate color={theme.accentStart} value={progress} />
+        <ProgressBar animate color={theme.accentEnd} value={progress} />
       </div>
       <span
         css={`

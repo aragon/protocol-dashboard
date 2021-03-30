@@ -1,9 +1,12 @@
 import React from 'react'
 import { Button, GU, textStyle } from '@1hive/1hive-ui'
 import BuyHNY from '../BuyHNY'
-import banner from '../../assets/Welcome.png'
+import { useAsset } from '../../hooks/useAsset'
+import { HOME_BANNER } from '../../utils/asset-utils'
 
 function Welcome() {
+  const banner = useAsset(HOME_BANNER)
+
   return (
     <div
       css={`
@@ -54,7 +57,6 @@ function Welcome() {
             css={`
               width: ${19 * GU}px;
               margin-right: ${1.5 * GU}px;
-              background: linear-gradient(89deg, #6050b0 -42%, #8e54a5 117%);
             `}
           />
           <Button

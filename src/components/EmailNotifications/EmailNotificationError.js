@@ -1,10 +1,11 @@
 import React from 'react'
 import { GU, textStyle, useTheme } from '@1hive/1hive-ui'
+import { useAsset } from '../../hooks/useAsset'
+import { EMAIL } from '../../utils/asset-utils'
 
-import emailIllustration from '../../assets/emailIllustration.svg'
-
-const VerifyEmailAddress = React.memo(function VerifyEmailAddress({ email }) {
+const VerifyEmailAddress = React.memo(function VerifyEmailAddress() {
   const theme = useTheme()
+  const emailSvg = useAsset(EMAIL)
 
   return (
     <div
@@ -22,7 +23,7 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({ email }) {
           text-align: center;
         `}
       >
-        <img src={emailIllustration} />
+        <img src={emailSvg} alt="" />
         <span
           css={`
             ${textStyle('title2')};

@@ -4,9 +4,8 @@ import { useWallet } from '../providers/Wallet'
 import { signMessage } from '../lib/web3-utils'
 import { dayjs } from '../utils/date-utils'
 import TokenLoader from './TokenLoader'
-
-import signRequestSuccessIllustration from '../../src/assets/signRequestSuccess.svg'
-import signRequestFailIllustration from '../../src/assets/signRequestFail.svg'
+import { SIGNATURE_FAILED, SIGNATURE_SUCCESS } from '../utils/asset-utils'
+import { useAsset } from '../hooks/useAsset'
 
 const SignerRequest = React.memo(function SignerRequest({
   compactMode,
@@ -23,15 +22,17 @@ const SignerRequest = React.memo(function SignerRequest({
 
   const theme = useTheme()
 
-  const illustration = useMemo(() => {
+  const Illustration = useMemo(() => {
     if (signingError) {
-      return signRequestFailIllustration
+      return SIGNATURE_FAILED
     }
     if (successMode) {
-      return signRequestSuccessIllustration
+      return SIGNATURE_SUCCESS
     }
     return null
   }, [signingError, successMode])
+
+  const illustrationSvg = useAsset(Illustration)
 
   const { statusText, statusTextColor } = useMemo(() => {
     if (signingError) {
@@ -93,8 +94,8 @@ const SignerRequest = React.memo(function SignerRequest({
           align-items: center;
         `}
       >
-        {illustration ? (
-          <img src={illustration} height={140} width={140} />
+        {illustrationSvg ? (
+          <img src={illustrationSvg} height={140} width={140} />
         ) : (
           <TokenLoader />
         )}

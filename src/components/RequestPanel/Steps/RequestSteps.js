@@ -29,7 +29,7 @@ function RequestSteps({
   return (
     <div
       css={`
-        background: ${theme.feedbackSurface};
+        background: ${theme.surfaceHighlight};
         display: grid;
         grid-row-gap: ${4 * GU}px;
         justify-content: space-evenly;
@@ -90,7 +90,7 @@ export function RequestStepItem({
 
     if (status === REQUEST_STATUS_PENDING) {
       return {
-        background: theme.accentStart,
+        background: theme.accentEnd,
         iconColor: theme.accentContent,
         labelColor: theme.contentSecondary.alpha(0.6),
         labelText,

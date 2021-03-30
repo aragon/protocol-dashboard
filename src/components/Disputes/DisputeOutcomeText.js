@@ -63,7 +63,7 @@ function useOutcomeStyle(outcome) {
   if (!outcome || outcome === OUTCOMES.Refused) {
     return {
       Icon: IconClose,
-      color: theme.disabledIcon,
+      color: theme.hint,
     }
   }
 

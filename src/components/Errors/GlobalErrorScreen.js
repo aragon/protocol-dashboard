@@ -1,18 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, GU, useTheme, useViewport } from '@1hive/1hive-ui'
-import globalError from '../../assets/error.svg'
-import backgroundError from '../../assets/backgroundError.svg'
-import logo from '../../assets/HeaderLogo.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { ERROR, ERROR_BACKGROUND, LOGO } from '../../utils/asset-utils'
 
 function GlobalErrorScreen({ children }) {
+  const errorSvg = useAsset(ERROR)
+  const errorBackgroundSvg = useAsset(ERROR_BACKGROUND)
+  const logoSvg = useAsset(LOGO)
+
   return (
     <div
       css={`
         height: 100vh;
         min-width: ${45 * GU}px;
         overflow: auto;
-        background: url(${backgroundError});
+        background: url(${errorBackgroundSvg});
         background-repeat: repeat-x;
         background-size: cover;
         border-top-style: solid;
@@ -26,7 +29,7 @@ function GlobalErrorScreen({ children }) {
           top: ${2 * GU}px;
           left: ${2 * GU}px;
         `}
-        src={logo}
+        src={logoSvg}
         width="150"
       />
       <div
@@ -40,7 +43,7 @@ function GlobalErrorScreen({ children }) {
       >
         <Container>
           <img
-            src={globalError}
+            src={errorSvg}
             alt=""
             width="147"
             height="144"

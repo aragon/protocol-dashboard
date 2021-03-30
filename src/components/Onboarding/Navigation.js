@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ButtonBase, springs } from '@1hive/1hive-ui'
+import { ButtonBase, springs, useTheme } from '@1hive/1hive-ui'
 import { useSpring, animated } from 'react-spring'
-import arrowSvg from './assets/arrow.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { ICON_ARROW } from '../../utils/asset-utils'
 
 const buttonTransitionStyles = show => ({
   opacity: Number(show),
@@ -60,27 +61,34 @@ Navigation.propTypes = {
   onNext: PropTypes.func.isRequired,
 }
 
-const NavButton = ({ type, ...props }) => (
-  <ButtonBase {...props}>
-    <div
-      css={`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 53px;
-        width: 53px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.03);
-        transform: rotate(${type === 'next' ? '0' : '180deg'});
-        &:active {
-          background: rgba(0, 0, 0, 0.1);
-        }
-      `}
-    >
-      <img src={arrowSvg} alt="" />
-    </div>
-  </ButtonBase>
-)
+const NavButton = ({ type, ...props }) => {
+  const theme = useTheme()
+  const darkMode = theme._appearance === 'dark'
+
+  const arrowSvg = useAsset(ICON_ARROW)
+
+  return (
+    <ButtonBase {...props}>
+      <div
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 53px;
+          width: 53px;
+          border-radius: 50%;
+          background: ${darkMode ? '#373582' : 'rgba(0, 0, 0, 0.03)'};
+          transform: rotate(${type === 'next' ? '0' : '180deg'});
+          &:active {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        `}
+      >
+        <img src={arrowSvg} alt="" />
+      </div>
+    </ButtonBase>
+  )
+}
 
 NavButton.propTypes = {
   type: PropTypes.oneOf(['next', 'prev']),

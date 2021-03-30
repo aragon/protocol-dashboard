@@ -1,81 +1,83 @@
 import actions from '../../actions/court-action-types'
 
-import iconHny from './assets/activity-icon-hny.svg'
-import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
-import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
-import iconCommitVote from './assets/activity-icon-commit-vote.svg'
-import iconCelesteLogo from './assets/activity-icon-celeste-logo.svg'
-import iconDraftJury from './assets/activity-icon-draft-jury.svg'
-import iconExecuteRuling from './assets/activity-icon-execute-ruling.svg'
+import {
+  ICON_ACTIVITY_HNY,
+  ICON_ACTIVITY_LOGO,
+  ICON_APPEAL_ACTIVE,
+  ICON_REWARDS_ACTIVE,
+  ICON_RULING_ACTIVE,
+  ICON_USERS_ACTIVE,
+  ICON_VOTING_ACTIVE,
+} from '../../utils/asset-utils'
 
 // The different types of activity
 const ACTIVITY_TYPES = {
   [actions.APPROVE_ACTIVATION_AMOUNT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Approve activation amount',
   },
   [actions.APPROVE_FEE_DEPOSIT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Approve fee deposit',
   },
   [actions.ACTIVATE_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Activate HNY',
   },
   [actions.APPEAL_RULING]: {
     title: 'Appeal ruling',
-    icon: iconAppealRuling,
+    icon: ICON_APPEAL_ACTIVE,
   },
   [actions.CLAIM_REWARDS]: {
     title: 'Claim rewards',
-    icon: iconClaimRewards,
+    icon: ICON_REWARDS_ACTIVE,
   },
   [actions.CLAIM_SUBSCRIPTION_FEES]: {
     title: 'Claim Subscription rewards',
-    icon: iconClaimRewards,
+    icon: ICON_REWARDS_ACTIVE,
   },
   [actions.COMMIT_VOTE]: {
     title: 'Commit vote',
-    icon: iconCommitVote,
+    icon: ICON_VOTING_ACTIVE,
   },
   [actions.CONFIRM_APPEAL]: {
     title: 'Confirm appeal',
-    icon: iconAppealRuling,
+    icon: ICON_APPEAL_ACTIVE,
   },
   [actions.DEACTIVATE_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Deactivate HNY',
   },
   [actions.DRAFT_JURY]: {
     title: 'Draft keepers',
-    icon: iconDraftJury,
+    icon: ICON_USERS_ACTIVE,
   },
   [actions.EXECUTE_RULING]: {
     title: 'Execute ruling',
-    icon: iconExecuteRuling,
+    icon: ICON_RULING_ACTIVE,
   },
   [actions.HEARTBEAT]: {
     title: 'Update term',
-    icon: iconCelesteLogo,
+    icon: ICON_ACTIVITY_LOGO,
   },
   [actions.LEAK_VOTE]: {
     title: 'Leak vote',
-    icon: iconCommitVote,
+    icon: ICON_VOTING_ACTIVE,
   },
   [actions.REVEAL_VOTE]: {
     title: 'Reveal vote',
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
   },
   [actions.SETTLE_REWARD]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Settle reward',
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Settle appeal deposit',
   },
   [actions.WITHDRAW_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Withdraw HNY',
   },
 }

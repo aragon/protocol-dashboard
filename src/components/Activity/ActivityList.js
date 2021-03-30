@@ -8,11 +8,12 @@ import {
   useTheme,
   useViewport,
 } from '@1hive/1hive-ui'
-import { ACTIVITY_STATUS_PENDING } from './activity-statuses'
-import { useActivity } from '../../providers/ActivityProvider'
 import ActivityItem from './ActivityItem'
+import { useActivity } from '../../providers/ActivityProvider'
+import { useAsset } from '../../hooks/useAsset'
 
-import activityNoResults from './assets/activity-no-results.svg'
+import { NO_DATA } from '../../utils/asset-utils'
+import { ACTIVITY_STATUS_PENDING } from './activity-statuses'
 
 // 8GU for top bar, 4GU for activity heading,
 // 11GU for HelpScout beacon (3GU top/bottom padding, 5GU beacon)
@@ -23,6 +24,7 @@ function ActivityList() {
   const theme = useTheme()
   const { below, height } = useViewport()
   const { activities, clearActivities } = useActivity()
+  const noDataSvg = useAsset(NO_DATA)
 
   const activityItems = useMemo(
     () => activities.sort((a, b) => b.createdAt - a.createdAt),
@@ -126,7 +128,7 @@ function ActivityList() {
               height: ${28.5 * GU}px;
             `}
           >
-            <img src={activityNoResults} alt="No results" height="120" />
+            <img src={noDataSvg} alt="No results" height="120" />
             <span
               css={`
                 margin-top: ${2 * GU}px;

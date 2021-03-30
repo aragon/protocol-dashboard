@@ -4,6 +4,7 @@ import AccountBanner from './AccountBanner'
 import Balance from './Balance'
 import Profile from './Profile'
 
+import { useAsset } from '../../hooks/useAsset'
 import { useCourtConfig } from '../../providers/CourtConfig'
 import { useWallet } from '../../providers/Wallet'
 import {
@@ -13,9 +14,11 @@ import {
 } from '../../utils/balance-utils'
 import { getAccountStatus } from '../../utils/account-utils'
 
-import walletIcon from '../../assets/IconWallet.svg'
-import inactiveHNYIcon from '../../assets/IconHNYInactive.svg'
-import activeHNYIcon from '../../assets/IconHNYActive.svg'
+import {
+  ICON_HNY_ACTIVE,
+  ICON_HNY_INACTIVE,
+  ICON_WALLET,
+} from '../../utils/asset-utils'
 
 const BalanceModule = React.memo(
   ({
@@ -30,6 +33,10 @@ const BalanceModule = React.memo(
     const theme = useTheme()
     const { name: layout } = useLayout()
     const { minActiveBalance } = useCourtConfig()
+
+    const activeHNYIcon = useAsset(ICON_HNY_ACTIVE)
+    const inactiveHNYIcon = useAsset(ICON_HNY_INACTIVE)
+    const walletIcon = useAsset(ICON_WALLET)
 
     const oneColumn = layout === 'small' || layout === 'medium'
     const status = balances && getAccountStatus(balances, minActiveBalance)
@@ -123,7 +130,6 @@ const BalanceModule = React.memo(
           <Box
             padding={0}
             css={`
-              overflow: hidden;
               border: 0;
               height: 100%;
             `}

@@ -37,7 +37,7 @@ function DisputeCard({ dispute, onSelectDispute }) {
       >
         <h3
           css={`
-            ${textStyle('body1')}
+            ${textStyle('body1')};
           `}
         >
           <strong> Dispute #{id}</strong>

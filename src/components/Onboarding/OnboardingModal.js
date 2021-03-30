@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Viewport, springs } from '@1hive/1hive-ui'
+import { Modal, Viewport, springs, useTheme } from '@1hive/1hive-ui'
 import { Transition } from 'react-spring/renderprops'
 import { useSteps } from '../../hooks/useOnboarding'
 import useKeyboardArrows from '../../hooks/useKeyboardArrows'
@@ -13,6 +13,7 @@ const OnboardingModal = React.memo(function OnboardingModal({
   onComplete,
   visible,
 }) {
+  const theme = useTheme()
   const content =
     getNetworkType() === 'main' ? highlights.main : highlights.rinkeby
 
@@ -84,7 +85,9 @@ const OnboardingModal = React.memo(function OnboardingModal({
                     ({ enterProgress, showProgress, status }) => (
                       <HighlightScreen
                         compactMode={compactMode}
-                        defaultVisualColor={highlights.defaultVisualColor}
+                        defaultVisualColor={
+                          highlights[theme._appearance].defaultVisualColor
+                        }
                         enterProgress={enterProgress}
                         heading={highlights.heading}
                         onDone={onComplete}

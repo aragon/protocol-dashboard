@@ -2,7 +2,8 @@ import React from 'react'
 import { GU, Info, useTheme } from '@1hive/1hive-ui'
 
 import MessageCard from '../MessageCard'
-import errorLoadingSvg from '../../assets/error.svg'
+import { useAsset } from '../../hooks/useAsset'
+import { ERROR } from '../../utils/asset-utils'
 
 function ErrorLoading({ subject, errors, border }) {
   const theme = useTheme()
@@ -35,11 +36,13 @@ function ErrorLoading({ subject, errors, border }) {
     </div>
   )
 
+  const errorSvg = useAsset(ERROR)
+
   return (
     <MessageCard
       title={title}
       paragraph={paragraph}
-      icon={errorLoadingSvg}
+      icon={errorSvg}
       border={border}
     />
   )

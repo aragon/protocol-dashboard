@@ -1,7 +1,8 @@
 import React from 'react'
 
-import noResults from '../../assets/noResults.svg'
 import MessageCard from '../MessageCard'
+import { useAsset } from '../../hooks/useAsset'
+import { NO_RESULTS } from '../../utils/asset-utils'
 
 function NoFilterResults({ onClearFilters }) {
   const title = 'No results found'
@@ -13,11 +14,13 @@ function NoFilterResults({ onClearFilters }) {
     action: onClearFilters,
   }
 
+  const noResultsSvg = useAsset(NO_RESULTS)
+
   return (
     <MessageCard
       title={title}
       paragraph={paragraph}
-      icon={noResults}
+      icon={noResultsSvg}
       link={link}
     />
   )

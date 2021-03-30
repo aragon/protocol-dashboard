@@ -1,12 +1,14 @@
 import React from 'react'
 import { Button, GU, textStyle, useTheme, useViewport } from '@1hive/1hive-ui'
-import emailIllustration from '../../../../src/assets/emailIllustration.svg'
+import { useAsset } from '../../../hooks/useAsset'
+import { EMAIL } from '../../../utils/asset-utils'
 
 const VerifyEmailAddressPreferences = React.memo(
   function VerifyEmailAddressPreferences({ email, onResend }) {
     const theme = useTheme()
     const { below } = useViewport()
     const compact = below('medium')
+    const emailSvg = useAsset(EMAIL)
 
     return (
       <div
@@ -18,7 +20,7 @@ const VerifyEmailAddressPreferences = React.memo(
         `}
       >
         <div>
-          <img src={emailIllustration} width={181} height={181} alt="" />
+          <img src={emailSvg} width={181} height={181} alt="" />
         </div>
         <h3
           css={`

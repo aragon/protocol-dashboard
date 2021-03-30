@@ -1,47 +1,49 @@
-import IconStarsActive from '../assets/IconStarsActive.svg'
-import IconStarsInactive from '../assets/IconStarsInactive.svg'
-import IconCommentActive from '../assets/IconCommentActive.svg'
-import IconCommentInactive from '../assets/IconCommentInactive.svg'
-import IconUsersActive from '../assets/IconUsersActive.svg'
-import IconUsersInactive from '../assets/IconUsersInactive.svg'
-import IconVotingActive from '../assets/IconVotingActive.svg'
-import IconVotingInactive from '../assets/IconVotingInactive.svg'
-import IconAppealActive from '../assets/IconAppealActive.svg'
-import IconAppealInactive from '../assets/IconAppealInactive.svg'
-import IconRulingActive from '../assets/IconRulingActive.svg'
-import IconRulingInactive from '../assets/IconRulingInactive.svg'
-import IconRewardsActive from '../assets/IconRewardsActive.svg'
-import IconRewardsInactive from '../assets/IconRewardsInactive.svg'
+import {
+  ICON_APPEAL_ACTIVE,
+  ICON_APPEAL_INACTIVE,
+  ICON_COMMENT_ACTIVE,
+  ICON_COMMENT_INACTIVE,
+  ICON_REWARDS_ACTIVE,
+  ICON_REWARDS_INACTIVE,
+  ICON_RULING_ACTIVE,
+  ICON_RULING_INACTIVE,
+  ICON_STARS_ACTIVE,
+  ICON_STARS_INACTIVE,
+  ICON_USERS_ACTIVE,
+  ICON_USERS_INACTIVE,
+  ICON_VOTING_ACTIVE,
+  ICON_VOTING_INACTIVE,
+} from './asset-utils'
 
 export { default as IconRound } from '../assets/IconRound.svg'
 
 export const IconStars = {
-  active: IconStarsActive,
-  inactive: IconStarsInactive,
+  active: ICON_STARS_ACTIVE,
+  inactive: ICON_STARS_INACTIVE,
 }
 
 export const IconComment = {
-  active: IconCommentActive,
-  inactive: IconCommentInactive,
+  active: ICON_COMMENT_ACTIVE,
+  inactive: ICON_COMMENT_INACTIVE,
 }
 export const IconUsers = {
-  active: IconUsersActive,
-  inactive: IconUsersInactive,
+  active: ICON_USERS_ACTIVE,
+  inactive: ICON_USERS_INACTIVE,
 }
 export const IconVoting = {
-  active: IconVotingActive,
-  inactive: IconVotingInactive,
+  active: ICON_VOTING_ACTIVE,
+  inactive: ICON_VOTING_INACTIVE,
 }
 export const IconAppeal = {
-  active: IconAppealActive,
-  inactive: IconAppealInactive,
+  active: ICON_APPEAL_ACTIVE,
+  inactive: ICON_APPEAL_INACTIVE,
 }
 export const IconRuling = {
-  active: IconRulingActive,
-  inactive: IconRulingInactive,
+  active: ICON_RULING_ACTIVE,
+  inactive: ICON_RULING_INACTIVE,
 }
 
 export const IconRewards = {
-  active: IconRewardsActive,
-  inactive: IconRewardsInactive,
+  active: ICON_REWARDS_ACTIVE,
+  inactive: ICON_REWARDS_INACTIVE,
 }
