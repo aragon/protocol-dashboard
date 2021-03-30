@@ -11,6 +11,11 @@ import {
   useTheme,
   IdentityBadge,
 } from '@1hive/1hive-ui'
+import TimeTag from './TimeTag'
+import TransactionProgress from './TransactionProgress'
+import { useActivity } from '../../providers/ActivityProvider'
+import { useAsset } from '../../hooks/useAsset'
+
 import { transformAddresses, getNetworkType } from '../../lib/web3-utils'
 import {
   ACTIVITY_STATUS_PENDING,
@@ -18,16 +23,14 @@ import {
   ACTIVITY_STATUS_FAILED,
   ACTIVITY_STATUS_TIMED_OUT,
 } from './activity-statuses'
-import TransactionProgress from './TransactionProgress'
-import { useActivity } from '../../providers/ActivityProvider'
 import { getActivityData } from './activity-types'
-import TimeTag from './TimeTag'
 
 function ActivityItem({ activity }) {
   const theme = useTheme()
   const { removeActivity } = useActivity()
 
   const { icon, title } = getActivityData(activity.type)
+  const iconSrc = useAsset(icon)
 
   const handleOpen = useCallback(() => {
     if (activity.transactionHash) {
@@ -94,7 +97,7 @@ function ActivityItem({ activity }) {
                 margin-right: ${1 * GU}px;
               `}
             >
-              <img src={icon} alt="" height="28" />
+              <img src={iconSrc} alt="" height="28" />
             </div>
             <div
               css={`

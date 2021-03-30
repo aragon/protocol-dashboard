@@ -1,6 +1,8 @@
 import actions from '../../actions/court-action-types'
 
 import {
+  ICON_ACTIVITY_HNY,
+  ICON_ACTIVITY_LOGO,
   ICON_APPEAL_ACTIVE,
   ICON_REWARDS_ACTIVE,
   ICON_RULING_ACTIVE,
@@ -8,21 +10,18 @@ import {
   ICON_VOTING_ACTIVE,
 } from '../../utils/asset-utils'
 
-import iconHny from './assets/activity-icon-hny.svg'
-import iconCelesteLogo from './assets/activity-icon-celeste-logo.svg'
-
 // The different types of activity
 const ACTIVITY_TYPES = {
   [actions.APPROVE_ACTIVATION_AMOUNT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Approve activation amount',
   },
   [actions.APPROVE_FEE_DEPOSIT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Approve fee deposit',
   },
   [actions.ACTIVATE_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Activate HNY',
   },
   [actions.APPEAL_RULING]: {
@@ -46,7 +45,7 @@ const ACTIVITY_TYPES = {
     icon: ICON_APPEAL_ACTIVE,
   },
   [actions.DEACTIVATE_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Deactivate HNY',
   },
   [actions.DRAFT_JURY]: {
@@ -59,7 +58,7 @@ const ACTIVITY_TYPES = {
   },
   [actions.HEARTBEAT]: {
     title: 'Update term',
-    icon: iconCelesteLogo,
+    icon: ICON_ACTIVITY_LOGO,
   },
   [actions.LEAK_VOTE]: {
     title: 'Leak vote',
@@ -67,18 +66,18 @@ const ACTIVITY_TYPES = {
   },
   [actions.REVEAL_VOTE]: {
     title: 'Reveal vote',
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
   },
   [actions.SETTLE_REWARD]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Settle reward',
   },
   [actions.SETTLE_APPEAL_DEPOSIT]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Settle appeal deposit',
   },
   [actions.WITHDRAW_HNY]: {
-    icon: iconHny,
+    icon: ICON_ACTIVITY_HNY,
     title: 'Withdraw HNY',
   },
 }
