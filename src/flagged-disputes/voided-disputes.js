@@ -1,9 +1,7 @@
 import {
   networkConfigs,
   getInternalNetworkName,
-  getNetworkConfig,
-  RINKEBY_COURT,
-  RINKEBY_STAGING_COURT,
+  getNetworkConfig
 } from '../networks'
 import env from '../environment'
 
@@ -25,10 +23,7 @@ const VOIDED_DISPUTES = {
       ),
     ],
   ]),
-  rinkeby: new Map([
-    [RINKEBY_COURT, new Map([])],
-    [RINKEBY_STAGING_COURT, new Map([])],
-  ]),
+  rinkeby: new Map([[networkConfigs.rinkeby.court, new Map([])]]),
   ropsten: new Map([[networkConfigs.ropsten.court, new Map([])]]),
   local: new Map([[networkConfigs.local.court, new Map([])]]),
 }
