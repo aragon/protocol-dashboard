@@ -29,6 +29,7 @@ import {
 import { decodeMetadata } from '../utils/dispute-metadata'
 import { transformGuardianDataAttributes } from '../utils/guardian-draft-utils'
 import { transformClaimedFeesDataAttributes } from '../utils/subscription-utils'
+import { usePoller } from '../utils/poller'
 import {
   getModuleAddress,
   transformCourtConfigDataAttributes,
@@ -52,23 +53,21 @@ function useQuerySub(query, variables = {}, options = {}) {
   })
 }
 
+
 // Subscription to get guardian's wallet balance
 function useANTBalance(guardianId) {
   const antTokenContract = useANTTokenContract();
   const error = null
   const [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
-  
-  // TODO:GIORGI this doesn't get called after approve,stake,activate balance happens which results
-  // in balance never gets updated in real-time without changing views.
-  useEffect(() => {
-    async function getData() {
+  const getBalance = () => {
+    async function getPrice() {
       const amount = await antTokenContract.balanceOf(guardianId)
       setData({ antbalance: { amount : bigNum(amount) }} )
     }
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  
+    getPrice()
+  }
+
+  usePoller(getBalance, 9777);
   return { data, error }
 }
 
