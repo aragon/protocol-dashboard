@@ -410,9 +410,10 @@ export function useDisputeActions() {
       return processRequests([
         {
           action: () =>
-          disputeManagerContract.settlePenalties(disputeId, roundId, 0, {
-              gasLimit: GAS_LIMIT,
-          }),
+            disputeManagerContract.settlePenalties(disputeId, roundId, 0, {
+                gasLimit: GAS_LIMIT,
+            }),
+            ensureConfirmation: true,
           description: radspec[actions.SETTLE_PENALTIES]({ disputeId, roundId }),
           type: actions.SETTLE_PENALTIES,
         },

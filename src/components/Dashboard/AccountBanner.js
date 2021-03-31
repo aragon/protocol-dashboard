@@ -203,7 +203,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   const paragraph =
-    `The more ANT you activate, the more likely you will be summoned to arbitrate a dispute ${draftingProbability}`
+    `The more ANT you activate, the more likely you will be summoned to arbitrate a dispute`
 
   return (
     <Wrapper

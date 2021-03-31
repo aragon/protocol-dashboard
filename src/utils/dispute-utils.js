@@ -43,10 +43,6 @@ export function transformRoundDataAttributes(round) {
   }
 }
 
-// const transformedData = transformDisputeDataAttributes(data.dispute)
-          // transformedData.metadata = await decodeMetadata(data.dispute.rawMetadata)
-          // return transformedData
-
 
 export function transformDisputeDataAttributes(dispute) {
   const transformedDispute = {

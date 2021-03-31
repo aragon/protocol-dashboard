@@ -8,6 +8,7 @@ export const AllDisputes = gql`
       lastRoundId
       state
       metadata
+      createdAt
       rounds {
         id
         state
