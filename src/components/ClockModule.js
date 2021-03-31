@@ -98,7 +98,7 @@ function ClockModule() {
               }
             `}
           >
-            {currentTermId ? (
+            {currentTermId || currentTermId === 0 ? (
               <>
                 {isSynced ? (
                   <Timer end={currentTermEndDate} showIcon={false} />

@@ -12,7 +12,7 @@ export const networkConfigs = {
     },
   },
   rinkeby: {
-    court: '0xf8538bE1e1749991F79142705Fce0b28355774a8',
+    court: '0xF8Bf76753F4bb6AEBc06d64e1C5AAaEc0EAcDCfA',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: 
@@ -47,3 +47,4 @@ export function getNetworkConfig() {
 export const networkAgentAddress = getNetworkConfig().network_agent
 
 export const networkReserveAddress = getNetworkConfig().network_reserve
+
