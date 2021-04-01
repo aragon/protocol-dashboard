@@ -1,40 +1,44 @@
 import {  defaultAbiCoder } from 'ethers/lib/utils'
+// import { ethers } from 'ethers'
 import { decodeCalldata } from '../etherscan'
 
 const metadataABI = [
     'tuple(' +
         'tuple(' +
-        'uint256 nonce, ' +
-        'uint256 executionTime, ' +
-        'address submitter, ' +
-        'address executor, ' +
+            'uint256 nonce, ' +
+            'uint256 executionTime, ' +
+            'address submitter, ' +
+            'address executor, ' +
+            'tuple(' +
+                'address to, ' +
+                'uint256 value, ' +
+                'bytes data' +
+            ')[] actions, ' +
+            'bytes32 allowFailuresMap, ' +
+            'bytes proof' +
+        ') payload, ' +
         'tuple(' +
-            'address to, ' +
-            'uint256 value, ' +
-            'bytes data' +
-        ')[] actions, ' +
-        'bytes32 allowFailuresMap, ' +
-        'bytes proof' +
-        '), ' +
-        'tuple(' +
-        'uint256 executionDelay, ' +
-        'tuple(' +
-            'address token, ' +
-            'uint256 amount' +
-        ') scheduleDeposit, ' +
-        'tuple(' +
-            'address token, ' +
-            'uint256 amount' +
-        ') challengeDeposit, ' +
-        'address resolver, ' +
-        'bytes rules, ' +
-        ') ' +
+            'uint256 executionDelay, ' +
+            'tuple(' +
+                'address token, ' +
+                'uint256 amount' +
+            ') scheduleDeposit, ' +
+            'tuple(' +
+                'address token, ' +
+                'uint256 amount' +
+            ') challengeDeposit, ' +
+            'address resolver, ' +
+            'bytes rules, ' +
+        ') config' +
     ')'
 ]
 
+
+
 export async function decode(metadata) {
     const data = defaultAbiCoder.decode(metadataABI, metadata)
-    const originalPayload = data[0][0]
+    console.log(metadataABI, 'data first')
+    const originalPayload = data[0].payload
 
     const payload = { 
         executor: originalPayload.executor,
@@ -57,7 +61,7 @@ export async function decode(metadata) {
     })
 
     return {
-        config: data[0][1],
+        config: data[0].config,
         payload: payload
     }
 }

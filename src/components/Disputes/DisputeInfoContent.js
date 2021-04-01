@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, { useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
 import { GU, Help, Link, textStyle, useTheme, useViewport } from '@aragon/ui'
@@ -7,7 +8,14 @@ import DisputeOutcomeText from './DisputeOutcomeText'
 import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
-
+import {
+  
+  ButtonBase,IconConnect,
+ 
+  RADIUS,
+  Button
+  
+} from '@aragon/ui'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
@@ -190,9 +198,11 @@ function Field({ label, loading, value, ...props }) {
 
 
 function DisputeContainerData({ dispute }) {
+  const theme = useTheme()
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
-
+  
+  
   return (  
     <div>
       <Field
@@ -234,23 +244,42 @@ function DisputeContainerData({ dispute }) {
       {payload.actions.map( (action, index)=> {
         return (
           <div key={index}>
-          <Field
-            label="To"
-            value={action.to} 
-          />
-          <Field
-            label="Value"
-            value={action.value.toString()} 
-          />
-          <Field
-            label="Data"
-            value={action.calldata ? JSON.stringify(action.calldata) : action.data }
-            css={`
-              word-break: break-word;
-              overflow-wrap: anywhere;
-            `}
-          />
-          <hr />
+            <h1
+              css={`
+                ${textStyle('title3')};
+                font-weight: 300;
+              `}
+              >Action #{index + 1}
+            </h1>
+
+            <Field
+              label="To"
+              value={action.to} 
+            />
+            <Field
+              label="Value"
+              value={action.value.toString()} 
+            />
+           
+
+            { action.calldata && 
+                <pre>
+                  {JSON.stringify(action.calldata, null, 2)}
+                </pre>
+            }
+
+            { !action.calldata && action.data &&
+                <Field
+                  label="calldata"
+                  value={action.data} 
+                  css={`
+                    word-break: break-word;
+                    overflow-wrap: anywhere;
+                  `}
+              />
+            }
+
+            <hr />
           </div>
         )
       })}
@@ -267,6 +296,7 @@ function FinalGuardianOutcome({ dispute }) {
   const appealedRuling = lastRound?.appeal?.appealedRuling
 
   return (
+    
     <Field
       label="Final Guardians Outcome"
       value={

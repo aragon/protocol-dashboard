@@ -1,18 +1,55 @@
+/* eslint-disable */
 import env from '../environment'
 import {  getContract } from '../web3-contracts'
-
+import { utils } from 'ethers'
 const api = env('ETHERSCAN_ENDPOINT')
 
-const isObj = (x) => x !== null && typeof x === "object" && !Array.isArray(x);
 
-// removes all the items that have numeric keys such as `0`, `1`, e.t.c.  
-const _removeNumericKeys = (o) =>
-  Object.fromEntries(
-    Object.entries(o).flatMap(([k, v]) =>
-      isNaN(Number(k)) ? [[k, isObj(v) ? _removeNumericKeys(v) : v]] : []
-    )
-  );
+function decodeHex(data) {
+  try {
+    return utils.toUtf8String(data)
+  }catch(err) {
+    return data;
+  }
+}
 
+function decodeValue(value) {
+  if(typeof value === 'number' || value._isBigNumber) return value.toString()
+  
+  if(Array.isArray(value)) {
+    value = value.map(item => {
+      if(typeof item === 'number' || item._isBigNumber) return item.toString()
+      // check if value is hex and can be converted to string
+      return decodeHex(item)
+    })
+  }
+
+  // check if value is hex and can be converted to string
+  return decodeHex(value)
+}
+
+/**
+ * 
+ * @param {Object} input 
+ * @param {any} value 
+ * @param {Object} accum 
+ */
+function decodeInput(input, value, accum) {
+  if(input.type === 'tuple') {
+    accum[input.name] = {};
+    input.components.forEach((component, index) => {
+      if(component.type === 'tuple') {
+        accum[input.name][component.name] = {};
+        decodeInput(component, value[index], accum[input.name])
+      }
+      else{
+        accum[input.name][component.name] = decodeValue(value[index])
+      }
+    })
+  }else{
+    accum[input.name] = decodeValue(value)
+  }
+}
 
 /**
  *
@@ -39,8 +76,20 @@ export async function decodeCalldata(to, calldata) {
             const sigHash = calldata.substring(0,10)
             try {
                 const decodedData = contract.interface.decodeFunctionData(sigHash, calldata)
+                const functionABI = contract.interface.getFunction(sigHash)
+                
+                // Reduce the elements out
+                const onlyNamedResult = decodedData.reduce((accum, value, index) => {
+                  const input = functionABI.inputs[index];
+                  
+                  decodeInput(input, value, accum)
+                
+                  return accum;
+                }, { });
+                
                 console.log(decodedData, ' decoded data')
-                return _removeNumericKeys(decodedData)
+                console.log(onlyNamedResult, 'only named result')
+                return onlyNamedResult
             } catch(err) {
                 
             }
