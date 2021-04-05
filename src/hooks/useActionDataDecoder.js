@@ -11,10 +11,8 @@ export default function useActionDataDecoder(to, calldata) {
   const abi = useAbi(to);
 
   // decode if we have abi, otherwise return calldata
-  const result = abi? 
-    decodeCalldata(abi, calldata) :
-    [{ name: "data", value: calldata}];
+  const result = abi? decodeCalldata(abi, calldata) : null;
  
-  return result;
+  return result || [{ name: "data", value: calldata }];
 }
   
