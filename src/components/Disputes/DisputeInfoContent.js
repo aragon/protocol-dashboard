@@ -192,58 +192,58 @@ function Field({ label, loading, value, ...props }) {
 }
 
 const ActionContent = React.memo(function ActionContent({to, value, data}) {
+  const theme = useTheme()
   const decodedData = useActionDataDecoder(to, data)
 
-  return(
+  const marginCss = `margin: ${2 * GU}px 0`;
+  return (
     <div>
       <Field
-        css={`margin: ${2 * GU}px`}
+        css={marginCss}
         label="To"
         value={to}
       />
       <Field
-        css={`margin: ${2 * GU}px`}
+        css={marginCss}
         label="Value"
         value={value.toString()}
       />
       {
-        decodedData.map((entry, index) => {
-          return (
-            <Field
-            key={index}
-            css={`
-              margin: ${2 * GU}px;
-              word-break: break-word;
-              overflow-wrap: anywhere;
-            `}
-            label={entry.name}
-            value={entry.value}
-            />
-          );
-        })
+        decodedData &&
+        <div css={marginCss}>
+          <div css={`
+            ${textStyle('label2')};
+            color: ${theme.surfaceContentSecondary};
+          `}>
+            data
+          </div>
+          <div>
+            <pre>
+              {JSON.stringify(decodedData, null, 2)}
+            </pre>
+          </div>
+        </div>
+      }
+      {
+        !decodedData &&
+        <Field
+          css={`
+            ${marginCss}
+            word-break: break-word;
+            overflow-wrap: anywhere;
+          `}
+          label="data"
+          value={data}
+        />
       }
     </div>
-  );
-});
+  )
+})
 
 
 const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
-
-  const header = (row) => {
-    return (
-      <h1
-        css={`
-          ${textStyle('title3')};
-          font-weight: 300;
-        `}
-      >
-        Action #{row + 1}
-      </h1>
-    );
-  }
-
   const fields = useMemo(() => [null], []);
-  const renderEntry = useCallback(([]) => [header(index)], []);
+  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []);
   const renderEntryExpansion = useCallback(
     ([_, to, value, data]) => {
       return (<ActionContent to={to} value={value} data={data}/>);
@@ -254,7 +254,6 @@ const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
 
   return (
     <DataView
-      mode="list"
       fields={fields}
       entries={entries}
       renderEntry={renderEntry}

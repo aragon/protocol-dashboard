@@ -8,11 +8,10 @@ import { decodeCalldata } from '../utils/abi-utils';
  * @returns {Object|null} decoded calldata
  */
 export default function useActionDataDecoder(to, calldata) {
-  const abi = useAbi(to);
 
-  // decode if we have abi, otherwise return calldata
-  const result = abi? decodeCalldata(abi, calldata) : null;
- 
-  return result || [{ name: "data", value: calldata }];
+  const abi = useAbi(to);
+  const decodedData = abi? decodeCalldata(abi, calldata) : null;
+  return decodedData;
+
 }
   
