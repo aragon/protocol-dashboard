@@ -211,7 +211,11 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
           return (
             <Field
             key={index}
-            css={`margin: ${2 * GU}px;`}
+            css={`
+              margin: ${2 * GU}px;
+              word-break: break-word;
+              overflow-wrap: anywhere;
+            `}
             label={entry.name}
             value={entry.value}
             />
