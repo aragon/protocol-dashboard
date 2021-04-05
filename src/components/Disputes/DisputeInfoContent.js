@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
 import { GU, Help, Link, textStyle, useTheme, useViewport } from '@aragon/ui'
 import styled from 'styled-components'
@@ -8,20 +8,15 @@ import DisputeOutcomeText from './DisputeOutcomeText'
 import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
-import {
-  
-  ButtonBase,IconConnect,
- 
-  RADIUS,
-  Button
-  
-} from '@aragon/ui'
+import { DataView } from '@aragon/ui'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
+
+import useActionDataDecoder from '../../hooks/useActionDataDecoder'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
@@ -196,13 +191,79 @@ function Field({ label, loading, value, ...props }) {
   )
 }
 
+const ActionContent = React.memo(function ActionContent({to, value, data}) {
+  const decodedData = useActionDataDecoder(to, data)
+
+  return(
+    <div>
+      <Field
+        css={`margin: ${2 * GU}px`}
+        label="To"
+        value={to}
+      />
+      <Field
+        css={`margin: ${2 * GU}px`}
+        label="Value"
+        value={value.toString()}
+      />
+      {
+        decodedData.map((entry, index) => {
+          return (
+            <Field
+            key={index}
+            css={`margin: ${2 * GU}px;`}
+            label={entry.name}
+            value={entry.value}
+            />
+          );
+        })
+      }
+    </div>
+  );
+});
+
+
+const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
+
+  const header = (row) => {
+    return (
+      <h1
+        css={`
+          ${textStyle('title3')};
+          font-weight: 300;
+        `}
+      >
+        Action #{row + 1}
+      </h1>
+    );
+  }
+
+  const fields = useMemo(() => [null], []);
+  const renderEntry = useCallback(([]) => [header(index)], []);
+  const renderEntryExpansion = useCallback(
+    ([_, to, value, data]) => {
+      return (<ActionContent to={to} value={value} data={data}/>);
+    }
+  );
+
+  const entries = useMemo(() => [[index, action.to, action.value, action.data]], []);
+
+  return (
+    <DataView
+      mode="list"
+      fields={fields}
+      entries={entries}
+      renderEntry={renderEntry}
+      renderEntryExpansion={renderEntryExpansion}
+    />
+  )
+});
 
 function DisputeContainerData({ dispute }) {
   const theme = useTheme()
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
-  
-  
+
   return (  
     <div>
       <Field
@@ -243,44 +304,11 @@ function DisputeContainerData({ dispute }) {
       <hr />
       {payload.actions.map( (action, index)=> {
         return (
-          <div key={index}>
-            <h1
-              css={`
-                ${textStyle('title3')};
-                font-weight: 300;
-              `}
-              >Action #{index + 1}
-            </h1>
-
-            <Field
-              label="To"
-              value={action.to} 
-            />
-            <Field
-              label="Value"
-              value={action.value.toString()} 
-            />
-           
-
-            { action.calldata && 
-                <pre>
-                  {JSON.stringify(action.calldata, null, 2)}
-                </pre>
-            }
-
-            { !action.calldata && action.data &&
-                <Field
-                  label="calldata"
-                  value={action.data} 
-                  css={`
-                    word-break: break-word;
-                    overflow-wrap: anywhere;
-                  `}
-              />
-            }
-
-            <hr />
-          </div>
+          <ActionAccordion
+            key={index}
+            action={action}
+            index={index}
+          />
         )
       })}
       </div>
@@ -497,7 +525,7 @@ const Row = styled.div`
     grid-gap: ${(compactMode ? 2.5 : 5) * GU}px;
     margin-bottom: ${compactMode ? 0 : 2 * GU}px;
     grid-template-columns: ${
-      compactMode ? 'auto' : `1fr minmax(${25 * GU}px, auto)`
+      compactMode ? 'auto' : ''
     };
   `}
 `

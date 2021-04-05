@@ -1,6 +1,4 @@
 import {  defaultAbiCoder } from 'ethers/lib/utils'
-// import { ethers } from 'ethers'
-import { decodeCalldata } from '../etherscan'
 
 const metadataABI = [
     'tuple(' +
@@ -44,21 +42,8 @@ export async function decode(metadata) {
         executor: originalPayload.executor,
         proof: originalPayload.proof,
         allowFailuresMap: originalPayload.allowFailuresMap,
-        actions: []
+        actions: originalPayload.actions
     }
-
-    const decodedCalldatas = await Promise.all(originalPayload.actions.map(action => decodeCalldata(action.to, action.data)));
-
-    originalPayload.actions.forEach(async(action, index) => {
-        const tempAction = {
-            to: action.to,
-            value: action.value,
-            data: action.data
-        }
-        
-        tempAction.calldata = decodedCalldatas[index] || null
-        payload.actions.push(tempAction);     
-    })
 
     return {
         config: data[0].config,
