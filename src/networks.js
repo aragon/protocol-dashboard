@@ -9,10 +9,10 @@ export const RINKEBY_STAGING_COURT =
 
 export const networkConfigs = {
   xdai: {
-    court: '',
+    court: '0x44E4fCFed14E1285c9e0F6eae77D5fDd0F196f85',
     nodes: {
-      defaultEth: 'https://rinkeby.eth.aragon.network/',
-      subgraph: 'https://graph.backend.aragon.org/subgraphs/name/1hive/celeste',
+      defaultEth: 'https://xdai.poanetwork.dev/',
+      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste',
     },
   },
   rinkeby: {
@@ -20,13 +20,6 @@ export const networkConfigs = {
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),
-    },
-  },
-  ropsten: {
-    court: '0x3b26bc496aebaed5b3E0E81cDE6B582CDe71396e',
-    nodes: {
-      defaultEth: 'https://ropsten.eth.aragon.network/',
-      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste-ropsten',
     },
   },
   local: {
