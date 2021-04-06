@@ -193,7 +193,7 @@ function Field({ label, loading, value, ...props }) {
 
 const ActionContent = React.memo(function ActionContent({to, value, data}) {
   const theme = useTheme()
-  const decodedData = useActionDataDecoder(to, data)
+  const { decoding, decodedData } = useActionDataDecoder(to, data)
 
   const marginCss = `margin: ${2 * GU}px 0`;
   return (
@@ -209,7 +209,10 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
         value={value.toString()}
       />
       {
-        decodedData &&
+        decoding && <Loading size="small" />
+      }
+      {
+        !decoding && decodedData &&
         <div css={marginCss}>
           <div css={`
             ${textStyle('label2')};
@@ -225,7 +228,7 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
         </div>
       }
       {
-        !decodedData &&
+        !decoding && !decodedData &&
         <Field
           css={`
             ${marginCss}

@@ -3,14 +3,14 @@ import env from '../environment'
 const api = env('ETHERSCAN_ENDPOINT')
 
 /**
- * get the contract abi
+ * fetch the contract abi from etherscan
  * @param {string} to contract address 
  * @returns {Object|null} contract ABI
  */
- export async function getAbi(to) {
+ export async function fetchAbi(to) {
   const endpoint = `${api}&module=contract&action=getabi&address=${to}`
 
-  console.log('called getAbi......')
+  console.log('hit etherscan......')
   try {
     const response = await fetch(endpoint, {
       method: 'GET',
