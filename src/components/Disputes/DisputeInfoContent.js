@@ -256,12 +256,14 @@ const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
   const entries = useMemo(() => [[index, action.to, action.value, action.data]], []);
 
   return (
-    <DataView
-      fields={fields}
-      entries={entries}
-      renderEntry={renderEntry}
-      renderEntryExpansion={renderEntryExpansion}
-    />
+    <DataViewWrapper>
+      <DataView
+        fields={fields}
+        entries={entries}
+        renderEntry={renderEntry}
+        renderEntryExpansion={renderEntryExpansion}
+      />
+    </DataViewWrapper>
   )
 });
 
@@ -535,5 +537,14 @@ const Row = styled.div`
     };
   `}
 `
+
+// this is a hack until we fix the issue with DataView
+// not showing the full content on expansion
+const DataViewWrapper = styled.div`
+  div[class*="TableView___StyledAnimatedDiv2"] {
+    height: auto !important;
+  }
+`
+
 
 export default DisputeInfoContent
