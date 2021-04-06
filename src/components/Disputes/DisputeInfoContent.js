@@ -8,7 +8,7 @@ import DisputeOutcomeText from './DisputeOutcomeText'
 import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
-import { DataView } from '@aragon/ui'
+import { DataView, Info } from '@aragon/ui'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
@@ -213,31 +213,38 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
       }
       {
         !decoding && decodedData &&
-        <div css={marginCss}>
-          <div css={`
-            ${textStyle('label2')};
-            color: ${theme.surfaceContentSecondary};
-          `}>
-            data
-          </div>
-          <div>
-            <pre>
-              {JSON.stringify(decodedData, null, 2)}
-            </pre>
+        <div>
+          <Field
+            css={marginCss}
+            label="Function to be called"
+            value={decodedData.functionName}
+          />
+          <div css={marginCss}>
+            <FieldLabel>Data</FieldLabel>
+            <div>
+              <pre>
+                {JSON.stringify(decodedData.inputData, null, 2)}
+              </pre>
+            </div>
           </div>
         </div>
       }
       {
         !decoding && !decodedData &&
-        <Field
-          css={`
-            ${marginCss}
-            word-break: break-word;
-            overflow-wrap: anywhere;
-          `}
-          label="data"
-          value={data}
-        />
+        <div>
+          <FieldLabel>Raw Data</FieldLabel>
+          <Info mode="warning">
+            Unable to decode data because contract is not verified on etherscan
+          </Info>
+          <Field
+            css={`
+              ${marginCss}
+              word-break: break-word;
+              overflow-wrap: anywhere;
+            `}
+            value={data}
+          />
+        </div>
       }
     </div>
   )
@@ -546,5 +553,11 @@ const DataViewWrapper = styled.div`
   }
 `
 
+const FieldLabel = styled.div`
+  ${({ theme }) => `
+    ${textStyle('label2')};
+    color: ${theme.surfaceContentSecondary};
+  `}
+`
 
 export default DisputeInfoContent

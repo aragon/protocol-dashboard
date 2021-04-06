@@ -55,6 +55,7 @@ export function decodeCalldata(abi, calldata) {
     const decodedData = iface.decodeFunctionData(sigHash, calldata)
     const functionABI = iface.getFunction(sigHash)
     
+    const functionName = functionABI.name;
     const onlyNamedResult = decodedData.reduce((accum, value, index) => {
       const input = functionABI.inputs[index];
 
@@ -63,7 +64,7 @@ export function decodeCalldata(abi, calldata) {
       return accum;
     }, { });
 
-    return onlyNamedResult;
+    return { functionName, inputData: onlyNamedResult };
   } catch(err) {
       console.log(err, 'err')
   }
