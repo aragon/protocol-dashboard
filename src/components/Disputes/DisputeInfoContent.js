@@ -39,6 +39,10 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   return (
     <>
       <Row>
+        <Info mode="warning">
+          If any of the below details need to be fetched from ipfs and They have been submitted to ipfs recently, 
+          it might take some time to distribute to all nodes and show up here then
+        </Info>
         <DisputeContainerData dispute={dispute} />
       </Row>
       {isFinalRulingEnsured && (
