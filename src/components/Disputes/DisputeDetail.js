@@ -40,7 +40,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   const evidences = useMemo(
     () =>
       (evidenceList || []).map(evidence => {
-        let data = "The evidence data couldn't be decoded"; 
+        let data = evidence.data
         try {
           data = toUtf8String(evidence.data)
         }catch(err) {

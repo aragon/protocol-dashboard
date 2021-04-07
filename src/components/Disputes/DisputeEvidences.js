@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion, GU, SyncIndicator, textStyle, useTheme } from '@aragon/ui'
+import { Accordion, GU, SyncIndicator, textStyle, useTheme, Link } from '@aragon/ui'
 import { useWallet } from 'use-wallet'
 import useEvidences from '../../hooks/useEvidences'
 import { addressesEqual } from '../../lib/web3-utils'
@@ -61,6 +61,12 @@ const EvidenceContent = React.memo(function EvidenceContent({
   metadata,
   error
 }) {
+
+  // if the data was set as `0x` 
+  if(!metadata) {
+    metadata = { text: 'This evidence has no data' }
+  }
+
   const theme = useTheme()
   const wallet = useWallet()
 
@@ -140,7 +146,24 @@ const EvidenceContent = React.memo(function EvidenceContent({
             align-items: flex-start;
           `}
         >
-          <Markdown text={metadata} />
+          { metadata.endpoint &&
+              <Link
+                href={metadata.endpoint}
+                css={`
+                  text-decoration: none;
+                `}
+              >
+                Read more
+              </Link>
+          }
+        </div>
+        <div
+          css={`
+            display: flex;
+            align-items: flex-start;
+          `}
+        >
+          {metadata.text && <Markdown text={metadata.text} /> }
         </div>
       </div>
     </div>
