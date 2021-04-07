@@ -42,7 +42,7 @@ export function useTokenAmountToUsd(symbol, decimals, amount) {
   useEffect(() => {
     let cancelled = false
 
-    if (getNetworkType() !== 'main') {
+    if (getNetworkType() !== 'xdai') {
       return
     }
 
