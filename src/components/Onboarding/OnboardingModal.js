@@ -15,7 +15,7 @@ const OnboardingModal = React.memo(function OnboardingModal({
 }) {
   const theme = useTheme()
   const content =
-    getNetworkType() === 'main' ? highlights.main : highlights.rinkeby
+    getNetworkType() === 'xdai' ? highlights.xdai : highlights.rinkeby
 
   const steps = content.length
   const { step, next, prev, setStep, direction } = useSteps(steps)

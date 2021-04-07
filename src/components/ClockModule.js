@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
 import {
-  blockExplorerUrl,
   Button,
   ButtonBase,
   GU,
@@ -21,11 +20,7 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useHeartbeat } from '../hooks/useCourtContracts'
 
 import { formatDuration } from '../utils/date-utils'
-import {
-  getNetworkType,
-  isLocalOrUnknownNetwork,
-  shortenAddress,
-} from '../lib/web3-utils'
+import { blockExplorer, shortenAddress } from '../lib/web3-utils'
 
 import logoSvg from '../assets/LogoAccent.svg'
 
@@ -201,11 +196,7 @@ function ClockModule() {
               </span>
               <ButtonBase
                 disabled={!courtConfig}
-                href={blockExplorerUrl('address', courtConfig?.id, {
-                  networkType: isLocalOrUnknownNetwork()
-                    ? 'private'
-                    : getNetworkType(),
-                })}
+                href={blockExplorer('address', courtConfig?.id)}
               >
                 <IconExternal
                   css={`

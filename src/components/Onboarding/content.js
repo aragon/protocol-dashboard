@@ -225,7 +225,7 @@ highlights.rinkeby = [
   },
 ]
 
-highlights.main = [
+highlights.xdai = [
   {
     title: {
       small: null,
@@ -235,8 +235,8 @@ highlights.main = [
       small: null,
       large: (
         <span>
-          Your first HNY has been activated succesfully. Now, read the quick
-          guide to be a good and active keeper on Celeste.
+          Read the quick guide on how to be a good and active keeper and explore
+          the different disputes taking place on Celeste.
         </span>
       ),
     },
@@ -412,9 +412,9 @@ highlights.main = [
       large: (
         <>
           <p>
-            Earn Dispute Fees for successfully adjudicating disputes and monthly
-            Subscription Fees for simply being an Active keeper, whether you are
-            drafted or not.
+            Earn Dispute rewards for successfully adjudicating disputes and
+            monthly Staking rewards for simply being an Active keeper, whether
+            you are drafted or not.
           </p>
           <p>Use the Rewards modules to track your earnings over time.</p>
         </>
