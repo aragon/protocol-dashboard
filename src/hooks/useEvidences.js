@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
 
+const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
+
 export default function useEvidences(dispute, rawEvidences) {
   // Contains valid evidences + errored evidences
   const [evidences, setEvidences] = useState([])
@@ -27,7 +29,7 @@ export default function useEvidences(dispute, rawEvidences) {
       createdAt,
       error: false,
     }
-
+    
     const cid = getIpfsCidFromUri(uriOrData)
 
     // Not an IPFS URI
@@ -36,7 +38,7 @@ export default function useEvidences(dispute, rawEvidences) {
       return evidencesCache.current.get(id)
     }
 
-    const { data, error } = await ipfsGet(cid)
+    const { result, endpoint, error } = await ipfsGet(cid)
 
     if (error) {
       return { ...baseEvidence, error: ERROR_TYPES.ERROR_FETCHING_IPFS }
@@ -44,8 +46,17 @@ export default function useEvidences(dispute, rawEvidences) {
 
     const evidenceProcessed = {
       ...baseEvidence,
-      metadata: data,
+      metadata: { endpoint }
     }
+
+    const file = await result.clone().blob()
+    
+    // if the file type is one of the FILE_TYPES, we also show the evidence text on the dashboard
+    // otherwise, we put an endpoint link to see the image on gateway link.
+    if(FILE_TYPES.includes(file.type)) {
+      evidenceProcessed.metadata.text = await result.text()
+    }
+
     evidencesCache.current.set(id, evidenceProcessed)
 
     return evidenceProcessed

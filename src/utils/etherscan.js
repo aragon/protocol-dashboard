@@ -1,4 +1,3 @@
-/* eslint-disable */
 import env from '../environment'
 const api = env('ETHERSCAN_ENDPOINT')
 

@@ -35,7 +35,7 @@ const metadataABI = [
 
 export async function decode(metadata) {
     const data = defaultAbiCoder.decode(metadataABI, metadata)
-    console.log(metadataABI, 'data first')
+
     const originalPayload = data[0].payload
 
     const payload = { 
