@@ -1,4 +1,3 @@
-// import isIPFS from 'is-ipfs'
 import CID from 'cids'
 import { defaultIpfsGateway } from '../endpoints'
 import { toUtf8String } from './web3-utils'
