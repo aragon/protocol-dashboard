@@ -2,6 +2,11 @@ import { getInternalNetworkName } from '../networks'
 
 export const KNOWN_TOKEN_BY_ENV = {
   HNY: {
+    xdai: {
+      address: '0x71850b7e9ee3f13ab46d67167341e4bdc905eef9',
+      decimals: 18,
+      symbol: 'HNY',
+    },
     rinkeby: {
       address: '0x658bd9ee8788014b3dbf2bf0d66af344d84a5aa1',
       decimals: 18,

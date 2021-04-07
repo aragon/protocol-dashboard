@@ -5,7 +5,7 @@ import { Client } from 'urql'
 
 const RETRY_EVERY = 3000
 
-const UNISWAP_URL = 'https://api.thegraph.com/subgraphs/name/1hive/uniswap-v2'
+const UNISWAP_URL = 'https://api.thegraph.com/subgraphs/name/1hive/honeyswap-v2'
 const XDAI_HNY_PAIR = '0x4505b262dc053998c10685dc5f9098af8ae5c8ad'
 
 const graphqlClient = new Client({ url: UNISWAP_URL })
