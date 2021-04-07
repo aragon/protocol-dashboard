@@ -1,14 +1,13 @@
-/* eslint-disable*/
+/* eslint-disable */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
-import { GU, Help, Link, textStyle, useTheme, useViewport } from '@aragon/ui'
+import { GU, Help, Link, textStyle, useTheme, useViewport, DataView, Info} from '@aragon/ui'
 import styled from 'styled-components'
 import DisputeDetailDescription from './DisputeDetailDescription'
 import DisputeOutcomeText from './DisputeOutcomeText'
 import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
-import { DataView, Info } from '@aragon/ui'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
@@ -196,7 +195,6 @@ function Field({ label, loading, value, ...props }) {
 }
 
 const ActionContent = React.memo(function ActionContent({to, value, data}) {
-  const theme = useTheme()
   const { decoding, decodedData } = useActionDataDecoder(to, data)
 
   const marginCss = `margin: ${2 * GU}px 0`;
@@ -257,7 +255,7 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
 
 const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
   const fields = useMemo(() => [null], []);
-  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []);
+  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []); 
   const renderEntryExpansion = useCallback(
     ([_, to, value, data]) => {
       return (<ActionContent to={to} value={value} data={data}/>);
@@ -279,7 +277,6 @@ const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
 });
 
 function DisputeContainerData({ dispute }) {
-  const theme = useTheme()
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 

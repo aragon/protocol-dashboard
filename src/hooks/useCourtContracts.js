@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
@@ -19,7 +17,6 @@ import { retryMax } from '../utils/retry-max'
 import actions from '../actions/court-action-types'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
-import { getFunctionSignature } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
 import {
   getVoteId,
@@ -40,7 +37,6 @@ import votingAbi from '../abi/CRVoting.json'
 const GAS_LIMIT = 1200000
 const ANT_ACTIVATE_GAS_LIMIT = 500000
 const ANT_ACTIONS_GAS_LIMIT = 325000
-const ACTIVATE_SELECTOR = getFunctionSignature('activate(address, uint256)')
 
 // ANT contract
 export function useANTTokenContract() {
@@ -418,7 +414,7 @@ export function useDisputeActions() {
           type: actions.SETTLE_PENALTIES,
         },
       ])
-    }
+    }, [disputeManagerContract, processRequests]
   )
 
   return {
@@ -472,7 +468,7 @@ export function useHeartbeat() {
 
 export function useRewardActions() {
   const processRequests = useRequestProcessor()
-  const { claimFees } = useCourtSubscriptionActions()
+  // const { claimFees } = useCourtSubscriptionActions()
   const disputeManagerContract = useCourtContract(
     CourtModuleType.DisputeManager,
     disputeManagerAbi
@@ -584,7 +580,7 @@ export function useRewardActions() {
 
       return processRequests(requestQueue)
     },
-    [claimFees, processRequests, settleAppealDeposit, settleReward, withdraw]
+    [processRequests, settleAppealDeposit, settleReward, withdraw]
   )
 
   return { claimRewards }

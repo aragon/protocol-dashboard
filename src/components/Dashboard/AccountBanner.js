@@ -1,7 +1,6 @@
-/* eslint-disable */
 import React from 'react'
 import { animated, useSpring } from 'react-spring'
-import { GU, Help, LoadingRing, useTheme } from '@aragon/ui'
+import { GU, LoadingRing, useTheme } from '@aragon/ui'
 
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
@@ -163,7 +162,6 @@ const Wrapper = ({ mainIcon, information }) => {
 }
 
 const BannerWithProbability = ({ activeBalance }) => {
-  const theme = useTheme()
   const [totalActiveBalanceCurrentTerm] = useTotalActiveBalance()
 
   const fetchingTotalBalance = totalActiveBalanceCurrentTerm.eq(bigNum(-1))
@@ -185,11 +183,11 @@ const BannerWithProbability = ({ activeBalance }) => {
   // Calculate probability (since the total active balance is asynchronous
   // it can happen that it has not been updated yet when the guardian active balance has)
   const draftingProbability = Math.min(1, totalPercentage / 100)
-  const probablilityTooLow = totalPercentage < 1
-
-  const chances = probablilityTooLow
-    ? '100+'
-    : totalPercentage > 0 && Math.floor(100 / totalPercentage)
+  
+  // const probablilityTooLow = totalPercentage < 1
+  // const chances = probablilityTooLow
+  //   ? '100+'
+  //   : totalPercentage > 0 && Math.floor(100 / totalPercentage)
 
   const title = (
     <div
@@ -197,9 +195,7 @@ const BannerWithProbability = ({ activeBalance }) => {
         display: flex;
         align-items: center;
       `}
-    >
-      
-    </div>
+    />
   )
 
   const paragraph =
