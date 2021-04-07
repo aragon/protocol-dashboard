@@ -78,8 +78,8 @@ function ExistingEmailSubscription({
             margin-top: ${3 * GU}px;
           `}
         >
-          You have previously agreed to Aragon Protocol's{' '}
-          <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+          You have previously agreed to Aragon Court's{' '}
+          <Link href="https://ant.aragon.org/legal/terms-general.pdf">
             legal terms
           </Link>{' '}
           and{' '}

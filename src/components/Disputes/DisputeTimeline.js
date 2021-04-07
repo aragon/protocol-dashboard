@@ -205,7 +205,7 @@ function PhaseIcon({ phase, active }) {
     if (phase === DisputePhase.Evidence) {
       return IconFolder
     }
-    if (phase === DisputePhase.JuryDrafting) {
+    if (phase === DisputePhase.GuardianDrafting) {
       return IconUser
     }
     if (

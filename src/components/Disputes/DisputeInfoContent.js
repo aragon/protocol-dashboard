@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react'
+/* eslint-disable*/
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
 import { GU, Help, Link, textStyle, useTheme, useViewport } from '@aragon/ui'
 import styled from 'styled-components'
@@ -7,17 +8,21 @@ import DisputeOutcomeText from './DisputeOutcomeText'
 import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
-
+import { DataView, Info } from '@aragon/ui'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
+// import { dateFormat } from '../../utils/date-utils'
+
+import useActionDataDecoder from '../../hooks/useActionDataDecoder'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
   const compactMode = below('medium')
 
+  // TODO:GIORGI what to do about this since organization and defendant and other fields don't exist anymore.
   const {
     agreementText,
     agreementUrl,
@@ -33,9 +38,16 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
 
   return (
     <>
+      <Row>
+        <Info mode="warning">
+          If any of the below details need to be fetched from ipfs and They have been submitted to ipfs recently, 
+          it might take some time to distribute to all nodes and show up here then
+        </Info>
+        <DisputeContainerData dispute={dispute} />
+      </Row>
       {isFinalRulingEnsured && (
         <Row>
-          <FinalJuryOutcome dispute={dispute} />
+          <FinalGuardianOutcome dispute={dispute} />
         </Row>
       )}
       <Row compactMode={compactMode}>
@@ -183,13 +195,155 @@ function Field({ label, loading, value, ...props }) {
   )
 }
 
-function FinalJuryOutcome({ dispute }) {
+const ActionContent = React.memo(function ActionContent({to, value, data}) {
+  const theme = useTheme()
+  const { decoding, decodedData } = useActionDataDecoder(to, data)
+
+  const marginCss = `margin: ${2 * GU}px 0`;
+  return (
+    <div>
+      <Field
+        css={marginCss}
+        label="To"
+        value={to}
+      />
+      <Field
+        css={marginCss}
+        label="Value"
+        value={value.toString()}
+      />
+      {
+        decoding && <Loading size="small" />
+      }
+      {
+        !decoding && decodedData &&
+        <div>
+          <Field
+            css={marginCss}
+            label="Function to be called"
+            value={decodedData.functionName}
+          />
+          <div css={marginCss}>
+            <FieldLabel>Data</FieldLabel>
+            <div>
+              <pre>
+                {JSON.stringify(decodedData.inputData, null, 2)}
+              </pre>
+            </div>
+          </div>
+        </div>
+      }
+      {
+        !decoding && !decodedData &&
+        <div>
+          <FieldLabel>Raw Data</FieldLabel>
+          <Info mode="warning">
+            Unable to decode data because contract is not verified on etherscan
+          </Info>
+          <Field
+            css={`
+              ${marginCss}
+              word-break: break-word;
+              overflow-wrap: anywhere;
+            `}
+            value={data}
+          />
+        </div>
+      }
+    </div>
+  )
+})
+
+
+const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
+  const fields = useMemo(() => [null], []);
+  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []);
+  const renderEntryExpansion = useCallback(
+    ([_, to, value, data]) => {
+      return (<ActionContent to={to} value={value} data={data}/>);
+    }
+  );
+
+  const entries = useMemo(() => [[index, action.to, action.value, action.data]], []);
+
+  return (
+    <DataViewWrapper>
+      <DataView
+        fields={fields}
+        entries={entries}
+        renderEntry={renderEntry}
+        renderEntryExpansion={renderEntryExpansion}
+      />
+    </DataViewWrapper>
+  )
+});
+
+function DisputeContainerData({ dispute }) {
+  const theme = useTheme()
+  if(!dispute.metadata) return ('')
+  const { config, payload } = dispute.metadata
+
+  return (  
+    <div>
+      <Field
+        label="Rules"
+        value={config.rules}
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `} 
+      />
+      <Field
+        label="Executor"
+        value={payload.executor}
+      />
+      <Field
+        label="Proof"
+        value={payload.proof}
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `} 
+      />
+       <Field
+        label="Allow Failures Map"
+        value={payload.allowFailuresMap} 
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `}
+      />
+      <h1
+        css={`
+          padding-top: ${2 * GU}px;
+          ${textStyle('body1')};
+          font-weight: 600;
+        `}
+      >Actions</h1>
+      <hr />
+      {payload.actions.map( (action, index)=> {
+        return (
+          <ActionAccordion
+            key={index}
+            action={action}
+            index={index}
+          />
+        )
+      })}
+      </div>
+
+  )
+   
+}
+
+function FinalGuardianOutcome({ dispute }) {
   const { lastRoundId, rounds } = dispute
   const lastRound = rounds?.[lastRoundId]
   const voteWinningOutcome = lastRound?.vote?.winningOutcome
   const appealedRuling = lastRound?.appeal?.appealedRuling
 
   return (
+    
     <Field
       label="Final Guardians Outcome"
       value={
@@ -390,8 +544,23 @@ const Row = styled.div`
     grid-gap: ${(compactMode ? 2.5 : 5) * GU}px;
     margin-bottom: ${compactMode ? 0 : 2 * GU}px;
     grid-template-columns: ${
-      compactMode ? 'auto' : `1fr minmax(${25 * GU}px, auto)`
+      compactMode ? 'auto' : ''
     };
+  `}
+`
+
+// this is a hack until we fix the issue with DataView
+// not showing the full content on expansion
+const DataViewWrapper = styled.div`
+  div[class*="TableView___StyledAnimatedDiv2"] {
+    height: auto !important;
+  }
+`
+
+const FieldLabel = styled.div`
+  ${({ theme }) => `
+    ${textStyle('label2')};
+    color: ${theme.surfaceContentSecondary};
   `}
 `
 

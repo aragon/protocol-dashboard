@@ -1,14 +1,13 @@
 import React from 'react'
 import { GU, Link, textStyle, useTheme } from '@aragon/ui'
 
-import { useCourtConfig } from '../../providers/CourtConfig'
 import { formatUnits } from '../../lib/math-utils'
+import { useCourtConfig } from '../../providers/CourtConfig'
 
-function ANJLockedDistribution({ distribution, text }) {
+function ANTLockedDistribution({ distribution, text }) {
   const theme = useTheme()
-  const {
-    anjToken: { decimals, symbol },
-  } = useCourtConfig()
+  const { token: antToken } = useCourtConfig()
+  const { decimals, symbol } = antToken
 
   const formattedInProcessAmount = formatUnits(distribution.inProcess, {
     digits: decimals,
@@ -101,4 +100,4 @@ function Row({ label, isLabelLink, amount, symbol, weight }) {
   )
 }
 
-export default ANJLockedDistribution
+export default ANTLockedDistribution

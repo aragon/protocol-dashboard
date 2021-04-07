@@ -5,7 +5,7 @@ import { addressesEqual } from '../lib/web3-utils'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 // Until the penalties aren't settled for the round, the appeal collaterals are still locked in the treasury
-export default function useJurorAppealCollaterals() {
+export default function useGuardianAppealCollaterals() {
   const { appeals } = useDashboardState()
   const { account } = useWallet()
 

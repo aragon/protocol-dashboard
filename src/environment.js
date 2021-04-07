@@ -40,6 +40,9 @@ const ENV_VARS = {
   SUBGRAPH_NAME() {
     return process.env.REACT_APP_SUBGRAPH_NAME
   },
+  ETHERSCAN_ENDPOINT() {
+    return process.env.REACT_APP_ETHERSCAN_ENDPOINT
+  }
 }
 
 export default function env(name) {

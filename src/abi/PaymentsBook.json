@@ -1,0 +1,6 @@
+[
+  "function claimGuardianShare(uint256 _periodId, address _guardian, address[] calldata _tokens) external",
+  "function getCurrentPeriodId() external view returns (uint256)",
+  "function getGuardianShare(uint256 _periodId, address _guardian, address[] calldata _tokens) external view returns (uint256[] memory)",
+  "function hasGuardianClaimed(uint256 _periodId, address _guardian, address[] calldata _tokens) external view returns (bool[] memory)"
+]

@@ -1,13 +1,13 @@
-# Aragon Protocol Dashboard <a href="https://aragon.org/"><img align="right" src="docs/assets/LogoAccent.svg" height="80px" /></a>
+# Aragon Court Dashboard <a href="https://aragon.org/"><img align="right" src="docs/assets/LogoAccent.svg" height="80px" /></a>
 
-### Aragon Protocol handles subjective disputes requiring judgment from human guardians.
+### Aragon Court handles subjective disputes requiring judgment from human guardians.
 
 <a href="https://court.aragon.org/dashboard"><img src="docs/assets/screenshot.png" /></a>
 
 - 📚 Read the [User Guide](https://help.aragon.org/category/47-aragoncourt) first, if you have any questions as a user.
 - 📝 Please report any issues and feedback in the [support channel on Discord](https://discord.gg/ZncWSEGbSJ).
 - 🔧 For technical discussions, use this project's [issues](https://github.com/aragon/protocol-dashboard/issues) or join the technical conversation in the [hacker hangout channel on Discord](https://discord.gg/XrhUzEy7jf).
-- 📖 To learn more about contributing to the Aragon Protocol Dashboard, please check the [contributing guide](./CONTRIBUTING.md)
+- 📖 To learn more about contributing to the Aragon Court Dashboard, please check the [contributing guide](./CONTRIBUTING.md)
 
 ## Quick start
 
@@ -15,7 +15,7 @@
 
 For connecting to other chains / deployments, a few useful npm scripts are provided:
 
-- Mainnet: `npm run start:mainnet` will launch the app, configured to connect to Aragon Protocol's mainnet deployment
+- Mainnet: `npm run start:mainnet` will launch the app, configured to connect to Aragon Court's mainnet deployment
 - Local: `npm run start:local` will launch the app, configured to connect to the local devchain.
 
 Other [configuration options](docs/CONFIGURATION.md) are also available.
@@ -29,11 +29,21 @@ In order to start the dashboard locally, you will need to setup a few processes 
 
  _For a detailed guide on how to achieve this, see more instructions [here](https://github.com/aragon/protocol-subgraph)._
 
-You can also setup the [protocol services](https://github.com/aragon/protocol-backend/tree/master/packages/services), which include some automation for auto-revealing commitments, penalty settlements and heartbeats. In order for auto-reveals to work, you will need also to setup the [protocol server](https://github.com/aragon/protocol-backend/tree/master/packages/server).
+You can also setup the [court services](https://github.com/aragon/protocol-backend/tree/master/packages/services), which include some automation for auto-revealing commitments, penalty settlements and heartbeats. In order for auto-reveals to work, you will need also to setup the [court server](https://github.com/aragon/protocol-backend/tree/master/packages/server).
 
-To start populating the protocol with disputes, you can use the [CLI tool](https://github.com/aragon/protocol-backend/tree/master/packages/cli).
+To start populating the court with disputes, you can use the [CLI tool](https://github.com/aragon/protocol-backend/tree/master/packages/cli).
 
 ## Contributing
+
+Before explaining how you can contribute, It's worth mentioning that we use `develop` branch as the default one. This makes it easier for us to
+have all the latest, development changes without affecting the current production version. Though, We don't use `release` branches to make the process a little bit easier !
+ * Pushing to `develop` branch via PR deploys changes to testing environments(currently only rinkeby). 
+ * Pushing to `master` branch via PR from `develop` deploys changes to production servers(mainnet).
+ * Pushing to `master|develop` directly will be restricted to make sure the PR's are reviewed.
+ * Creating PRs end up in relation to `develop` by default.
+
+This means that after you clone the project, the branch by default will be set to `develop` which can be unstable. So, if you want to start from the stable
+version, make sure to switch to `master` branch. 
 
 #### 👋 Get started contributing with a [good first issue](https://github.com/aragon/protocol-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
@@ -43,7 +53,7 @@ For other details about contributing here, more information is available in the 
 
 #### Issues
 
-If you come across an issue with the Protocol Dashboard, do a search in the [Issues](https://github.com/aragon/protocol-dashboard/issues?q=is%3Aissue+is%3Aopen) tab of this repo to make sure it hasn't been reported before. Follow these steps to help us prevent duplicate issues and unnecessary notifications going to the many people watching this repo:
+If you come across an issue with the Court Dashboard, do a search in the [Issues](https://github.com/aragon/protocol-dashboard/issues?q=is%3Aissue+is%3Aopen) tab of this repo to make sure it hasn't been reported before. Follow these steps to help us prevent duplicate issues and unnecessary notifications going to the many people watching this repo:
 
 - If the issue you found has been reported and is still open, and the details match your issue, give a "thumbs up" to the relevant posts in the issue thread to signal that you have the same issue. No further action is required on your part.
 - If the issue you found has been reported and is still open, but the issue is missing some details, you can add a comment to the issue thread describing the additional details.

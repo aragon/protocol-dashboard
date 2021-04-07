@@ -1,22 +1,14 @@
 import gql from 'graphql-tag'
 
-export const JurorANJWalletBalance = gql`
-  query JurorANJWalletBalance($id: ID!) {
-    anjbalance(id: $id) {
-      amount
-    }
-  }
-`
-
-export const JurorANJBalances = gql`
-  query JurorANJBalances($id: ID!, $from: BigInt!) {
-    juror(id: $id) {
+export const GuardianANTBalances = gql`
+  query GuardianANTBalances($id: ID!, $from: BigInt!) {
+    guardian(id: $id) {
       activeBalance
       lockedBalance
       availableBalance
       deactivationBalance
       withdrawalsLockTermId
-      anjMovements(
+      stakingMovements(
         orderBy: createdAt
         orderDirection: desc
         where: { createdAt_gt: $from }
@@ -26,7 +18,7 @@ export const JurorANJBalances = gql`
         createdAt
         type
       }
-      claimedSubscriptionFees {
+      shareClaims {
         id
         period {
           id
@@ -36,8 +28,8 @@ export const JurorANJBalances = gql`
   }
 `
 
-export const JurorTreasuryBalances = gql`
-  query JurorTreasuryBalances($owner: Bytes!) {
+export const GuardianTreasuryBalances = gql`
+  query GuardianTreasuryBalances($owner: Bytes!) {
     treasuryBalances(where: { owner: $owner }) {
       token {
         id
@@ -47,10 +39,10 @@ export const JurorTreasuryBalances = gql`
   }
 `
 
-export const JurorFirstANJActivationMovement = gql`
-  query JurorFirstANJActivationMovement($id: ID!) {
-    juror(id: $id) {
-      anjMovements(
+export const GuardianFirstANTActivationMovement = gql`
+  query GuardianFirstANTActivationMovement($id: ID!) {
+    guardian(id: $id) {
+      stakingMovements(
         where: { type: "Activation" }
         orderBy: createdAt
         orderDirection: asc

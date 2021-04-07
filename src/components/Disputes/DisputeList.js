@@ -27,7 +27,7 @@ const DISPUTES_STATUS_STRING = DISPUTES_STATUS_TYPES.map(
 const DISPUTES_PHASE_TYPES = [
   DisputesTypes.Phase.All,
   DisputesTypes.Phase.Evidence,
-  DisputesTypes.Phase.JuryDrafting,
+  DisputesTypes.Phase.GuardianDrafting,
   DisputesTypes.Phase.VotingPeriod,
   DisputesTypes.Phase.AppealRuling,
   DisputesTypes.Phase.ConfirmAppeal,
@@ -189,7 +189,7 @@ const NoMyDisputes = () => {
           color: ${theme.help};
         `}
       >
-        ANJ you activate
+        ANT you activate
       </span>
       , more chances you have to be summoned to arbitrate a dispute
     </span>

@@ -6,11 +6,17 @@ import { numberToWord } from './lib/math-utils'
 import actions from './actions/court-action-types'
 
 export default {
+  [actions.APPROVE_ANT]: ({ amount }) => {
+    return `Approve ${amount} ANT`
+  },
+  [actions.STAKE_AND_ACTIVATE_ANT]: ({ amount }) => {
+    return `stake and activate ${amount} ANT on the Guardians Registry`
+  },
   [actions.APPROVE_FEE_DEPOSIT]: ({ amount }) => {
     return `Approve fee deposit: ${amount} DAI`
   },
-  [actions.ACTIVATE_ANJ]: ({ amount }) => {
-    return `Activate the total amount of ${amount} ANJ`
+  [actions.ACTIVATE_ANT]: ({ amount }) => {
+    return `Activate the total amount of ${amount} ANT`
   },
   [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling }) => {
     return `Appeal round ${numberToWord(
@@ -38,12 +44,12 @@ export default {
         decision: ${appealOptionToString(ruling)}
       `
   },
-  [actions.DEACTIVATE_ANJ]: ({ amount }) => {
+  [actions.DEACTIVATE_ANT]: ({ amount }) => {
     return `
-        Deactivate the total amount of ${amount} ANJ
+        Deactivate the total amount of ${amount} ANT
       `
   },
-  [actions.DRAFT_JURY]: ({ disputeId }) => {
+  [actions.DRAFT_GUARDIAN]: ({ disputeId }) => {
     return `
         Summon guardians for the next round of dispute #${disputeId}
       `
@@ -53,9 +59,14 @@ export default {
         Compute the final decision for dispute #${disputeId}
       `
   },
+  [actions.SETTLE_PENALTIES]: ({ disputeId, roundId }) => {
+    return `
+       Settle penalties for dispute #${disputeId} and round #${roundId}
+      `
+  },
   [actions.HEARTBEAT]: ({ transitions }) => {
     return `
-        Transition ${transitions} protocol term${transitions > 1 ? 's' : ''}
+        Transition ${transitions} court term${transitions > 1 ? 's' : ''}
       `
   },
   [actions.LEAK_VOTE]: ({ voteId, voter }) => {
@@ -82,9 +93,9 @@ export default {
         )} of dispute #${disputeId}
       `
   },
-  [actions.WITHDRAW_ANJ]: ({ amount }) => {
+  [actions.WITHDRAW_ANT]: ({ amount }) => {
     return `
-        Withdraw the total amount of ${amount} ANJ
+        Withdraw the total amount of ${amount} ANT
       `
   },
 }

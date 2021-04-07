@@ -2,8 +2,14 @@ import gql from 'graphql-tag'
 
 export const CourtConfig = gql`
   query CourtConfig($id: ID!) {
-    courtConfig(id: $id) {
+    court(id: $id) {
       id
+      token {
+        id
+        name
+        symbol
+        decimals
+      }
       currentTerm
       termDuration
       feeToken {
@@ -12,13 +18,7 @@ export const CourtConfig = gql`
         symbol
         decimals
       }
-      anjToken {
-        id
-        name
-        symbol
-        decimals
-      }
-      jurorFee
+      guardianFee
       draftFee
       settleFee
 
@@ -32,26 +32,16 @@ export const CourtConfig = gql`
         startTime
       }
       finalRoundReduction
-      firstRoundJurorsNumber
+      firstRoundGuardiansNumber
       appealStepFactor
       maxRegularAppealRounds
       appealCollateralFactor
       appealConfirmCollateralFactor
       minActiveBalance
       penaltyPct
-      subscriptions {
-        id
-        currentPeriod
-        feeAmount
-        periodDuration
-        periods {
-          id
-          collectedFees
-        }
-      }
       modules {
+        id
         type
-        address
       }
       terms {
         id
@@ -60,9 +50,9 @@ export const CourtConfig = gql`
     }
   }
 `
-export const JurorsRegistryModule = gql`
-  query JurorsRegistryModule($id: ID!) {
-    jurorsRegistryModule(id: $id) {
+export const GuardiansRegistryModule = gql`
+  query GuardiansRegistryModule($id: ID!) {
+    guardiansRegistryModule(id: $id) {
       id
       totalStaked
       totalActive

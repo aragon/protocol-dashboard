@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { useWallet } from '../../providers/Wallet'
 import {
   useAppealsByUserSubscription,
-  useJurorBalancesSubscription,
-  useJurorDraftsRewardsSubscription,
+  useGuardianBalancesSubscription,
+  useGuardianDraftsRewardsSubscription,
 } from '../../hooks/subscription-hooks'
 
 const DashboardContext = React.createContext()
@@ -24,11 +24,11 @@ function DashboardStateProvider({ children }) {
   return (
     <Provider
       value={{
-        anjMovements: [],
-        anjBalances: {},
+        stakingMovements: [],
+        antBalances: {},
         appeals: [],
         claimedSubscriptionFees: [],
-        jurorDrafts: [],
+        guardianDrafts: [],
         treasury: [],
       }}
     >
@@ -38,15 +38,15 @@ function DashboardStateProvider({ children }) {
 }
 
 function WithSubscription({ Provider, connectedAccount, children }) {
-  // Juror ANJ balances, 24h ANJ movements and claimed subscription fees
+  // Guardian ANT balances, 24h ANT movements and claimed subscription fees
   const {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    stakingMovements,
     claimedSubscriptionFees,
     treasury,
     fetching: balancesFetching,
     errors: balanceErrors,
-  } = useJurorBalancesSubscription(connectedAccount)
+  } =  useGuardianBalancesSubscription(connectedAccount)
 
   // Appeals
   const {
@@ -55,30 +55,30 @@ function WithSubscription({ Provider, connectedAccount, children }) {
     errors: appealErrors,
   } = useAppealsByUserSubscription(connectedAccount, false) // Non settled appeals
 
-  // Juror drafts not rewarded
+  // Guardian drafts not rewarded
   const {
-    jurorDrafts,
-    fetching: jurorDraftsFetching,
-    error: jurorDraftsError,
-  } = useJurorDraftsRewardsSubscription(connectedAccount)
+    guardianDrafts,
+    fetching: guardianDraftsFetching,
+    error: guardianDraftsError,
+  } = useGuardianDraftsRewardsSubscription(connectedAccount)
 
-  const fetching = balancesFetching || appealsFetching || jurorDraftsFetching
+  const fetching = balancesFetching || appealsFetching || guardianDraftsFetching
   const errors = [
     ...balanceErrors,
     ...appealErrors,
-    ...(jurorDraftsError ? [jurorDraftsError] : []),
+    ...(guardianDraftsError ? [guardianDraftsError] : []),
   ]
 
   return (
     <Provider
       value={{
-        anjBalances,
-        anjMovements,
+        antBalances,
+        stakingMovements,
         appeals,
         claimedSubscriptionFees,
         errors,
         fetching,
-        jurorDrafts,
+        guardianDrafts,
         treasury,
       }}
     >

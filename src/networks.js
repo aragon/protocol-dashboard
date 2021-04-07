@@ -1,12 +1,4 @@
-import environment from './environment'
 import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
-
-const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
-
-export const RINKEBY_COURT = '0xe9180dBE762Fe39520fC9883f7f7EFeBA6506534'
-
-export const RINKEBY_STAGING_COURT =
-  '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
 
 export const networkConfigs = {
   main: {
@@ -20,10 +12,11 @@ export const networkConfigs = {
     },
   },
   rinkeby: {
-    court: getRinkebyCourtAddress(SUBGRAPH_NAME),
+    court: '0xE58b6E4a31b406D83E15E0212839FC49A29B62f8',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
-      subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),
+      subgraph: 
+        'https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-rinkeby'
     },
   },
   ropsten: {
@@ -55,14 +48,3 @@ export const networkAgentAddress = getNetworkConfig().network_agent
 
 export const networkReserveAddress = getNetworkConfig().network_reserve
 
-function getRinkebyCourtAddress(subgraphName) {
-  if (subgraphName === 'staging') {
-    return RINKEBY_STAGING_COURT
-  }
-  return RINKEBY_COURT
-}
-
-function getRinkebySubgraphUrls(subgraphName) {
-  return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court-${subgraphName ||
-    'rinkeby'}`
-}

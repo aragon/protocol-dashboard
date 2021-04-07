@@ -4,9 +4,19 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useCourtSubscriptionActions } from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
-import { hasJurorClaimed } from '../utils/subscription-utils'
+import { hasGuardianClaimed } from '../utils/subscription-utils'
 
-export default function useJurorSubscriptionFees() {
+/*
+
+Below code tries to calculate subscription fees. The idea is that subscriptions was changed to PaymentsBook on the court itself.
+This means that `subscriptions` doesn't exist on the court's graphql anymore and should be changed to paymentsBook.
+paymentsBook has a little bit different logic which means the below calculation in the useGuardianSubscriptionFees
+needs to change a little bit to reflect the payments book changes. since subscriptionModule.periods below always returns []
+due to the fact that subscriptions doesn't exist anymore on the graphql, We are safe to leave it even without being commented.
+But as a todo task, this will need to be changed to reflect payments book logic or completelly removed.
+
+*/
+export default function useGuardianSubscriptionFees() {
   const wallet = useWallet()
   const { subscriptionModule } = useCourtConfig()
   const { getters } = useCourtSubscriptionActions()
@@ -25,7 +35,7 @@ export default function useJurorSubscriptionFees() {
       }
 
       try {
-        const jurorSubscriptionsFees = []
+        const guardianSubscriptionsFees = []
         // Subscription fees can be only claimed for past periods
         for (let index = 0; index < periods.length - 1; index++) {
           if (cancelled) {
@@ -36,27 +46,27 @@ export default function useJurorSubscriptionFees() {
           if (period.collectedFees.gt(0)) {
             const periodId = period.id
 
-            // TODO: See if we can get the juror share directly from the period data
-            const jurorShare = await getters.getJurorShare(
+            // TODO: See if we can get the guardian share directly from the period data
+            const guardianShare = await getters.getGuardianShare(
               wallet.account,
               periodId
             )
 
-            // jurorShare is conformed by [address: token, BigNum: shareAmount]
+            // guardianShare is conformed by [address: token, BigNum: shareAmount]
             if (
-              jurorShare[1].gt(0) &&
-              !hasJurorClaimed(claimedSubscriptionFees, periodId)
+              guardianShare[1].gt(0) &&
+              !hasGuardianClaimed(claimedSubscriptionFees, periodId)
             ) {
-              jurorSubscriptionsFees.push({
+              guardianSubscriptionsFees.push({
                 periodId,
-                amount: jurorShare[1],
+                amount: guardianShare[1],
               })
             }
           }
         }
 
         if (!cancelled) {
-          setSubscriptionFees(jurorSubscriptionsFees)
+          setSubscriptionFees(guardianSubscriptionsFees)
         }
       } catch (err) {
         console.error(`Error fetching guardian subscription fees: ${err}`)

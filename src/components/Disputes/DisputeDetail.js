@@ -36,14 +36,22 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   } = useDisputeLogic(disputeId)
 
   const evidenceList = dispute?.evidences
-
+  
   const evidences = useMemo(
     () =>
-      (evidenceList || []).map(evidence => ({
-        ...evidence,
-        createdAt: toMs(evidence.createdAt),
-        data: toUtf8String(evidence.data),
-      })),
+      (evidenceList || []).map(evidence => {
+        let data = "The evidence data couldn't be decoded"; 
+        try {
+          data = toUtf8String(evidence.data)
+        }catch(err) {
+
+        }
+        return {
+          ...evidence, 
+          data,
+          createdAt: toMs(evidence.createdAt)
+        }
+      }),
     [evidenceList]
   )
 
@@ -70,6 +78,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
       onRequestAppeal={requests.appeal}
       onAutoReveal={actions.requestAutoReveal}
       onExecuteRuling={actions.executeRuling}
+      onSettlePenalties={actions.settlePenalties}
     />
   )
 

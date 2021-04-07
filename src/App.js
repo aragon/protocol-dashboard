@@ -14,6 +14,7 @@ import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
 import { WalletProvider } from './providers/Wallet'
+import { AbiProvider } from './providers/AbiProvider'
 
 function App() {
   return (
@@ -31,15 +32,17 @@ function App() {
                 <CourtConfigProvider>
                   <CourtClockProvider>
                     <RequestQueueProvider>
-                      <MainView>
-                        <OnboardingLoader>
-                          <EmailNotificationsLoader />
-                          <AppLoader>
-                            <Routes />
-                          </AppLoader>
-                        </OnboardingLoader>
-                        <RequestPanel />
-                      </MainView>
+                      <AbiProvider>
+                        <MainView>
+                          <OnboardingLoader>
+                            <EmailNotificationsLoader />
+                            <AppLoader>
+                              <Routes />
+                            </AppLoader>
+                          </OnboardingLoader>
+                          <RequestPanel />
+                        </MainView>
+                      </AbiProvider>
                     </RequestQueueProvider>
                   </CourtClockProvider>
                 </CourtConfigProvider>

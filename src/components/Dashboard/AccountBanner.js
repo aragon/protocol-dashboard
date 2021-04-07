@@ -1,20 +1,21 @@
+/* eslint-disable */
 import React from 'react'
 import { animated, useSpring } from 'react-spring'
 import { GU, Help, LoadingRing, useTheme } from '@aragon/ui'
 
 import AccountBannerInfo from './AccountBannerInfo'
 import CircleGraph from '../CircleGraph'
-import { useCourtConfig } from '../../providers/CourtConfig'
 import { useTotalActiveBalance } from '../../hooks/useCourtStats'
-import { useJurorFirstTimeANJActivation } from '../../hooks/useANJ'
+import { useGuardianFirstTimeANTActivation } from '../../hooks/useANT'
+import { useCourtConfig } from '../../providers/CourtConfig'
 
-import { ACCOUNT_STATUS_JUROR_ACTIVE } from '../../types/account-status-types'
+import { ACCOUNT_STATUS_GUARDIAN_ACTIVE } from '../../types/account-status-types'
 import { formatUnits, getPercentageBN, bigNum } from '../../lib/math-utils'
 
 import antSpringIcon from '../../assets/IconANTSpring.svg'
 import userIcon from '../../assets/IconUser.svg'
 import hexagonIcon from '../../assets/IconHexagonGreen.svg'
-import { useJurorDrafted } from '../../hooks/useJurorDrafted'
+import { useGuardianDrafted } from '../../hooks/useGuardianDrafted'
 
 const getBannerAttributes = (
   status,
@@ -24,7 +25,7 @@ const getBannerAttributes = (
   decimals,
   theme
 ) => {
-  if (status === ACCOUNT_STATUS_JUROR_ACTIVE) {
+  if (status === ACCOUNT_STATUS_GUARDIAN_ACTIVE) {
     // NOTE: This one could not be included in the final version
     if (drafted) {
       return {
@@ -54,33 +55,33 @@ const getBannerAttributes = (
 
   return {
     icon: antSpringIcon,
-    title: 'Activate ANJ to be an active guardian',
+    title: 'Activate ANT to be an active guardian',
     paragraph: `You must activate at least ${formatUnits(minActiveBalance, {
       digits: decimals,
-    })}  ANJ to participate as a guardian`,
+    })}  ANT to participate as a guardian`,
   }
 }
 
 function AccountBanner({ status, loading, minActiveBalance, activeBalance }) {
   const theme = useTheme()
-  const { anjToken } = useCourtConfig()
+  const { token: antToken } = useCourtConfig()
 
-  // check if juror has been drafted in this current term
-  const isJurorDrafted = useJurorDrafted({
-    pause: status !== ACCOUNT_STATUS_JUROR_ACTIVE,
+  // check if guardian has been drafted in this current term
+  const isGuardianDrafted = useGuardianDrafted({
+    pause: status !== ACCOUNT_STATUS_GUARDIAN_ACTIVE,
   })
 
-  // check if it's the first time activating ANJ
-  const isFirstTimeActivating = useJurorFirstTimeANJActivation({
-    pause: isJurorDrafted || status !== ACCOUNT_STATUS_JUROR_ACTIVE,
+  // check if it's the first time activating ANT
+  const isFirstTimeActivating = useGuardianFirstTimeANTActivation({
+    pause: isGuardianDrafted || status !== ACCOUNT_STATUS_GUARDIAN_ACTIVE,
   })
 
   const attributes = getBannerAttributes(
     status,
-    isJurorDrafted,
+    isGuardianDrafted,
     isFirstTimeActivating,
     minActiveBalance,
-    anjToken.decimals,
+    antToken.decimals,
     theme
   )
 
@@ -170,7 +171,7 @@ const BannerWithProbability = ({ activeBalance }) => {
     return <BannerLoadingRing />
   }
 
-  // Calculate juror's active balance and total active balance for current term
+  // Calculate guardian's active balance and total active balance for current term
   const {
     amount: activeAmount,
     amountNotEffective: activeAmountNotEffective,
@@ -182,7 +183,7 @@ const BannerWithProbability = ({ activeBalance }) => {
   )
 
   // Calculate probability (since the total active balance is asynchronous
-  // it can happen that it has not been updated yet when the juror active balance has)
+  // it can happen that it has not been updated yet when the guardian active balance has)
   const draftingProbability = Math.min(1, totalPercentage / 100)
   const probablilityTooLow = totalPercentage < 1
 
@@ -197,50 +198,12 @@ const BannerWithProbability = ({ activeBalance }) => {
         align-items: center;
       `}
     >
-      <span
-        css={`
-          margin-right: ${1 * GU}px;
-        `}
-      >
-        {'On average, you will be summoned into a guardian '}
-        <span
-          css={`
-            color: ${theme.accent};
-          `}
-        >
-          1 in {chances} times
-        </span>
-      </span>
-      <Help hint="How is the probability calculated?">
-        <p>
-          This is a numerical estimate of your likelihood of being selected for
-          arbitration. It’s calculated by dividing your active ANJ balance
-          against the Protocol's total active ANJ balance during the current
-          term.
-        </p>
-        <p
-          css={`
-            margin-top: ${1 * GU}px;
-          `}
-        >
-          {probablilityTooLow
-            ? `
-                You currently have <1% of all activated ANJ, hence are unlikely
-                to be summoned unless a dispute goes to the final round or many
-                disputes are created. Activate more ANJ to increase your chances
-                of being selected as a guardian.
-              `
-            : `
-                You can always activate more ANJ to increase your chances of
-                being selected as a guardian.
-              `}
-        </p>
-      </Help>
+      
     </div>
   )
 
   const paragraph =
-    'The more ANJ you activate, the more likely you will be summoned to arbitrate a dispute'
+    `The more ANT you activate, the more likely you will be summoned to arbitrate a dispute`
 
   return (
     <Wrapper

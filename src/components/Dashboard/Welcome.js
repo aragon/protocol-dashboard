@@ -31,7 +31,7 @@ function Welcome() {
             margin-bottom: ${1 * GU}px;
           `}
         >
-          Welcome to Aragon Protocol
+          Welcome to Aragon Court
         </h1>
         <p
           css={`
@@ -40,8 +40,8 @@ function Welcome() {
             margin-bottom: ${3 * GU}px;
           `}
         >
-          Aragon Protocol handles subjective disputes that require the judgment
-          of human guardians.
+          Aragon Court handles subjective disputes that require the judgment of
+          human guardians.
         </p>
         <div
           css={`

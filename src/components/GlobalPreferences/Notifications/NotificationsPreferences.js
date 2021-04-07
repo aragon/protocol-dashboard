@@ -172,7 +172,7 @@ function EmailNotificationBox({
               margin-left: ${1 * GU}px;
             `}
           >
-            Receive email notifications for all Aragon Protocol events.
+            Receive email notifications for all Aragon Court events.
           </span>
         </div>
         <Info
@@ -186,7 +186,7 @@ function EmailNotificationBox({
             ? `We strongly advise you to enable these notifications. 
             By disabling these email alerts, you will not be notified when you are summoned to arbitrate a dispute or 
             when your upcoming tasks are due. Failure to complete your duties as a guardian will result in monetary penalties.`
-            : `We will notify you for any relevant Aragon Protocol events, such as when you are summoned to arbitrate a
+            : `We will notify you for any relevant Aragon Court events, such as when you are summoned to arbitrate a
             dispute, when your upcoming tasks are due, and when you have rewards to claim.`}
         </Info>
       </div>

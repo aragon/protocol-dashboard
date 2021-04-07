@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 
-import { useANJBalances } from './useANJ'
+import { useANTBalances } from './useANT'
 import { useSidePanel } from './useSidePanel'
-import useJurorRewards from './useJurorRewards'
-import useJurorAppealCollaterals from './useJurorAppealCollaterals'
-import { useANJActions, useRewardActions } from './useCourtContracts'
+import useGuardianRewards from './useGuardianRewards'
+import useGuardianAppealCollaterals from './useGuardianAppealCollaterals'
+import { useANTActions, useRewardActions } from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 export const REQUEST_MODE = {
@@ -42,38 +42,38 @@ export function usePanelRequestMode(requestPanelOpen) {
 // Requests to set new mode and open side panel
 export function usePanelRequestActions(request) {
   // TODO: Should we implement only one request function to recieve the request mode ?
-  const activateANJ = useCallback(() => {
+  const activateANT = useCallback(() => {
     request(REQUEST_MODE.ACTIVATE)
   }, [request])
 
-  const deactivateANJ = useCallback(() => {
+  const deactivateANT = useCallback(() => {
     request(REQUEST_MODE.DEACTIVATE)
   }, [request])
 
-  const stakeActivateANJ = useCallback(() => {
+  const stakeActivateANT = useCallback(() => {
     request(REQUEST_MODE.STAKE_ACTIVATE)
   }, [request])
 
-  const withdrawANJ = useCallback(() => {
+  const withdrawANT = useCallback(() => {
     request(REQUEST_MODE.WITHDRAW)
   }, [request])
 
-  return { activateANJ, deactivateANJ, stakeActivateANJ, withdrawANJ }
+  return { activateANT, deactivateANT, stakeActivateANT, withdrawANT }
 }
 
 export function useDashboardLogic() {
   const {
-    activateANJ,
-    deactivateANJ,
-    stakeActivateANJ,
-    withdrawANJ,
-  } = useANJActions()
+    activateANT,
+    deactivateANT,
+    stakeActivateANT,
+    withdrawANT,
+  } = useANTActions()
 
-  const rewards = useJurorRewards()
-  const anjBalances = useANJBalances()
+  const rewards = useGuardianRewards()
+  const antBalances = useANTBalances()
   const panelState = useSidePanel()
 
-  const appealCollaterals = useJurorAppealCollaterals()
+  const appealCollaterals = useGuardianAppealCollaterals()
   const {
     treasury,
     fetching: fetchingData,
@@ -85,16 +85,16 @@ export function useDashboardLogic() {
 
   const { claimRewards } = useRewardActions()
   const actions = {
-    activateANJ:
-      mode === REQUEST_MODE.STAKE_ACTIVATE ? stakeActivateANJ : activateANJ,
-    deactivateANJ,
-    withdrawANJ,
+    activateANT:
+      mode === REQUEST_MODE.STAKE_ACTIVATE ? stakeActivateANT : activateANT,
+    deactivateANT,
+    withdrawANT,
     claimRewards,
   }
 
   return {
     actions,
-    anjBalances,
+    antBalances,
     appealCollaterals,
     errorsFetching,
     fetchingData,

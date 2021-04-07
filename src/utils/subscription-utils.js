@@ -25,6 +25,6 @@ export function transformClaimedFeesDataAttributes(claimedFee) {
   }
 }
 
-export function hasJurorClaimed(claimedFees, periodId) {
+export function hasGuardianClaimed(claimedFees, periodId) {
   return claimedFees.some(claimedFee => claimedFee.period.id === periodId)
 }

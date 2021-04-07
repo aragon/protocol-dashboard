@@ -98,7 +98,7 @@ function ClockModule() {
               }
             `}
           >
-            {currentTermId ? (
+            {currentTermId || currentTermId === 0 ? (
               <>
                 {isSynced ? (
                   <Timer end={currentTermEndDate} showIcon={false} />
@@ -148,7 +148,7 @@ function ClockModule() {
 
       <HeaderPopover
         animateHeight={false}
-        heading="Protocol clock"
+        heading="Court clock"
         height={(isSynced ? 27.5 : 26) * GU}
         width={45 * GU}
         onClose={handlePopoverClose}
@@ -182,7 +182,7 @@ function ClockModule() {
                   margin-right: ${0.5 * GU}px;
                 `}
               />
-              <span>Aragon Protocol</span>
+              <span>Aragon Court</span>
             </div>
             <div
               css={`
@@ -264,7 +264,7 @@ function ClockModule() {
                   color: ${theme.contentSecondary};
                 `}
               >
-                Term is the time unit for measuring Aragon Protocol phases. Each
+                Term is the time unit for measuring Aragon Court phases. Each
                 term lasts {formatDuration(courtConfig.termDuration / 1000)}.
               </span>
             ) : (

@@ -1,6 +1,6 @@
 export const STAKE_ACTIVATION_MOVEMENT = 'StakeActivation'
 
-export const ANJMovement = {
+export const ANTMovement = {
   Stake: Symbol('STAKE'),
   Unstake: Symbol('UNSTAKE'),
   Activation: Symbol('ACTIVATION'),
@@ -20,22 +20,22 @@ export const movementDirection = {
 }
 
 const stringMapping = {
-  [ANJMovement.Stake]: {
+  [ANTMovement.Stake]: {
     [movementDirection.Incoming]: 'Deposit',
     [movementDirection.Outgoing]: 'Withdrawal',
   },
-  [ANJMovement.Unstake]: {
+  [ANTMovement.Unstake]: {
     [movementDirection.Incoming]: 'Deposit',
     [movementDirection.Outgoing]: 'Withdrawal',
   },
-  [ANJMovement.Activation]: 'Activated',
-  [ANJMovement.StakeActivation]: 'Activated',
-  [ANJMovement.Deactivation]: 'Deactivated',
-  [ANJMovement.DeactivationProcess]: 'Deactivation process',
-  [ANJMovement.Lock]: 'Locked',
-  [ANJMovement.Unlock]: 'Unlocked',
-  [ANJMovement.Reward]: 'Rewards',
-  [ANJMovement.Slash]: 'Slashed',
+  [ANTMovement.Activation]: 'Activated',
+  [ANTMovement.StakeActivation]: 'Activated',
+  [ANTMovement.Deactivation]: 'Deactivated',
+  [ANTMovement.DeactivationProcess]: 'Deactivation process',
+  [ANTMovement.Lock]: 'Locked',
+  [ANTMovement.Unlock]: 'Unlocked',
+  [ANTMovement.Reward]: 'Rewards',
+  [ANTMovement.Slash]: 'Slashed',
 }
 
 export function convertToString(symbol, direction) {
@@ -43,7 +43,7 @@ export function convertToString(symbol, direction) {
   return typeof mapping === 'object' ? mapping[direction] : mapping
 }
 
-export const ANJBalance = {
+export const ANTBalance = {
   Wallet: Symbol('WALLET'),
   Inactive: Symbol('INACTIVE'),
   Active: Symbol('ACTIVE'),

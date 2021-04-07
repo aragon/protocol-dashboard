@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+/* eslint-disable */
+
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
 // hooks
@@ -6,7 +8,7 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useActivity } from '../providers/ActivityProvider'
 import { useRequestQueue } from '../providers/RequestQueue'
 import { useRequestProcessor } from './useRequestProcessor'
-import { useContract, useContractReadOnly } from '../web3-contracts'
+import { useContract } from '../web3-contracts'
 
 // services
 import { requestAutoReveal as requestAutoRevealApi } from '../services/autoReveal'
@@ -15,12 +17,10 @@ import { requestAutoReveal as requestAutoRevealApi } from '../services/autoRevea
 import radspec from '../radspec'
 import { retryMax } from '../utils/retry-max'
 import actions from '../actions/court-action-types'
-import { getKnownToken } from '../utils/known-tokens'
 import { getModuleAddress } from '../utils/court-utils'
 import { bigNum, formatUnits } from '../lib/math-utils'
 import { getFunctionSignature } from '../lib/web3-utils'
 import { CourtModuleType } from '../types/court-module-types'
-import { networkReserveAddress } from '../networks'
 import {
   getVoteId,
   hashPassword,
@@ -33,22 +33,22 @@ import aragonCourtAbi from '../abi/AragonCourt.json'
 import courtSubscriptionsAbi from '../abi/CourtSubscriptions.json'
 import courtTreasuryAbi from '../abi/CourtTreasury.json'
 import disputeManagerAbi from '../abi/DisputeManager.json'
-import jurorRegistryAbi from '../abi/JurorRegistry.json'
+import guardianRegistryAbi from '../abi/GuardianRegistry.json'
 import tokenAbi from '../abi/ERC20.json'
 import votingAbi from '../abi/CRVoting.json'
 
 const GAS_LIMIT = 1200000
-const ANJ_ACTIVATE_GAS_LIMIT = 500000
-const ANJ_ACTIONS_GAS_LIMIT = 325000
-const ACTIVATE_SELECTOR = getFunctionSignature('activate(uint256)')
+const ANT_ACTIVATE_GAS_LIMIT = 500000
+const ANT_ACTIONS_GAS_LIMIT = 325000
+const ACTIVATE_SELECTOR = getFunctionSignature('activate(address, uint256)')
 
-// ANJ contract
-function useANJTokenContract() {
-  const { anjToken } = useCourtConfig()
+// ANT contract
+export function useANTTokenContract() {
+  const { token: antToken } = useCourtConfig()
 
-  const anjTokenAddress = anjToken ? anjToken.id : null
+  const antTokenAddress = antToken ? antToken.id : null
 
-  return useContract(anjTokenAddress, tokenAbi)
+  return useContract(antTokenAddress, tokenAbi)
 }
 
 // Fee token contract
@@ -75,103 +75,106 @@ function useCourtContract(moduleType, abi) {
 }
 
 /**
- * All ANJ interactions
- * @returns {Object} all available functions around ANJ balances
+ * All ANT interactions
+ * @returns {Object} all available functions around ANT balances
  */
-export function useANJActions() {
+export function useANTActions() {
   const processRequests = useRequestProcessor()
-  const jurorRegistryContract = useCourtContract(
-    CourtModuleType.JurorsRegistry,
-    jurorRegistryAbi
-  )
-  const anjTokenContract = useANJTokenContract()
 
-  // activate ANJ directly from available balance
-  const activateANJ = useCallback(
-    amount => {
+  const guardianRegistryContract = useCourtContract(
+    CourtModuleType.GuardiansRegistry,
+    guardianRegistryAbi
+  )
+  const antTokenContract = useANTTokenContract()
+
+  // activate ANT directly from available balance
+  const activateANT = useCallback(
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
-            jurorRegistryContract.activate(amount, {
-              gasLimit: ANJ_ACTIVATE_GAS_LIMIT,
+            guardianRegistryContract.activate(account, amount, {
+              gasLimit: ANT_ACTIVATE_GAS_LIMIT,
             }),
-          description: radspec[actions.ACTIVATE_ANJ]({
+          description: radspec[actions.ACTIVATE_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.ACTIVATE_ANJ,
+          type: actions.ACTIVATE_ANT,
         },
       ])
     },
-    [jurorRegistryContract, processRequests]
+    [guardianRegistryContract, processRequests]
   )
 
-  const deactivateANJ = useCallback(
-    amount => {
+  const deactivateANT = useCallback(
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
-            jurorRegistryContract.deactivate(amount, {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+            guardianRegistryContract.deactivate(account, amount, {
+              gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.DEACTIVATE_ANJ]({
+          description: radspec[actions.DEACTIVATE_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.DEACTIVATE_ANJ,
+          type: actions.DEACTIVATE_ANT,
         },
       ])
     },
-    [jurorRegistryContract, processRequests]
+    [guardianRegistryContract, processRequests]
   )
 
-  // approve, stake and activate ANJ
-  const stakeActivateANJ = useCallback(
-    amount => {
+  // approve, stake and activate ANT
+  const stakeActivateANT = useCallback(
+    (account, amount) => {
+      const formattedAmount = formatUnits(amount)
+      
+      const requestQueue = [
+        {
+          action: () =>
+          antTokenContract.approve(guardianRegistryContract.address, amount, { gasLimit: ANT_ACTIVATE_GAS_LIMIT }),
+          description: radspec[actions.APPROVE_ANT]({ amount: formattedAmount }),
+          type: actions.APPROVE_ANT,
+          ensureConfirmation: true
+        },
+        {
+          action: () =>
+          guardianRegistryContract.stakeAndActivate(account, amount, { gasLimit: ANT_ACTIVATE_GAS_LIMIT }),
+          description: radspec[actions.STAKE_AND_ACTIVATE_ANT]({ amount: formattedAmount }),
+          type: actions.STAKE_AND_ACTIVATE_ANT,
+          ensureConfirmation: true
+        }
+      ]
+      return processRequests(requestQueue)
+    },
+    [antTokenContract, guardianRegistryContract, processRequests]
+  )
+
+  const withdrawANT = useCallback(
+    (account, amount) => {
       const formattedAmount = formatUnits(amount)
 
       return processRequests([
         {
           action: () =>
-            anjTokenContract.approveAndCall(
-              jurorRegistryContract.address,
-              amount,
-              ACTIVATE_SELECTOR,
-              { gasLimit: ANJ_ACTIVATE_GAS_LIMIT }
-            ),
-          description: radspec[actions.ACTIVATE_ANJ]({
-            amount: formattedAmount,
-          }),
-          type: actions.ACTIVATE_ANJ,
-        },
-      ])
-    },
-    [anjTokenContract, jurorRegistryContract, processRequests]
-  )
-
-  const withdrawANJ = useCallback(
-    amount => {
-      const formattedAmount = formatUnits(amount)
-
-      return processRequests([
-        {
-          action: () =>
-            jurorRegistryContract.unstake(amount, '0x', {
-              gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+            guardianRegistryContract.unstake(account, amount, {
+              gasLimit: ANT_ACTIONS_GAS_LIMIT,
             }),
-          description: radspec[actions.WITHDRAW_ANJ]({
+          description: radspec[actions.WITHDRAW_ANT]({
             amount: formattedAmount,
           }),
-          type: actions.WITHDRAW_ANJ,
+          type: actions.WITHDRAW_ANT,
         },
       ])
     },
-    [jurorRegistryContract, processRequests]
+    [guardianRegistryContract, processRequests]
   )
 
-  return { activateANJ, deactivateANJ, stakeActivateANJ, withdrawANJ }
+  return { activateANT, deactivateANT, stakeActivateANT, withdrawANT }
 }
 
 /**
@@ -193,7 +196,7 @@ export function useDisputeActions() {
 
   const feeTokenContract = useFeeTokenContract()
 
-  // Draft jurors
+  // Draft guardians
   const draft = useCallback(
     disputeId => {
       return processRequests([
@@ -202,8 +205,8 @@ export function useDisputeActions() {
             disputeManagerContract.draft(disputeId, {
               gasLimit: GAS_LIMIT,
             }),
-          description: radspec[actions.DRAFT_JURY]({ disputeId }),
-          type: actions.DRAFT_JURY,
+          description: radspec[actions.DRAFT_GUARDIAN]({ disputeId }),
+          type: actions.DRAFT_GUARDIAN,
         },
       ])
     },
@@ -238,7 +241,7 @@ export function useDisputeActions() {
 
       const requestQueue = [
         {
-          action: () => votingContract.commit(voteId, commitment),
+          action: () => votingContract.commit(voteId, account, commitment),
           description: radspec[actions.COMMIT_VOTE]({
             disputeId,
             roundId,
@@ -251,7 +254,7 @@ export function useDisputeActions() {
         },
       ]
 
-      // If juror opted-in for the reveal service we'll send the commitment and password to the court-server
+      // If guardian opted-in for the reveal service we'll send the commitment and password to the court-server
       if (revealServiceEnabled) {
         requestQueue.push(
           autoReveal(account, disputeId, roundId, outcome, password)
@@ -391,7 +394,7 @@ export function useDisputeActions() {
       return processRequests([
         {
           action: () =>
-            aragonCourtContract.executeRuling(disputeId, {
+            aragonCourtContract.rule(disputeId, {
               gasLimit: GAS_LIMIT,
             }),
           description: radspec[actions.EXECUTE_RULING]({ disputeId }),
@@ -402,6 +405,22 @@ export function useDisputeActions() {
     [aragonCourtContract, processRequests]
   )
 
+  const settlePenalties = useCallback(
+    (disputeId, roundId) => {
+      return processRequests([
+        {
+          action: () =>
+            disputeManagerContract.settlePenalties(disputeId, roundId, 0, {
+                gasLimit: GAS_LIMIT,
+            }),
+            ensureConfirmation: true,
+          description: radspec[actions.SETTLE_PENALTIES]({ disputeId, roundId }),
+          type: actions.SETTLE_PENALTIES,
+        },
+      ])
+    }
+  )
+
   return {
     appealRound,
     requestAutoReveal,
@@ -410,6 +429,7 @@ export function useDisputeActions() {
     executeRuling,
     leak,
     reveal,
+    settlePenalties
   }
 }
 
@@ -464,10 +484,10 @@ export function useRewardActions() {
   )
 
   const settleReward = useCallback(
-    (disputeId, roundId, juror) => {
+    (disputeId, roundId, guardian) => {
       return {
         action: () =>
-          disputeManagerContract.settleReward(disputeId, roundId, juror, {
+          disputeManagerContract.settleReward(disputeId, roundId, guardian, {
             gasLimit: GAS_LIMIT,
           }),
         description: radspec[actions.SETTLE_REWARD]({ roundId, disputeId }),
@@ -495,11 +515,11 @@ export function useRewardActions() {
   )
 
   const withdraw = useCallback(
-    (token, to, amount) => {
+    (token, from, to, amount) => {
       return {
         action: () =>
-          treasuryContract.withdraw(token, to, amount, {
-            gasLimit: ANJ_ACTIONS_GAS_LIMIT,
+          treasuryContract.withdraw(token, from, to, amount, {
+            gasLimit: ANT_ACTIONS_GAS_LIMIT,
           }),
         description: radspec[actions.CLAIM_REWARDS]({
           amount: formatUnits(amount),
@@ -519,6 +539,7 @@ export function useRewardActions() {
       subscriptionFees,
       feeTokenAddress
     ) => {
+
       const requestQueue = []
 
       // Claim all arbitrable fee rewards
@@ -549,13 +570,17 @@ export function useRewardActions() {
 
       // Withdraw funds from treasury
       if (treasuryFees.gt(0)) {
-        requestQueue.push(withdraw(feeTokenAddress, account, treasuryFees))
+        requestQueue.push(withdraw(feeTokenAddress, account, account, treasuryFees))
       }
 
       // Claim subscription fees
-      for (const subscriptionFee of subscriptionFees) {
-        requestQueue.push(claimFees(subscriptionFee.periodId))
-      }
+      /*
+        The below claimFees need to be changed to reflect PaymentsBook since subscriptions
+        was changed to PaymentsBook.
+      */
+      // for (const subscriptionFee of subscriptionFees) {
+      //   requestQueue.push(claimFees(subscriptionFee.periodId))
+      // }
 
       return processRequests(requestQueue)
     },
@@ -565,6 +590,10 @@ export function useRewardActions() {
   return { claimRewards }
 }
 
+/*
+TODO: below code needs to be changed to reflect newest changes on PaymentsBook, because
+subscription was changed to PaymentsBook. Abi changes too.
+*/
 export function useCourtSubscriptionActions() {
   const courtSubscriptionsContract = useCourtContract(
     CourtModuleType.Subscriptions,
@@ -584,16 +613,16 @@ export function useCourtSubscriptionActions() {
     [courtSubscriptionsContract]
   )
 
-  const getJurorShare = useCallback(
-    (juror, periodId) => {
-      return courtSubscriptionsContract.getJurorShare(juror, periodId)
+  const getGuardianShare = useCallback(
+    (guardian, periodId) => {
+      return courtSubscriptionsContract.getGuardianShare(guardian, periodId)
     },
     [courtSubscriptionsContract]
   )
 
   const getters = useMemo(
-    () => (courtSubscriptionsContract ? { getJurorShare } : null),
-    [courtSubscriptionsContract, getJurorShare]
+    () => (courtSubscriptionsContract ? { getGuardianShare } : null),
+    [courtSubscriptionsContract, getGuardianShare]
   )
 
   return {
@@ -750,10 +779,10 @@ export function useAppealFeeAllowance(owner) {
   return [allowance.amount, allowance.error]
 }
 
-export function useActiveBalanceOfAt(juror, termId) {
-  const jurorRegistryContract = useCourtContract(
-    CourtModuleType.JurorsRegistry,
-    jurorRegistryAbi
+export function useActiveBalanceOfAt(guardian, termId) {
+  const guardianRegistryContract = useCourtContract(
+    CourtModuleType.GuardiansRegistry,
+    guardianRegistryAbi
   )
   const [activeBalance, setActiveBalance] = useState({
     amount: bigNum(-1),
@@ -764,9 +793,9 @@ export function useActiveBalanceOfAt(juror, termId) {
     let cancelled = false
 
     const getActiveBalanceOfAt = async () => {
-      if (!jurorRegistryContract) return
+      if (!guardianRegistryContract) return
 
-      retryMax(() => jurorRegistryContract.activeBalanceOfAt(juror, termId))
+      retryMax(() => guardianRegistryContract.activeBalanceOfAt(guardian, termId))
         .then(balance => {
           if (!cancelled) {
             setActiveBalance({ amount: balance, error: false })
@@ -788,64 +817,66 @@ export function useActiveBalanceOfAt(juror, termId) {
     return () => {
       cancelled = true
     }
-  }, [juror, jurorRegistryContract, termId])
+  }, [guardian, guardianRegistryContract, termId])
 
   return [activeBalance.amount, activeBalance.error]
 }
 
-export function useTotalANTStakedPolling(timeout = 1000) {
-  const [totalANTStaked, setTotalANTStaked] = useState(bigNum(-1))
-  const [error, setError] = useState(false)
-  const { address: antAddress } = getKnownToken('ANT') || {}
-  const antContract = useContractReadOnly(antAddress, tokenAbi)
+// TODO remove this commented function in case we are not going to track the staked
 
-  // We are starting in 0 in order to immediately make the fetch call
-  const controlledTimeout = useRef(0)
+// export function useTotalANTStakedPolling(timeout = 1000) {
+//   const [totalANTStaked, setTotalANTStaked] = useState(bigNum(-1))
+//   const [error, setError] = useState(false)
+//   const { address: antAddress } = getKnownToken('ANT') || {}
+//   const antContract = useContractReadOnly(antAddress, tokenAbi)
 
-  useEffect(() => {
-    let cancelled = false
-    let timeoutId
+//   // We are starting in 0 in order to immediately make the fetch call
+//   const controlledTimeout = useRef(0)
 
-    // This stat is only relevant and shown on mainnet
-    if (!networkReserveAddress) {
-      return setError(true)
-    }
+//   useEffect(() => {
+//     let cancelled = false
+//     let timeoutId
 
-    if (!antContract) {
-      return
-    }
+//     // This stat is only relevant and shown on mainnet
+//     if (!networkReserveAddress) {
+//       return setError(true)
+//     }
 
-    const fetchTotalANTBalance = () => {
-      timeoutId = setTimeout(() => {
-        const vaultBalancePromise = antContract.balanceOf(networkReserveAddress)
+//     if (!antContract) {
+//       return
+//     }
 
-        return vaultBalancePromise
-          .then(antInVault => {
-            if (!cancelled) {
-              setTotalANTStaked(antInVault)
-            }
-          })
-          .catch(err => {
-            console.error(`Error fetching balance: ${err} retrying...`)
-            setError(true)
-          })
-          .finally(() => {
-            if (!cancelled) {
-              clearTimeout(timeoutId)
-              controlledTimeout.current = timeout
-              fetchTotalANTBalance()
-            }
-          })
-      }, controlledTimeout.current)
-    }
+//     const fetchTotalANTBalance = () => {
+//       timeoutId = setTimeout(() => {
+//         const vaultBalancePromise = antContract.balanceOf(networkReserveAddress)
 
-    fetchTotalANTBalance()
+//         return vaultBalancePromise
+//           .then(antInVault => {
+//             if (!cancelled) {
+//               setTotalANTStaked(antInVault)
+//             }
+//           })
+//           .catch(err => {
+//             console.error(`Error fetching balance: ${err} retrying...`)
+//             setError(true)
+//           })
+//           .finally(() => {
+//             if (!cancelled) {
+//               clearTimeout(timeoutId)
+//               controlledTimeout.current = timeout
+//               fetchTotalANTBalance()
+//             }
+//           })
+//       }, controlledTimeout.current)
+//     }
 
-    return () => {
-      cancelled = true
-      clearTimeout(timeoutId)
-    }
-  }, [antContract, controlledTimeout, timeout])
+//     fetchTotalANTBalance()
 
-  return [totalANTStaked, error]
-}
+//     return () => {
+//       cancelled = true
+//       clearTimeout(timeoutId)
+//     }
+//   }, [antContract, controlledTimeout, timeout])
+
+//   return [totalANTStaked, error]
+// }

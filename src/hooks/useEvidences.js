@@ -23,8 +23,6 @@ export default function useEvidences(dispute, rawEvidences) {
       id,
       rawMetadata: uriOrData,
       metadata: null,
-      defendant: '',
-      agreementText: '',
       submitter,
       createdAt,
       error: false,
@@ -60,11 +58,7 @@ export default function useEvidences(dispute, rawEvidences) {
       await Promise.all(
         rawEvidences.map(async rawEvidence => {
           const evidence = await fetchEvidence(rawEvidence)
-          if (
-            cancelled ||
-            // First evidence submitted by defendant is treated as the dispute description
-            evidence.rawMetadata === dispute.disputable?.actionContext
-          ) {
+          if (cancelled) {
             return
           }
           setEvidences(() => {
