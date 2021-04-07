@@ -13,7 +13,6 @@ const VOIDED_DISPUTES = {
     [RINKEBY_COURT, new Map([])],
     [RINKEBY_STAGING_COURT, new Map([])],
   ]),
-  ropsten: new Map([[networkConfigs.ropsten.court, new Map([])]]),
   local: new Map([[networkConfigs.local.court, new Map([])]]),
 }
 

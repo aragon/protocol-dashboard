@@ -8,6 +8,15 @@ export const KnownArbitrables = {
       },
     ].map(arbitrable => [arbitrable.address.toLowerCase(), arbitrable])
   ),
+  xdai: new Map(
+    [
+      {
+        address: '0x59a15718992a42082ab2306bc6cbd662958a178c',
+        urlBuilder: (actionId, entityPath) =>
+          `https://1hive.org/#/${entityPath}/${actionId}`,
+      },
+    ].map(arbitrable => [arbitrable.address.toLowerCase(), arbitrable])
+  ),
 }
 
 export function isArbitrableKnown(arbitrableAddress, networkType) {

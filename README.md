@@ -15,7 +15,7 @@
 
 For connecting to other chains / deployments, a few useful npm scripts are provided:
 
-- Mainnet: `npm run start:mainnet` will launch the app, configured to connect to Celeste's mainnet deployment
+- xDai: `npm run start:xdai` will launch the app, configured to connect to Celeste's xDai deployment
 - Local: `npm run start:local` will launch the app, configured to connect to the local devchain.
 
 Other [configuration options](docs/CONFIGURATION.md) are also available.
