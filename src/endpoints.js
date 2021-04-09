@@ -30,7 +30,7 @@ export function courtServerEndpoint() {
 
   const networkType = getNetworkType(CHAIN_ID)
   return `https://celeste-server${
-    networkType === 'main' ? '' : `-${COURT_SERVER_NAME || networkType}`
+    networkType === 'xdai' ? '' : `-${COURT_SERVER_NAME || networkType}`
   }.1hive.org`
 }
 
