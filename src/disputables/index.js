@@ -46,12 +46,12 @@ export async function describeDisputedAction(
     if (DISPUTABLE_ACTIONS.has(appId)) {
       const { entityPath, scriptExtractor } = DISPUTABLE_ACTIONS.get(appId)
 
-      const evmScript = await scriptExtractor(
+      const evmScript = await scriptExtractor({
         disputableAddress,
         disputableActionId,
-        appId,
-        disputeId
-      )
+        disputableAppId: appId,
+        disputeId,
+      })
 
       const disputedActionURL = buildDisputedActionUrl(
         organization,

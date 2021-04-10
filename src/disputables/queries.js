@@ -3,7 +3,6 @@ import { Client } from 'urql'
 import { getSubgraphByAppId } from './connect-endpoints'
 
 export function performDisputableProposalQuery(
-  disputableAddress,
   disputableActionId,
   disputableAppId,
   disputeId
@@ -18,7 +17,6 @@ export function performDisputableProposalQuery(
 }
 
 export function performDisputableVotingQuery(
-  disputableAddress,
   disputableActionId,
   disputableAppId,
   disputeId
@@ -26,9 +24,9 @@ export function performDisputableVotingQuery(
   // Disputable voting now saves the hash of the evmScript so we need to get it from the subgraph.
   const subgraphUrl = getSubgraphByAppId(disputableAppId)
 
-  return performQuery(subgraphUrl, disputableVotingQuery, {
-    id: disputableAddress,
-    voteId: disputableActionId,
+  return performQuery(subgraphUrl, disputableProposalQuery, {
+    proposalId: disputableActionId,
+    disputeId,
   })
 }
 
@@ -45,16 +43,7 @@ const disputableProposalQuery = gql`
       requestedAmount
       metadata
       stable
-    }
-  }
-`
-
-const disputableVotingQuery = gql`
-  query DisputableVoting($id: ID!, $voteId: BigInt!) {
-    disputableVoting(id: $id) {
-      votes(where: { voteId: $voteId }) {
-        script
-      }
+      script
     }
   }
 `
