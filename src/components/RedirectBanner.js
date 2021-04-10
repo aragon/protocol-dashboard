@@ -16,18 +16,8 @@ function CloseButton({ compact, onClick }) {
     <div
       css={`
         position: absolute;
-        right: 0;
-        padding-top: ${2.5 * GU}px;
-        padding-right: ${3 * GU}px;
-
-      ${compact &&
-        `  
-          position: relative;
-          display: flex;
-          padding-top: 0px;
-          padding-right: ${GU}px;
-          height: 100%;
-        `}
+        right: ${3 * GU}px;
+        top: ${2 * GU}px;
     `}
     >
       <ButtonIcon onClick={onClick} label="Close">
@@ -47,7 +37,7 @@ function RedirectMessage({ compact }) {
       ${textStyle('body3')};
       color: #cd625c;
       text-align: center;
-      padding: 23px;
+      padding: 20px;
     `}>
       Court was migrated to Aragon v2 DAOS. Looking for the previous version of Court (for v1 DAOs)?
     </div>
@@ -67,25 +57,29 @@ function RedirectButton({ compact }) {
 function RedirectBanner ({ compactMode, onClose }) {
 
   return (
-    <div
-      css={`
-      background: #fff5f1;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
+    <div css={`
+      display: relative;
+    `}>
+      <div
+        css={`
+        background: #fff5f1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 0 50px;
 
-      ${compactMode &&
-        `
-          flex-direction: column;
-          align-items: space-between;
-          justify-content: center;
+        ${compactMode &&
+          `
+            flex-direction: column;
+            align-items: space-between;
+            justify-content: center;
+          `}
         `}
-      `}
-    >
-      <RedirectMessage />
-      <RedirectButton />
+      >
+        <RedirectMessage />
+        <RedirectButton />
+      </div>
       <CloseButton compactMode={compactMode} onClick={onClose}/>
     </div>
   )
