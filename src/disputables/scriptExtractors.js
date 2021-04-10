@@ -11,18 +11,17 @@ import tokenAbi from '../abi/ERC20.json'
 import { bigNum, formatTokenAmount } from '../lib/math-utils'
 
 // TODO: Make a general propsoal extractor, ideally by arbitrable
-export async function convictionVotingExtractor(
+export async function convictionVotingExtractor({
   disputableAddress,
   disputableActionId,
   disputableAppId,
-  disputeId
-) {
+  disputeId,
+}) {
   const disputableConvictionVotingContract = getContract(
     disputableAddress,
     disputableConvictionVotingAbi
   )
   const { data } = await performDisputableProposalQuery(
-    disputableAddress,
     disputableActionId,
     disputableAppId,
     disputeId
@@ -59,7 +58,10 @@ export async function convictionVotingExtractor(
   }
 }
 
-export async function delayExtractor(disputableAddress, disputableActionId) {
+export async function delayExtractor({
+  disputableAddress,
+  disputableActionId,
+}) {
   return {
     script: await extractFromContract(
       disputableDelayAbi,
@@ -71,10 +73,10 @@ export async function delayExtractor(disputableAddress, disputableActionId) {
   }
 }
 
-export async function dandelionVotingExtractor(
+export async function dandelionVotingExtractor({
   disputableAddress,
-  disputableActionId
-) {
+  disputableActionId,
+}) {
   return {
     script: await extractFromContract(
       disputableDandelionVotingAbi,
@@ -86,22 +88,22 @@ export async function dandelionVotingExtractor(
   }
 }
 
-export async function votingExtractor(
-  disputableAddress,
+export async function votingExtractor({
   disputableActionId,
-  disputableAppId
-) {
+  disputableAppId,
+  disputeId,
+}) {
   const { data } = await performDisputableVotingQuery(
-    disputableAddress,
     disputableActionId,
-    disputableAppId
+    disputableAppId,
+    disputeId
   )
 
-  if (!data?.disputableVoting?.votes?.length) {
+  if (!data?.proposals?.length) {
     throw new Error('Failed to fetch evmScript from subgraph')
   }
 
-  return { script: data.disputableVoting.votes[0].script }
+  return { script: data.proposals[0].script }
 }
 
 async function extractFromContract(
