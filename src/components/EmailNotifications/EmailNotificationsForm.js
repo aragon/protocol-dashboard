@@ -220,7 +220,7 @@ const LegalTermsAndPolicy = React.memo(function LegalTermsAndPolicy({
           `}
         >
           By continuing with your email, you agree to Celeste's{' '}
-          <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+          <Link href="https://app.termly.io/document/terms-of-use-for-website/674b5d67-bf14-4385-99ee-16544ffeebca">
             legal terms
           </Link>{' '}
           and{' '}
