@@ -7,12 +7,7 @@ import {
 } from '../networks'
 
 const PRECEDENCE_CAMPAIGN_DISPUTES = {
-  xdai: new Map([
-    [
-      networkConfigs.xdai.court,
-      new Map(new Array(21).fill().map((_, index) => [String(index + 1)])),
-    ],
-  ]),
+  xdai: new Map([[networkConfigs.xdai.court, new Map([])]]),
   rinkeby: new Map([
     [RINKEBY_COURT, new Map([])],
     [RINKEBY_STAGING_COURT, new Map([['0']])],
