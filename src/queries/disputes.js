@@ -9,6 +9,9 @@ export const AllDisputes = gql`
       state
       metadata
       createdAt
+      subject {
+        id
+      }
       rounds {
         id
         state
