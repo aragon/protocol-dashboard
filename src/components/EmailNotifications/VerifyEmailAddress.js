@@ -93,15 +93,34 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
       {(() => {
         if (!updateMode) {
           return (
-            <Button
-              mode="strong"
-              onClick={onResendEmail}
+            <div
               css={`
-                margin-top: ${3 * GU}px;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: ${compactMode ? 'column' : 'row'};
+                width: 100%;
               `}
             >
-              Resend verification email
-            </Button>
+              <ActionButton
+                compactMode={compactMode}
+                mode="strong"
+                onClick={onResendEmail}
+                css={`
+                  margin-top: ${3 * GU}px;
+                `}
+              >
+                Resend verification email
+              </ActionButton>
+              <ActionButton
+                compactMode={compactMode}
+                onClick={onDeleteEmail}
+                css={`
+                  margin-top: ${3 * GU}px;
+                `}
+              >
+                Reset email
+              </ActionButton>
+            </div>
           )
         }
         return (
@@ -187,12 +206,12 @@ function LegalTermsAndPolicy({ termsAccepted, onChange }) {
           `}
         >
           By continuing with your email, you agree to Celeste's{' '}
-          <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+          <Link href="https://app.termly.io/document/privacy-policy/36c4b2dd-3490-4674-b71e-85b2600f6cc6">
             legal terms
           </Link>{' '}
           and{' '}
-          <Link href="https://aragon.one/email-collection.md">
-            email collection policy
+          <Link href="https://app.termly.io/document/privacy-policy/36c4b2dd-3490-4674-b71e-85b2600f6cc6">
+            privacy policy
           </Link>
           .
         </span>

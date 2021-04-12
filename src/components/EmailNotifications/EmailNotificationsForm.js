@@ -224,8 +224,8 @@ const LegalTermsAndPolicy = React.memo(function LegalTermsAndPolicy({
             legal terms
           </Link>{' '}
           and{' '}
-          <Link href="https://aragon.one/email-collection.md">
-            email collection policy
+          <Link href="https://app.termly.io/document/privacy-policy/36c4b2dd-3490-4674-b71e-85b2600f6cc6">
+            privacy policy
           </Link>
           .
         </span>
