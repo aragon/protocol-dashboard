@@ -22,6 +22,7 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
   onResendEmail,
   onDeleteEmail,
 }) {
+  console.log('update mode!!! ', updateMode)
   const theme = useTheme()
   const [error, setError] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
@@ -93,15 +94,32 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
       {(() => {
         if (!updateMode) {
           return (
-            <Button
-              mode="strong"
-              onClick={onResendEmail}
+            <div
               css={`
-                margin-top: ${3 * GU}px;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: ${compactMode ? 'column' : 'row'};
+                width: 100%;
               `}
             >
-              Resend verification email
-            </Button>
+              <Button
+                mode="strong"
+                onClick={onResendEmail}
+                css={`
+                  margin-top: ${3 * GU}px;
+                `}
+              >
+                Resend verification email
+              </Button>
+              <Button
+                onClick={onDeleteEmail}
+                css={`
+                  margin-top: ${3 * GU}px;
+                `}
+              >
+                Reset email
+              </Button>
+            </div>
           )
         }
         return (
