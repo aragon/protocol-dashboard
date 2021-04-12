@@ -10,6 +10,7 @@ import {
 
 const CHAIN_ID = environment('CHAIN_ID')
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
+const networkType = getNetworkType(CHAIN_ID)
 
 // IPFS endpoint
 export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
@@ -22,7 +23,6 @@ export function courtServerEndpoint() {
     return 'http://127.0.0.1:8050'
   }
 
-  const networkType = getNetworkType(CHAIN_ID)
   return `https://court${
     networkType === 'main' ? '' : `-${COURT_SERVER_NAME || networkType}`
   }.backend.aragon.org`
@@ -39,3 +39,11 @@ export const defaultEthNode =
 export const defaultIpfsGateway = getIpfsGateway()
 
 export const defaultSubgraphHttpEndpoint = getSubgraphHttpEndpoint()
+
+export const V1_COURT_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
+  ? 'https://court.aragon.org'
+  : `https://v1.${
+    networkType === 'main' ? '' : `${networkType}.`
+  }court.aragon.org`
+
+
