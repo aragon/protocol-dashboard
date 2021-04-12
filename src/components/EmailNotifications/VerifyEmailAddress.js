@@ -22,7 +22,6 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
   onResendEmail,
   onDeleteEmail,
 }) {
-  console.log('update mode!!! ', updateMode)
   const theme = useTheme()
   const [error, setError] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
