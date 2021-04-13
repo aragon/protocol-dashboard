@@ -657,8 +657,10 @@ const EmailNotificationsManager = React.memo(
           if (screenId === VERIFY_EMAIL_ADDRESS_PREFERENCES) {
             return (
               <VerifyEmailAddressPreferences
+                compactMode={compactMode}
                 email={subscriptionProgress.email}
                 onResend={handleOnResendEmail}
+                onDeleteEmail={handleOnDeleteConfirmation}
               />
             )
           }
