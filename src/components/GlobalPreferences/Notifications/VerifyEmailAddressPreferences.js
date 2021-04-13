@@ -67,7 +67,6 @@ const VerifyEmailAddressPreferences = React.memo(
             Reset email
           </ActionButton>
         </div>
-        .
       </div>
     )
   }
