@@ -7,9 +7,11 @@ export const RINKEBY_COURT = '0x35e7433141D5f7f2EB7081186f5284dCDD2ccacE'
 export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
 
+// TODO: Add type and name
 export const networkConfigs = {
   xdai: {
     court: '0x44E4fCFed14E1285c9e0F6eae77D5fDd0F196f85',
+    explorer: 'blockscout',
     nodes: {
       defaultEth: 'https://xdai.poanetwork.dev/',
       subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste',
@@ -17,6 +19,7 @@ export const networkConfigs = {
   },
   rinkeby: {
     court: getRinkebyCourtAddress(SUBGRAPH_NAME),
+    explorer: 'etherscan',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),

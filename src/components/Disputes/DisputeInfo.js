@@ -12,6 +12,7 @@ import LoadingCard from '../LoadingCard'
 import { useAsset } from '../../hooks/useAsset'
 import { Phase as DisputePhase, Status } from '../../types/dispute-status-types'
 import { getNetworkType } from '../../lib/web3-utils'
+import { getNetworkConfig } from '../../networks'
 import { ICON_STAR } from '../../utils/asset-utils'
 
 const DisputeInfo = React.memo(function({
@@ -147,6 +148,7 @@ function DisputeHeader({ dispute, error }) {
             <TransactionBadge
               transaction={txHash}
               networkType={getNetworkType()}
+              explorerProvider={getNetworkConfig().explorer}
             />
           )}
         </div>

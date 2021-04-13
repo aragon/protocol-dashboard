@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 import {
+  blockExplorerUrl,
   Button,
   ButtonBase,
   GU,
@@ -20,7 +21,8 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useHeartbeat } from '../hooks/useCourtContracts'
 
 import { formatDuration } from '../utils/date-utils'
-import { blockExplorer, shortenAddress } from '../lib/web3-utils'
+import { getNetworkConfig } from '../networks'
+import { getNetworkType, shortenAddress } from '../lib/web3-utils'
 
 import logoSvg from '../assets/LogoAccent.svg'
 
@@ -54,6 +56,7 @@ function ClockModule() {
     onHeartbeat(Math.min(neededTransitions, MAX_TRANSITIONS))
   }, [handlePopoverClose, neededTransitions, onHeartbeat])
 
+  const network = getNetworkConfig()
   const IconSync = isSynced ? IconCheck : IconCross
 
   return (
@@ -196,7 +199,10 @@ function ClockModule() {
               </span>
               <ButtonBase
                 disabled={!courtConfig}
-                href={blockExplorer('address', courtConfig?.id)}
+                href={blockExplorerUrl('address', courtConfig?.id, {
+                  networkType: getNetworkType(),
+                  provider: network.explorer,
+                })}
               >
                 <IconExternal
                   css={`

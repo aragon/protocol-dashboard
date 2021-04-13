@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
+  blockExplorerUrl,
   ButtonBase,
   ButtonIcon,
   IconCross,
@@ -15,13 +16,14 @@ import TransactionProgress from './TransactionProgress'
 import { useActivity } from '../../providers/ActivityProvider'
 import { useAsset } from '../../hooks/useAsset'
 
-import { transformAddresses, blockExplorer } from '../../lib/web3-utils'
+import { getNetworkType, transformAddresses } from '../../lib/web3-utils'
 import {
   ACTIVITY_STATUS_PENDING,
   ACTIVITY_STATUS_CONFIRMED,
   ACTIVITY_STATUS_FAILED,
   ACTIVITY_STATUS_TIMED_OUT,
 } from './activity-statuses'
+import { getNetworkConfig } from '../../networks'
 import { getActivityData } from './activity-types'
 
 function ActivityItem({ activity }) {
@@ -34,7 +36,10 @@ function ActivityItem({ activity }) {
   const handleOpen = useCallback(() => {
     if (activity.transactionHash) {
       window.open(
-        blockExplorer('transaction', activity.transactionHash),
+        blockExplorerUrl('transaction', activity.transactionHash, {
+          networkType: getNetworkType(),
+          provider: getNetworkConfig().explorer,
+        }),
         '_blank',
         'noopener'
       )

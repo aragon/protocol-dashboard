@@ -48,6 +48,7 @@ export default {
     contentSecondary: '#B2B2C6',
 
     disabled: '#171551',
+    disabledBorder: '#373582',
     disabledContent: '#B2B2C6',
 
     floating: '#373582',
