@@ -99,25 +99,17 @@ const VerifyEmailAddress = React.memo(function VerifyEmailAddress({
                 justify-content: space-between;
                 flex-direction: ${compactMode ? 'column' : 'row'};
                 width: 100%;
+                margin-top: ${3 * GU}px;
               `}
             >
               <ActionButton
                 compactMode={compactMode}
                 mode="strong"
                 onClick={onResendEmail}
-                css={`
-                  margin-top: ${3 * GU}px;
-                `}
               >
                 Resend verification email
               </ActionButton>
-              <ActionButton
-                compactMode={compactMode}
-                onClick={onDeleteEmail}
-                css={`
-                  margin-top: ${3 * GU}px;
-                `}
-              >
+              <ActionButton compactMode={compactMode} onClick={onDeleteEmail}>
                 Reset email
               </ActionButton>
             </div>
