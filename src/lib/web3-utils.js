@@ -1,6 +1,5 @@
 import env from '../environment'
 import { providers as Providers, utils } from 'ethers'
-import { blockExplorerUrl } from '@1hive/1hive-ui'
 import { InvalidURI, InvalidNetworkType, NoConnection } from '../errors'
 import { validHttpFormat } from './uri-utils'
 
@@ -15,15 +14,6 @@ const ETH_ADDRESS_TEST_REGEX = /(0x[a-fA-F0-9]{40}(?:\b|\.|,|\?|!|;))/g
 
 export function getFunctionSignature(func) {
   return keccak256(func).slice(0, 10)
-}
-
-export function blockExplorer(type, value, ...args) {
-  const networkType = getNetworkType()
-  return blockExplorerUrl(type, value, {
-    networkType: isLocalOrUnknownNetwork() ? 'private' : networkType,
-    provider: networkType === 'xdai' ? 'blockscout' : 'etherscan',
-    ...args,
-  })
 }
 
 export function encodeFunctionData(contract, functionName, params) {
