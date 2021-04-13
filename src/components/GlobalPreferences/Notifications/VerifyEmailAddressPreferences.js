@@ -47,20 +47,27 @@ const VerifyEmailAddressPreferences = React.memo(
           <strong>{email}</strong>. Kindly check your inbox and click the link
           to verify your account.
         </span>
-
-        <ActionButton
+        <div
           css={`
+            display: flex;
+            justify-content: space-between;
+            flex-direction: ${compactMode ? 'column' : 'row'};
+            width: 100%;
             margin-top: ${3 * GU}px;
-            width: ${35 * GU}px;
           `}
-          mode="strong"
-          onClick={onResend}
         >
-          Resend verification email
-        </ActionButton>
-        <ActionButton compactMode={compactMode} onClick={onDeleteEmail}>
-          Reset email
-        </ActionButton>
+          <ActionButton
+            compactMode={compactMode}
+            mode="strong"
+            onClick={onResend}
+          >
+            Resend verification email
+          </ActionButton>
+          <ActionButton compactMode={compactMode} onClick={onDeleteEmail}>
+            Reset email
+          </ActionButton>
+        </div>
+        .
       </div>
     )
   }
