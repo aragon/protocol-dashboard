@@ -63,7 +63,7 @@ function CircleGraph({ value, label, size, strokeWidth }) {
               cy={size / 2}
               r={radius}
               fill="none"
-              stroke="#FF9B73"
+              stroke={theme.tagIndicatorContent}
               strokeLinecap="round"
               strokeDasharray={length}
               strokeWidth={strokeWidth}
