@@ -190,32 +190,42 @@ export function useHNYActions() {
       const formattedAmount = formatUnits(amount)
 
       const requestQueue = []
-      if (brightIdData.hasUniqueUserId) {
-        requestQueue.push({
-          action: () =>
-            hnyTokenContract.approveAndCall(
-              jurorRegistryContract.address,
-              amount,
-              ACTIVATE_SELECTOR,
-              { gasLimit: HNY_ACTIVATE_GAS_LIMIT }
-            ),
-          description: radspec[actions.ACTIVATE_HNY]({
-            amount: formattedAmount,
-          }),
-          type: actions.ACTIVATE_HNY,
-        })
-      } else {
-        // Check if requires pre-transactions
-        if (allowance.lt(amount)) {
-          // Some ERC20s don't allow setting a new allowance if the current allowance is positive
-          if (!allowance.eq(0)) {
-            // Reset allowance
-            requestQueue.push({
-              ...approve(bigNum(0)),
-              ensureConfirmation: true,
-            })
-          }
+      const description = radspec[actions.ACTIVATE_HNY]({
+        amount: formattedAmount,
+      })
+      const type = actions.ACTIVATE_HNY
 
+      let hasAllowance = true
+      // Check if requires pre-transactions
+      if (allowance.lt(amount)) {
+        hasAllowance = false
+        // Some ERC20s don't allow setting a new allowance if the current allowance is positive
+        if (!allowance.eq(0)) {
+          // Reset allowance
+          requestQueue.push({
+            ...approve(bigNum(0)),
+            ensureConfirmation: true,
+          })
+        }
+      }
+
+      let action
+      // If users already registered with brightId
+      if (brightIdData.hasUniqueUserId) {
+        action = () =>
+          // If allowance is sufficient, skip approve tx
+          hasAllowance
+            ? jurorRegistryContract.stake(amount, ACTIVATE_SELECTOR, {
+                gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+              })
+            : hnyTokenContract.approveAndCall(
+                jurorRegistryContract.address,
+                amount,
+                ACTIVATE_SELECTOR,
+                { gasLimit: HNY_ACTIVATE_GAS_LIMIT }
+              )
+      } else {
+        if (!hasAllowance) {
           // Approve activation amount
           requestQueue.push({
             ...approve(amount),
@@ -227,18 +237,17 @@ export function useHNYActions() {
           amount,
           ACTIVATE_SELECTOR,
         ])
-
-        requestQueue.push({
-          action: () =>
-            brightIdRegisterAndCall(jurorAddress, brightIdData, calldata, {
-              gasLimit: HNY_ACTIVATE_GAS_LIMIT,
-            }),
-          description: radspec[actions.ACTIVATE_HNY]({
-            amount: formattedAmount,
-          }),
-          type: actions.ACTIVATE_HNY,
-        })
+        action = () =>
+          brightIdRegisterAndCall(jurorAddress, brightIdData, calldata, {
+            gasLimit: HNY_ACTIVATE_GAS_LIMIT,
+          })
       }
+
+      requestQueue.push({
+        action,
+        description,
+        type,
+      })
 
       return processRequests(requestQueue)
     },
