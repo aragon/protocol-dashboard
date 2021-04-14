@@ -24,7 +24,7 @@ export default {
     tagActivity: '#8E54A5',
     tagActivityContent: '#FFFFFF',
     tagIndicator: '#FFF5F1',
-    tagIndicatorContent: '#CD625C',
+    tagIndicatorContent: '#FF9B73',
 
     warning: '#FFF1DA',
     warningSurface: '#FFF1DA',

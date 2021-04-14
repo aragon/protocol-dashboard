@@ -208,7 +208,7 @@ const BannerWithProbability = ({ activeBalance }) => {
         {'On average, you will be drafted into a keeper '}
         <span
           css={`
-            color: ${theme.accent};
+            color: ${theme.tagIndicatorContent};
           `}
         >
           1 in {chances} times
