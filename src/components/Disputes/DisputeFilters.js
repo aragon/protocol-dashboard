@@ -30,6 +30,7 @@ const DisputeFilters = ({
         placeholder="Phase"
         selected={phaseFilter}
         onChange={onPhaseChange}
+        wide
         items={phaseTypes}
       />
       <DropDown
@@ -38,6 +39,7 @@ const DisputeFilters = ({
         selected={statusFilter}
         onChange={onStatusChange}
         items={statusTypes}
+        wide
       />
       <DropDown
         header="Creator of the dispute"
@@ -45,6 +47,7 @@ const DisputeFilters = ({
         selected={selectedSubject}
         onChange={onSubjectChange}
         items={subjects}
+        wide
       />
       <DateRangePicker
         startDate={dateRangeFilter.start}
