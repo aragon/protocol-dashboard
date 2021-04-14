@@ -20,7 +20,7 @@ export const BRIGHTID_SUBSCRIPTION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/operatio
 // IPFS endpoint
 export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
   ? 'http://127.0.0.1:8080/ipfs'
-  : 'https://ipfs.eth.aragon.network/ipfs'
+  : 'https://ipfs.io/ipfs/'
 
 // Court server endpoint
 export function courtServerEndpoint() {
