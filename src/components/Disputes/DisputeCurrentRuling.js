@@ -45,6 +45,17 @@ function DisputeCurrentRuling({ dispute }) {
     ({ outcome }) => outcome === myOutcome
   )
 
+  const remainingReveals = lastRound.jurors.reduce(
+    (acc, { commitment, outcome }) => {
+      if (commitment && !outcome) {
+        return acc + 1
+      }
+
+      return acc
+    },
+    0
+  )
+
   return (
     <div>
       <Distribution
@@ -55,7 +66,11 @@ function DisputeCurrentRuling({ dispute }) {
               color: ${theme.contentSecondary}
             `}
           >
-            Current ruling
+            Current ruling{' '}
+            {remainingReveals > 0 &&
+              `(${remainingReveals} reveal${
+                remainingReveals > 1 ? 's' : ''
+              } remaining)`}
           </span>
         }
         items={distribution.map(({ outcome, weight }) => ({
