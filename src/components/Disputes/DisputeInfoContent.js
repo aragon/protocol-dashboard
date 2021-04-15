@@ -14,6 +14,7 @@ import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
+import { toUtf8String } from '../../lib/web3-utils'
 
 import useActionDataDecoder from '../../hooks/useActionDataDecoder'
 
@@ -106,6 +107,14 @@ function Field({ label, loading, value, ...props }) {
     return <div />
   }
 
+  function utf8(data) {
+    try {
+      return toUtf8String(data)
+    }catch(err) {
+    }
+    return data
+  }
+
   return (
     <div {...props}>
       <h2
@@ -170,7 +179,7 @@ function Field({ label, loading, value, ...props }) {
                         )
                       }
 
-                      return <span key={i}>{word}</span>
+                      return <span key={i}>{utf8(word)}</span>
                     })}
                   </React.Fragment>
                 )

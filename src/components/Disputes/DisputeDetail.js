@@ -17,7 +17,6 @@ import { Status as DisputeStatus } from '../../types/dispute-status-types'
 import { useDisputeLogic, REQUEST_MODE } from '../../hooks/dispute-logic'
 import { DisputeNotFound } from '../../errors'
 import { toMs } from '../../utils/date-utils'
-import { toUtf8String } from '../../lib/web3-utils'
 
 import timelineErrorSvg from '../../assets/noResultsSmall.svg'
 
@@ -40,12 +39,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   const evidences = useMemo(
     () =>
       (evidenceList || []).map(evidence => {
-        let data = evidence.data
-        try {
-          data = toUtf8String(evidence.data)
-        }catch(err) {
-
-        }
+        const data = evidence.data
         return {
           ...evidence, 
           data,
