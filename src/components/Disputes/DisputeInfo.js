@@ -76,7 +76,8 @@ const DisputeInfo = React.memo(function({
         })()}
         {!loading && !isDisputeVoided && !error?.fromGraph && (
           <>
-            {(phase === DisputePhase.AppealRuling ||
+            {(phase === DisputePhase.RevealVote ||
+              phase === DisputePhase.AppealRuling ||
               phase === DisputePhase.ConfirmAppeal ||
               isFinalRulingEnsured) && (
               <DisputeCurrentRuling dispute={dispute} />
