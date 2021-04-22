@@ -11,14 +11,18 @@ import { V1_COURT_ENDPOINT } from '../endpoints'
 import { Transition, animated } from 'react-spring/renderprops'
 
 function CloseButton({ compact, onClick }) {
-  
   return (
     <div
       css={`
         position: absolute;
-        right: ${3 * GU}px;
-        top: ${2 * GU}px;
-    `}
+        top: ${2*GU}px;
+        right: ${2*GU}px;
+
+        ${compact && `
+          top: ${GU}px;
+          right: ${GU}px;
+        `}
+      `}
     >
       <ButtonIcon onClick={onClick} label="Close">
         <IconClose
@@ -36,8 +40,13 @@ function RedirectMessage({ compact }) {
     <div css={`
       ${textStyle('body3')};
       color: #cd625c;
+      display; flex;
       text-align: center;
-      padding: 20px;
+      padding: ${GU}px
+
+      ${compact && `
+        padding: ${GU}px ${6 * GU}px
+      `}
     `}>
       Court was migrated to Aragon v2 DAOS. Looking for the previous version of Court (for v1 DAOs)?
     </div>
@@ -46,11 +55,17 @@ function RedirectMessage({ compact }) {
 
 function RedirectButton({ compact }) {
   return (
-    <Button
-      mode="strong"
-      label="Go to V1 Court"
-      href={V1_COURT_ENDPOINT}
-    />
+    <div
+      css={`
+        padding: ${GU}px;
+      `}
+    >
+      <Button
+        mode="strong"
+        label="Go to V1 Court"
+        href={V1_COURT_ENDPOINT}
+      />
+    </div>
   )
 }
 
@@ -58,16 +73,18 @@ function RedirectBanner ({ compactMode, onClose }) {
 
   return (
     <div css={`
-      display: relative;
+      background: #fff5f1;
+      display: flex;
+      padding: ${GU}px
     `}>
       <div
         css={`
-        background: #fff5f1;
         display: flex;
+        flex-grow: 1;
+        flex-flow: column wrap;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        margin: 0 50px;
 
         ${compactMode &&
           `
@@ -77,7 +94,7 @@ function RedirectBanner ({ compactMode, onClose }) {
           `}
         `}
       >
-        <RedirectMessage />
+        <RedirectMessage compact={compactMode}/>
         <RedirectButton />
       </div>
       <CloseButton compactMode={compactMode} onClick={onClose}/>
