@@ -15,14 +15,9 @@ function CloseButton({ compact, onClick }) {
     <div
       css={`
         position: absolute;
-        top: ${2*GU}px;
-        right: ${2*GU}px;
-
-        ${compact && `
-          top: ${GU}px;
-          right: ${GU}px;
-        `}
-      `}
+        top: ${2 * GU}px;
+        right: ${2 * GU}px;
+    `}
     >
       <ButtonIcon onClick={onClick} label="Close">
         <IconClose
@@ -35,31 +30,25 @@ function CloseButton({ compact, onClick }) {
   )
 }
 
-function RedirectMessage({ compact }) {
+function RedirectMessage() {
   return (
     <div css={`
       ${textStyle('body3')};
       color: #cd625c;
-      display; flex;
       text-align: center;
-      padding: ${GU}px
-
-      ${compact && `
-        padding: ${GU}px ${6 * GU}px
-      `}
+      margin-bottom: ${2 * GU}px;
+      width: ${80 * GU}px;
     `}>
       Court was migrated to Aragon v2 DAOS. Looking for the previous version of Court (for v1 DAOs)?
     </div>
   )
 }
 
-function RedirectButton({ compact }) {
+function RedirectButton() {
   return (
-    <div
-      css={`
-        padding: ${GU}px;
-      `}
-    >
+    <div css={`
+      margin-bottom: ${2 * GU}px;
+    `}>
       <Button
         mode="strong"
         label="Go to V1 Court"
@@ -74,27 +63,19 @@ function RedirectBanner ({ compactMode, onClose }) {
   return (
     <div css={`
       background: #fff5f1;
-      display: flex;
-      padding: ${GU}px
+      padding-top: ${2 * GU}px
     `}>
       <div
         css={`
         display: flex;
-        flex-grow: 1;
-        flex-flow: column wrap;
-        flex-direction: row;
+        flex-flow: row wrap;
         align-items: center;
         justify-content: center;
-
-        ${compactMode &&
-          `
-            flex-direction: column;
-            align-items: space-between;
-            justify-content: center;
-          `}
+        align-content: center;
+        margin: 0 50px;
         `}
       >
-        <RedirectMessage compact={compactMode}/>
+        <RedirectMessage />
         <RedirectButton />
       </div>
       <CloseButton compactMode={compactMode} onClick={onClose}/>
