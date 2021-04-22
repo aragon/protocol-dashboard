@@ -135,8 +135,7 @@ function MainView({ children }) {
               </div>
               <footer
                 css={`
-                  flex-shrink: 0;
-                  margin-bottom: ${5 * GU}px;
+                  padding-bottom: ${2 * GU}px;
                   width: 100%;
                   text-align: center;
                   ${textStyle('body2')};
@@ -144,7 +143,7 @@ function MainView({ children }) {
                 `}
               >
                 Supporting services provided by{' '}
-                <Link href="https://aragon.one">Aragon One</Link>. Read Aragon
+                <Link href="https://aragon.org">Aragon Association</Link>. Read Aragon
                 Court's{' '}
                 <Link href="https://ant.aragon.org/legal/terms-general.pdf">
                   Terms of Service
