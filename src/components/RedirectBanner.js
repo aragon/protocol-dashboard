@@ -36,7 +36,7 @@ function RedirectMessage() {
       ${textStyle('body3')};
       color: #cd625c;
       text-align: center;
-      margin-bottom: ${2 * GU}px;
+      padding-bottom: ${2 * GU}px;
       width: ${80 * GU}px;
     `}>
       Court was migrated to Aragon v2 DAOS. Looking for the previous version of Court (for v1 DAOs)?
@@ -47,7 +47,7 @@ function RedirectMessage() {
 function RedirectButton() {
   return (
     <div css={`
-      margin-bottom: ${2 * GU}px;
+      padding-bottom: ${2 * GU}px;
     `}>
       <Button
         mode="strong"
@@ -67,12 +67,12 @@ function RedirectBanner ({ compactMode, onClose }) {
     `}>
       <div
         css={`
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-        justify-content: center;
-        align-content: center;
-        margin: 0 50px;
+          display: flex;
+          flex-flow: row wrap;
+          align-items: center;
+          justify-content: center;
+          align-content: center;
+          padding: 0 ${7 * GU}px;
         `}
       >
         <RedirectMessage />
