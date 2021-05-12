@@ -11,6 +11,7 @@ import { dateFormat } from '../../utils/date-utils'
 import folderIcon from '../../assets/folderIcon.svg'
 
 const DisputeEvidences = React.memo(function DisputeEvidences({
+  dispute,
   evidences,
   loading,
 }) {
@@ -37,7 +38,10 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                         margin-left: ${1.5 * GU}px;
                       `}
                     >
-                      Evidence #{index + 1}
+                      {
+                        // assume that the first evidence is always the original justification
+                        index === 0 ? 'Original justification' : `Dispute evidence ${index}`
+                      }
                     </span>
                   </div>,
                   <EvidenceContent
@@ -62,11 +66,10 @@ const EvidenceContent = React.memo(function EvidenceContent({
   error
 }) {
 
-  // if the data was set as `0x` 
-  if(!metadata) {
+  if(!metadata.endpoint && !metadata.text) {
     metadata = { text: 'This evidence has no data' }
   }
-
+  
   const theme = useTheme()
   const wallet = useWallet()
 
@@ -181,6 +184,7 @@ export default function Evidences({ dispute, evidences }) {
   return (
     <DisputeEvidences
       evidences={evidenceProcessed}
+      dispute={dispute}
       loading={fetchingEvidences}
     />
   )

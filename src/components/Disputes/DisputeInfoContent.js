@@ -14,14 +14,13 @@ import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
-import { toUtf8String } from '../../lib/web3-utils'
+import { toUTF8 } from '../../lib/web3-utils'
 
 import useActionDataDecoder from '../../hooks/useActionDataDecoder'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
   const compactMode = below('medium')
-
   // TODO:GIORGI what to do about this since organization and defendant and other fields don't exist anymore.
   const {
     agreementText,
@@ -99,7 +98,9 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   )
 }
 
-function Field({ label, loading, value, ...props }) {
+// by default, if value is not ipfs hash|address type, it tries to transform
+// the value into utf8string. To disable this, isUTF=false can be passed.
+function Field({ label, loading, value, isUTF8=true, ...props }) {
   const theme = useTheme()
   const wallet = useWallet()
 
@@ -107,13 +108,6 @@ function Field({ label, loading, value, ...props }) {
     return <div />
   }
 
-  function utf8(data) {
-    try {
-      return toUtf8String(data)
-    }catch(err) {
-    }
-    return data
-  }
 
   return (
     <div {...props}>
@@ -149,7 +143,7 @@ function Field({ label, loading, value, ...props }) {
 
           return value.split('\n').map((line, i) => (
             <React.Fragment key={i}>
-              {transformAddresses(line, (part, isAddress, index) =>
+              {transformAddresses(line, (part, isAddress, index) => 
                 isAddress ? (
                   <span title={part} key={index}>
                     <IdentityBadge
@@ -178,8 +172,7 @@ function Field({ label, loading, value, ...props }) {
                           </Link>
                         )
                       }
-
-                      return <span key={i}>{utf8(word)}</span>
+                      return <span key={i}>{isUTF8 ? toUTF8(word) : word} </span>
                     })}
                   </React.Fragment>
                 )
@@ -292,7 +285,7 @@ function DisputeContainerData({ dispute }) {
   return (  
     <div>
       <Field
-        label="Rules"
+        label="DAO agreement"
         value={config.rules}
         css={`
           word-break: break-word;
@@ -303,17 +296,10 @@ function DisputeContainerData({ dispute }) {
         label="Executor"
         value={payload.executor}
       />
-      <Field
-        label="Proof"
-        value={payload.proof}
-        css={`
-          word-break: break-word;
-          overflow-wrap: anywhere;
-        `} 
-      />
        <Field
         label="Allow Failures Map"
-        value={payload.allowFailuresMap} 
+        value={payload.allowFailuresMap}
+        isUTF8={false}
         css={`
           word-break: break-word;
           overflow-wrap: anywhere;

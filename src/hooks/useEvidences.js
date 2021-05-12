@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
+import { toUTF8 } from '../lib/web3-utils'
 
 const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
 
@@ -24,7 +25,10 @@ export default function useEvidences(dispute, rawEvidences) {
     const baseEvidence = {
       id,
       rawMetadata: uriOrData,
-      metadata: null,
+      metadata: {
+        text: null,
+        endpoint: null
+      },
       submitter,
       createdAt,
       error: false,
@@ -34,7 +38,7 @@ export default function useEvidences(dispute, rawEvidences) {
 
     // Not an IPFS URI
     if (!cid) {
-      evidencesCache.current.set(id, { ...baseEvidence, metadata: uriOrData })
+      evidencesCache.current.set(id, { ...baseEvidence, metadata: { text: toUTF8(uriOrData) } })
       return evidencesCache.current.get(id)
     }
 

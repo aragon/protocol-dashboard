@@ -42,7 +42,8 @@ export async function decode(metadata) {
         executor: originalPayload.executor,
         proof: originalPayload.proof,
         allowFailuresMap: originalPayload.allowFailuresMap,
-        actions: originalPayload.actions
+        actions: originalPayload.actions,
+        submitter: originalPayload.submitter
     }
 
     return {

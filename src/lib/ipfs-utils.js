@@ -1,6 +1,6 @@
 import CID from 'cids'
 import { defaultIpfsGateway } from '../endpoints'
-import { toUtf8String } from './web3-utils'
+import { toUTF8 } from './web3-utils'
 
 const SPLIT_IPFS_REGEX = /(Qm[a-zA-Z0-9]{44})/
 const TEST_IPFS_REGEX = /(Qm[a-zA-Z0-9]{44})/
@@ -43,7 +43,7 @@ export const getIpfsCidFromUri = string => {
 
   // if cidString is hex received from string-to-hex converter 
   try {
-    const cid = toUtf8String(cidString)
+    const cid = toUTF8(cidString)
     // eslint-disable-next-line no-new
     new CID(cid)
     return cid

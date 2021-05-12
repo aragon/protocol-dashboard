@@ -36,7 +36,7 @@ function DisputeDraft({ disputeId, onDraft }) {
         disabled && 
           <Info mode="warning">
             In order to be able to summon guardians, please connect your wallet and make sure that term is up to date.
-            Keep in mind that it's worth waiting 2 minutes before summoning the guardias if the term was recently updated
+            Keep in mind that it's worth waiting 2 minutes before summoning the guardians if the term was recently updated
           </Info>
       }
       <Info>
