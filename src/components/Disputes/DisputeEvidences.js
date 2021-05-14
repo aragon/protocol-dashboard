@@ -66,7 +66,8 @@ const EvidenceContent = React.memo(function EvidenceContent({
   error
 }) {
 
-  if(!metadata.endpoint && !metadata.text) {
+  
+  if( (!metadata.endpoint && !metadata.text) || metadata.text === '0x') {
     metadata = { text: 'This evidence has no data' }
   }
   

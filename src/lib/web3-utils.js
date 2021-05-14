@@ -203,7 +203,7 @@ export async function signMessage(wallet, message) {
   return { signHash, error }
 }
 
-export function toUTF8(data) {
+export function toUTF8String(data) {
   try {
       return toUtf8String(data)
   } catch (err) {
