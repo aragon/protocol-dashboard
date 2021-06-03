@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
-import { GU, Help, Link, textStyle, useTheme, useViewport, DataView, Info} from '@aragon/ui'
+import { GU, Help, Link, textStyle, useTheme, useViewport, Accordion, Info} from '@aragon/ui'
 import styled from 'styled-components'
 import DisputeDetailDescription from './DisputeDetailDescription'
 import DisputeOutcomeText from './DisputeOutcomeText'
@@ -196,10 +196,36 @@ function Field({ label, loading, value, isUTF8=true, ...props }) {
   )
 }
 
-const ActionContent = React.memo(function ActionContent({to, value, data}) {
+const ActionExpansion = React.memo(function ActionExpansion({to, value, data}) {
   const { decoding, decodedData } = useActionDataDecoder(to, data)
 
   const marginCss = `margin: ${2 * GU}px 0`;
+
+  const decodedValue = useMemo(() => {
+    if (decoding || !decodedData ) {
+      return
+    }
+
+    return (
+      <pre css={`white-space: pre-wrap;`}>
+        {JSON.stringify(decodedData.inputData, null, 2)}
+      </pre>
+    )
+  }, [decoding, decodedData])
+
+  const rawDataValue = (
+    <>
+      <Info mode="warning" css={`margin-bottom: ${2 * GU}px`}>
+        Unable to decode data because contract is not verified on etherscan
+      </Info>
+      {data}
+    </>
+  )
+
+  if (decoding) {
+    return <Loading size="medium" center/>
+  }
+
   return (
     <div>
       <Field
@@ -212,74 +238,38 @@ const ActionContent = React.memo(function ActionContent({to, value, data}) {
         label="Value"
         value={value.toString()}
       />
-      {
-        decoding && <Loading size="small" />
+      { decodedData &&
+        <Field
+          css={marginCss}
+          label="Function to be called"
+          value={decodedData.functionName}
+        />
       }
-      {
-        !decoding && decodedData &&
-        <div>
-          <Field
-            css={marginCss}
-            label="Function to be called"
-            value={decodedData.functionName}
-          />
-          <div css={marginCss}>
-            <FieldLabel>Data</FieldLabel>
-            <div>
-              <pre>
-                {JSON.stringify(decodedData.inputData, null, 2)}
-              </pre>
-            </div>
-          </div>
-        </div>
-      }
-      {
-        !decoding && !decodedData &&
-        <div>
-          <FieldLabel>Raw Data</FieldLabel>
-          <Info mode="warning">
-            Unable to decode data because contract is not verified on etherscan
-          </Info>
-          <Field
-            css={`
-              ${marginCss}
-              word-break: break-word;
-              overflow-wrap: anywhere;
-            `}
-            value={data}
-          />
-        </div>
-      }
+      <Field
+        css={`
+          ${marginCss}
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `}
+        label={decodedData? "Data": "Raw Data"}
+        isUTF8={false}
+        value={decodedData? decodedValue: rawDataValue}
+      />
     </div>
   )
 })
 
-
-const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
-  const fields = useMemo(() => [null], []);
-  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []); 
-  const renderEntryExpansion = useCallback(
-    ([_, to, value, data]) => {
-      return (<ActionContent to={to} value={value} data={data}/>);
-    }
+const ActionAccordion = React.memo(function ActionAccordion({ index, to, value, data }) {
+  const items = useMemo(
+    () => [[<div>Action # {index + 1}</div>, <ActionExpansion to={to} value={value} data={data} />]],
+    [index, to, value, data]
   );
 
-  const entries = useMemo(() => [[index, action.to, action.value, action.data]], []);
-
-  return (
-    <DataViewWrapper>
-      <DataView
-        fields={fields}
-        entries={entries}
-        renderEntry={renderEntry}
-        renderEntryExpansion={renderEntryExpansion}
-      />
-    </DataViewWrapper>
-  )
+  return <Accordion items={items} mode={"table"}/>;
 });
 
 function DisputeContainerData({ dispute }) {
-  if(!dispute.metadata) return ('')
+  if (!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 
   return (  
@@ -317,8 +307,10 @@ function DisputeContainerData({ dispute }) {
         return (
           <ActionAccordion
             key={index}
-            action={action}
             index={index}
+            to={action.to}
+            value={action.value}
+            data={action.data}
           />
         )
       })}
@@ -538,21 +530,6 @@ const Row = styled.div`
     grid-template-columns: ${
       compactMode ? 'auto' : ''
     };
-  `}
-`
-
-// this is a hack until we fix the issue with DataView
-// not showing the full content on expansion
-const DataViewWrapper = styled.div`
-  div[class*="TableView___StyledAnimatedDiv2"] {
-    height: auto !important;
-  }
-`
-
-const FieldLabel = styled.div`
-  ${({ theme }) => `
-    ${textStyle('label2')};
-    color: ${theme.surfaceContentSecondary};
   `}
 `
 

@@ -1,3 +1,4 @@
+import { utils } from 'ethers'
 import env from '../environment'
 const api = env('ETHERSCAN_ENDPOINT')
 
@@ -7,6 +8,10 @@ const api = env('ETHERSCAN_ENDPOINT')
  * @returns {Object|null} contract ABI
  */
  export async function fetchAbi(to) {
+  if (!utils.isAddress(to)) {
+     return null
+  }
+
   const endpoint = `${api}&module=contract&action=getabi&address=${to}`
 
   console.log('hit etherscan......')

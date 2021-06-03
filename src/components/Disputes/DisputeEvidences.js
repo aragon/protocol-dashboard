@@ -140,7 +140,7 @@ const EvidenceContent = React.memo(function EvidenceContent({
             ${textStyle('label2')};
             color: ${theme.surfaceContentSecondary};
             margin-bottom: ${2 * GU}px;
-          `}
+            `}
         >
           Data
         </h2>
@@ -165,6 +165,8 @@ const EvidenceContent = React.memo(function EvidenceContent({
           css={`
             display: flex;
             align-items: flex-start;
+            word-break: break-word;
+            overflow-wrap: anywhere;
           `}
         >
           {metadata.text && <Markdown text={metadata.text} /> }

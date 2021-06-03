@@ -6,7 +6,7 @@
   "author": "Aragon Association <legal@aragon.org>",
   "dependencies": {
     "@aragon/connect": "^0.6.0",
-    "@aragon/ui": "^1.4.0",
+    "@aragon/ui": "https://github.com/aragon/ui.git#dataview-expansion-issue",
     "@sentry/browser": "^5.12.1",
     "@web3-react/core": "^6.0.2",
     "@web3-react/injected-connector": "^6.0.3",
