@@ -12,7 +12,7 @@ export const networkConfigs = {
     },
   },
   rinkeby: {
-    court: '0x94903D782eaa1eC440989102Edd348044355aF15',
+    court: '0xC464EB732A1D2f5BbD705727576065C91B2E9f18',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: 
