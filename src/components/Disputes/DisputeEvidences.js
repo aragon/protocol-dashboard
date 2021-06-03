@@ -24,6 +24,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
           return (
             <Accordion
               key={index}
+              mode="table"
               items={[
                 [
                   <div

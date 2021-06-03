@@ -265,7 +265,7 @@ const ActionAccordion = React.memo(function ActionAccordion({ index, to, value, 
     [index, to, value, data]
   );
 
-  return <Accordion items={items} mode={"table"}/>;
+  return <Accordion items={items} mode="table"/>;
 });
 
 function DisputeContainerData({ dispute }) {
