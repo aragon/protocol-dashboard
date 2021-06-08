@@ -1,12 +1,31 @@
 import CID from 'cids'
 import { defaultIpfsGateway } from '../endpoints'
 import { toUTF8String } from './web3-utils'
+import { create } from 'ipfs-http-client';
 
 const SPLIT_IPFS_REGEX = /(Qm[a-zA-Z0-9]{44})/
 const TEST_IPFS_REGEX = /(Qm[a-zA-Z0-9]{44})/
 
 const REQUEST_TIMEOUT = 60000
 
+let ipfs = null;
+
+const FILE_EXTS = {
+  text: 'txt',
+};
+
+const MIME_TYPES = ['text/plain'];
+
+function createIpfs() {
+  if (!ipfs) {
+    ipfs = create({
+      url: 'https://2a7143fae39e7adaeb57.b-cdn.net/api/v0',
+      headers: {
+        authorization: 'v2 z7fAEdRSjqiH7Qv8ez2Qs6gypd5v3YH8cPGEE9MyESMVb',
+      },
+    });
+  }
+}
 
 export const ipfsGet = async cid => {
   const endpoint = `${defaultIpfsGateway}/${cid}`
@@ -19,6 +38,75 @@ export const ipfsGet = async cid => {
     console.error(`Error requesting data from IPFS for ${endpoint}`, err)
     return { error: true }
   }
+}
+
+export async function fetchIPFS(uriOrCid) {
+  createIpfs();
+  
+  let cid = uriOrCid.replace(/^ipfs:/, '');
+  cid = getIpfsCidFromUri(cid);
+  if (!cid) {
+    return null;
+  }
+
+  // endpoint/text can be array for supporting multiple files
+  const data = {
+    metadata: null,
+    endpoint: null,
+    text: null,
+    error: null
+  };
+
+  for await (const file of ipfs.get(cid)) {
+    // If the file type is dir, it's a directory,
+    // so we need inside files
+    if (file.type === 'dir') {
+      continue;
+    }
+
+    if (file.type === 'file') {
+      const content = [];
+
+      for await (const chunk of file.content) {
+        content.push(chunk);
+      }
+
+      if (file.path.includes('metadata')) {
+        try {
+          data.metadata = JSON.parse(new TextDecoder().decode(Buffer.concat(content)));
+        } catch (err) {}
+      } else {
+        data.endpoint = defaultIpfsGateway + '/' + file.path;
+
+        const extension = file.path.split('.').pop();
+        // check if the extension exists and is of type `.txt`
+        // to get the text representation by saving bandwith.
+        if (Object.values(FILE_EXTS).includes(extension)) {
+          try {
+            data.text = new TextDecoder().decode(Buffer.concat(content));
+          } catch (err) {}
+        } // if the path name doesn't have .txt extension
+        // or doesn't include path at all, fetch is needed
+        // to determine the type and gets its text if it's text/plain
+        else {
+          const response = await fetch(defaultIpfsGateway + '/' + file.path);
+          if (!response.ok) {
+            data.error = !response.ok;
+          }
+
+          const blob = await response.clone().blob();
+
+          if (MIME_TYPES.includes(blob.type)) {
+            try {
+              data.text = new TextDecoder().decode(content[0]);
+            } catch (err) {}
+          }
+        }
+      }
+    }
+  }
+
+  return data;
 }
 
 export const getIpfsCidFromUri = string => {

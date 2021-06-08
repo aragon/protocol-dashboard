@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
+import {  getIpfsCidFromUri, fetchIPFS } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
 import { toUTF8String } from '../lib/web3-utils'
 
-const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
+// const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
 
 export default function useEvidences(dispute, rawEvidences) {
   // Contains valid evidences + errored evidences
@@ -27,7 +27,8 @@ export default function useEvidences(dispute, rawEvidences) {
       rawMetadata: uriOrData,
       metadata: {
         text: null,
-        endpoint: null
+        endpoint: null,
+        metadata: null // JSON that contains more info...
       },
       submitter,
       createdAt,
@@ -42,23 +43,17 @@ export default function useEvidences(dispute, rawEvidences) {
       return evidencesCache.current.get(id)
     }
 
-    const { result, endpoint, error } = await ipfsGet(cid)
+    const data = await fetchIPFS(cid)
 
-    if (error) {
+    if (data.error) {
       return { ...baseEvidence, error: ERROR_TYPES.ERROR_FETCHING_IPFS }
     }
 
     const evidenceProcessed = {
       ...baseEvidence,
-      metadata: { endpoint }
-    }
-
-    const file = await result.clone().blob()
-    
-    // if the file type is one of the FILE_TYPES, we also show the evidence text on the dashboard
-    // otherwise, we put an endpoint link to see the image on gateway link.
-    if(FILE_TYPES.includes(file.type)) {
-      evidenceProcessed.metadata.text = await result.text()
+      metadata: { 
+        ...data
+      }
     }
 
     evidencesCache.current.set(id, evidenceProcessed)

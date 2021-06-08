@@ -10,7 +10,7 @@ import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
 import { describeDisputedAction } from '../../disputables'
 import { IPFS_ENDPOINT } from '../../endpoints'
-import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
+import { getIpfsCidFromUri, transformIPFSHash, fetchIPFS } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
@@ -282,8 +282,32 @@ function DisputeContainerData({ dispute }) {
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 
+  const [ title, setTitle ] = useState(null);
+  
+  useEffect(() => {
+    async function getTitle() {
+      const proof = await fetchIPFS(payload.proof)
+      if(!proof) {
+        return;
+      }
+      if(proof.metadata && proof.metadata.title) {
+        setTitle(proof.metadata.title)
+      }
+    }
+    getTitle();
+  }, [payload])
+
   return (  
     <div>
+      <Field
+        label="Title"
+        value={title}
+        loading={title === null}
+        css={`
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        `} 
+      />
       <Field
         label="DAO agreement"
         value={config.rules}
