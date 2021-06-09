@@ -20,7 +20,7 @@ import { useCourtClock } from '../providers/CourtClock'
 import { useCourtConfig } from '../providers/CourtConfig'
 import { useHeartbeat } from '../hooks/useCourtContracts'
 
-import { formatDuration } from '../utils/date-utils'
+import { formatDuration, dateFormat } from '../utils/date-utils'
 import {
   getNetworkType,
   isLocalOrUnknownNetwork,
@@ -43,6 +43,7 @@ function ClockModule() {
     currentTermEndDate,
     isSynced,
     neededTransitions,
+    firstTermStartTimeFuture
   } = useCourtClock()
 
   const toggle = useCallback(() => setOpened(opened => !opened), [])
@@ -59,6 +60,22 @@ function ClockModule() {
 
   const IconSync = isSynced ? IconCheck : IconCross
 
+  if(firstTermStartTimeFuture) {
+    return (
+      <div
+      ref={buttonRef}
+      tabIndex="0"
+      css={`
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        outline: 0;
+        margin-right:10px;
+      `}
+    >Court Start Time: {dateFormat(firstTermStartTimeFuture, 'standard')}</div>
+    )
+  }
+  
   return (
     <div
       ref={buttonRef}
