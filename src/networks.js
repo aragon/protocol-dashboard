@@ -1,4 +1,15 @@
 import { getNetworkType, isLocalOrUnknownNetwork } from './lib/web3-utils'
+import environment from './environment'
+
+const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
+
+export const RINKEBY_COURT = '0xC464EB732A1D2f5BbD705727576065C91B2E9f18'
+
+// The staging below is rinkeby-staging. This means that we have another court deployed on rinkeby,
+// but with easier settings so that we could test better from localhost. This is a little bit different
+// from actual rinkeby, because on rinkeby, customers can also test, but on staging, it's only the
+// developers that can test better with less term duration(10 minutes...), while on rinkeby, it's 2 hours
+export const RINKEBY_STAGING_COURT = '0xD2c15eCd1751C2cE8b02ab2D95db32E662517D61'
 
 export const networkConfigs = {
   main: {
@@ -12,11 +23,10 @@ export const networkConfigs = {
     },
   },
   rinkeby: {
-    court: '0xC464EB732A1D2f5BbD705727576065C91B2E9f18',
+    court: getRinkebyCourtAddress(SUBGRAPH_NAME),
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
-      subgraph: 
-        'https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-rinkeby'
+      subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME)
     },
   },
   ropsten: {
@@ -48,3 +58,15 @@ export const networkAgentAddress = getNetworkConfig().network_agent
 
 export const networkReserveAddress = getNetworkConfig().network_reserve
 
+
+function getRinkebyCourtAddress(subgraphName) {
+  if (subgraphName === 'staging') {
+    return RINKEBY_STAGING_COURT
+  }
+  return RINKEBY_COURT
+}
+
+function getRinkebySubgraphUrls(subgraphName) {
+  return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-${subgraphName ||
+    'rinkeby'}`
+}
