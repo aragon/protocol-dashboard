@@ -2,51 +2,51 @@ import { useMemo } from 'react'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 import { useCourtConfig } from '../providers/CourtConfig'
 import { bigNum } from '../lib/math-utils'
-import { isJurorCoherent } from '../utils/juror-draft-utils'
+import { isGuardianCoherent } from '../utils/guardian-draft-utils'
 import {
   getAppealerFees,
   shouldAppealerBeRewarded,
 } from '../utils/appeal-utils'
 import { getRoundFees } from '../utils/dispute-utils'
 import { useWallet } from '../providers/Wallet'
-import { useJurorLastWithdrawalTimeSubscription } from './subscription-hooks'
+import { useGuardianLastWithdrawalTimeSubscription } from './subscription-hooks'
 
-export default function useJurorRewards() {
+export default function useGuardianRewards() {
   const courtConfig = useCourtConfig()
   const wallet = useWallet()
-  const { jurorDrafts, appeals } = useDashboardState()
-  const lastWithdrawalTime = useJurorLastWithdrawalTimeSubscription(
+  const { guardianDrafts, appeals } = useDashboardState()
+  const lastWithdrawalTime = useGuardianLastWithdrawalTimeSubscription(
     wallet.account
   )
 
   // For arbitrable and appeal fees we will use a map where map = [disputeId, { amount, rounds }]
   // Where `rounds` is the array of roundIds of non settled rounds
-  // This is useful as jurors could have rewards from many rounds for the same dispute
+  // This is useful as guardians could have rewards from many rounds for the same dispute
   // which will need to be settled (in case they aren't) before withdrawing them from the treasury
   return useMemo(() => {
-    if (!jurorDrafts || !appeals || !lastWithdrawalTime) return null
+    if (!guardianDrafts || !appeals || !lastWithdrawalTime) return null
 
     // Get ruling and disputes fees
-    // Only jurors that voted in consensus with the winning outcome can claim rewards (coherent jurors)
+    // Only guardians that voted in consensus with the winning outcome can claim rewards (coherent guardians)
     // We also include already settled rewards which have not been withdrawn from the treasury yet.
-    const { rulingFees, arbitrableFees } = jurorDrafts
+    const { rulingFees, arbitrableFees } = guardianDrafts
       .filter(
-        jurorDraft =>
-          jurorDraft.round.settledPenalties &&
-          (!jurorDraft.rewarded ||
-            jurorDraft.rewardedAt > lastWithdrawalTime) &&
-          isJurorCoherent(jurorDraft)
+        guardianDraft =>
+          guardianDraft.round.settledPenalties &&
+          (!guardianDraft.rewarded ||
+            guardianDraft.rewardedAt > lastWithdrawalTime) &&
+          isGuardianCoherent(guardianDraft)
       )
       .reduce(
         ({ rulingFees, arbitrableFees }, { rewarded, round, weight }) => {
-          const { jurorFees, coherentJurors, collectedTokens, dispute } = round
+          const { guardianFees, coherentGuardians, collectedTokens, dispute } = round
 
           // Calculate fees
           const rulingFeesAmount = collectedTokens
             .mul(weight)
-            .div(coherentJurors)
+            .div(coherentGuardians)
 
-          const disputeFeesAmount = jurorFees.mul(weight).div(coherentJurors)
+          const disputeFeesAmount = guardianFees.mul(weight).div(coherentGuardians)
 
           return {
             rulingFees: rulingFees.add(rulingFeesAmount),
@@ -95,14 +95,14 @@ export default function useJurorRewards() {
       }, new Map())
 
     return {
-      anjRewards: rulingFees,
+      antRewards: rulingFees,
       feeRewards: {
         arbitrableFees: feeMapToArray(arbitrableFees),
         appealFees: feeMapToArray(appealFees),
         distribution: getDisputesFeesDistribution(arbitrableFees, appealFees),
       },
     }
-  }, [appeals, courtConfig, jurorDrafts, lastWithdrawalTime, wallet])
+  }, [appeals, courtConfig, guardianDrafts, lastWithdrawalTime, wallet])
 }
 
 /**

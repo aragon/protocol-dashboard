@@ -15,31 +15,31 @@ const TASKS_ACTIONS_TYPES = [
   DisputesTypes.Phase.ConfirmAppeal,
 ]
 
-function useFilteredTasks(jurorTasksSelected, connectedAccount) {
+function useFilteredTasks(guardianTasksSelected, connectedAccount) {
   const [selectedDateRange, setSelectedDateRange] = useState(INITIAL_DATE_RANGE)
   const [selectedPhase, setSelectedPhase] = useState(UNSELECTED_PHASE)
   const [filtersSelected, setFiltersSelected] = useState(false)
 
   // If My Tasks is selected we need to only show ALL-COMMIT-REVEAL actions
-  const TASKS_ACTIONS_TYPES_STRING = jurorTasksSelected
+  const TASKS_ACTIONS_TYPES_STRING = guardianTasksSelected
     ? TASKS_ACTIONS_TYPES.slice(0, 3).map(DisputesTypes.getTaskActionString)
     : TASKS_ACTIONS_TYPES.map(DisputesTypes.getTaskActionString)
 
   const { openTasks: tasks, fetching, error } = useTasks()
 
-  const jurorTasks = useMemo(
+  const guardianTasks = useMemo(
     () =>
       tasks
         ? tasks.filter(task =>
-            task.juror === 'Anyone'
+            task.guardian === 'Anyone'
               ? false
-              : addressesEqual(task.juror, connectedAccount)
+              : addressesEqual(task.guardian, connectedAccount)
           )
         : [],
     [connectedAccount, tasks]
   )
 
-  const tasksToFilter = jurorTasksSelected ? jurorTasks : tasks
+  const tasksToFilter = guardianTasksSelected ? guardianTasks : tasks
 
   const handleSelectedDateRangeChange = useCallback(
     range => {
@@ -100,7 +100,7 @@ function useFilteredTasks(jurorTasksSelected, connectedAccount) {
     selectedPhase,
     handleSelectedPhaseChange,
     openTasksNumber: tasks.length,
-    jurorOpenTaskNumber: jurorTasks.length,
+    guardianOpenTaskNumber: guardianTasks.length,
     taskActionsString: TASKS_ACTIONS_TYPES_STRING,
   }
 }

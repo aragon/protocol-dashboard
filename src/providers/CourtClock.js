@@ -16,6 +16,7 @@ function CourtClockProvider({ children }) {
 
   let expectedCurrentTerm = 0
   let [termStartTime, termEndTime] = [0, 0]
+  let firstTermStartTimeFuture = null
 
   if (terms.length > 0) {
     expectedCurrentTerm = getExpectedCurrentTermId(now, {
@@ -31,16 +32,23 @@ function CourtClockProvider({ children }) {
     termStartTime = termPeriod[0]
     termEndTime = termPeriod[1]
   }
+  
+  // If the FIRST start time is in the future, 
+  // figure out when it is
+  if(terms.length === 1 && terms[0].startTime > Date.now()) {
+    firstTermStartTimeFuture = new Date(terms[0].startTime)
+  }
 
   const courtClock = useMemo(
     () => ({
       currentTermId: expectedCurrentTerm,
       currentTermStartDate: new Date(termStartTime),
       currentTermEndDate: new Date(termEndTime),
+      firstTermStartTimeFuture: firstTermStartTimeFuture,
       isSynced: expectedCurrentTerm === actualCurrentTerm,
       neededTransitions: expectedCurrentTerm - actualCurrentTerm,
     }),
-    [actualCurrentTerm, expectedCurrentTerm, termEndTime, termStartTime]
+    [actualCurrentTerm, expectedCurrentTerm, termEndTime, termStartTime, firstTermStartTimeFuture]
   )
 
   return (

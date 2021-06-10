@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useWallet } from '../providers/Wallet'
 import { useCourtClock } from '../providers/CourtClock'
 import { useCourtConfig } from '../providers/CourtConfig'
-import { useFirstANJActivationQuery } from './query-hooks'
+import { useFirstANTActivationQuery } from './query-hooks'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 import {
@@ -14,13 +14,13 @@ import {
   getLatestMovementByBalance,
   acceptedMovementsPerBalance,
   getAmountNotEffectiveByBalance,
-} from '../utils/anj-movement-utils'
+} from '../utils/ant-movement-utils'
 import { getTermStartTime } from '../utils/court-utils'
 import { getDraftLockAmount } from '../utils/dispute-utils'
-import { ANJBalance, ANJMovement } from '../types/anj-types'
+import { ANTBalance, ANTMovement } from '../types/ant-types'
 
-export function useANJBalances() {
-  const { anjBalances, anjMovements } = useDashboardState()
+export function useANTBalances() {
+  const { antBalances, stakingMovements } = useDashboardState()
 
   const {
     walletBalance,
@@ -28,30 +28,30 @@ export function useANJBalances() {
     lockedBalance,
     inactiveBalance,
     deactivationBalance,
-  } = anjBalances || {}
+  } = antBalances || {}
 
-  const convertedMovements = useConvertedMovements(anjMovements)
+  const convertedMovements = useConvertedMovements(stakingMovements)
 
   const convertedWalletBalance = useBalanceWithMovements(
     walletBalance,
     convertedMovements,
-    ANJBalance.Wallet
+    ANTBalance.Wallet
   )
 
   const convertedInactiveBalance = useBalanceWithMovements(
     inactiveBalance,
     convertedMovements,
-    ANJBalance.Inactive
+    ANTBalance.Inactive
   )
 
   const convertedActiveBalance = useBalanceWithMovements(
     activeBalance,
     convertedMovements,
-    ANJBalance.Active
+    ANTBalance.Active
   )
 
-  // Use ANJ Locked distribution
-  const lockedDistribution = useJurorLockedANJDistribution()
+  // Use ANT Locked distribution
+  const lockedDistribution = useGuardianLockedANTDistribution()
   const convertedLockedBalance = useMemo(() => {
     return { amount: lockedBalance, distribution: lockedDistribution }
   }, [lockedBalance, lockedDistribution])
@@ -62,7 +62,7 @@ export function useANJBalances() {
 
   // Since we pass the whole object through props to components, we should memoize it
   return useMemo(() => {
-    if (!anjBalances) {
+    if (!antBalances) {
       return null
     }
 
@@ -74,7 +74,7 @@ export function useANJBalances() {
       deactivationBalance: convertedDeactivationBalance,
     }
   }, [
-    anjBalances,
+    antBalances,
     convertedActiveBalance,
     convertedDeactivationBalance,
     convertedInactiveBalance,
@@ -103,7 +103,7 @@ function useConvertedMovements(movements) {
       // but only Deactivations don't update the balance immediately, we'll use another attr (isImmediate) to differentiate these cases
       return movements
         .map((mov, i) => {
-          const isImmediate = ANJMovement[mov.type] !== ANJMovement.Deactivation
+          const isImmediate = ANTMovement[mov.type] !== ANTMovement.Deactivation
 
           let updatesBalanceAt = mov.createdAt
           if (!isImmediate && mov.effectiveTermId && effectiveStates[i]) {
@@ -144,8 +144,8 @@ function useConvertedMovements(movements) {
  * @returns {Object} Converted balance
  */
 function useBalanceWithMovements(balance, movements, balanceType) {
-  const { anjBalances } = useDashboardState()
-  const { lockedBalance } = anjBalances || {}
+  const { antBalances } = useDashboardState()
+  const { lockedBalance } = antBalances || {}
 
   const acceptedMovements = acceptedMovementsPerBalance.get(balanceType)
   const filteredMovements = useFilteredMovements(movements, acceptedMovements)
@@ -168,7 +168,7 @@ function useBalanceWithMovements(balance, movements, balanceType) {
     )
 
     // Update latest movement if necessary
-    if (balanceType === ANJBalance.Active) {
+    if (balanceType === ANTBalance.Active) {
       if (lockedBalance?.gt(0))
         latestMovement = getUpdatedLockedMovement(lockedBalance, latestMovement)
     }
@@ -194,7 +194,7 @@ function useFilteredMovements(movements, acceptedMovements) {
       return null
     }
     return movements.filter(movement => {
-      return isMovementOf(acceptedMovements, ANJMovement[movement.type])
+      return isMovementOf(acceptedMovements, ANTMovement[movement.type])
     })
   }, [acceptedMovements, movements])
 }
@@ -202,42 +202,42 @@ function useFilteredMovements(movements, acceptedMovements) {
 /**
  * @param {Object} options query options
  * @param {Boolean} options.pause Tells whether to pause query or not
- * @return {Boolean} true if account's first ANJ activation happened on current term
+ * @return {Boolean} true if account's first ANT activation happened on current term
  */
-export function useJurorFirstTimeANJActivation(options) {
+export function useGuardianFirstTimeANTActivation(options) {
   const wallet = useWallet()
   const { currentTermId } = useCourtClock()
-  const firstANJActivation = useFirstANJActivationQuery(wallet.account, options)
+  const firstANTActivation = useFirstANTActivationQuery(wallet.account, options)
 
-  if (!firstANJActivation) return false
+  if (!firstANTActivation) return false
 
-  const firstANJActivationTerm = parseInt(
-    firstANJActivation.effectiveTermId,
+  const firstANTActivationTerm = parseInt(
+    firstANTActivation.effectiveTermId,
     10
   )
 
   // Activation is effective on next term from when the activation was performed
-  return firstANJActivationTerm === currentTermId + 1
+  return firstANTActivationTerm === currentTermId + 1
 }
 
-export function useJurorLockedANJDistribution() {
+export function useGuardianLockedANTDistribution() {
   const {
     maxRegularAppealRounds,
     minActiveBalance,
     penaltyPct,
   } = useCourtConfig()
-  const { jurorDrafts, anjBalances } = useDashboardState()
-  const { lockedBalance } = anjBalances || {}
+  const { guardianDrafts, antBalances } = useDashboardState()
+  const { lockedBalance } = antBalances || {}
 
   return useMemo(() => {
-    if (!lockedBalance || lockedBalance.eq(0) || !jurorDrafts) return null
+    if (!lockedBalance || lockedBalance.eq(0) || !guardianDrafts) return null
 
-    // For final rounds the ANJ at stake is pre-slashed for all jurors when they commit their vote
-    return jurorDrafts
+    // For final rounds the ANT at stake is pre-slashed for all guardians when they commit their vote
+    return guardianDrafts
       .filter(
-        jurorDraft =>
-          !jurorDraft.round.settledPenalties &&
-          jurorDraft.round.number < maxRegularAppealRounds
+        guardianDraft =>
+          !guardianDraft.round.settledPenalties &&
+          guardianDraft.round.number < maxRegularAppealRounds
       )
       .reduce((lockDistribution, { weight, round }) => {
         const { dispute } = round
@@ -274,7 +274,7 @@ export function useJurorLockedANJDistribution() {
         return lockDistribution
       }, [])
   }, [
-    jurorDrafts,
+    guardianDrafts,
     lockedBalance,
     maxRegularAppealRounds,
     minActiveBalance,

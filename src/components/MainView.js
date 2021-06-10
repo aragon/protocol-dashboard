@@ -12,6 +12,7 @@ import {
 import usePreferences from '../hooks/usePreferences'
 import MenuPanel, { MENU_PANEL_WIDTH } from './MenuPanel'
 import Header from './Header/Header'
+import RedirectBanner from './RedirectBanner'
 import GlobalPreferences from './GlobalPreferences/GlobalPreferences'
 
 function MainView({ children }) {
@@ -19,6 +20,7 @@ function MainView({ children }) {
   const theme = useTheme()
   const compactMode = below('medium')
   const [menuPanelOpen, setMenuPanelOpen] = useState(!compactMode)
+  const [showRedirectBanner, setShowRedirectBanner] = useState(true)
 
   const [openPreferences, closePreferences, preferenceOption] = usePreferences()
 
@@ -34,6 +36,10 @@ function MainView({ children }) {
       handleCloseMenuPanel()
     }
   }, [compactMode, handleCloseMenuPanel])
+
+  const handleCloseRedirectBanner = useCallback(() => {
+    setShowRedirectBanner(false)
+  }, [])
 
   useEffect(() => {
     setMenuPanelOpen(!compactMode)
@@ -56,6 +62,17 @@ function MainView({ children }) {
         height: 100vh;
       `}
     >
+      <div
+        css={`
+          flex-shrink: 0;
+        `}
+      >
+        <RedirectBanner
+          compactMode={compactMode}
+          onClose={handleCloseRedirectBanner}
+          show={showRedirectBanner}
+        />
+      </div>
       <div
         css={`
           flex-shrink: 0;
@@ -118,8 +135,7 @@ function MainView({ children }) {
               </div>
               <footer
                 css={`
-                  flex-shrink: 0;
-                  margin-bottom: ${5 * GU}px;
+                  padding-bottom: ${2 * GU}px;
                   width: 100%;
                   text-align: center;
                   ${textStyle('body2')};
@@ -127,9 +143,9 @@ function MainView({ children }) {
                 `}
               >
                 Supporting services provided by{' '}
-                <Link href="https://aragon.one">Aragon One</Link>. Read Aragon
-                Protocol's{' '}
-                <Link href="https://anj.aragon.org/legal/terms-general.pdf">
+                <Link href="https://aragon.org">Aragon Association</Link>. Read Aragon
+                Court's{' '}
+                <Link href="https://ant.aragon.org/legal/terms-general.pdf">
                   Terms of Service
                 </Link>
                 .

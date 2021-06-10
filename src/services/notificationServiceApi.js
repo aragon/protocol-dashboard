@@ -124,7 +124,7 @@ export async function switchNotificationsStatus(address, disabled) {
   }
 }
 
-export async function getJurorEmail(address) {
+export async function getGuardianEmail(address) {
   const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email`
 
   try {
@@ -203,7 +203,7 @@ export async function resendVerificationEmail(address) {
 }
 
 export async function subscribeExistingEmail(address) {
-  const { email, error, needsSignature } = await getJurorEmail(address)
+  const { email, error, needsSignature } = await getGuardianEmail(address)
 
   if (needsSignature) {
     return { needsSignature, email }
@@ -216,7 +216,7 @@ export async function subscribeExistingEmail(address) {
   return { email, sent, error: errorReSending }
 }
 
-export async function deleteJurorEmail(address) {
+export async function deleteGuardianEmail(address) {
   const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email`
 
   try {
@@ -294,7 +294,7 @@ export async function deleteCurrentSession(address) {
   }
 }
 
-export async function verifyJurorEmail(address, token) {
+export async function verifyGuardianEmail(address, token) {
   const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email:verify`
 
   try {

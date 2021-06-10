@@ -5,18 +5,21 @@ const DisputeFilters = ({
   phaseTypes,
   statusTypes,
   dateRangeFilter,
+  subjects,
+  selectedSubject,
   phaseFilter,
   statusFilter,
   onDateRangeChange,
   onPhaseChange,
   onStatusChange,
+  onSubjectChange
 }) => {
   return (
     <div
       css={`
         height: ${8 * GU}px;
         display: grid;
-        grid-template-columns: auto auto 1fr auto;
+        grid-template-columns: auto auto auto auto;
         grid-gap: ${1 * GU}px;
         align-items: center;
         padding: 0 ${3 * GU}px;
@@ -27,6 +30,7 @@ const DisputeFilters = ({
         placeholder="Phase"
         selected={phaseFilter}
         onChange={onPhaseChange}
+        wide
         items={phaseTypes}
       />
       <DropDown
@@ -35,6 +39,15 @@ const DisputeFilters = ({
         selected={statusFilter}
         onChange={onStatusChange}
         items={statusTypes}
+        wide
+      />
+      <DropDown
+        header="Creator of the dispute"
+        placeholder="Subject"
+        selected={selectedSubject}
+        onChange={onSubjectChange}
+        items={subjects}
+        wide
       />
       <DateRangePicker
         startDate={dateRangeFilter.start}

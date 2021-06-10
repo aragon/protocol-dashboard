@@ -66,16 +66,16 @@ function useOpenTasks(tasks, currentTermId, courtConfig) {
         currentPhase !== DisputePhase.AppealRuling &&
         currentPhase !== DisputePhase.ConfirmAppeal
       ) {
-        for (let j = 0; j < incompleteTasks[i].jurors.length; j++) {
-          if (isVotingTaskOpen(incompleteTasks[i].jurors[j], currentPhase)) {
+        for (let j = 0; j < incompleteTasks[i].guardians.length; j++) {
+          if (isVotingTaskOpen(incompleteTasks[i].guardians[j], currentPhase)) {
             openTasks.push({
               number: incompleteTasks[i].number,
               state: incompleteTasks[i].state,
               createdAt: incompleteTasks[i].createdAt,
-              juror: incompleteTasks[i].jurors[j].juror.id,
+              guardian: incompleteTasks[i].guardians[j].guardian.id,
               disputeId: incompleteTasks[i].dispute.id,
-              commitment: incompleteTasks[i].jurors[j].commitment,
-              outcome: incompleteTasks[i].jurors[j].outcome,
+              commitment: incompleteTasks[i].guardians[j].commitment,
+              outcome: incompleteTasks[i].guardians[j].outcome,
               phase: getTaskActionString(currentPhase),
               phaseType: currentPhase,
               dueDate: nextTransition,
@@ -85,12 +85,12 @@ function useOpenTasks(tasks, currentTermId, courtConfig) {
       } else {
         if (isAppealTaskOpen(incompleteTasks[i], currentPhase)) {
           // We are in appeal or confirm and only need to generate a single task
-          // (rather than one per juror) if the task is still open
+          // (rather than one per guardian) if the task is still open
           openTasks.push({
             number: incompleteTasks[i].number,
             state: incompleteTasks[i].state,
             createdAt: incompleteTasks[i].createdAt,
-            juror: 'Anyone',
+            guardian: 'Anyone',
             disputeId: incompleteTasks[i].dispute.id,
             phase: getTaskActionString(currentPhase),
             phaseType: currentPhase,

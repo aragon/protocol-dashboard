@@ -1,32 +1,13 @@
 import { useEffect, useState } from 'react'
 import { captureException } from '@sentry/browser'
 
-import { useCourtConfig } from '../providers/CourtConfig'
-import { useUniswapAnjPrice } from './useUniswapAnjPrice'
 import { bigNum, formatUnits } from '../lib/math-utils'
 import { getNetworkType } from '../lib/web3-utils'
 
 const API_BASE = 'https://api.0x.org'
-const UNISWAP_PRECISION = bigNum(10).pow(18)
 
 const SELL_TOKEN = 'USDC'
 const SELL_TOKEN_PRECISION = bigNum(10).pow(6)
-
-/**
- * Convert ANJ amount into USD price
- * @param {BigNum} amount The amount to convert to USD
- * @returns {String} The amount value in USD
- */
-export function useANJAmountToUsd(amount) {
-  const { anjToken } = useCourtConfig()
-  const anjPrice = useUniswapAnjPrice()
-
-  if (!amount || anjPrice === 0) {
-    return '-'
-  }
-
-  return convertAmount(amount, anjPrice, anjToken.decimals, UNISWAP_PRECISION)
-}
 
 /**
  * Convert a token into a USD price

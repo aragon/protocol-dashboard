@@ -19,6 +19,8 @@ execute('npm run sync-assets', {
   stdio: 'inherit',
 })
 
+
+console.log(process.env,' env')
 console.log('Building app…')
 console.log()
 execute(

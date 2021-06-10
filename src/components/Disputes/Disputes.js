@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import DisputeList from './DisputeList'
 import TitleHeader from '../TitleHeader'
 import useDisputes from '../../hooks/useDisputes'
-import { useJurorDraftQuery } from '../../hooks/query-hooks'
+import { useGuardianDraftQuery } from '../../hooks/query-hooks'
 import { useWallet } from '../../providers/Wallet'
 
 function Disputes() {
@@ -17,11 +17,11 @@ function Disputes() {
     error: errorFetching,
   } = useDisputes()
 
-  // Query for all dispute ids where the juror has been drafted
-  const jurorDisputeIds = useJurorDraftQuery(wallet.account)
+  // Query for all dispute ids where the guardian has been drafted
+  const guardianDisputeIds = useGuardianDraftQuery(wallet.account)
 
-  const jurorDisputes = disputes?.filter(dispute =>
-    jurorDisputeIds.includes(dispute.id)
+  const guardianDisputes = disputes?.filter(dispute =>
+    guardianDisputeIds.includes(dispute.id)
   )
 
   const history = useHistory()
@@ -53,7 +53,7 @@ function Disputes() {
             <span>My disputes </span>
             <Tag
               limitDigits={4}
-              label={jurorDisputes ? jurorDisputes.length : 0}
+              label={guardianDisputes ? guardianDisputes.length : 0}
               size="small"
             />
           </div>,
@@ -63,7 +63,7 @@ function Disputes() {
       />
 
       <DisputeList
-        disputes={screenIndex === 0 ? disputes : jurorDisputes}
+        disputes={screenIndex === 0 ? disputes : guardianDisputes}
         loading={disputesFetching}
         errorLoading={errorFetching}
         myDisputeSelected={screenIndex === 1}

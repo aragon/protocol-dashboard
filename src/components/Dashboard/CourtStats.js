@@ -4,11 +4,7 @@ import Loading from '../Loading'
 import SplitAmount from '../SplitAmount'
 
 import { formatUnits } from '../../lib/math-utils'
-import {
-  useANJAmountToUsd,
-  useTokenAmountToUsd,
-} from '../../hooks/useTokenAmountToUsd'
-import { useCourtConfig } from '../../providers/CourtConfig'
+import { useTokenAmountToUsd } from '../../hooks/useTokenAmountToUsd'
 import useCourtStats from '../../hooks/useCourtStats'
 
 function CourtStats() {
@@ -16,7 +12,7 @@ function CourtStats() {
   const [stats, fetching] = useCourtStats()
 
   return (
-    <Box heading="Protocol Metrics" padding={3 * GU}>
+    <Box heading="Court Metrics" padding={3 * GU}>
       {(() => {
         if (fetching) {
           return <Loading height={86} size="large" />
@@ -63,8 +59,6 @@ function CourtStats() {
 }
 
 function TokenStats({ stat, theme }) {
-  const { anjToken } = useCourtConfig()
-
   const { value, token, error } = stat
   const { decimals, icon, symbol } = token
   return (
@@ -112,22 +106,13 @@ function TokenStats({ stat, theme }) {
       >
         $
         {!error ? (
-          symbol === anjToken.symbol ? (
-            <ANJUsdValue amount={value} />
-          ) : (
-            <TokenUsdValue amount={value} decimals={decimals} symbol={symbol} />
-          )
+          <TokenUsdValue amount={value} decimals={decimals} symbol={symbol} />
         ) : (
           '-'
         )}
       </span>
     </>
   )
-}
-
-function ANJUsdValue({ amount }) {
-  const usdValue = useANJAmountToUsd(amount)
-  return <span>{usdValue}</span>
 }
 
 function TokenUsdValue({ amount, decimals, symbol }) {

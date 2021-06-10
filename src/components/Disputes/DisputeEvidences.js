@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion, GU, SyncIndicator, textStyle, useTheme } from '@aragon/ui'
+import { Accordion, GU, SyncIndicator, textStyle, useTheme, Link } from '@aragon/ui'
 import { useWallet } from 'use-wallet'
 import useEvidences from '../../hooks/useEvidences'
 import { addressesEqual } from '../../lib/web3-utils'
@@ -11,10 +11,9 @@ import { dateFormat } from '../../utils/date-utils'
 import folderIcon from '../../assets/folderIcon.svg'
 
 const DisputeEvidences = React.memo(function DisputeEvidences({
-  defendant,
+  dispute,
   evidences,
   loading,
-  plaintiff,
 }) {
   return (
     <React.Fragment>
@@ -39,7 +38,10 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                         margin-left: ${1.5 * GU}px;
                       `}
                     >
-                      Argument #{index + 1}
+                      {
+                        // assume that the first evidence is always the original justification
+                        index === 0 ? 'Original justification' : `Dispute evidence ${index}`
+                      }
                     </span>
                   </div>,
                   <EvidenceContent
@@ -47,11 +49,6 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                     error={error}
                     metadata={metadata}
                     submitter={submitter}
-                    submitterLabel={getSubmitterLabel(
-                      submitter,
-                      defendant,
-                      plaintiff
-                    )}
                   />,
                 ],
               ]}
@@ -64,11 +61,16 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
 
 const EvidenceContent = React.memo(function EvidenceContent({
   createdAt,
-  error,
-  metadata,
   submitter,
-  submitterLabel,
+  metadata,
+  error
 }) {
+
+  
+  if( (!metadata.endpoint && !metadata.text) || metadata.text === '0x') {
+    metadata = { text: 'This evidence has no data' }
+  }
+  
   const theme = useTheme()
   const wallet = useWallet()
 
@@ -109,7 +111,7 @@ const EvidenceContent = React.memo(function EvidenceContent({
             <IdentityBadge
               connectedAccount={addressesEqual(submitter, wallet.account)}
               entity={submitter}
-              label={submitterLabel}
+              label={submitter}
             />
           </div>
         </div>
@@ -148,24 +150,30 @@ const EvidenceContent = React.memo(function EvidenceContent({
             align-items: flex-start;
           `}
         >
-          <Markdown text={metadata} />
+          { metadata.endpoint &&
+              <Link
+                href={metadata.endpoint}
+                css={`
+                  text-decoration: none;
+                `}
+              >
+                Read more
+              </Link>
+          }
+        </div>
+        <div
+          css={`
+            display: flex;
+            align-items: flex-start;
+          `}
+        >
+          {metadata.text && <Markdown text={metadata.text} /> }
         </div>
       </div>
     </div>
   )
 })
 
-function getSubmitterLabel(submitter, defendant, plaintiff) {
-  if (addressesEqual(submitter, defendant)) {
-    return 'Defendant'
-  }
-
-  if (addressesEqual(submitter, plaintiff)) {
-    return 'Plaintiff'
-  }
-
-  return ''
-}
 
 export default function Evidences({ dispute, evidences }) {
   // This hook ensures us that evidenceProcessed won't be updated unless there are new evidences.
@@ -176,10 +184,9 @@ export default function Evidences({ dispute, evidences }) {
 
   return (
     <DisputeEvidences
-      defendant={dispute.defendant}
       evidences={evidenceProcessed}
+      dispute={dispute}
       loading={fetchingEvidences}
-      plaintiff={dispute.plaintiff}
     />
   )
 }

@@ -25,7 +25,7 @@ const TYPEFORM_LINK = 'https://aragonone.typeform.com/to/g7zncn'
 const MAIN_COURT_URL = 'https://court.aragon.org'
 
 const highlights = {
-  heading: 'Aragon Protocol',
+  heading: 'Aragon Court',
   defaultVisualColor: '#FF9780',
   defaultButtonColor: '#FFFFFF',
 }
@@ -40,7 +40,7 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          This is a testnet release of the official Aragon Protocol Dashboard at{' '}
+          This is a testnet release of the official Aragon Court Dashboard at{' '}
           <Link href={MAIN_COURT_URL}>court.aragon.org</Link>. We'd love for you
           to explore it and tell us what you think!
         </span>
@@ -54,14 +54,14 @@ highlights.rinkeby = [
   {
     title: {
       small: null,
-      large: 'Getting Rinkeby ANJ',
+      large: 'Getting Rinkeby ANT',
     },
     description: {
       small: null,
       large: (
         <span>
-          We’ve airdropped 10,000 test ANJ on Rinkeby to the same Ethereum
-          account you registered with on Mainnet. You can use this test ANJ to
+          We’ve airdropped 10,000 test ANT on Rinkeby to the same Ethereum
+          account you registered with on Mainnet. You can use this test ANT to
           become an active guardian and participate in the arbitration process.
         </span>
       ),
@@ -123,7 +123,7 @@ highlights.rinkeby = [
       large: (
         <>
           <p>
-            If you didn’t receive any Rinkeby ANJ, just complete
+            If you didn’t receive any Rinkeby ANT, just complete
             <Link href={TYPEFORM_LINK}>this form</Link> and we’ll send you some
             funds swiftly!
           </p>
@@ -140,7 +140,7 @@ highlights.rinkeby = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Protocol',
+      large: 'Discover Aragon Court',
     },
   },
 ]
@@ -155,8 +155,8 @@ highlights.main = [
       small: null,
       large: (
         <span>
-          Your first ANJ has been activated succesfully. Now, read the quick
-          guide to be a good and active guardian on the protocol.
+          Your first ANT has been activated succesfully. Now, read the quick
+          guide to be a good and active guardian on the court.
         </span>
       ),
     },
@@ -175,7 +175,7 @@ highlights.main = [
       large: (
         <>
           <p>
-            View and manage your ANJ across three balances: Wallet, Inactive,
+            View and manage your ANT across three balances: Wallet, Inactive,
             and Active. You can read more about these different balances and
             what they mean in the{' '}
             <Link href="https://help.aragon.org/article/42-aragon-court-dashboard">
@@ -185,7 +185,7 @@ highlights.main = [
           </p>
 
           <p>
-            Adjusting your active ANJ balance will affect the indicator that
+            Adjusting your active ANT balance will affect the indicator that
             displays your chance of being summoned and your current summon
             status.
           </p>
@@ -288,7 +288,7 @@ highlights.main = [
     },
     start: {
       small: null,
-      large: 'Discover Aragon Protocol',
+      large: 'Discover Aragon Court',
     },
   },
 ]

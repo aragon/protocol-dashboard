@@ -7,9 +7,9 @@ import TitleHeader from '../TitleHeader'
 import ErrorLoading from '../Errors/ErrorLoading'
 import BalanceModule from './BalanceModule'
 import RewardsModule from './RewardsModule'
-import ActivateANJ from './panels/ActivateANJ'
-import WithdrawANJ from './panels/WithdrawANJ'
-import DeactivateANJ from './panels/DeactivateANJ'
+import ActivateANT from './panels/ActivateANT'
+import WithdrawANT from './panels/WithdrawANT'
+import DeactivateANT from './panels/DeactivateANT'
 import AppealColateralModule from './AppealColateralModule'
 import CourtStats from './CourtStats'
 
@@ -29,7 +29,7 @@ function Dashboard() {
   const wallet = useWallet()
   const {
     actions,
-    anjBalances,
+    antBalances,
     appealCollaterals,
     errorsFetching,
     fetchingData,
@@ -55,12 +55,12 @@ function Dashboard() {
         <>
           {wallet.account ? (
             <BalanceModule
-              balances={anjBalances}
+              balances={antBalances}
               loading={fetchingData}
-              onRequestActivate={requests.activateANJ}
-              onRequestDeactivate={requests.deactivateANJ}
-              onRequestStakeActivate={requests.stakeActivateANJ}
-              onRequestWithdraw={requests.withdrawANJ}
+              onRequestActivate={requests.activateANT}
+              onRequestDeactivate={requests.deactivateANT}
+              onRequestStakeActivate={requests.stakeActivateANT}
+              onRequestWithdraw={requests.withdrawANT}
             />
           ) : (
             <Welcome />
@@ -95,7 +95,7 @@ function Dashboard() {
         </>
       )}
       <SidePanel
-        title={`${getRequestModeString(mode)} ANJ`}
+        title={`${getRequestModeString(mode)} ANT`}
         opened={panelState.visible}
         onClose={panelState.requestClose}
         onTransitionEnd={panelState.endTransition}
@@ -108,7 +108,7 @@ function Dashboard() {
         <PanelComponent
           mode={mode}
           actions={actions}
-          balances={anjBalances}
+          balances={antBalances}
           onDone={panelState.requestClose}
         />
       </SidePanel>
@@ -117,7 +117,7 @@ function Dashboard() {
 }
 
 function PanelComponent({ mode, actions, balances, ...props }) {
-  const { activateANJ, deactivateANJ, withdrawANJ } = actions
+  const { activateANT, deactivateANT, withdrawANT } = actions
   const { walletBalance, activeBalance } = balances
 
   const unlockedActiveBalance = getTotalUnlockedActiveBalance(balances)
@@ -126,27 +126,28 @@ function PanelComponent({ mode, actions, balances, ...props }) {
   switch (mode) {
     case REQUEST_MODE.DEACTIVATE:
       return (
-        <DeactivateANJ
+        <DeactivateANT
           activeBalance={unlockedActiveBalance}
-          onDeactivateANJ={deactivateANJ}
+          onDeactivateANT={deactivateANT}
           {...props}
         />
       )
     case REQUEST_MODE.WITHDRAW:
       return (
-        <WithdrawANJ
+        <WithdrawANT
           inactiveBalance={effectiveInactiveBalance}
-          onWithdrawANJ={withdrawANJ}
+          onWithdrawANT={withdrawANT}
           {...props}
         />
       )
     default:
       return (
-        <ActivateANJ
+        <ActivateANT
           activeBalance={activeBalance.amount}
           inactiveBalance={effectiveInactiveBalance}
           walletBalance={walletBalance.amount}
-          onActivateANJ={activateANJ}
+          onActivateANT={activateANT}
+          label={mode === REQUEST_MODE.STAKE_ACTIVATE ? 'Approve, Stake and Activate' : 'Activate'}
           fromWallet={mode === REQUEST_MODE.STAKE_ACTIVATE}
           {...props}
         />
@@ -161,3 +162,4 @@ export default function DashboardWithSubscritpion(props) {
     </DashboardStateProvider>
   )
 }
+

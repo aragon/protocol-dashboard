@@ -1,6 +1,6 @@
 import {
-  deleteJurorEmail,
-  getJurorEmail,
+  deleteGuardianEmail,
+  getGuardianEmail,
   resendVerificationEmail,
   subscribeExistingEmail,
   subscribeToNotifications,
@@ -24,11 +24,11 @@ import {
 
 export const actions = {
   [DELETE_ACTION]: {
-    request: deleteJurorEmail,
+    request: deleteGuardianEmail,
     requiresEmail: false,
   },
   [DELETE_ACTION_PREFERENCES]: {
-    request: deleteJurorEmail,
+    request: deleteGuardianEmail,
     successScreen: EMAIL_NOTIFICATIONS_FORM_SCREEN,
     requiresEmail: false,
   },
@@ -44,7 +44,7 @@ export const actions = {
     requiresEmail: false,
   },
   [OPTOUT_ACTION]: {
-    request: deleteJurorEmail,
+    request: deleteGuardianEmail,
     requiresEmail: false,
   },
   [RESEND_EMAIL_ACTION]: {
@@ -53,11 +53,11 @@ export const actions = {
     requiresEmail: false,
   },
   [UNLOCK_SETTINGS_ACTION]: {
-    request: getJurorEmail,
+    request: getGuardianEmail,
     successScreen: NOTIFICATIONS_PREFERENCES_SCREEN,
   },
   [UNLOCK_SETTINGS_ACTION_NOT_VERIFIED]: {
-    request: getJurorEmail,
+    request: getGuardianEmail,
     successScreen: VERIFY_EMAIL_ADDRESS_PREFERENCES,
   },
   [UNLOCK_SETTINGS_ACTION_NOT_EMAIL]: {

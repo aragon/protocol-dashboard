@@ -12,7 +12,7 @@ export const AppealsByMaker = gql`
           finalRuling
           lastRoundId
           rounds {
-            jurorsNumber
+            guardiansNumber
             number
           }
         }
@@ -40,7 +40,7 @@ export const AppealsByTaker = gql`
           finalRuling
           lastRoundId
           rounds {
-            jurorsNumber
+            guardiansNumber
             number
           }
         }

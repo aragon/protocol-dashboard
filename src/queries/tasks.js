@@ -12,11 +12,11 @@ export const OpenTasks = gql`
       createdAt
       draftTermId
       delayedTerms
-      jurors {
+      guardians {
         id
         commitment
         outcome
-        juror {
+        guardian {
           id
         }
       }

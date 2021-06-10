@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
+import {  getIpfsCidFromUri, fetchIPFS } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
+import { toUTF8String } from '../lib/web3-utils'
+
+// const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
 
 export default function useEvidences(dispute, rawEvidences) {
   // Contains valid evidences + errored evidences
@@ -22,32 +25,37 @@ export default function useEvidences(dispute, rawEvidences) {
     const baseEvidence = {
       id,
       rawMetadata: uriOrData,
-      metadata: null,
-      defendant: '',
-      agreementText: '',
+      metadata: {
+        text: null,
+        endpoint: null,
+        metadata: null // JSON that contains more info...
+      },
       submitter,
       createdAt,
       error: false,
     }
-
+    
     const cid = getIpfsCidFromUri(uriOrData)
 
     // Not an IPFS URI
     if (!cid) {
-      evidencesCache.current.set(id, { ...baseEvidence, metadata: uriOrData })
+      evidencesCache.current.set(id, { ...baseEvidence, metadata: { text: toUTF8String(uriOrData) } })
       return evidencesCache.current.get(id)
     }
 
-    const { data, error } = await ipfsGet(cid)
+    const data = await fetchIPFS(cid)
 
-    if (error) {
+    if (data.error) {
       return { ...baseEvidence, error: ERROR_TYPES.ERROR_FETCHING_IPFS }
     }
 
     const evidenceProcessed = {
       ...baseEvidence,
-      metadata: data,
+      metadata: { 
+        ...data
+      }
     }
+
     evidencesCache.current.set(id, evidenceProcessed)
 
     return evidenceProcessed
@@ -60,11 +68,7 @@ export default function useEvidences(dispute, rawEvidences) {
       await Promise.all(
         rawEvidences.map(async rawEvidence => {
           const evidence = await fetchEvidence(rawEvidence)
-          if (
-            cancelled ||
-            // First evidence submitted by defendant is treated as the dispute description
-            evidence.rawMetadata === dispute.disputable?.actionContext
-          ) {
+          if (cancelled) {
             return
           }
           setEvidences(() => {

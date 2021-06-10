@@ -20,6 +20,7 @@ const DISPUTES_STATUS_TYPES = [
   DisputesTypes.Status.Open,
   DisputesTypes.Status.Closed,
 ]
+
 const DISPUTES_STATUS_STRING = DISPUTES_STATUS_TYPES.map(
   DisputesTypes.convertToString
 )
@@ -27,7 +28,7 @@ const DISPUTES_STATUS_STRING = DISPUTES_STATUS_TYPES.map(
 const DISPUTES_PHASE_TYPES = [
   DisputesTypes.Phase.All,
   DisputesTypes.Phase.Evidence,
-  DisputesTypes.Phase.JuryDrafting,
+  DisputesTypes.Phase.GuardianDrafting,
   DisputesTypes.Phase.VotingPeriod,
   DisputesTypes.Phase.AppealRuling,
   DisputesTypes.Phase.ConfirmAppeal,
@@ -43,9 +44,10 @@ const getFilteredDisputes = ({
   selectedDateRange,
   selectedStatus,
   selectedPhase,
+  selectedSubject
 }) => {
   return disputes.filter(
-    ({ createdAt, status, phase }) =>
+    ({ createdAt, status, phase, subject }) =>
       (selectedPhase === UNSELECTED_FILTER ||
         selectedPhase === ALL_FILTER ||
         phase === DISPUTES_PHASE_TYPES[selectedPhase]) &&
@@ -58,7 +60,12 @@ const getFilteredDisputes = ({
         )) &&
       (selectedStatus === UNSELECTED_FILTER ||
         selectedStatus === ALL_FILTER ||
-        status === DISPUTES_STATUS_TYPES[selectedStatus])
+        status === DISPUTES_STATUS_TYPES[selectedStatus]) &&
+      (
+        selectedSubject === UNSELECTED_FILTER ||
+        selectedSubject === ALL_FILTER ||
+        subject === selectedSubject
+      )
   )
 }
 
@@ -72,6 +79,14 @@ function DisputeList({
   const [selectedDateRange, setSelectedDateRange] = useState(INITIAL_DATE_RANGE)
   const [selectedStatus, setSelectedStatus] = useState(UNSELECTED_FILTER)
   const [selectedPhase, setSelectedPhase] = useState(UNSELECTED_FILTER)
+  const [selectedSubject, setSelectedSubject] = useState(UNSELECTED_FILTER)
+
+  let disputeSubjects = (disputes || []).map(dispute => dispute.subject)
+  disputeSubjects = [
+    DisputesTypes.convertToString(DisputesTypes.Phase.All), 
+    ...new Set(disputeSubjects) // remove duplicates
+  ] 
+
   const { layoutName } = useLayout()
   const compactMode = layoutName === 'small'
 
@@ -89,10 +104,18 @@ function DisputeList({
     [setSelectedStatus]
   )
 
+  const handleSubjectChange = useCallback(
+      (index) => {
+        setSelectedSubject(index)
+      },
+      [setSelectedSubject]
+  )
+
   const handleOnClearAllFilters = useCallback(() => {
     setSelectedDateRange(INITIAL_DATE_RANGE)
     setSelectedStatus(UNSELECTED_FILTER)
     setSelectedPhase(UNSELECTED_FILTER)
+    setSelectedSubject(UNSELECTED_FILTER)
   }, [])
 
   const filteredDisputes = getFilteredDisputes({
@@ -100,6 +123,7 @@ function DisputeList({
     selectedDateRange,
     selectedStatus,
     selectedPhase,
+    selectedSubject: selectedSubject === ALL_FILTER ? ALL_FILTER : (disputeSubjects[selectedSubject] || UNSELECTED_FILTER)
   })
 
   const filtersSelected =
@@ -126,12 +150,15 @@ function DisputeList({
           <DisputeFilters
             phaseTypes={DISPUTES_PHASE_STRING}
             statusTypes={DISPUTES_STATUS_STRING}
+            subjects={disputeSubjects}
+            selectedSubject={selectedSubject}
             dateRangeFilter={selectedDateRange}
             phaseFilter={selectedPhase}
             statusFilter={selectedStatus}
             onDateRangeChange={handleSelectedDateRangeChange}
             onPhaseChange={handlePhaseChange}
             onStatusChange={handleStatusChange}
+            onSubjectChange={handleSubjectChange}
           />
         </Bar>
       )}
@@ -189,7 +216,7 @@ const NoMyDisputes = () => {
           color: ${theme.help};
         `}
       >
-        ANJ you activate
+        ANT you activate
       </span>
       , more chances you have to be summoned to arbitrate a dispute
     </span>

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { useQuery } from 'urql'
 import { useCourtConfig } from '../providers/CourtConfig'
 
@@ -7,28 +7,29 @@ import { OpenTasks } from '../queries/tasks'
 import {
   CourtConfig,
   FeeMovements,
-  JurorsRegistryModule,
+  GuardiansRegistryModule,
 } from '../queries/court'
 import { AllDisputes, SingleDispute } from '../queries/disputes'
 import { AppealsByMaker, AppealsByTaker } from '../queries/appeals'
 import {
-  JurorANJBalances,
-  JurorANJWalletBalance,
-  JurorTreasuryBalances,
+  GuardianANTBalances,
+  GuardianTreasuryBalances,
 } from '../queries/balances'
-import { JurorDraftsFrom, JurorDraftsRewards } from '../queries/jurorDrafts'
+import { GuardianDraftsFrom, GuardianDraftsRewards } from '../queries/guardianDrafts'
 
 // utils
 import { bigNum } from '../lib/math-utils'
 import { dayjs, toMs } from '../utils/date-utils'
-import { groupMovements } from '../utils/anj-movement-utils'
+import { groupMovements } from '../utils/ant-movement-utils'
 import { transformAppealDataAttributes } from '../utils/appeal-utils'
 import {
   transformRoundDataAttributes,
   transformDisputeDataAttributes,
 } from '../utils/dispute-utils'
-import { transformJurorDataAttributes } from '../utils/juror-draft-utils'
+import { decodeMetadata } from '../utils/dispute-metadata'
+import { transformGuardianDataAttributes } from '../utils/guardian-draft-utils'
 import { transformClaimedFeesDataAttributes } from '../utils/subscription-utils'
+import { usePoller } from '../utils/poller'
 import {
   getModuleAddress,
   transformCourtConfigDataAttributes,
@@ -36,7 +37,9 @@ import {
 
 // types
 import { CourtModuleType } from '../types/court-module-types'
-import { JurorLastFeeWithdrawal } from '../queries/juror'
+import { GuardianLastFeeWithdrawal } from '../queries/guardian'
+
+import { useANTTokenContract } from './useCourtContracts'
 
 const NO_AMOUNT = bigNum(0)
 
@@ -50,98 +53,109 @@ function useQuerySub(query, variables = {}, options = {}) {
   })
 }
 
-// Subscription to get juror's wallet balance
-function useANJBalance(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorANJWalletBalance, {
-    id: jurorId.toLowerCase(),
-  })
+
+// Subscription to get guardian's wallet balance
+function useANTBalance(guardianId) {
+  const antTokenContract = useANTTokenContract();
+  const error = null
+  const [data, setData] = useState({ antbalance: { amount : bigNum(0) }});
+  const getBalance = () => {
+    async function getPrice() {
+      const amount = await antTokenContract.balanceOf(guardianId)
+      setData({ antbalance: { amount : bigNum(amount) }} )
+    }
+    getPrice()
+  }
+
+  usePoller(getBalance, 9777);
   return { data, error }
 }
 
-// Subscription to get juror's active, inactive and
+// Subscription to get guardian's active, inactive and
 // locked balances and all 24 hrs movements
-function useJuror(jurorId) {
+function useGuardian(guardianId) {
   // get 24hs from current time (seconds)
   const yesterday = dayjs()
     .subtract(1, 'day')
     .unix()
 
-  const [{ data, error }] = useQuerySub(JurorANJBalances, {
-    id: jurorId.toLowerCase(),
+  const [{ data, error }] = useQuerySub(GuardianANTBalances, {
+    id: guardianId.toLowerCase(),
     from: yesterday,
   })
 
   return { data, error }
 }
 
-// Subscription to get all treasury balances of juror with id `jurorId`
-function useJurorTreasuryBalances(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorTreasuryBalances, {
-    owner: jurorId.toLowerCase(),
+// Subscription to get all treasury balances of guardian with id `guardianId`
+function useGuardianTreasuryBalances(guardianId) {
+  const [{ data, error }] = useQuerySub(GuardianTreasuryBalances, {
+    owner: guardianId.toLowerCase(),
   })
   return { data, error }
 }
 
 /**
- * Subscribes to all juror balances as well as to the latest 24h movements and all subscription fees claimed by the juror
- * @param {String} jurorId Address of the juror
- * @returns {Object} Object containing al juror balances (Wallet, Inactive, Active, Locked, Deactivation Process, Treasury),
- * latest 24h movements and all subscription fees claimed by the juror
+ * Subscribes to all guardian balances as well as to the latest 24h movements and all subscription fees claimed by the guardian
+ * @param {String} guardianId Address of the guardian
+ * @returns {Object} Object containing al guardian balances (Wallet, Inactive, Active, Locked, Deactivation Process, Treasury),
+ * latest 24h movements and all subscription fees claimed by the guardian
  */
-export function useJurorBalancesSubscription(jurorId) {
-  // Juror wallet balance
-  const { data: anjBalanceData, error: anjBalanceError } = useANJBalance(
-    jurorId
+export function useGuardianBalancesSubscription(guardianId) {
+  // Guardian wallet balance
+  const { data: antBalanceData, error: antBalanceError } = useANTBalance(
+    guardianId
   )
 
-  // Juror ANJ balances, 24h movements and subscritpion claimed fees
-  const { data: jurorData, error: jurorError } = useJuror(jurorId)
+  // Guardian ANT balances, 24h movements and subscritpion claimed fees
+  const { data: guardianData, error: guardianError } = useGuardian(guardianId)
   const {
     data: treasuryBalancesData,
     error: treasuryBalancesError,
-  } = useJurorTreasuryBalances(jurorId)
+  } = useGuardianTreasuryBalances(guardianId)
 
-  const errors = [anjBalanceError, jurorError, treasuryBalancesError].filter(
+  const errors = [antBalanceError, guardianError, treasuryBalancesError].filter(
     err => err
   )
 
   const {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    stakingMovements,
     claimedSubscriptionFees,
     treasury,
   } = useMemo(() => {
     // Means it's still fetching
-    if (!jurorData || !anjBalanceData || !treasuryBalancesData) {
+    if (!guardianData || !antBalanceData || !treasuryBalancesData) {
       return {}
     }
 
-    // If the account doesn't hold any ANJ we set 0 as default
+    // If the account doesn't hold any ANT we set 0 as default
     const { amount: walletBalance = NO_AMOUNT } =
-      anjBalanceData.anjbalance || {}
+      antBalanceData.antbalance || {}
 
-    // If the juror is null then means that the connnected account is not a juror but we are already done fetching
+    // If the guardian is null then means that the connnected account is not a guardian but we are already done fetching
     // We set 0 as default values
+
     const {
       activeBalance = NO_AMOUNT,
-      anjMovements = [],
+      stakingMovements = [],
       availableBalance = NO_AMOUNT,
       claimedSubscriptionFees = [],
       deactivationBalance = NO_AMOUNT,
       lockedBalance = NO_AMOUNT,
-    } = jurorData.juror || {}
-
+    } = guardianData.guardian || {}
+  
     const { treasuryBalances = [] } = treasuryBalancesData || {}
 
     return {
-      anjBalances: {
+      antBalances: {
         activeBalance: bigNum(activeBalance),
         deactivationBalance: bigNum(deactivationBalance),
         inactiveBalance: bigNum(availableBalance),
         lockedBalance: bigNum(lockedBalance),
         walletBalance: bigNum(walletBalance),
       },
-      anjMovements: groupMovements(anjMovements),
+      stakingMovements: groupMovements(stakingMovements),
       claimedSubscriptionFees: claimedSubscriptionFees.map(
         transformClaimedFeesDataAttributes
       ),
@@ -150,14 +164,14 @@ export function useJurorBalancesSubscription(jurorId) {
         amount: bigNum(balance.amount),
       })),
     }
-  }, [anjBalanceData, jurorData, treasuryBalancesData])
+  }, [antBalanceData, guardianData, treasuryBalancesData])
 
   return {
-    anjBalances,
-    anjMovements,
+    antBalances,
+    stakingMovements,
     claimedSubscriptionFees,
     treasury,
-    fetching: !anjBalances && errors.length === 0,
+    fetching: !antBalances && errors.length === 0,
     errors,
   }
 }
@@ -174,10 +188,7 @@ export function useCourtConfigSubscription(courtAddress) {
 
   // TODO: handle possible errors
   const courtConfig = useMemo(
-    () =>
-      data?.courtConfig
-        ? transformCourtConfigDataAttributes(data.courtConfig)
-        : null,
+    () => (data?.court ? transformCourtConfigDataAttributes(data.court) : null),
     [data]
   )
 
@@ -192,7 +203,7 @@ export function useCourtConfigSubscription(courtAddress) {
 export function useSingleDisputeSubscription(id) {
   const [{ data, error }] = useQuerySub(SingleDispute, { id })
 
-  const dispute = useMemo(
+  const disputeMemo = useMemo(
     () =>
       data && data.dispute
         ? transformDisputeDataAttributes(data.dispute)
@@ -200,7 +211,26 @@ export function useSingleDisputeSubscription(id) {
     [data]
   )
 
-  return { dispute, fetching: !data && !error, error }
+  const [disputeEffect, setDispute] = useState(null);
+
+  // TODO:GIORGI this was needed, because we need to call async function and we can't do it in useMemo.
+  // If we had removed useMemo completely and do the transformDisputeDataAttributes(data.dispute) in useEffect,
+  // The problem is the view would render 404 not found and it throws an error, because useEffect runs after the render.
+  // So, we use both of these.
+  useEffect(() => {
+    async function decode() {
+      if(disputeMemo) {
+        disputeMemo.metadata = await decodeMetadata(disputeMemo.rawMetadata)
+        setDispute({...disputeMemo});
+      }
+    }
+
+    decode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
+
+  return { dispute: disputeEffect || disputeMemo, fetching: !data && !error, error }
 }
 
 /**
@@ -225,82 +255,82 @@ export function useDisputesSubscription() {
 }
 
 /**
- * Subscribe to all `jurorId` drafts for the current term
- * @param {String} jurorId Address of the juror
+ * Subscribe to all `guardianId` drafts for the current term
+ * @param {String} guardianId Address of the guardian
  * @param {Number} termStartTime Start time of the term inseconds
  * @param {Boolean} pause Tells whether to pause the subscription or not
- * @returns {Object} All `jurorId` drafts for the current term
+ * @returns {Object} All `guardianId` drafts for the current term
  */
-export function useCurrentTermJurorDraftsSubscription(
-  jurorId,
+export function useCurrentTermGuardianDraftsSubscription(
+  guardianId,
   termStartTime,
   pause
 ) {
   const [result] = useQuerySub(
-    JurorDraftsFrom,
-    { id: jurorId.toLowerCase(), from: termStartTime },
+    GuardianDraftsFrom,
+    { id: guardianId.toLowerCase(), from: termStartTime },
     { pause }
   )
 
-  const { juror } = result.data || {}
-  return juror && juror.drafts ? juror.drafts : []
+  const { guardian } = result.data || {}
+  return guardian && guardian.drafts ? guardian.drafts : []
 }
 
 /**
- * Subscribes to all `jurorId` drafts
+ * Subscribes to all `guardianId` drafts
  * @dev This subscription is useful to get all rewards pending for claiming as well
- * as for the amount of locked ANJ a juror has per dispute
+ * as for the amount of locked ANT a guardian has per dispute
  * Ideally we would check that the round is not settled but we cannot do nested filters for now
  *
- * @param {String} jurorId Address of the juror
- * @returns {Object} All `jurorId` drafts
+ * @param {String} guardianId Address of the guardian
+ * @returns {Object} All `guardianId` drafts
  */
-export function useJurorDraftsRewardsSubscription(jurorId) {
-  const [{ data, error }] = useQuerySub(JurorDraftsRewards, {
-    id: jurorId.toLowerCase(),
+export function useGuardianDraftsRewardsSubscription(guardianId) {
+  const [{ data, error }] = useQuerySub(GuardianDraftsRewards, {
+    id: guardianId.toLowerCase(),
   })
 
-  const jurorDrafts = useMemo(() => {
+  const guardianDrafts = useMemo(() => {
     if (!data) {
       return null
     }
 
-    return data.juror?.drafts.map(transformJurorDataAttributes) || []
+    return data.guardian?.drafts.map(transformGuardianDataAttributes) || []
   }, [data])
 
-  return { jurorDrafts, fetching: !jurorDrafts && !error, error }
+  return { guardianDrafts, fetching: !guardianDrafts && !error, error }
 }
 
-function useAppealsByMaker(jurorId) {
+function useAppealsByMaker(guardianId) {
   const [{ data, error }] = useQuerySub(AppealsByMaker, {
-    maker: jurorId.toLowerCase(),
+    maker: guardianId.toLowerCase(),
   })
   return { data, error }
 }
 
-function useAppealsByTaker(jurorId) {
+function useAppealsByTaker(guardianId) {
   const [{ data, error }] = useQuerySub(AppealsByTaker, {
-    taker: jurorId.toLowerCase(),
+    taker: guardianId.toLowerCase(),
   })
   return { data, error }
 }
 
 /**
- * Subscribes to all `jurorId` appeal collaterals
+ * Subscribes to all `guardianId` appeal collaterals
  * @dev Since we cannot do or operators on graphql queries, we need to get appeals by taker and maker separately
  *
- * @param {String} jurorId Address of the juror
- * @returns {Object} All `jurorId` appeal collaterals
+ * @param {String} guardianId Address of the guardian
+ * @returns {Object} All `guardianId` appeal collaterals
  */
-export function useAppealsByUserSubscription(jurorId) {
+export function useAppealsByUserSubscription(guardianId) {
   const {
     data: makerAppealsData,
     error: makerAppealsError,
-  } = useAppealsByMaker(jurorId)
+  } = useAppealsByMaker(guardianId)
   const {
     data: takerAppealsData,
     error: takerAppealsError,
-  } = useAppealsByTaker(jurorId)
+  } = useAppealsByTaker(guardianId)
 
   const appeals = useMemo(() => {
     if (!makerAppealsData || !takerAppealsData) {
@@ -330,20 +360,20 @@ export function useTasksSubscription() {
   return { tasks, fetching: !data && !error, error }
 }
 
-export function useJurorRegistrySubscription() {
+export function useGuardianRegistrySubscription() {
   const { modules } = useCourtConfig()
-  const jurorRegistryAddress = getModuleAddress(
+  const guardianRegistryAddress = getModuleAddress(
     modules,
-    CourtModuleType.JurorsRegistry
+    CourtModuleType.GuardiansRegistry
   )
 
-  const [{ data, error }] = useQuerySub(JurorsRegistryModule, {
-    id: jurorRegistryAddress,
+  const [{ data, error }] = useQuerySub(GuardiansRegistryModule, {
+    id: guardianRegistryAddress,
   })
 
-  const jurorRegistryStats = data?.jurorsRegistryModule || null
+  const guardianRegistryStats = data?.guardiansRegistryModule || null
 
-  return { data: jurorRegistryStats, error }
+  return { data: guardianRegistryStats, error }
 }
 
 export function useTotalRewardsSubscription() {
@@ -355,15 +385,15 @@ export function useTotalRewardsSubscription() {
 }
 
 /**
- * Queries for the last withdrawal fee movement time made by the given juror
- * @param {String} jurorId Address of the juror
- * @returns {Number} Juror's last withdrawal fee movement date in unix time
+ * Queries for the last withdrawal fee movement time made by the given guardian
+ * @param {String} guardianId Address of the guardian
+ * @returns {Number} Guardian's last withdrawal fee movement date in unix time
  */
-export function useJurorLastWithdrawalTimeSubscription(jurorId) {
+export function useGuardianLastWithdrawalTimeSubscription(guardianId) {
   const [{ data }] = useQuerySub(
-    JurorLastFeeWithdrawal,
-    { owner: jurorId?.toLowerCase() },
-    { pause: !jurorId }
+    GuardianLastFeeWithdrawal,
+    { owner: guardianId?.toLowerCase() },
+    { pause: !guardianId }
   )
 
   if (!data) {

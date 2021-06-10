@@ -13,7 +13,7 @@ import {
 function DisputeAutoReveal({ commitment, disputeId, onAutoReveal, roundId }) {
   const { account } = useWallet()
 
-  // We need to poll for the auto reveal request as we are using the request queue processor for processing juror's request to re-register
+  // We need to poll for the auto reveal request as we are using the request queue processor for processing guardian's request to re-register
   // to the service and since the request flow is asynchronous, we can't ensure whether it was succesful or not.
   const [autoRevealRequested, loading] = useAutoRevealPolling(
     account,
@@ -25,13 +25,13 @@ function DisputeAutoReveal({ commitment, disputeId, onAutoReveal, roundId }) {
     return null
   }
 
-  // Juror already requested the auto reveal service for this dispute
+  // Guardian already requested the auto reveal service for this dispute
   if (autoRevealRequested) {
     return <Info>Auto reveal requested!</Info>
   }
 
-  // Juror requested the auto reveal service and failed or juror didn't request the service at all.
-  // For the later case it's still useful to give the juror the option to do so.
+  // Guardian requested the auto reveal service and failed or guardian didn't request the service at all.
+  // For the later case it's still useful to give the guardian the option to do so.
   return (
     <RequestAutoReveal
       commitment={commitment}
@@ -94,7 +94,7 @@ function useAutoRevealPolling(account, disputeId, roundId) {
 
     let cancelled = false
 
-    // Assumes jurorDraft exists
+    // Assumes guardianDraft exists
     const pollAutoReveal = async () => {
       try {
         const reveal = await getAutoRevealRequest(account, disputeId, roundId)
@@ -108,7 +108,7 @@ function useAutoRevealPolling(account, disputeId, roundId) {
       if (!cancelled) {
         setLoading(false)
 
-        // Stop the polling once we know the juror successfully requested the auto reveal
+        // Stop the polling once we know the guardian successfully requested the auto reveal
         if (!autoRevealRequested) {
           setTimeout(pollAutoReveal, timer)
         }

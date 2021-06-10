@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
-import { useTotalANTStakedPolling } from './useCourtContracts'
-import { useActiveJurorsNumber } from '../hooks/query-hooks'
+import { useActiveGuardiansNumber } from '../hooks/query-hooks'
 import {
-  useJurorRegistrySubscription,
+  useGuardianRegistrySubscription,
   useTotalRewardsSubscription,
 } from '../hooks/subscription-hooks'
 import { getKnownToken } from '../utils/known-tokens'
@@ -10,15 +9,9 @@ import { bigNum } from '../lib/math-utils'
 import IconANT from '../assets/IconANT.svg'
 import IconDAI from '../assets/IconDAI.svg'
 
-const STATS_FETCHING_TIMEOUT = 15000
-
 const COURT_STATS = [
   {
     label: 'Total Active ANT',
-    token: { ...getKnownToken('ANT'), icon: IconANT },
-  },
-  {
-    label: 'Total Staked ANT',
     token: { ...getKnownToken('ANT'), icon: IconANT },
   },
   { label: 'Total Active Guardians' },
@@ -29,14 +22,14 @@ const COURT_STATS = [
 ]
 
 export function useTotalActiveBalance() {
-  const { data: jurorRegistryStats, error } = useJurorRegistrySubscription()
+  const { data: guardianRegistryStats, error } = useGuardianRegistrySubscription()
 
   return useMemo(() => {
-    if (!jurorRegistryStats || error) {
+    if (!guardianRegistryStats || error) {
       return [bigNum(-1), error]
     }
-    return [bigNum(jurorRegistryStats.totalActive), error]
-  }, [error, jurorRegistryStats])
+    return [bigNum(guardianRegistryStats.totalActive), error]
+  }, [error, guardianRegistryStats])
 }
 
 function useTotalRewards() {
@@ -56,44 +49,29 @@ function useTotalRewards() {
   }, [error, rewards])
 }
 /**
- * Hook to get the dashboard stats ANJ active balance, ANT total stake and the active jurors number
+ * Hook to get the dashboard stats ANT active balance, ANT total stake and the active guardians number
  * @returns {Array} First item an array with the stats and the second one a loading state
  */
 function useCourtStats() {
-  const [anjActiveBalance, anjActiveBalanceError] = useTotalActiveBalance()
-  const [antTotalStake, antTotalStakeError] = useTotalANTStakedPolling(
-    STATS_FETCHING_TIMEOUT
-  )
-  const [activeJurors, activeJurorsError] = useActiveJurorsNumber()
+  const [antActiveBalance, antActiveBalanceError] = useTotalActiveBalance()
+  const [activeGuardians, activeGuardiansError] = useActiveGuardiansNumber()
   const [totalRewards, totalRewardsError] = useTotalRewards()
 
   // Loading states
-  const anjFetching = anjActiveBalance.eq(bigNum(-1)) && !anjActiveBalanceError
-  const antFetching = antTotalStake.eq(bigNum(-1)) && !antTotalStakeError
-  const activeJurorsFetching = activeJurors === null && !activeJurorsError
+  const antFetching = antActiveBalance.eq(bigNum(-1)) && !antActiveBalanceError
+  const activeGuardiansFetching = activeGuardians === null && !activeGuardiansError
   const totalRewardsFetching = totalRewards.eq(bigNum(-1)) && !totalRewardsError
 
   return useMemo(
     () => {
-      if (
-        anjFetching ||
-        antFetching ||
-        activeJurorsFetching ||
-        totalRewardsFetching
-      ) {
+      if (antFetching || activeGuardiansFetching || totalRewardsFetching) {
         return [null, true]
       }
 
-      const statsData = [
-        anjActiveBalance,
-        antTotalStake,
-        activeJurors,
-        totalRewards,
-      ]
+      const statsData = [antActiveBalance, activeGuardians, totalRewards]
       const statsError = [
-        anjActiveBalanceError,
-        antTotalStakeError,
-        activeJurorsError,
+        antActiveBalanceError,
+        activeGuardiansError,
         totalRewardsError,
       ]
       return [
@@ -108,15 +86,13 @@ function useCourtStats() {
       ]
     } /* eslint-disable react-hooks/exhaustive-deps */,
     [
-      activeJurors,
-      activeJurorsError,
-      activeJurorsFetching,
-      anjActiveBalance.toString(),
-      anjActiveBalanceError,
-      anjFetching,
+      activeGuardians,
+      activeGuardiansError,
+      activeGuardiansFetching,
+      antActiveBalance.toString(),
+      antActiveBalanceError,
       antFetching,
-      antTotalStake.toString(),
-      antTotalStakeError,
+      antFetching,
       totalRewards.toString(),
       totalRewardsError,
       totalRewardsFetching,

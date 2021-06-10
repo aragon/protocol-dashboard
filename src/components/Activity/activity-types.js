@@ -1,6 +1,6 @@
 import actions from '../../actions/court-action-types'
 
-import iconAnj from './assets/activity-icon-anj.svg'
+import iconANT from './assets/activity-icon-ant.svg'
 import iconAppealRuling from './assets/activity-icon-appeal-ruling.svg'
 import iconClaimRewards from './assets/activity-icon-claim-rewards.svg'
 import iconCommitVote from './assets/activity-icon-commit-vote.svg'
@@ -10,13 +10,21 @@ import iconExecuteRuling from './assets/activity-icon-execute-ruling.svg'
 
 // The different types of activity
 const ACTIVITY_TYPES = {
+  [actions.APPROVE_ANT]: {
+    icon: iconANT,
+    title: 'Approve ANT',
+  },
+  [actions.STAKE_AND_ACTIVATE_ANT]: {
+    icon: iconANT,
+    title: 'Stake and Activate ANT on Guardians Registry',
+  },
   [actions.APPROVE_FEE_DEPOSIT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Approve fee deposit',
   },
-  [actions.ACTIVATE_ANJ]: {
-    icon: iconAnj,
-    title: 'Activate ANJ',
+  [actions.ACTIVATE_ANT]: {
+    icon: iconANT,
+    title: 'Activate ANT',
   },
   [actions.APPEAL_RULING]: {
     title: 'Appeal decision',
@@ -38,11 +46,11 @@ const ACTIVITY_TYPES = {
     title: 'Confirm appeal',
     icon: iconAppealRuling,
   },
-  [actions.DEACTIVATE_ANJ]: {
-    icon: iconAnj,
-    title: 'Deactivate ANJ',
+  [actions.DEACTIVATE_ANT]: {
+    icon: iconANT,
+    title: 'Deactivate ANT',
   },
-  [actions.DRAFT_JURY]: {
+  [actions.DRAFT_GUARDIAN]: {
     title: 'Summon guardians',
     icon: iconDraftJury,
   },
@@ -60,19 +68,23 @@ const ACTIVITY_TYPES = {
   },
   [actions.REVEAL_VOTE]: {
     title: 'Reveal vote',
-    icon: iconAnj,
+    icon: iconANT,
   },
   [actions.SETTLE_REWARD]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Settle reward',
   },
+  [actions.SETTLE_PENALTIES]: {
+    icon: iconANT,
+    title: 'Settle penalties',
+  },
   [actions.SETTLE_APPEAL_DEPOSIT]: {
-    icon: iconAnj,
+    icon: iconANT,
     title: 'Settle appeal deposit',
   },
-  [actions.WITHDRAW_ANJ]: {
-    icon: iconAnj,
-    title: 'Withdraw ANJ',
+  [actions.WITHDRAW_ANT]: {
+    icon: iconANT,
+    title: 'Withdraw ANT',
   },
 }
 

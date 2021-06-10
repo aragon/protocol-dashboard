@@ -203,5 +203,14 @@ export async function signMessage(wallet, message) {
   return { signHash, error }
 }
 
+export function toUTF8String(data) {
+  try {
+      return toUtf8String(data)
+  } catch (err) {
+  }
+  return data
+}
+
+
 // ethers utils exports
 export { keccak256, soliditySha3, toUtf8String }

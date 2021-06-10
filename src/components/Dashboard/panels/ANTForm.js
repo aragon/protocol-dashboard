@@ -9,24 +9,28 @@ import {
   useSidePanelFocusOnReady,
   useTheme,
 } from '@aragon/ui'
-
+import { useWallet } from 'use-wallet'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+
 import { parseUnits, formatUnits, bigNum } from '../../../lib/math-utils'
 
-const ANJForm = React.memo(function ANJForm({
+const ANTForm = React.memo(function ANTForm({
   actionLabel,
   maxAmount,
   onDone,
   onSubmit,
   runParentValidation,
 }) {
+
+  const wallet = useWallet()
+
   const [amount, setAmount] = useState({
     value: '0',
     valueBN: bigNum(0),
     error: null,
   })
   const theme = useTheme()
-  const { anjToken } = useCourtConfig()
+  const { token: antToken } = useCourtConfig()
   const inputRef = useSidePanelFocusOnReady()
 
   const handleEditMode = useCallback(
@@ -34,14 +38,14 @@ const ANJForm = React.memo(function ANJForm({
       setAmount(amount => ({
         ...amount,
         value: formatUnits(amount.valueBN, {
-          digits: anjToken.decimals,
+          digits: antToken.decimals,
           commas: !editMode,
           replaceZeroBy: editMode ? '' : '0',
-          precision: anjToken.decimals,
+          precision: antToken.decimals,
         }),
       }))
     },
-    [anjToken.decimals]
+    [antToken.decimals]
   )
 
   // Change amount handler
@@ -51,7 +55,7 @@ const ANJForm = React.memo(function ANJForm({
       let newAmountBN
 
       try {
-        newAmountBN = parseUnits(newAmount, anjToken.decimals)
+        newAmountBN = parseUnits(newAmount, antToken.decimals)
       } catch (err) {
         newAmountBN = bigNum(-1)
       }
@@ -62,7 +66,7 @@ const ANJForm = React.memo(function ANJForm({
         valueBN: newAmountBN,
       }))
     },
-    [anjToken.decimals]
+    [antToken.decimals]
   )
 
   // Max value selection handler
@@ -70,12 +74,12 @@ const ANJForm = React.memo(function ANJForm({
     setAmount(amount => ({
       ...amount,
       value: formatUnits(maxAmount, {
-        digits: anjToken.decimals,
-        precision: anjToken.decimals,
+        digits: antToken.decimals,
+        precision: antToken.decimals,
       }),
       valueBN: maxAmount,
     }))
-  }, [anjToken.decimals, maxAmount])
+  }, [antToken.decimals, maxAmount])
 
   // Form validation
   const validateForm = useCallback(() => {
@@ -103,7 +107,7 @@ const ANJForm = React.memo(function ANJForm({
     setAmount(amount => ({ ...amount, error: null }))
 
     onDone()
-    onSubmit(amount.valueBN)
+    onSubmit(wallet.account, amount.valueBN)
   }
 
   const errorMessage = amount.error
@@ -162,4 +166,4 @@ const ANJForm = React.memo(function ANJForm({
   )
 })
 
-export default ANJForm
+export default ANTForm

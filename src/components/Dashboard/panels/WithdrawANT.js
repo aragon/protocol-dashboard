@@ -1,41 +1,41 @@
 import React, { useCallback } from 'react'
-import ANJForm from './ANJForm'
-import { formatUnits } from '../../../lib/math-utils'
+import ANTForm from './ANTForm'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+import { formatUnits } from '../../../lib/math-utils'
 
-const WithdrawANJ = React.memo(function WithdrawANJ({
-  onWithdrawANJ,
+const WithdrawANT = React.memo(function WithdrawANT({
+  onWithdrawANT,
   inactiveBalance,
   onDone,
 }) {
-  const { anjToken } = useCourtConfig()
+  const { token: antToken } = useCourtConfig()
 
   const maxAmount = inactiveBalance
   const maxAmountFormatted = formatUnits(maxAmount, {
-    digits: anjToken.decimals,
-    precision: anjToken.decimals,
+    digits: antToken.decimals,
+    precision: antToken.decimals,
   })
 
   const validation = useCallback(
     amountBN => {
       if (amountBN.gt(maxAmount)) {
-        return `Insufficient funds, you cannnot withdraw more than ${maxAmountFormatted} ${anjToken.symbol}`
+        return `Insufficient funds, you cannnot withdraw more than ${maxAmountFormatted} ${antToken.symbol}`
       }
 
       return null
     },
-    [anjToken.symbol, maxAmount, maxAmountFormatted]
+    [antToken.symbol, maxAmount, maxAmountFormatted]
   )
 
   return (
-    <ANJForm
+    <ANTForm
       actionLabel="Withdraw"
       maxAmount={maxAmount}
-      onSubmit={onWithdrawANJ}
+      onSubmit={onWithdrawANT}
       onDone={onDone}
       runParentValidation={validation}
     />
   )
 })
 
-export default WithdrawANJ
+export default WithdrawANT

@@ -1,36 +1,14 @@
 import { getInternalNetworkName } from '../networks'
 
 export const KNOWN_TOKEN_BY_ENV = {
-  ANJ: {
-    main: {
-      address: '0xcD62b1C403fa761BAadFC74C525ce2B51780b184',
-      decimals: 18,
-      symbol: 'ANJ',
-    },
-    rinkeby: {
-      address: '0x1FAB7d0D028ded72195322998003F6e82cF4cFdB',
-      decimals: 18,
-      symbol: 'ANJ',
-    },
-    ropsten: {
-      address: '0xc863E1CcC047befF17022F4229DBE6321A6BCe65',
-      decimals: 18,
-      symbol: 'ANJ',
-    },
-    local: {
-      address: '0xcD62b1C403fa761BAadFC74C525ce2B51780b184',
-      decimals: 18,
-      symbol: 'ANJ',
-    },
-  },
   ANT: {
     main: {
-      address: '0x960b236A07cf122663c4303350609A66A7B288C0',
+      address: '0xa117000000f279d81a1d3cc75430faa017fa5a2e',
       decimals: 18,
       symbol: 'ANT',
     },
     rinkeby: {
-      address: '0x8cf8196c14A654dc8Aceb3cbb3dDdfd16C2b652D',
+      address: '0xf0f8D83CdaB2F9514bEf0319F1b434267be36B5c',
       decimals: 18,
       symbol: 'ANT',
     },
@@ -47,7 +25,7 @@ export const KNOWN_TOKEN_BY_ENV = {
       symbol: 'DAI',
     },
     rinkeby: {
-      address: '0xe9A083D88Eed757B1d633321Ce0519F432c6284d',
+      address: '0xb08E32D658700f768f5bADf0679E153ffFEC42e6',
       decimals: 18,
       symbol: 'DAI',
     },
@@ -66,4 +44,8 @@ export const KNOWN_TOKEN_BY_ENV = {
 
 export function getKnownToken(symbol) {
   return KNOWN_TOKEN_BY_ENV[symbol][getInternalNetworkName()]
+}
+
+export function getANTToken() {
+  return KNOWN_TOKEN_BY_ENV.ANT[getInternalNetworkName()]
 }
