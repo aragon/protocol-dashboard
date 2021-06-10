@@ -13,13 +13,13 @@ export const RINKEBY_STAGING_COURT = '0xD2c15eCd1751C2cE8b02ab2D95db32E662517D61
 
 export const networkConfigs = {
   main: {
-    court: '0xee4650cBe7a2B23701D416f58b41D8B76b617797',
+    court: '0xFb072baA713B01cE944A0515c3e1e98170977dAF',
     network_agent: '0x5e8c17a6065c35b172b10e80493d2266e2947df4',
     network_reserve: '0xec0dd1579551964703246becfbf199c27cb84485',
     nodes: {
       defaultEth: 'https://mainnet.eth.aragon.network/',
       subgraph:
-        'https://graph.backend.aragon.org/subgraphs/name/aragon/aragon-court',
+        'https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-mainnet',
     },
   },
   rinkeby: {
