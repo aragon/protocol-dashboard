@@ -25,7 +25,7 @@ export function courtServerEndpoint() {
 
   return `https://court${
     networkType === 'main' ? '' : `-${COURT_SERVER_NAME || networkType}`
-  }.backend.aragon.org`
+  }-backend.aragon.org`
 }
 
 export function graphEndpoint() {
