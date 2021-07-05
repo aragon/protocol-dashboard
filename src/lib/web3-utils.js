@@ -24,7 +24,6 @@ function getBackendServicesKeys() {
 export function getDefaultProvider() {
   const type = getNetworkType()
 
-  console.log(defaultEthNode)
   return defaultEthNode
     ? new Providers.StaticJsonRpcProvider(defaultEthNode)
     : ethers.getDefaultProvider(type, getBackendServicesKeys())

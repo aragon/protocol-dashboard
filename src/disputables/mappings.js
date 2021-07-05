@@ -50,7 +50,7 @@ export const DISPUTABLE_SUBGRAPH_URLS = new Map([
     {
       xdai:
         'https://api.thegraph.com/subgraphs/name/1hive/disputable-honey-pot',
-      rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardenst-rinkeby',
+      rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-rinkeby',
     },
   ]),
   ...CONVICTION_VOTING_APP_IDS.map(appId => [
