@@ -21,7 +21,6 @@ export const networkConfigs = {
     court: getRinkebyCourtAddress(SUBGRAPH_NAME),
     explorer: 'etherscan',
     nodes: {
-      defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),
     },
   },

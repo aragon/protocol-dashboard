@@ -264,14 +264,8 @@ function buildDisputedActionUrl(
       networkType
     )
   } else {
-    // Fallback to Aragon client url
-    url = buildClientUrl(
-      organization,
-      appAddress,
-      entityPath,
-      actionId,
-      networkType
-    )
+    // Fallback to Gardens url
+    url = buildGardenUrl(organization, entityPath, actionId, networkType)
   }
 
   return url
@@ -286,7 +280,7 @@ function buildDisputedActionUrl(
  * @param {String} networkType The network type
  * @returns {String} URL of the organization
  */
-function buildClientUrl(
+export function buildClientUrl(
   organization,
   appAddress,
   entityPath,
@@ -296,6 +290,23 @@ function buildClientUrl(
   return [
     `https://${networkType}.aragon.org/#/${organization}`,
     appAddress,
+    entityPath,
+    actionId,
+  ].join('/')
+}
+
+/**
+ * Builds URL of the organization in the Gardens app
+ * @param {String} organization Address of the organization in question
+ * @param {String} entityPath Realtive path where the disputed action is taking place
+ * @param {String} actionId Id of the disputed action in the context of the disputable app
+ * @param {String} networkType The network type
+ * @returns {String} URL of the organization
+ */
+function buildGardenUrl(organization, entityPath, actionId, networkType) {
+  return [
+    `https://gardens-${networkType}.1hive.org/#/garden`,
+    organization,
     entityPath,
     actionId,
   ].join('/')
