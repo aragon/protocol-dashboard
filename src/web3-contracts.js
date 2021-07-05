@@ -1,9 +1,7 @@
 import { useMemo } from 'react'
-import { Contract as EthersContract, providers as Providers } from 'ethers'
+import { Contract as EthersContract } from 'ethers'
 import { useWallet } from './providers/Wallet'
-import { defaultEthNode } from './endpoints'
-
-const DEFAULT_PROVIDER = new Providers.JsonRpcProvider(defaultEthNode)
+import { getDefaultProvider } from './lib/web3-utils'
 
 export function useContract(address, abi, signer = true) {
   const { account, ethers } = useWallet()
@@ -29,6 +27,6 @@ export function useContractReadOnly(address, abi) {
   }, [abi, address])
 }
 
-export function getContract(address, abi, provider = DEFAULT_PROVIDER) {
+export function getContract(address, abi, provider = getDefaultProvider()) {
   return new EthersContract(address, abi, provider)
 }

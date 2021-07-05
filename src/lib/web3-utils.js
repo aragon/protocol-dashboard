@@ -1,16 +1,33 @@
 import env from '../environment'
-import { providers as Providers, utils } from 'ethers'
+import { ethers, providers as Providers, utils } from 'ethers'
+import { defaultEthNode } from '../endpoints'
 import { InvalidURI, InvalidNetworkType, NoConnection } from '../errors'
 import { validHttpFormat } from './uri-utils'
 
 const { id: keccak256, solidityKeccak256: soliditySha3, toUtf8String } = utils
 
-export const DEFAULT_LOCAL_CHAIN = 'private'
 export const ZERO_ADDRESS = `0x${''.padEnd(40, '0')}`
 export const ETH_FAKE_ADDRESS = ZERO_ADDRESS
 
 const ETH_ADDRESS_SPLIT_REGEX = /(0x[a-fA-F0-9]{40}(?:\b|\.|,|\?|!|;))/g
 const ETH_ADDRESS_TEST_REGEX = /(0x[a-fA-F0-9]{40}(?:\b|\.|,|\?|!|;))/g
+
+function getBackendServicesKeys() {
+  return {
+    alchemy: env('ALCHEMY_API_KEY'),
+    etherscan: env('ETHERSCAN_API_KEY'),
+    infura: env('INFURA_API_KEY'),
+    pocket: env('POCKET_API_KEY'),
+  }
+}
+
+export function getDefaultProvider() {
+  const type = getNetworkType()
+
+  return defaultEthNode
+    ? new Providers.StaticJsonRpcProvider(defaultEthNode)
+    : ethers.getDefaultProvider(type, getBackendServicesKeys())
+}
 
 export function getFunctionSignature(func) {
   return keccak256(func).slice(0, 10)
@@ -118,7 +135,7 @@ export function getNetworkType(chainId = env('CHAIN_ID')) {
   if (chainId === '4') return 'rinkeby'
   if (chainId === '100') return 'xdai'
 
-  return DEFAULT_LOCAL_CHAIN
+  return 'private'
 }
 
 export function getNetworkName(chainId = env('CHAIN_ID')) {
@@ -142,7 +159,7 @@ export function sanitizeNetworkType(networkType) {
 }
 
 export function isLocalOrUnknownNetwork(chainId = env('CHAIN_ID')) {
-  return getNetworkType(chainId) === DEFAULT_LOCAL_CHAIN
+  return getNetworkType(chainId) === 'private'
 }
 
 // Detect Ethereum addresses in a string and transform each part.
