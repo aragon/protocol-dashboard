@@ -73,7 +73,7 @@ export function round(value, precision = 2) {
   if (!decimal || decimal.length <= precision) return value
 
   // Round and keep the last `precision` digits
-  decimal = Math.round(parseInt((decimal || '0').slice(0, precision + 2)) / 100)
+  decimal = parseFloat(`0.${decimal || 0}`).toFixed(precision).slice(2)
 
   return `${whole}${decimal ? `.${decimal}` : ''}`
 }
