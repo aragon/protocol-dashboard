@@ -9,6 +9,7 @@ export function transformSubscriptionModuleDataAttributes(subscriptionModule) {
     ...subscriptionModule,
     currentPeriod: parseInt(subscriptionModule.currentPeriod, 10),
     periodDuration: parseInt(subscriptionModule.periodDuration),
+    periodPercentageYield: bigNum(subscriptionModule.periodPercentageYield),
     periods: subscriptionModule.periods.map(period => ({
       ...period,
       id: parseInt(period.id, 10),

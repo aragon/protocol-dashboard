@@ -898,7 +898,7 @@ export function useActiveBalanceOfAt(juror, termId) {
   return [activeBalance.amount, activeBalance.error]
 }
 
-export function useHNYBalanceOfPolling(juror) {
+export function useHNYBalanceOfPolling(account) {
   const hnyTokenContract = useHNYTokenContract()
   const [balance, setBalance] = useState(bigNum(-1))
 
@@ -909,10 +909,9 @@ export function useHNYBalanceOfPolling(juror) {
 
     if (!hnyTokenContract) return
 
-    // Assumes jurorDraft exists
     const pollActiveBalanceOf = async () => {
       try {
-        const balance = await hnyTokenContract.balanceOf(juror)
+        const balance = await hnyTokenContract.balanceOf(account)
 
         if (!cancelled) {
           setBalance(balance)
@@ -931,7 +930,7 @@ export function useHNYBalanceOfPolling(juror) {
     return () => {
       cancelled = true
     }
-  }, [hnyTokenContract, juror, timer])
+  }, [account, hnyTokenContract, timer])
 
   return balance
 }
