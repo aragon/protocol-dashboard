@@ -46,6 +46,7 @@ export const CourtConfig = gql`
         id
         currentPeriod
         periodDuration
+        periodPercentageYield
         periods(first: 1, orderBy: "createdAt", orderDirection: "desc") {
           id
           createdAt

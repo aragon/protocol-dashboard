@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useWallet } from 'use-wallet'
 import { useCourtConfig } from '../providers/CourtConfig'
-import { useCourtSubscriptionActions } from './useCourtContracts'
+import {
+  useCourtSubscriptionActions,
+  useHNYBalanceOfPolling,
+} from './useCourtContracts'
 import { useDashboardState } from '../components/Dashboard/DashboardStateProvider'
 
 import { hasJurorClaimed } from '../utils/subscription-utils'
@@ -19,6 +22,8 @@ export default function useJurorSubscriptionFees() {
   // The unclaimed amount won't accrue for the juror and instead will be available for distribution for all jurors in the next period
   // For this reason we should only check if the juror has unclaimed amount for the latest period
   const periods = subscriptionModule?.periods || []
+
+  const availableBalance = useHNYBalanceOfPolling(subscriptionModule.id)
 
   useEffect(() => {
     let cancelled = false
@@ -38,7 +43,8 @@ export default function useJurorSubscriptionFees() {
         const jurorShare = await getters.getJurorShare(wallet.account)
         if (
           jurorShare[1].gt(0) &&
-          !hasJurorClaimed(claimedSubscriptionFees, periodId)
+          !hasJurorClaimed(claimedSubscriptionFees, periodId) &&
+          jurorShare.lte(availableBalance)
         ) {
           jurorSubscriptionsFees.push({
             periodId,
@@ -62,7 +68,13 @@ export default function useJurorSubscriptionFees() {
     return () => {
       cancelled = true
     }
-  }, [claimedSubscriptionFees, getters, periods, wallet.account])
+  }, [
+    availableBalance,
+    claimedSubscriptionFees,
+    getters,
+    periods,
+    wallet.account,
+  ])
 
   return subscriptionFees
 }
