@@ -6,7 +6,7 @@ import Tasks from '../Tasks/Tasks'
 import TitleHeader from '../TitleHeader'
 import ErrorLoading from '../Errors/ErrorLoading'
 import BalanceModule from './BalanceModule'
-// import RewardsModule from './RewardsModule'
+import RewardsModule from './RewardsModule'
 import ActivateHNY from './panels/ActivateHNY'
 import WithdrawHNY from './panels/WithdrawHNY'
 import DeactivateHNY from './panels/DeactivateHNY'
@@ -36,8 +36,8 @@ function Dashboard() {
     mode,
     panelState,
     requests,
-    // rewards,
-    // treasury,
+    rewards,
+    treasury,
   } = useDashboardLogic()
 
   const { name: layout } = useLayout()
@@ -77,12 +77,12 @@ function Dashboard() {
               primary={<Tasks onlyTable />}
               secondary={
                 <>
-                  {/* <RewardsModule
+                  <RewardsModule
                     rewards={rewards}
                     treasury={treasury}
                     loading={fetchingData}
                     onClaimRewards={actions.claimRewards}
-                  /> */}
+                  />
                   <AppealColateralModule
                     appeals={appealCollaterals}
                     loading={fetchingData}
