@@ -1,4 +1,4 @@
-import { utils as EthersUtils, BigNumber } from 'ethers'
+import { utils as EthersUtils, BigNumber, FixedNumber } from 'ethers'
 
 export function bigNum(value) {
   return BigNumber.from(value)
@@ -68,14 +68,11 @@ export function formatUnits(
  * @returns {String} Value rounded to `precision` decimals
  */
 export function round(value, precision = 2) {
-  let [whole, decimal] = value.split('.')
 
-  if (!decimal || decimal.length <= precision) return value
+  const roundedValue = FixedNumber.fromString(value || '0').round(precision)
 
-  // Round and keep the last `precision` digits
-  decimal = parseFloat(`0.${decimal || 0}`).toFixed(precision).slice(2)
-
-  return `${whole}${decimal ? `.${decimal}` : ''}`
+  // fixedNumber.round() returns x.0 when precision = 0, strip it
+  return precision === 0? roundedValue.replace(/\.0$/, ''): roundedValue;
 }
 
 const wordNumbers = [
