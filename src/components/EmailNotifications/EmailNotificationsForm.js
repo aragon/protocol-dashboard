@@ -106,7 +106,7 @@ function EmailNotificationsForm({
           {existingEmail ? (
             <>
               <span>Enter a new email address for your account</span>
-              <IdentityBadge entity={account} compact />
+              <IdentityBadge entity={account || ''} compact />
               <span>
                 . We will continue sending email notifications to the current
                 email address until you verify this new email address.
@@ -115,7 +115,7 @@ function EmailNotificationsForm({
           ) : (
             <>
               <span>Associate an email address to your account </span>
-              <IdentityBadge entity={account} compact />
+              <IdentityBadge entity={account || ''} compact />
               <span>
                 , so you can receive notifications for all Aragon Courts events.
               </span>
