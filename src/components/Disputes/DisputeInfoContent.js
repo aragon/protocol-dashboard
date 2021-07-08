@@ -15,8 +15,10 @@ import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
 import { toUTF8String } from '../../lib/web3-utils'
-
+import { useIpfsFetch } from '../../hooks/ipfs-hooks';
 import useActionDataDecoder from '../../hooks/useActionDataDecoder'
+
+const MAX_LENGTH = 100;
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
@@ -100,11 +102,11 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
 
 // by default, if value is not ipfs hash|address type, it tries to transform
 // the value into utf8string. To disable this, isUTF=false can be passed.
-function Field({ label, loading, value, isUTF8=true, ...props }) {
+function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
   const theme = useTheme()
   const wallet = useWallet()
 
-  if (!value && !loading) {
+  if (!value && !endpoint && !loading) {
     return <div />
   }
 
@@ -172,7 +174,28 @@ function Field({ label, loading, value, isUTF8=true, ...props }) {
                           </Link>
                         )
                       }
-                      return <span key={i}>{isUTF8 ? toUTF8String(word) : word} </span>
+                      return (
+                        <React.Fragment key={index}>
+                          <span key={i}>
+                            { 
+                              isUTF8 
+                              ?  (endpoint ? `${toUTF8String(word).substring(0, MAX_LENGTH)}...` : toUTF8String(word))
+                              :  (endpoint ? `${word.substring(0, MAX_LENGTH)}...` : word) 
+                            } 
+                          </span>
+                          { endpoint && word.length > MAX_LENGTH 
+                            && 
+                              <Link
+                                  href={endpoint}
+                                  css={`
+                                    text-decoration: none;
+                                  `}
+                                >
+                                  Read more
+                              </Link>
+                          }
+                        </React.Fragment>
+                      )
                     })}
                   </React.Fragment>
                 )
@@ -180,6 +203,19 @@ function Field({ label, loading, value, isUTF8=true, ...props }) {
               <br />
             </React.Fragment>
           ))
+        }
+
+        if(endpoint) {
+          return (
+            <Link
+              href={endpoint}
+              css={`
+                text-decoration: none;
+              `}
+            >
+                Read more
+            </Link>
+          )
         }
 
         return (
@@ -282,27 +318,15 @@ function DisputeContainerData({ dispute }) {
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 
-  const [ title, setTitle ] = useState(null);
+  const proof = useIpfsFetch(payload.proof);
+  const rules = useIpfsFetch(config.rules);
   
-  useEffect(() => {
-    async function getTitle() {
-      const proof = await fetchIPFS(payload.proof)
-      if(!proof) {
-        return;
-      }
-      if(proof.metadata && proof.metadata.title) {
-        setTitle(proof.metadata.title)
-      }
-    }
-    getTitle();
-  }, [payload])
-
   return (  
     <div>
       <Field
         label="Title"
-        value={title}
-        loading={title === null}
+        value={proof && proof.metadata && proof.metadata.title}
+        loading={!proof}
         css={`
           word-break: break-word;
           overflow-wrap: anywhere;
@@ -310,7 +334,9 @@ function DisputeContainerData({ dispute }) {
       />
       <Field
         label="DAO agreement"
-        value={config.rules}
+        value={rules && rules.text}
+        endpoint={rules && rules.endpoint}
+        loading={!rules}
         css={`
           word-break: break-word;
           overflow-wrap: anywhere;
@@ -320,7 +346,7 @@ function DisputeContainerData({ dispute }) {
         label="Executor"
         value={payload.executor}
       />
-       <Field
+       {/* <Field
         label="Allow Failures Map"
         value={payload.allowFailuresMap}
         isUTF8={false}
@@ -328,7 +354,7 @@ function DisputeContainerData({ dispute }) {
           word-break: break-word;
           overflow-wrap: anywhere;
         `}
-      />
+      /> */}
       <h1
         css={`
           padding-top: ${2 * GU}px;
