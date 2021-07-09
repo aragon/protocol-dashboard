@@ -598,7 +598,9 @@ export function useRewardActions() {
 
       // Claim subscription fees
       for (const subscriptionFee of subscriptionFees) {
-        requestQueue.push(claimFees(subscriptionFee.periodId))
+        if (!subscriptionFee.owed) {
+          requestQueue.push(claimFees(subscriptionFee.periodId))
+        }
       }
 
       // Claim all arbitrable fee rewards

@@ -43,12 +43,12 @@ export default function useJurorSubscriptionFees() {
         const jurorShare = await getters.getJurorShare(wallet.account)
         if (
           jurorShare[1].gt(0) &&
-          !hasJurorClaimed(claimedSubscriptionFees, periodId) &&
-          jurorShare.lte(availableBalance)
+          !hasJurorClaimed(claimedSubscriptionFees, periodId)
         ) {
           jurorSubscriptionsFees.push({
             periodId,
             amount: jurorShare[1],
+            owed: jurorShare[1].gt(availableBalance),
           })
         }
 
