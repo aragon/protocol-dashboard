@@ -128,9 +128,16 @@ const RewardsModule = React.memo(function RewardsModule({
                     />
                   )}
                   {totalSubscriptionFees.gt(0) && (
-                    <SubscriptionFeeRewards totalFees={totalSubscriptionFees} />
+                    <SubscriptionFeeRewards
+                      isOwed={subscriptionFees[0].owed}
+                      totalFees={totalSubscriptionFees}
+                    />
                   )}
                   <TotalFees
+                    canClaim={
+                      !totalFeeRewards.eq(totalSubscriptionFees) ||
+                      !subscriptionFees[0].owed
+                    }
                     totalFees={totalFeeRewards}
                     withBorder={totalSubscriptionFees
                       .add(totalDisputesFees)
@@ -247,7 +254,7 @@ const DisputesFeeRewards = ({
   )
 }
 
-function SubscriptionFeeRewards({ totalFees }) {
+function SubscriptionFeeRewards({ isOwed, totalFees }) {
   const theme = useTheme()
   const { feeToken, subscriptionModule, terms, termDuration } = useCourtConfig()
   const formattedAmount = formatTokenAmount(
@@ -279,32 +286,36 @@ function SubscriptionFeeRewards({ totalFees }) {
           margin-bottom: ${2 * GU}px;
         `}
       >
-        <div
-          css={`
-            & > time {
-              ${textStyle('body3')};
-              display: inline-block;
+        {isOwed ? (
+          <span>You are owed staking rewards but Celeste has ran out.</span>
+        ) : (
+          <div
+            css={`
+              & > time {
+                ${textStyle('body3')};
+                display: inline-block;
 
-              & span {
-                color: ${theme.warningSurfaceContent};
-                font-weight: bold;
+                & span {
+                  color: ${theme.warningSurfaceContent};
+                  font-weight: bold;
+                }
               }
-            }
-          `}
-        >
-          You must claim your staking rewards within{' '}
-          <Timer
-            end={getTermEndTime(periodEndTerm, { terms, termDuration })}
-            showIcon={false}
-          />{' '}
-          or you will forfeit them.
-        </div>
+            `}
+          >
+            You must claim your staking rewards within{' '}
+            <Timer
+              end={getTermEndTime(periodEndTerm, { terms, termDuration })}
+              showIcon={false}
+            />{' '}
+            or you will forfeit them.
+          </div>
+        )}
       </Info>
     </>
   )
 }
 
-function TotalFees({ totalFees, withBorder }) {
+function TotalFees({ canClaim, totalFees, withBorder }) {
   const theme = useTheme()
   const { feeToken } = useCourtConfig()
 
@@ -329,6 +340,7 @@ function TotalFees({ totalFees, withBorder }) {
         mode="positive"
         type="submit"
         wide
+        disabled={!canClaim}
         css={`
           margin-top: ${2 * GU}px;
         `}
