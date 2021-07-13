@@ -60,7 +60,7 @@ function CourtStats() {
 
 function TokenStats({ stat, theme }) {
   const { value, token, error } = stat
-  const { decimals, icon, symbol } = token
+  const { decimals, icon } = token
   return (
     <>
       <div
@@ -106,7 +106,7 @@ function TokenStats({ stat, theme }) {
       >
         $
         {!error ? (
-          <TokenUsdValue amount={value} decimals={decimals} symbol={symbol} />
+          <TokenUsdValue amount={value} token={token} />
         ) : (
           '-'
         )}
@@ -115,8 +115,8 @@ function TokenStats({ stat, theme }) {
   )
 }
 
-function TokenUsdValue({ amount, decimals, symbol }) {
-  const usdValue = useTokenAmountToUsd(symbol, decimals, amount)
+function TokenUsdValue({ amount, token }) {
+  const usdValue = useTokenAmountToUsd(token, amount)
   return <span>{usdValue}</span>
 }
 

@@ -7,6 +7,7 @@ export const CourtConfig = gql`
       token {
         id
         name
+        address: id
         symbol
         decimals
       }

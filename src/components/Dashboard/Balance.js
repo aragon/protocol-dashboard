@@ -30,7 +30,7 @@ const Balance = React.memo(function Balance({
   const { token: antToken } = useCourtConfig()
   const { symbol, decimals } = antToken
 
-  const convertedAmount = useTokenAmountToUsd(symbol, decimals, amount)
+  const convertedAmount = useTokenAmountToUsd(antToken, amount)
 
   const springProps = useSpring({
     to: { opacity: 1 },
