@@ -318,14 +318,14 @@ function DisputeContainerData({ dispute }) {
   if(!dispute.metadata) return ('')
   const { config, payload } = dispute.metadata
 
-  const proof = useIpfsFetch(payload.proof);
-  const rules = useIpfsFetch(config.rules);
-  
+  const proof = getIpfsCidFromUri(payload.proof) ? useIpfsFetch(payload.proof) : payload.proof
+  const rules = getIpfsCidFromUri(config.rules) ? useIpfsFetch(config.rules) : config.rules;
+
   return (  
     <div>
       <Field
         label="Title"
-        value={proof && proof.metadata && proof.metadata.title}
+        value={proof?.metadata?.title}
         loading={!proof}
         css={`
           word-break: break-word;
@@ -334,8 +334,8 @@ function DisputeContainerData({ dispute }) {
       />
       <Field
         label="DAO agreement"
-        value={rules && rules.text}
-        endpoint={rules && rules.endpoint}
+        value={rules?.text || rules}
+        endpoint={rules?.endpoint}
         loading={!rules}
         css={`
           word-break: break-word;
