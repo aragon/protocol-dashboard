@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchIPFS } from '../lib/ipfs-utils'
+import { fetchIPFS, getIpfsCidFromUri } from '../lib/ipfs-utils'
 
 export function useIpfsFetch(cid) {
     const [data, setData] = useState(null);
@@ -11,7 +11,11 @@ export function useIpfsFetch(cid) {
                 setData(data);
             }
         }
-        fetch();
+        if(getIpfsCidFromUri(cid)) {
+            fetch();
+        } else {
+            setData(cid);
+        }
     }, [cid])
 
     return data;

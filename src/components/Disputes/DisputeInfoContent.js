@@ -14,16 +14,18 @@ import { getIpfsCidFromUri, transformIPFSHash, fetchIPFS } from '../../lib/ipfs-
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 // import { dateFormat } from '../../utils/date-utils'
-import { toUTF8String } from '../../lib/web3-utils'
 import { useIpfsFetch } from '../../hooks/ipfs-hooks';
 import useActionDataDecoder from '../../hooks/useActionDataDecoder'
-
-const MAX_LENGTH = 100;
+import GovernDisputedData from './containers/GovernDispute';
+import DefaultDisputeData from './containers/DefaultDispute';
+import Field from './DisputeField';
+import { DISPUTE_TYPES } from '../../utils/metadata/types';
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
   const compactMode = below('medium')
   // TODO:GIORGI what to do about this since organization and defendant and other fields don't exist anymore.
+  // This is why most of the things are commented out.
   const {
     agreementText,
     agreementUrl,
@@ -51,7 +53,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
           <FinalGuardianOutcome dispute={dispute} />
         </Row>
       )}
-      <Row compactMode={compactMode}>
+      {/* <Row compactMode={compactMode}>
         <DisputedAction
           actionText={disputedAction}
           dispute={dispute}
@@ -62,9 +64,9 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
         />
 
         {organization && <Field label="Organization" value={organization} />}
-      </Row>
+      </Row> */}
       <Row compactMode={compactMode}>
-        <Field
+        {/* <Field
           label="Description"
           loading={loading}
           value={description}
@@ -72,10 +74,10 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
             word-break: break-word;
             overflow-wrap: anywhere;
           `}
-        />
-        {creator && <Field label="Plaintiff" value={creator} />}
+        /> */}
+        {dispute.subject && <Field label="Plaintiff" value={dispute.subject} />}
       </Row>
-      <Row compactMode={compactMode}>
+      {/* <Row compactMode={compactMode}>
         {agreementText ? (
           <Field
             label="Link to agreement"
@@ -95,287 +97,27 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
           <div />
         )}
         {defendant && <Field label="Defendant" value={defendant} />}
-      </Row>
+      </Row> */}
     </>
   )
 }
 
-// by default, if value is not ipfs hash|address type, it tries to transform
-// the value into utf8string. To disable this, isUTF=false can be passed.
-function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
-  const theme = useTheme()
-  const wallet = useWallet()
-
-  if (!value && !endpoint && !loading) {
-    return <div />
-  }
-
-
-  return (
-    <div {...props}>
-      <h2
-        css={`
-          ${textStyle('label2')};
-          color: ${theme.surfaceContentSecondary};
-          margin-bottom: ${1 * GU}px;
-        `}
-      >
-        {label}
-      </h2>
-      {(() => {
-        if (loading) {
-          return <Loading size="small" center={false} />
-        }
-
-        if (typeof value === 'string') {
-          const ipfsPath = getIpfsCidFromUri(value)
-          if (ipfsPath) {
-            const ipfsUrl = resolvePathname(ipfsPath, `${IPFS_ENDPOINT}/`)
-            return (
-              <Link
-                href={ipfsUrl}
-                css={`
-                  text-decoration: none;
-                `}
-              >
-                Read more
-              </Link>
-            )
-          }
-
-          return value.split('\n').map((line, i) => (
-            <React.Fragment key={i}>
-              {transformAddresses(line, (part, isAddress, index) => 
-                isAddress ? (
-                  <span title={part} key={index}>
-                    <IdentityBadge
-                      connectedAccount={addressesEqual(part, wallet.account)}
-                      compact
-                      entity={part}
-                    />
-                  </span>
-                ) : (
-                  <React.Fragment key={index}>
-                    {transformIPFSHash(part, (word, isIpfsHash, i) => {
-                      if (isIpfsHash) {
-                        const ipfsUrl = resolvePathname(
-                          word,
-                          `${IPFS_ENDPOINT}/`
-                        )
-                        return (
-                          <Link
-                            href={ipfsUrl}
-                            key={i}
-                            css={`
-                              text-decoration: none;
-                            `}
-                          >
-                            {word}
-                          </Link>
-                        )
-                      }
-                      return (
-                        <React.Fragment key={index}>
-                          <span key={i}>
-                            { 
-                              isUTF8 
-                              ?  (endpoint ? `${toUTF8String(word).substring(0, MAX_LENGTH)}...` : toUTF8String(word))
-                              :  (endpoint ? `${word.substring(0, MAX_LENGTH)}...` : word) 
-                            } 
-                          </span>
-                          { endpoint && word.length > MAX_LENGTH 
-                            && 
-                              <Link
-                                  href={endpoint}
-                                  css={`
-                                    text-decoration: none;
-                                  `}
-                                >
-                                  Read more
-                              </Link>
-                          }
-                        </React.Fragment>
-                      )
-                    })}
-                  </React.Fragment>
-                )
-              )}
-              <br />
-            </React.Fragment>
-          ))
-        }
-
-        if(endpoint) {
-          return (
-            <Link
-              href={endpoint}
-              css={`
-                text-decoration: none;
-              `}
-            >
-                Read more
-            </Link>
-          )
-        }
-
-        return (
-          <div
-            css={`
-              ${textStyle('body2')};
-            `}
-          >
-            {value}
-          </div>
-        )
-      })()}
-    </div>
-  )
-}
-
-const ActionContent = React.memo(function ActionContent({to, value, data}) {
-  const { decoding, decodedData } = useActionDataDecoder(to, data)
-
-  const marginCss = `margin: ${2 * GU}px 0`;
-  return (
-    <div>
-      <Field
-        css={marginCss}
-        label="To"
-        value={to}
-      />
-      <Field
-        css={marginCss}
-        label="Value"
-        value={value.toString()}
-      />
-      {
-        decoding && <Loading size="small" />
-      }
-      {
-        !decoding && decodedData &&
-        <div>
-          <Field
-            css={marginCss}
-            label="Function to be called"
-            value={decodedData.functionName}
-          />
-          <div css={marginCss}>
-            <FieldLabel>Data</FieldLabel>
-            <div>
-              <pre>
-                {JSON.stringify(decodedData.inputData, null, 2)}
-              </pre>
-            </div>
-          </div>
-        </div>
-      }
-      {
-        !decoding && !decodedData &&
-        <div>
-          <FieldLabel>Raw Data</FieldLabel>
-          <Info mode="warning">
-            Unable to decode data because contract is not verified on etherscan
-          </Info>
-          <Field
-            css={`
-              ${marginCss}
-              word-break: break-word;
-              overflow-wrap: anywhere;
-            `}
-            value={data}
-          />
-        </div>
-      }
-    </div>
-  )
-})
-
-
-const ActionAccordion = React.memo(function ActionAccordion({action, index}) {
-  const fields = useMemo(() => [null], []);
-  const renderEntry = useCallback(([entryIndex]) => ([<div>Action # {entryIndex+1}</div>]), []); 
-  const renderEntryExpansion = useCallback(
-    ([_, to, value, data]) => {
-      return (<ActionContent to={to} value={value} data={data}/>);
-    }
-  );
-
-  const entries = useMemo(() => [[index, action.to, action.value, action.data]], []);
-
-  return (
-    <DataViewWrapper>
-      <DataView
-        fields={fields}
-        entries={entries}
-        renderEntry={renderEntry}
-        renderEntryExpansion={renderEntryExpansion}
-      />
-    </DataViewWrapper>
-  )
-});
 
 function DisputeContainerData({ dispute }) {
   if(!dispute.metadata) return ('')
-  const { config, payload } = dispute.metadata
 
-  const proof = getIpfsCidFromUri(payload.proof) ? useIpfsFetch(payload.proof) : payload.proof
-  const rules = getIpfsCidFromUri(config.rules) ? useIpfsFetch(config.rules) : config.rules;
-
-  return (  
-    <div>
-      <Field
-        label="Title"
-        value={proof?.metadata?.title}
-        loading={!proof}
-        css={`
-          word-break: break-word;
-          overflow-wrap: anywhere;
-        `} 
-      />
-      <Field
-        label="DAO agreement"
-        value={rules?.text || rules}
-        endpoint={rules?.endpoint}
-        loading={!rules}
-        css={`
-          word-break: break-word;
-          overflow-wrap: anywhere;
-        `} 
-      />
-      <Field
-        label="Executor"
-        value={payload.executor}
-      />
-       {/* <Field
-        label="Allow Failures Map"
-        value={payload.allowFailuresMap}
-        isUTF8={false}
-        css={`
-          word-break: break-word;
-          overflow-wrap: anywhere;
-        `}
-      /> */}
-      <h1
-        css={`
-          padding-top: ${2 * GU}px;
-          ${textStyle('body1')};
-          font-weight: 600;
-        `}
-      >Actions</h1>
-      <hr />
-      {payload.actions.map( (action, index)=> {
-        return (
-          <ActionAccordion
-            key={index}
-            action={action}
-            index={index}
-          />
-        )
-      })}
-      </div>
-
+  return (
+    <>
+      {
+        dispute.metadata.disputeType == DISPUTE_TYPES.GOVERN &&
+          <GovernDisputedData dispute={dispute} />
+      }
+      {
+        dispute.metadata.disputeType == DISPUTE_TYPES.DEFAULT &&
+          <DefaultDisputeData dispute={dispute} />
+      }
+    </>
   )
-   
 }
 
 function FinalGuardianOutcome({ dispute }) {
@@ -591,19 +333,5 @@ const Row = styled.div`
   `}
 `
 
-// this is a hack until we fix the issue with DataView
-// not showing the full content on expansion
-const DataViewWrapper = styled.div`
-  div[class*="TableView___StyledAnimatedDiv2"] {
-    height: auto !important;
-  }
-`
-
-const FieldLabel = styled.div`
-  ${({ theme }) => `
-    ${textStyle('label2')};
-    color: ${theme.surfaceContentSecondary};
-  `}
-`
 
 export default DisputeInfoContent

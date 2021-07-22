@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useMemo } from 'react'
 import { GU, Help, textStyle, useTheme } from '@aragon/ui'
 import {
@@ -58,6 +59,14 @@ function DisputeActions({
 
   const guardianHasVoted = isGuardianDrafted && hasGuardianVoted(guardianDraft)
 
+  // prepare button appearences.
+  const votingButtons = {
+    allowActionText: dispute.metadata?.allowActionText,
+    allowActionColor: dispute.metadata?.allowActionColor,
+    blockActionText: dispute.metadata?.blockActionText,
+    blockActionColor: dispute.metadata?.blockActionColor
+  }
+
   if (phase === DisputePhase.VotingPeriod && !guardianHasVoted) {
     return (
       <DisputeVoting
@@ -65,6 +74,7 @@ function DisputeActions({
         isFinalRound={dispute.maxAppealReached}
         isGuardianDrafted={isGuardianDrafted}
         onRequestCommit={onRequestCommit}
+        buttons={votingButtons}
       />
     )
   }
