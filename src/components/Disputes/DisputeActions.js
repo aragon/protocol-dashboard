@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useMemo } from 'react'
 import { GU, Help, textStyle, useTheme } from '@aragon/ui'
 import {

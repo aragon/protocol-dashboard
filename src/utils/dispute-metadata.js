@@ -7,12 +7,9 @@ export  async function decodeMetadata(metadata) {
     
     try {
        data = await DefaultDecoder(metadata)
-       console.log(data, ' data here')
        data.disputeType = DISPUTE_TYPES.DEFAULT;
        return data;
-    }catch(err) {
-        console.log('error ', err, metadata)
-    }
+    }catch(err) {}
 
     try {
         data =  await GovernDisputeDecode(metadata);
