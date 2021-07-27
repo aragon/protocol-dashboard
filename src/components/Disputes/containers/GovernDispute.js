@@ -123,6 +123,7 @@ function GovernDisputedData({dispute}) {
                 overflow-wrap: anywhere;
                 `} 
             />
+            <br />
             <Field
                 label="Agreement"
                 value={rules?.text || rules}
@@ -133,10 +134,12 @@ function GovernDisputedData({dispute}) {
                 overflow-wrap: anywhere;
                 `} 
             />
+            <br />
             <Field
                 label="Executor"
                 value={payload.executor}
             />
+            <br />
              {dispute.subject && <Field label="Dispute Creator" value={dispute.subject} />}
             {/* <Field
                 label="Allow Failures Map"

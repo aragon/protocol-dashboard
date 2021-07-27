@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useMemo, useContext } from 'react'
 import { GU, Help, textStyle, useTheme } from '@aragon/ui'
 import {
@@ -60,7 +59,7 @@ function DisputeActions({
 
   const guardianHasVoted = isGuardianDrafted && hasGuardianVoted(guardianDraft)
 
-  // if (phase === DisputePhase.VotingPeriod && !guardianHasVoted) {
+  if (phase === DisputePhase.VotingPeriod && !guardianHasVoted) {
     return (
       <DisputeVoting
         draftTermId={lastRound.draftTermId}
@@ -70,7 +69,7 @@ function DisputeActions({
         buttons={dispute?.metadata?.buttons}
       />
     )
-  // }
+  }
 
   return (
     <React.Fragment>
