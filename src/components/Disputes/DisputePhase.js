@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react'
 import { GU, textStyle, Timer, useTheme } from '@aragon/ui'
 

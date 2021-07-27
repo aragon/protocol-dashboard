@@ -21,8 +21,8 @@ function DisputeOutcomeText({
 }) {
   const disputeContext = useContext(DisputeContext);
 
-  const { Icon, color } = useOutcomeStyle(outcome, disputeContext?.voteButtons)
-  
+  const { Icon, color } = useOutcomeStyle(outcome, disputeContext?.voteButtons || voteButtons)
+
   const outcomeText = useMemo(() => {
     if (isFinalRuling) {
       return finalRulingToString(outcome, disputeContext?.voteButtons || voteButtons)
