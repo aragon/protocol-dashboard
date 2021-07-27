@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, createContext, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, createContext, useState } from 'react'
 import { BackButton, Bar, Box, GU, SidePanel, Split } from '@aragon/ui'
 import { useHistory } from 'react-router-dom'
 
@@ -19,7 +19,6 @@ import { DisputeNotFound } from '../../errors'
 import { toMs } from '../../utils/date-utils'
 
 import timelineErrorSvg from '../../assets/noResultsSmall.svg'
-import { useEffect } from 'react/cjs/react.development'
 
 export const DisputeContext = createContext()
 
@@ -37,7 +36,7 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
     requests,
   } = useDisputeLogic(disputeId)
 
-  const [voteButtons, setVoteButtons] = useState(null);
+  const [voteButtons, setVoteButtons] = useState(null)
 
   useEffect(() => {
     if(dispute && dispute.metadata && dispute.metadata.buttons) {
