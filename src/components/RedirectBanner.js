@@ -39,7 +39,7 @@ function RedirectMessage() {
       padding-bottom: ${2 * GU}px;
       width: ${80 * GU}px;
     `}>
-      Court was migrated to Aragon v2 DAOs. Looking for the previous version of Court (for v1 DAOs)?
+      Court was migrated to Aragon Govern DAOs. Looking for the previous version of Court (with ANJ staked)?
     </div>
   )
 }

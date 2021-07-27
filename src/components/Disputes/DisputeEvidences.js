@@ -20,7 +20,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
       <SyncIndicator visible={loading} label="Loading evidences…" />
       {evidences &&
         evidences.map((evidence, index) => {
-          const { createdAt, submitter, metadata, error } = evidence
+          const { createdAt, submitter, metadata, label, error } = evidence
           return (
             <Accordion
               key={index}
@@ -40,7 +40,7 @@ const DisputeEvidences = React.memo(function DisputeEvidences({
                     >
                       {
                         // assume that the first evidence is always the original justification
-                        index === 0 ? 'Original justification' : `Dispute evidence ${index}`
+                        label || (index === 0 ? 'Original justification' : `Dispute evidence ${index}`)
                       }
                     </span>
                   </div>,

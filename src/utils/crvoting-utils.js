@@ -17,14 +17,24 @@ export const VOTE_OPTION_IN_FAVOR = OUTCOMES.InFavor
 export const NOBODY_APPEALED = 'Nobody appealed'
 export const NOBODY_CONFIRMED = 'No confirmation'
 
+function getVoteTexts(outcome, options) {
+  if(outcome === VOTE_OPTION_IN_FAVOR && options?.inFavorText) {
+    return options.inFavorText
+  }
+  if(outcome === VOTE_OPTION_AGAINST && options?.againstText) {
+    return options.againstText
+  }
+  return null;
+}
+
 const voteOptionStringMapping = {
   [VOTE_OPTION_REFUSE]: 'REFUSE TO VOTE',
   [VOTE_OPTION_AGAINST]: 'BLOCK ACTION',
   [VOTE_OPTION_IN_FAVOR]: 'ALLOW ACTION',
 }
 
-export function voteOptionToString(outcome) {
-  return voteOptionStringMapping[outcome]
+export function voteOptionToString(outcome, options) {
+  return getVoteTexts(outcome, options) || voteOptionStringMapping[outcome]
 }
 
 const appealOptionStringMapping = {
@@ -33,8 +43,8 @@ const appealOptionStringMapping = {
   [VOTE_OPTION_IN_FAVOR]: 'Allow action',
 }
 
-export function appealOptionToString(outcome) {
-  return appealOptionStringMapping[outcome]
+export function appealOptionToString(outcome, options) {
+  return getVoteTexts(outcome, options) || appealOptionStringMapping[outcome]
 }
 
 const outcomeStringMapping = {
@@ -44,11 +54,11 @@ const outcomeStringMapping = {
   [OUTCOMES.InFavor]: 'Allowed action',
 }
 
-export function juryOutcomeToString(outcome) {
+export function juryOutcomeToString(outcome, options) {
   if (!outcome) {
     return outcomeStringMapping[OUTCOMES.Refused]
   }
-  return outcomeStringMapping[outcome]
+  return getVoteTexts(outcome, options) || outcomeStringMapping[outcome]
 }
 
 const appealRulingStringMapping = {
@@ -58,11 +68,11 @@ const appealRulingStringMapping = {
   [OUTCOMES.InFavor]: 'Allowed action',
 }
 
-export function appealRulingToString(outcome, confirm) {
+export function appealRulingToString(outcome, confirm, options) {
   if (!outcome) {
     return confirm ? NOBODY_CONFIRMED : NOBODY_APPEALED
   }
-  return appealRulingStringMapping[outcome]
+  return getVoteTexts(outcome, options) || appealRulingStringMapping[outcome]
 }
 
 const finalRulingStringMapping = {
@@ -72,11 +82,11 @@ const finalRulingStringMapping = {
   [OUTCOMES.InFavor]: 'Allowed action',
 }
 
-export function finalRulingToString(outcome) {
+export function finalRulingToString(outcome, options) {
   if (!outcome) {
     return finalRulingStringMapping[OUTCOMES.refused]
   }
-  return finalRulingStringMapping[outcome]
+  return getVoteTexts(outcome, options) || finalRulingStringMapping[outcome]
 }
 
 /**
@@ -103,12 +113,13 @@ export function getOutcomeFromCommitment(commitment, password) {
 /**
  * returns all possible appeal ruling options
  * @param {Number} currentOutcome current round outcome
+ * @param {Object} options vote texts
  * @returns {Array} Array of appeal ruling options
  */
-export function getAppealRulingOptions(currentOutcome = OUTCOMES.Refused) {
+export function getAppealRulingOptions(currentOutcome = OUTCOMES.Refused, options) {
   return VALID_OUTCOMES.filter(
     outcome => outcome !== currentOutcome
-  ).map(outcome => ({ outcome, description: appealOptionToString(outcome) }))
+  ).map(outcome => ({ outcome, description: appealOptionToString(outcome, options) }))
 }
 
 export function filterByValidOutcome(totalValidOutcomes) {

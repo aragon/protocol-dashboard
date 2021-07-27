@@ -220,6 +220,7 @@ function ActivityProvider({ children }) {
 
     let cancelled = false
     storedList.current = getStoredList(account)
+    console.log(storedList, ' list')
     updateActivitiesFromStorage()
 
     activities.forEach(async activity => {

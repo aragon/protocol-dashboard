@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { Button, DropDown, Field, GU, Info, Link } from '@aragon/ui'
 import { getDisputeLastRound } from '../../../utils/dispute-utils'
 import {
@@ -14,6 +14,7 @@ import {
 } from '../../../hooks/useCourtContracts'
 import { useWallet } from '../../../providers/Wallet'
 import { useCourtConfig } from '../../../providers/CourtConfig'
+import { DisputeContext } from '../DisputeDetail';
 
 function AppealPanel({
   confirm,
@@ -28,6 +29,8 @@ function AppealPanel({
     value: -1,
     error: null,
   })
+
+  const { voteButtons } = useContext(DisputeContext);
 
   // get connected account fee balance and  allowance
   const [feeBalance] = useFeeBalanceOf(connectedAccount)
@@ -60,7 +63,7 @@ function AppealPanel({
   // If appealing => options are the opossed of the wining outcome
   // If confirming appeal => options are the opossed of the appealed ruling
   const appealOptions = getAppealRulingOptions(
-    confirm ? appeal.appealedRuling : winningOutcome
+    confirm ? appeal.appealedRuling : winningOutcome, voteButtons
   )
 
   const handleOutcomeSelected = useCallback(newOutcome => {
@@ -91,7 +94,8 @@ function AppealPanel({
         appealRuling,
         requiredDeposit,
         feeAllowance,
-        confirm
+        confirm,
+        voteButtons
       )
     },
     [
@@ -104,6 +108,7 @@ function AppealPanel({
       onDone,
       requiredDeposit,
       selectedOutcome.value,
+      voteButtons
     ]
   )
 
@@ -147,7 +152,7 @@ function AppealPanel({
       </Field>
       {confirm && appeal && (
         <Field label="Appeal outcome">
-          {appealOptionToString(appeal.appealedRuling)}
+          {appealOptionToString(appeal.appealedRuling, voteButtons)}
         </Field>
       )}
       <Field label={confirm ? 'Appeal confirmation outcome' : 'Appeal outcome'}>

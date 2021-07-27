@@ -12,6 +12,7 @@ export const AllDisputes = gql`
       subject {
         id
       }
+      rawMetadata
       rounds {
         id
         state

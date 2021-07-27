@@ -133,6 +133,7 @@ function FinalGuardianOutcome({ dispute }) {
       value={
         <DisputeOutcomeText
           outcome={appealedRuling || voteWinningOutcome}
+          buttons={dispute.metadata?.buttons}
           phase={
             appealedRuling ? DisputePhase.AppealRuling : DisputePhase.RevealVote
           }

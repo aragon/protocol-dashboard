@@ -51,7 +51,6 @@ function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
                 </Link>
               )
             }
-  
             return value.split('\n').map((line, i) => (
               <React.Fragment key={i}>
                 {transformAddresses(line, (part, isAddress, index) => 
@@ -91,6 +90,7 @@ function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
                                 ?  (endpoint ? `${toUTF8String(word).substring(0, MAX_LENGTH)}...` : toUTF8String(word))
                                 :  (endpoint ? `${word.substring(0, MAX_LENGTH)}...` : word) 
                               } 
+                              
                             </span>
                             { endpoint && word.length > MAX_LENGTH 
                               && 

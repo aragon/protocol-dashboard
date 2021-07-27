@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useContext } from 'react'
 import {
   Button,
   GU,
@@ -19,6 +19,7 @@ import {
   getVoteId,
   saveAutoRevealPreference,
 } from '../../../utils/crvoting-utils'
+import { DisputeContext } from '../DisputeDetail'
 
 const CommitPanel = React.memo(function CommitPanel({
   dispute,
@@ -32,6 +33,8 @@ const CommitPanel = React.memo(function CommitPanel({
   const { account: connectedAccount } = useWallet()
   const { oneTimeCode, download } = useOneTimeCode()
   const toast = useToast()
+
+  const { voteButtons } = useContext(DisputeContext);
 
   const handleCommit = useCallback(
     event => {
@@ -49,7 +52,8 @@ const CommitPanel = React.memo(function CommitPanel({
         dispute.lastRoundId,
         outcome,
         oneTimeCode,
-        revealService
+        revealService,
+        voteButtons
       )
     },
     [
@@ -61,6 +65,7 @@ const CommitPanel = React.memo(function CommitPanel({
       oneTimeCode,
       outcome,
       revealService,
+      voteButtons
     ]
   )
 

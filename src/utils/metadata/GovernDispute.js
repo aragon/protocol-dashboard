@@ -33,7 +33,7 @@ const metadataABI = [
 
 
 
-export async function decode(metadata) {
+export function decodeMetadata(metadata) {
     const data = defaultAbiCoder.decode(metadataABI, metadata)
 
     const originalPayload = data[0].payload
@@ -50,4 +50,11 @@ export async function decode(metadata) {
         config: data[0].config,
         payload: payload
     }
+}
+
+export function decodeEvidence(evidence) {
+    return {
+        label: null,
+        metadata: evidence
+    };
 }

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import { GU, Help, textStyle, useTheme } from '@aragon/ui'
 import {
   Phase as DisputePhase,
@@ -24,6 +24,7 @@ import {
   OUTCOMES,
 } from '../../utils/crvoting-utils'
 import { dateFormat } from '../../utils/date-utils'
+import { DisputeContext } from './DisputeDetail';
 
 import IconGavelOrange from '../../assets/IconGavelOrange.svg'
 import IconGavelRed from '../../assets/IconGavelRed.svg'
@@ -58,14 +59,6 @@ function DisputeActions({
 
   const guardianHasVoted = isGuardianDrafted && hasGuardianVoted(guardianDraft)
 
-  // prepare button appearences.
-  const votingButtons = {
-    allowActionText: dispute.metadata?.allowActionText,
-    allowActionColor: dispute.metadata?.allowActionColor,
-    blockActionText: dispute.metadata?.blockActionText,
-    blockActionColor: dispute.metadata?.blockActionColor
-  }
-
   if (phase === DisputePhase.VotingPeriod && !guardianHasVoted) {
     return (
       <DisputeVoting
@@ -73,7 +66,7 @@ function DisputeActions({
         isFinalRound={dispute.maxAppealReached}
         isGuardianDrafted={isGuardianDrafted}
         onRequestCommit={onRequestCommit}
-        buttons={votingButtons}
+        buttons={dispute?.metadata?.buttons}
       />
     )
   }
@@ -233,6 +226,8 @@ const useInfoAttributes = ({
   const positiveBackground = theme.positive.alpha(0.1)
   const negativeBackground = theme.accent.alpha(0.2)
 
+  const { voteButtons } = useContext(DisputeContext);
+
   return useMemo(() => {
     if (!guardianDraft) return {}
 
@@ -324,6 +319,7 @@ const useInfoAttributes = ({
           commitmentDate={guardianDraft.commitmentDate}
           outcome={guardianDraft.outcome}
           revealDate={guardianDraft.revealDate}
+          voteButtons={voteButtons}
         />
       ),
       background: theme.accent.alpha(0.05),
@@ -339,6 +335,7 @@ const useInfoAttributes = ({
     positiveBackground,
     status,
     theme.accent,
+    voteButtons
   ])
 }
 
@@ -401,7 +398,7 @@ const ANTRewardsMessage = () => {
   )
 }
 
-const VoteInfo = ({ commitmentDate, outcome, revealDate }) => {
+const VoteInfo = ({ commitmentDate, outcome, voteButtons, revealDate }) => {
   const theme = useTheme()
 
   const formattedDate = dateFormat(
@@ -414,8 +411,8 @@ const VoteInfo = ({ commitmentDate, outcome, revealDate }) => {
       return { text: 'Refused to vote' }
     }
 
-    return { prefix: 'voted ', text: voteOptionToString(outcome) }
-  }, [outcome])
+    return { prefix: 'voted ', text: voteOptionToString(outcome, voteButtons) }
+  }, [outcome, voteButtons])
 
   return (
     <span>

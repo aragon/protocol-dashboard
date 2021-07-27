@@ -9,8 +9,13 @@ import {
 } from './local-settings'
 
 const CHAIN_ID = environment('CHAIN_ID')
-const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
 const networkType = getNetworkType(CHAIN_ID)
+const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
+
+const RINKEBY_STAGING_SERVER_URL = 'https://court-rinkeby-staging-backend.aragon.org';
+const RINKEBY_SERVER_URL = 'https://court-rinkeby-backend.aragon.org';
+const ROPSTEN_SERVER_URL = null
+const MAINNET_SERVER_URL = 'https://court-backend.aragon.org';
 
 // IPFS endpoint
 export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
@@ -23,9 +28,12 @@ export function courtServerEndpoint() {
     return 'http://127.0.0.1:8050'
   }
 
-  return `https://court${
-    networkType === 'main' ? '' : `-${COURT_SERVER_NAME || networkType}`
-  }-backend.aragon.org`
+  if(networkType === 'main') return MAINNET_SERVER_URL
+  if(SUBGRAPH_NAME === 'staging') return RINKEBY_STAGING_SERVER_URL
+  if(networkType === 'rinkeby') return RINKEBY_SERVER_URL
+  if(networkType === 'ropsten') return ROPSTEN_SERVER_URL
+
+  return null
 }
 
 export function graphEndpoint() {

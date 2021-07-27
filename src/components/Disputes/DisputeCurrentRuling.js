@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import { Distribution, GU, Help, Tag, textStyle, useTheme } from '@aragon/ui'
 import { useWallet } from '../../providers/Wallet'
 import {
@@ -11,6 +11,7 @@ import {
 import { getPercentage } from '../../lib/math-utils'
 import { getGuardianDraft } from '../../utils/guardian-draft-utils'
 import { getDisputeLastRound } from '../../utils/dispute-utils'
+import { DisputeContext } from './DisputeDetail';
 
 const getOutcomeColor = (outcome, theme) => {
   if (outcome === OUTCOMES.InFavor) return theme.positive
@@ -18,6 +19,7 @@ const getOutcomeColor = (outcome, theme) => {
 
   return theme.hint
 }
+
 
 function DisputeCurrentRuling({ dispute }) {
   const theme = useTheme()
@@ -37,6 +39,8 @@ function DisputeCurrentRuling({ dispute }) {
   const myDistributionIndex = distribution.findIndex(
     ({ outcome }) => outcome === myOutcome
   )
+  
+  const { voteButtons } = useContext(DisputeContext);
 
   return (
     <div>
@@ -52,7 +56,7 @@ function DisputeCurrentRuling({ dispute }) {
           </span>
         }
         items={distribution.map(({ outcome, weight }) => ({
-          item: juryOutcomeToString(outcome),
+          item: juryOutcomeToString(outcome, voteButtons),
           percentage: weight,
         }))}
         renderFullLegendItem={({ color, item, index, percentage }) => {

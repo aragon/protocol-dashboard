@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, createContext, useState } from 'react'
 import { BackButton, Bar, Box, GU, SidePanel, Split } from '@aragon/ui'
 import { useHistory } from 'react-router-dom'
 
@@ -19,6 +19,9 @@ import { DisputeNotFound } from '../../errors'
 import { toMs } from '../../utils/date-utils'
 
 import timelineErrorSvg from '../../assets/noResultsSmall.svg'
+import { useEffect } from 'react/cjs/react.development'
+
+export const DisputeContext = createContext()
 
 const DisputeDetail = React.memo(function DisputeDetail({ match }) {
   const history = useHistory()
@@ -33,6 +36,14 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
     panelState,
     requests,
   } = useDisputeLogic(disputeId)
+
+  const [voteButtons, setVoteButtons] = useState(null);
+
+  useEffect(() => {
+    if(dispute && dispute.metadata && dispute.metadata.buttons) {
+      setVoteButtons(dispute.metadata.buttons);
+    }
+  }, [dispute])
 
   const evidenceList = dispute?.evidences
   
@@ -83,76 +94,78 @@ const DisputeDetail = React.memo(function DisputeDetail({ match }) {
       <Bar>
         <BackButton onClick={handleBack} />
       </Bar>
-      {dispute?.status === DisputeStatus.Voided ? (
-        DisputeInfoComponent
-      ) : (
-        <Split
-          primary={
-            <React.Fragment>
-              {DisputeInfoComponent}
-              {(() => {
-                if (disputeFetching || error?.fromGraph) {
-                  return null
-                }
-                if (evidences.length === 0) {
-                  return <NoEvidence />
-                }
-                return (
-                  <DisputeEvidences dispute={dispute} evidences={evidences} />
-                )
-              })()}
-            </React.Fragment>
-          }
-          secondary={
-            <React.Fragment>
-              <Box
-                heading="Dispute timeline"
-                padding={error?.fromGraph ? 3 * GU : 0}
-              >
+      <DisputeContext.Provider value={{ voteButtons, setVoteButtons }}>
+        {dispute?.status === DisputeStatus.Voided ? (
+          DisputeInfoComponent
+        ) : (
+          <Split
+            primary={
+              <React.Fragment>
+                {DisputeInfoComponent}
                 {(() => {
-                  if (error?.fromGraph) {
-                    return (
-                      <MessageCard
-                        title="We couldn’t load the dispute timeline"
-                        paragraph="Something went wrong! Please restart the app"
-                        icon={timelineErrorSvg}
-                        mode="compact"
-                        border={false}
-                      />
-                    )
+                  if (disputeFetching || error?.fromGraph) {
+                    return null
                   }
-                  if (disputeFetching) {
-                    return <div css="height: 200px" />
+                  if (evidences.length === 0) {
+                    return <NoEvidence />
                   }
-                  return <DisputeTimeline dispute={dispute} />
+                  return (
+                    <DisputeEvidences dispute={dispute} evidences={evidences} />
+                  )
                 })()}
-              </Box>
-            </React.Fragment>
-          }
-        />
-      )}
-      <SidePanel
-        title={<PanelTitle requestMode={requestMode} disputeId={disputeId} />}
-        opened={panelState.visible}
-        onClose={panelState.requestClose}
-        onTransitionEnd={panelState.endTransition}
-      >
-        <div
-          css={`
-            margin-top: ${2 * GU}px;
-          `}
-        >
-          <PanelComponent
-            dispute={dispute}
-            requestMode={requestMode}
-            commit={actions.commit}
-            reveal={actions.reveal}
-            appealRound={actions.appealRound}
-            approveFeeDeposit={actions.approveFeeDeposit}
-            onDone={panelState.requestClose}
+              </React.Fragment>
+            }
+            secondary={
+              <React.Fragment>
+                <Box
+                  heading="Dispute timeline"
+                  padding={error?.fromGraph ? 3 * GU : 0}
+                >
+                  {(() => {
+                    if (error?.fromGraph) {
+                      return (
+                        <MessageCard
+                          title="We couldn’t load the dispute timeline"
+                          paragraph="Something went wrong! Please restart the app"
+                          icon={timelineErrorSvg}
+                          mode="compact"
+                          border={false}
+                        />
+                      )
+                    }
+                    if (disputeFetching) {
+                      return <div css="height: 200px" />
+                    }
+                    return <DisputeTimeline dispute={dispute} />
+                  })()}
+                </Box>
+              </React.Fragment>
+            }
           />
-        </div>
-      </SidePanel>
+        )}
+        <SidePanel
+          title={<PanelTitle requestMode={requestMode} disputeId={disputeId} />}
+          opened={panelState.visible}
+          onClose={panelState.requestClose}
+          onTransitionEnd={panelState.endTransition}
+        >
+          <div
+            css={`
+              margin-top: ${2 * GU}px;
+            `}
+          >
+            <PanelComponent
+              dispute={dispute}
+              requestMode={requestMode}
+              commit={actions.commit}
+              reveal={actions.reveal}
+              appealRound={actions.appealRound}
+              approveFeeDeposit={actions.approveFeeDeposit}
+              onDone={panelState.requestClose}
+            />
+          </div>
+        </SidePanel>
+      </DisputeContext.Provider>
     </React.Fragment>
   )
 })

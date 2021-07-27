@@ -61,7 +61,6 @@ function VotingActions({ canGuardianVote, buttons, onRequestCommit }) {
   const compactMode = below('medium')
 
   const buttonWidth = compactMode ? '100% ' : `calc((100% - ${2 * GU}px) /  3)`
-  console.log(buttons, ' button')
   return (
     <div>
       <div
@@ -77,21 +76,21 @@ function VotingActions({ canGuardianVote, buttons, onRequestCommit }) {
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="positive"
-          backgroundColor={buttons.allowActionColor || '#2CC68F'}
+          backgroundColor={buttons?.inFavorColor || '#2CC68F'}
           onClick={() => onRequestCommit(VOTE_OPTION_IN_FAVOR)}
           width={buttonWidth}
         >
-         { buttons.allowActionText || 'Allow Action'}
+         { buttons?.inFavorText || 'Allow Action'}
         </VotingButton>
         <VotingButton
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="negative"
-          backgroundColor={buttons.blockActionColor || '#FF6969'}
+          backgroundColor={buttons?.againstColor || '#FF6969'}
           onClick={() => onRequestCommit(VOTE_OPTION_AGAINST)}
           width={buttonWidth}
         >
-         { buttons.blockActionText || 'Block Action'}
+         { buttons?.againstText || 'Block Action'}
         </VotingButton>
 
         <VotingButton
