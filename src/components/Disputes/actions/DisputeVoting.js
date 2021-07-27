@@ -76,7 +76,7 @@ function VotingActions({ canGuardianVote, buttons, onRequestCommit }) {
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="positive"
-          backgroundColor={buttons?.inFavorColor || '#2CC68F'}
+          backgroundColor={canGuardianVote ? buttons?.inFavorColor || '#2CC68F' : null}
           onClick={() => onRequestCommit(VOTE_OPTION_IN_FAVOR)}
           width={buttonWidth}
         >
@@ -86,7 +86,7 @@ function VotingActions({ canGuardianVote, buttons, onRequestCommit }) {
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="negative"
-          backgroundColor={buttons?.againstColor || '#FF6969'}
+          backgroundColor={canGuardianVote ? buttons?.againstColor || '#FF6969' : null}
           onClick={() => onRequestCommit(VOTE_OPTION_AGAINST)}
           width={buttonWidth}
         >
@@ -164,7 +164,10 @@ const RefuseToVoteHint = ({ compactMode, width }) => {
 const VotingButton = styled(Button)`
   width: ${({ width }) => width};
   margin-bottom: ${({ compactMode }) => (compactMode ? 1 : 0) * GU}px;
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  // background-color: ${({ backgroundColor }) => backgroundColor};
+  ${({ backgroundColor }) => backgroundColor && `
+    background-color: ${backgroundColor};
+  `}
 `
 
 const Container = styled.div`

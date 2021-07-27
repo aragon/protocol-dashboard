@@ -37,7 +37,7 @@ function RedirectMessage() {
       color: #cd625c;
       text-align: center;
       padding-bottom: ${2 * GU}px;
-      width: ${80 * GU}px;
+      width: ${90 * GU}px;
     `}>
       Court was migrated to Aragon Govern DAOs. Looking for the previous version of Court (with ANJ staked)?
     </div>

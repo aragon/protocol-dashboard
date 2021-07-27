@@ -19,10 +19,10 @@ function DisputeOutcomeText({
   verbose = false,
   voteButtons = null
 }) {
-  const { Icon, color } = useOutcomeStyle(outcome)
-
   const disputeContext = useContext(DisputeContext);
 
+  const { Icon, color } = useOutcomeStyle(outcome, disputeContext?.voteButtons)
+  
   const outcomeText = useMemo(() => {
     if (isFinalRuling) {
       return finalRulingToString(outcome, disputeContext?.voteButtons || voteButtons)
@@ -62,8 +62,17 @@ function DisputeOutcomeText({
   )
 }
 
-function useOutcomeStyle(outcome) {
+function useOutcomeStyle(outcome, voteButtons) {
   const theme = useTheme()
+
+  // if dispute contains their own button texts instead of
+  // allow action and block action, we always show positive mark checks.
+  if(voteButtons?.inFavorText && voteButtons?.againstText) {
+    return {
+      Icon: IconCheck,
+      color: theme.positive,
+    }
+  }
 
   if (!outcome || outcome === OUTCOMES.Refused) {
     return {

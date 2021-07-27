@@ -47,7 +47,7 @@ function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
                     text-decoration: none;
                   `}
                 >
-                  Read more
+                  Open
                 </Link>
               )
             }
@@ -122,7 +122,7 @@ function Field({ label, loading, value, endpoint, isUTF8=true, ...props }) {
                   text-decoration: none;
                 `}
               >
-                  Read more
+                  Open
               </Link>
             )
           }

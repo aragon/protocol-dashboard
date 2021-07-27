@@ -21,6 +21,7 @@ function DefaultDisputeData({dispute}) {
                     overflow-wrap: anywhere;
                     `} 
                 />
+                <br />
                 <Field
                     label="Agreement"
                     value={agreement?.text || agreement}
@@ -31,6 +32,7 @@ function DefaultDisputeData({dispute}) {
                     overflow-wrap: anywhere;
                     `} 
                 />
+                <br />
                 <Field
                     label="Dispute Creator"
                     value={dispute?.metadata?.disputeCreator}

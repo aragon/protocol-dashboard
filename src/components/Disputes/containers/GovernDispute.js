@@ -124,7 +124,7 @@ function GovernDisputedData({dispute}) {
                 `} 
             />
             <Field
-                label="DAO agreement"
+                label="Agreement"
                 value={rules?.text || rules}
                 endpoint={rules?.endpoint}
                 loading={!rules}
@@ -137,6 +137,7 @@ function GovernDisputedData({dispute}) {
                 label="Executor"
                 value={payload.executor}
             />
+             {dispute.subject && <Field label="Dispute Creator" value={dispute.subject} />}
             {/* <Field
                 label="Allow Failures Map"
                 value={payload.allowFailuresMap}

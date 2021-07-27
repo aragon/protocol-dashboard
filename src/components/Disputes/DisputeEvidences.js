@@ -157,7 +157,7 @@ const EvidenceContent = React.memo(function EvidenceContent({
                   text-decoration: none;
                 `}
               >
-                Read more
+              Open
               </Link>
           }
         </div>

@@ -75,7 +75,6 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
             overflow-wrap: anywhere;
           `}
         /> */}
-        {dispute.subject && <Field label="Plaintiff" value={dispute.subject} />}
       </Row>
       {/* <Row compactMode={compactMode}>
         {agreementText ? (
