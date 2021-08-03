@@ -124,6 +124,11 @@ function AppealPanel({
   const actionLabel = confirm ? 'Confirm appeal' : 'Appeal ruling'
   const errorMessage = selectedOutcome.error
 
+  const imgUrl =
+    feeToken.symbol === 'HNY'
+      ? 'https://raw.githubusercontent.com/1Hive/default-token-list/master/src/assets/xdai/0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9/logo.png'
+      : `https://chasing-coins.com/coin/logo/${feeToken.symbol}`
+
   return (
     <form onSubmit={handleAppeal}>
       <Field label="Required collateral">
@@ -135,7 +140,7 @@ function AppealPanel({
         >
           <img
             height="18"
-            src={`https://chasing-coins.com/coin/logo/${feeToken.symbol}`}
+            src={imgUrl}
             css={`
               margin-right: ${0.5 * GU}px;
             `}
