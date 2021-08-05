@@ -19,7 +19,7 @@ function TitleHeader({ title, onlyTitle = false }) {
             {!compactMode && (
               <Button
                 label="User guide"
-                href="https://help.aragon.org/article/41-aragon-court"
+                href="https://help.aragon.org/article/43-dispute-lifecycle"
                 css={`
                   margin-right: ${1.5 * GU}px;
                   width: 150px;
