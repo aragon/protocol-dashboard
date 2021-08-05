@@ -1,10 +1,12 @@
+/* eslint-disable */
+
 import React from 'react'
 import { GU, textStyle, Timer, useTheme } from '@aragon/ui'
 
 import DisputeOutcomeText from './DisputeOutcomeText'
 import { convertToString } from '../../types/dispute-status-types'
 
-function DisputePhase({ finalRuling, nextTransition, phase }) {
+function DisputePhase({ finalRuling, nextTransition, voteButtons, phase }) {
   const stringPhase = convertToString(phase)
 
   return (
@@ -57,7 +59,7 @@ function DisputePhase({ finalRuling, nextTransition, phase }) {
       </div>
 
       {finalRuling ? (
-        <DisputeOutcomeText outcome={finalRuling} isFinalRuling />
+        <DisputeOutcomeText voteButtons={voteButtons} outcome={finalRuling} isFinalRuling />
       ) : (
         <DisplayTime phase={phase} nextTransition={nextTransition} />
       )}

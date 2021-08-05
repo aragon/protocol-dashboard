@@ -77,7 +77,7 @@ function AccountScreenConnected({ wallet }) {
             `}
           >
             <IdentityBadge
-              entity={wallet.account}
+              entity={wallet.account || ''}
               compact
               badgeOnly
               css="cursor: pointer"

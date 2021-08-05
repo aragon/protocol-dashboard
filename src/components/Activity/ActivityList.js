@@ -35,6 +35,8 @@ function ActivityList() {
     [activityItems]
   )
 
+  console.log(activityItems, ' good')
+
   const maxHeight = Math.min(
     MAX_LIST_HEIGHT_CLAMP,
     Math.ceil(height - MIN_LIST_HEIGHT_ADJUST)

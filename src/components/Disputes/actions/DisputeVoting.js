@@ -14,6 +14,7 @@ function DisputeVoting({
   draftTermId,
   isFinalRound,
   isGuardianDrafted,
+  buttons,
   onRequestCommit,
 }) {
   if (isFinalRound) {
@@ -21,6 +22,7 @@ function DisputeVoting({
       <VotingFinalRound
         draftTermId={draftTermId}
         onRequestCommit={onRequestCommit}
+        buttons={buttons}
       />
     )
   }
@@ -29,11 +31,12 @@ function DisputeVoting({
     <VotingActions
       canGuardianVote={isGuardianDrafted}
       onRequestCommit={onRequestCommit}
+      buttons={buttons}
     />
   )
 }
 
-function VotingFinalRound({ draftTermId, onRequestCommit }) {
+function VotingFinalRound({ draftTermId, buttons, onRequestCommit }) {
   const wallet = useWallet()
   const { minActiveBalance } = useCourtConfig()
 
@@ -47,17 +50,17 @@ function VotingFinalRound({ draftTermId, onRequestCommit }) {
     <VotingActions
       canGuardianVote={canGuardianVoteFinalRound}
       onRequestCommit={onRequestCommit}
+      buttons={buttons}
     />
   )
 }
 
-function VotingActions({ canGuardianVote, onRequestCommit }) {
+function VotingActions({ canGuardianVote, buttons, onRequestCommit }) {
   const wallet = useWallet()
   const { below } = useViewport()
   const compactMode = below('medium')
 
   const buttonWidth = compactMode ? '100% ' : `calc((100% - ${2 * GU}px) /  3)`
-
   return (
     <div>
       <div
@@ -73,19 +76,21 @@ function VotingActions({ canGuardianVote, onRequestCommit }) {
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="positive"
+          backgroundColor={canGuardianVote ? buttons?.inFavorColor || '#2CC68F' : null}
           onClick={() => onRequestCommit(VOTE_OPTION_IN_FAVOR)}
           width={buttonWidth}
         >
-          Allow action
+         { buttons?.inFavorText || 'Allow Action'}
         </VotingButton>
         <VotingButton
           compactMode={compactMode}
           disabled={!canGuardianVote}
           mode="negative"
+          backgroundColor={canGuardianVote ? buttons?.againstColor || '#FF6969' : null}
           onClick={() => onRequestCommit(VOTE_OPTION_AGAINST)}
           width={buttonWidth}
         >
-          Block action
+         { buttons?.againstText || 'Block Action'}
         </VotingButton>
 
         <VotingButton
@@ -159,6 +164,10 @@ const RefuseToVoteHint = ({ compactMode, width }) => {
 const VotingButton = styled(Button)`
   width: ${({ width }) => width};
   margin-bottom: ${({ compactMode }) => (compactMode ? 1 : 0) * GU}px;
+  // background-color: ${({ backgroundColor }) => backgroundColor};
+  ${({ backgroundColor }) => backgroundColor && `
+    background-color: ${backgroundColor};
+  `}
 `
 
 const Container = styled.div`

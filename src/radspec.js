@@ -18,11 +18,11 @@ export default {
   [actions.ACTIVATE_ANT]: ({ amount }) => {
     return `Activate the total amount of ${amount} ANT`
   },
-  [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling }) => {
+  [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling, outcomeOptions }) => {
     return `Appeal round ${numberToWord(
       roundId
     )} of dispute #${disputeId} in favor of decision: ${appealOptionToString(
-      ruling
+      ruling, outcomeOptions
     )}`
   },
   [actions.CLAIM_REWARDS]: ({ amount }) => {
@@ -31,17 +31,17 @@ export default {
   [actions.CLAIM_SUBSCRIPTION_FEES]: ({ periodId }) => {
     return `Claim subscription rewards for period ${periodId}`
   },
-  [actions.COMMIT_VOTE]: ({ disputeId, roundId, outcome }) => {
-    return `Vote ${voteOptionToString(outcome)} on round ${numberToWord(
+  [actions.COMMIT_VOTE]: ({ disputeId, roundId, outcome, outcomeOptions }) => {
+    return `Vote ${voteOptionToString(outcome, outcomeOptions)} on round ${numberToWord(
       roundId
     )} of dispute #${disputeId}`
   },
-  [actions.CONFIRM_APPEAL]: ({ disputeId, roundId, ruling }) => {
+  [actions.CONFIRM_APPEAL]: ({ disputeId, roundId, ruling, outcomeOptions }) => {
     return `
         Confirm appeal round ${numberToWord(
           roundId
         )} of dispute #${disputeId} in favor of
-        decision: ${appealOptionToString(ruling)}
+        decision: ${appealOptionToString(ruling, outcomeOptions)}
       `
   },
   [actions.DEACTIVATE_ANT]: ({ amount }) => {

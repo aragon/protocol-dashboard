@@ -231,7 +231,7 @@ export function useDisputeActions() {
 
   // Commit
   const commit = useCallback(
-    (account, disputeId, roundId, outcome, password, revealServiceEnabled) => {
+    (account, disputeId, roundId, outcome, password, revealServiceEnabled, outcomeOptions) => {
       const voteId = getVoteId(disputeId, roundId)
       const commitment = hashVote(outcome, password)
 
@@ -242,6 +242,7 @@ export function useDisputeActions() {
             disputeId,
             roundId,
             outcome,
+            outcomeOptions
           }),
           type: actions.COMMIT_VOTE,
           ensureConfirmation: true,
@@ -317,7 +318,7 @@ export function useDisputeActions() {
 
   // Appeal round of dispute
   const appeal = useCallback(
-    (disputeId, roundId, ruling) => {
+    (disputeId, roundId, ruling, outcomeOptions) => {
       return {
         action: () =>
           disputeManagerContract.createAppeal(disputeId, roundId, ruling, {
@@ -327,6 +328,7 @@ export function useDisputeActions() {
           disputeId,
           roundId,
           ruling,
+          outcomeOptions
         }),
         type: actions.APPEAL_RULING,
       }
@@ -336,7 +338,7 @@ export function useDisputeActions() {
 
   // Confirm appeal round of dispute
   const confirmAppeal = useCallback(
-    (disputeId, roundId, ruling) => {
+    (disputeId, roundId, ruling, outcomeOptions) => {
       return {
         action: () =>
           disputeManagerContract.confirmAppeal(disputeId, roundId, ruling, {
@@ -346,6 +348,7 @@ export function useDisputeActions() {
           disputeId,
           roundId,
           ruling,
+          outcomeOptions
         }),
         type: actions.CONFIRM_APPEAL,
       }
@@ -355,7 +358,7 @@ export function useDisputeActions() {
 
   // General function that will appeal or confirm appeal a given round on a given dispute
   const appealRound = useCallback(
-    (disputeId, roundId, ruling, requiredDeposit, allowance, confirm) => {
+    (disputeId, roundId, ruling, requiredDeposit, allowance, confirm, voteButtons) => {
       const requestQueue = []
 
       // Check if requires pre-transactions
@@ -364,7 +367,7 @@ export function useDisputeActions() {
         if (!allowance.eq(0)) {
           // Reset allowance
           requestQueue.push({
-            ...approveFeeDeposit(0),
+            ...approveFeeDeposit(bigNum(0)),
             ensureConfirmation: true,
           })
         }
@@ -378,7 +381,7 @@ export function useDisputeActions() {
 
       const request = confirm ? confirmAppeal : appeal
 
-      requestQueue.push(request(disputeId, roundId, ruling))
+      requestQueue.push(request(disputeId, roundId, ruling, voteButtons))
 
       return processRequests(requestQueue)
     },

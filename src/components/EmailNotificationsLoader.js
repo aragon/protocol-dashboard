@@ -14,7 +14,7 @@ function EmailNotificationsLoader({ children }) {
 
   useEffect(() => {
     const visible = wallet.account && !addressVerified
-    setModalVisible(visible)
+    setModalVisible(!!visible)
   }, [wallet.account, addressVerified])
 
   const handleOnClose = useCallback(() => {

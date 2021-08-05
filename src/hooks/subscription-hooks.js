@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from 'urql'
 import { useCourtConfig } from '../providers/CourtConfig'
 
@@ -26,7 +26,6 @@ import {
   transformRoundDataAttributes,
   transformDisputeDataAttributes,
 } from '../utils/dispute-utils'
-import { decodeMetadata } from '../utils/dispute-metadata'
 import { transformGuardianDataAttributes } from '../utils/guardian-draft-utils'
 import { transformClaimedFeesDataAttributes } from '../utils/subscription-utils'
 import { usePoller } from '../utils/poller'
@@ -211,26 +210,7 @@ export function useSingleDisputeSubscription(id) {
     [data]
   )
 
-  const [disputeEffect, setDispute] = useState(null);
-
-  // TODO:GIORGI this was needed, because we need to call async function and we can't do it in useMemo.
-  // If we had removed useMemo completely and do the transformDisputeDataAttributes(data.dispute) in useEffect,
-  // The problem is the view would render 404 not found and it throws an error, because useEffect runs after the render.
-  // So, we use both of these.
-  useEffect(() => {
-    async function decode() {
-      if(disputeMemo) {
-        disputeMemo.metadata = await decodeMetadata(disputeMemo.rawMetadata)
-        setDispute({...disputeMemo});
-      }
-    }
-
-    decode();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
-
-
-  return { dispute: disputeEffect || disputeMemo, fetching: !data && !error, error }
+  return { dispute: disputeMemo, fetching: !data && !error, error }
 }
 
 /**
@@ -250,6 +230,7 @@ export function useDisputesSubscription() {
         : null,
     [courtConfig, data]
   )
+
 
   return { disputes, fetching: !data && !error, error }
 }

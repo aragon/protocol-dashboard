@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import {  getIpfsCidFromUri, fetchIPFS } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
 import { toUTF8String } from '../lib/web3-utils'
+import { decodeEvidence } from '../utils/dispute-metadata';
 
 // const FILE_TYPES = ['application/json', 'application/javascript', 'text/csv', 'text/plain', 'text/html']
 
@@ -17,7 +18,7 @@ export default function useEvidences(dispute, rawEvidences) {
   // and cache it if valid. If invalid, returns an errored evidence object.
   const fetchEvidence = useCallback(async rawEvidence => {
     const { id, data: uriOrData, submitter, createdAt } = rawEvidence
-
+    
     if (evidencesCache.current.has(id)) {
       return evidencesCache.current.get(id)
     }
@@ -34,23 +35,31 @@ export default function useEvidences(dispute, rawEvidences) {
       createdAt,
       error: false,
     }
-    
-    const cid = getIpfsCidFromUri(uriOrData)
+
+    const { label, metadata } = decodeEvidence(uriOrData);
+    const cid = getIpfsCidFromUri(metadata)
 
     // Not an IPFS URI
     if (!cid) {
-      evidencesCache.current.set(id, { ...baseEvidence, metadata: { text: toUTF8String(uriOrData) } })
+      evidencesCache.current.set(id, { 
+        ...baseEvidence, 
+        metadata: { 
+          text: toUTF8String(metadata) 
+        },
+        label, 
+      })
       return evidencesCache.current.get(id)
     }
 
     const data = await fetchIPFS(cid)
 
     if (data.error) {
-      return { ...baseEvidence, error: ERROR_TYPES.ERROR_FETCHING_IPFS }
+      return { ...baseEvidence, label, error: ERROR_TYPES.ERROR_FETCHING_IPFS }
     }
 
     const evidenceProcessed = {
       ...baseEvidence,
+      label,
       metadata: { 
         ...data
       }

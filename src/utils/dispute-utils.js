@@ -5,6 +5,7 @@ import * as DisputesTypes from '../types/dispute-status-types'
 import { getTermEndTime, getTermStartTime } from './court-utils'
 import { getVoidedDisputesByCourt } from '../flagged-disputes/voided-disputes'
 import { getPrecedenceCampaignDisputesByCourt } from '../flagged-disputes/precedence-campaign-disputes'
+import { decodeMetadata } from './dispute-metadata'
 
 export const FINAL_ROUND_WEIGHT_PRECISION = bigNum(1000)
 export const PCT_BASE = bigNum(10000)
@@ -49,7 +50,7 @@ export function transformDisputeDataAttributes(dispute) {
     ...dispute,
     createdAt: toMs(parseInt(dispute.createdAt, 10)),
     rounds: dispute.rounds.map(transformRoundDataAttributes),
-    metadata: null,
+    metadata: decodeMetadata(dispute.rawMetadata),
     state: DisputesTypes.convertFromString(dispute.state),
     status:
       DisputesTypes.convertFromString(dispute.state) ===

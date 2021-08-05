@@ -51,7 +51,7 @@ function Welcome() {
         >
           <Button
             label="User guide"
-            href="https://help.aragon.org/article/41-aragon-court"
+            href="https://help.aragon.org/category/47-aragoncourt"
             css={`
               width: ${19 * GU}px;
             `}

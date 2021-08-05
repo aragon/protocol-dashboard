@@ -9,7 +9,7 @@ export const RINKEBY_COURT = '0xC464EB732A1D2f5BbD705727576065C91B2E9f18'
 // but with easier settings so that we could test better from localhost. This is a little bit different
 // from actual rinkeby, because on rinkeby, customers can also test, but on staging, it's only the
 // developers that can test better with less term duration(10 minutes...), while on rinkeby, it's 2 hours
-export const RINKEBY_STAGING_COURT = '0xD2c15eCd1751C2cE8b02ab2D95db32E662517D61'
+export const RINKEBY_STAGING_COURT = '0x9c003eC97676c30a041f128D671b3Db2f790c3E7'
 
 export const networkConfigs = {
   main: {

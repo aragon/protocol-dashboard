@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import { textStyle, useTheme, IconClose, IconCheck } from '@aragon/ui'
 
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
@@ -9,18 +9,23 @@ import {
   OUTCOMES,
 } from '../../utils/crvoting-utils'
 
+import { DisputeContext } from './DisputeDetail';
+
 function DisputeOutcomeText({
   action,
   isFinalRuling,
   outcome,
   phase,
   verbose = false,
+  voteButtons = null
 }) {
-  const { Icon, color } = useOutcomeStyle(outcome)
+  const disputeContext = useContext(DisputeContext);
+
+  const { Icon, color } = useOutcomeStyle(outcome, disputeContext?.voteButtons || voteButtons)
 
   const outcomeText = useMemo(() => {
     if (isFinalRuling) {
-      return finalRulingToString(outcome)
+      return finalRulingToString(outcome, disputeContext?.voteButtons || voteButtons)
     }
 
     if (
@@ -28,12 +33,12 @@ function DisputeOutcomeText({
       phase === DisputePhase.ConfirmAppeal
     ) {
       const confirm = phase === DisputePhase.ConfirmAppeal
-      return appealRulingToString(outcome, confirm)
+      return appealRulingToString(outcome, confirm, disputeContext?.voteButtons || voteButtons)
     }
 
-    return juryOutcomeToString(outcome)
-  }, [isFinalRuling, outcome, phase])
-
+    return juryOutcomeToString(outcome, disputeContext?.voteButtons || voteButtons)
+  }, [isFinalRuling, outcome, phase, voteButtons, disputeContext])
+  
   return (
     <div>
       <div
@@ -57,8 +62,17 @@ function DisputeOutcomeText({
   )
 }
 
-function useOutcomeStyle(outcome) {
+function useOutcomeStyle(outcome, voteButtons) {
   const theme = useTheme()
+
+  // if dispute contains their own button texts instead of
+  // allow action and block action, we always show positive mark checks.
+  if(voteButtons?.inFavorText && voteButtons?.againstText) {
+    return {
+      Icon: IconCheck,
+      color: theme.positive,
+    }
+  }
 
   if (!outcome || outcome === OUTCOMES.Refused) {
     return {

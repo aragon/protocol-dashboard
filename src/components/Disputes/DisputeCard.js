@@ -17,7 +17,9 @@ function DisputeCard({ dispute, onSelectDispute }) {
     nextTransition,
     phase,
     voidedText,
+    metadata
   } = dispute
+
   const handleClick = useCallback(() => {
     onSelectDispute(id)
   }, [id, onSelectDispute])
@@ -59,6 +61,7 @@ function DisputeCard({ dispute, onSelectDispute }) {
           <DisputePhase
             finalRuling={finalRuling}
             nextTransition={nextTransition}
+            voteButtons={metadata?.buttons}
             phase={phase}
           />
         )}

@@ -3,7 +3,6 @@ import {
   createClient,
   Provider as UrqlProvider,
   cacheExchange,
-  debugExchange,
 } from 'urql'
 import { getFetchExchange } from '../graphql-exchanges'
 
@@ -16,7 +15,6 @@ const newClient = () =>
   createClient({
     url: defaultSubgraphHttpEndpoint,
     exchanges: [
-      debugExchange,
       devtoolsExchange,
       cacheExchange,
       getFetchExchange(),
