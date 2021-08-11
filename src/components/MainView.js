@@ -145,7 +145,7 @@ function MainView({ children }) {
                 Supporting services provided by{' '}
                 <Link href="https://aragon.org">Aragon Association</Link>. Read Aragon
                 Court's{' '}
-                <Link href="https://ant.aragon.org/legal/terms-general.pdf">
+                <Link href={`${process.env.PUBLIC_URL}/terms.pdf`}>
                   Terms of Service
                 </Link>
                 .
