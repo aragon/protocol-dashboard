@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {  getIpfsCidFromUri, fetchIPFS } from '../lib/ipfs-utils'
 import { ERROR_TYPES } from '../types/evidences-status-types'
@@ -74,28 +75,19 @@ export default function useEvidences(dispute, rawEvidences) {
     let cancelled = false
 
     const updateEvidences = async () => {
-      await Promise.all(
+      let all = await Promise.all(
         rawEvidences.map(async rawEvidence => {
           const evidence = await fetchEvidence(rawEvidence)
-          if (cancelled) {
-            return
-          }
-          setEvidences(() => {
-            // already there
-            if (
-              evidences.findIndex(_evidence => _evidence.id === evidence.id) >
-              -1
-            ) {
-              return evidences
-            }
-
-            return [...evidences, evidence].sort(
-              (evidenceA, evidenceB) =>
-                evidenceA.createdAt - evidenceB.createdAt
-            )
-          })
+          return evidence
         })
       )
+
+      all.sort(
+        (evidenceA, evidenceB) =>
+          evidenceA.createdAt - evidenceB.createdAt
+      )
+      
+      setEvidences(all)      
       setFetchingEvidences(false)
     }
 
@@ -104,7 +96,7 @@ export default function useEvidences(dispute, rawEvidences) {
     return () => {
       cancelled = true
     }
-  }, [dispute.disputable, evidences, fetchEvidence, rawEvidences])
+  }, [dispute.disputable, fetchEvidence, rawEvidences])
 
   return [evidences, fetchingEvidences]
 }
