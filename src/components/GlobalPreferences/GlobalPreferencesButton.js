@@ -94,7 +94,7 @@ function GlobalPreferencesButton({ onOpen }) {
             icon={iconNotifications}
             label="Notifications"
           />
-          <Item href="https://help.aragon.org/article/48-aragon-court-faq">
+          <Item href="https://help.aragon.org/category/47-aragoncourt">
             <div
               css={`
                 flex-grow: 1;
@@ -103,7 +103,7 @@ function GlobalPreferencesButton({ onOpen }) {
                 margin-right: ${1 * GU}px;
               `}
             >
-              Any questions? Visit our FAQ
+              Any questions? Visit our Help Center
             </div>
             <div
               css={`
