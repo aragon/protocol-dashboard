@@ -44,7 +44,7 @@ const OnboardingModal = React.memo(function OnboardingModal({
               css="position: relative"
               style={{
                 height: verticalMode
-                  ? `${height - 190}px`
+                  ? `${height - 40}px`
                   : `${Math.max(500, Math.min(620, height - 40))}px`,
               }}
             >
