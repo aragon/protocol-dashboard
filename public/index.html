@@ -40,5 +40,40 @@
     -->
     <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
     <script type="text/javascript">window.Beacon('init', '163e0284-762b-4e2d-b3b3-70a73a7e6c9f');window.Beacon('config',{display:{zIndex: 3}});window.Beacon('suggest',["61139c84b55c2b04bf6dd496", "5e3afcd204286364bc94e6b1", "5e3afa5c04286364bc94e691"])</script>
+
+    <script>
+      !(function () {
+        const analyticsKey = '%REACT_APP_ANALYTICS_KEY%';
+        if (!analyticsKey.includes('REACT_APP_ANALYTICS_KEY')) {
+          rudderanalytics = window.rudderanalytics = [];
+          for (
+            var methods = [
+                'load',
+                'page',
+                'track',
+                'identify',
+                'alias',
+                'group',
+                'ready',
+                'reset',
+                'getAnonymousId',
+                'setAnonymousId',
+              ],
+              i = 0;
+            i < methods.length;
+            i++
+          ) {
+            var method = methods[i];
+            rudderanalytics[method] = (function (a) {
+              return function () {
+                rudderanalytics.push([a].concat(Array.prototype.slice.call(arguments)));
+              };
+            })(method);
+          }
+          rudderanalytics.load(analyticsKey, 'https://rudderstack.aragon.org');
+        }
+      })();
+    </script>
+    <script async src="https://cdn.rudderlabs.com/v1/rudder-analytics.min.js"></script>
   </body>
 </html>

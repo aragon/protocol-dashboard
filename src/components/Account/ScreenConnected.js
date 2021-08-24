@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {
   Button,
   ButtonBase,
@@ -12,6 +12,7 @@ import {
 import IdentityBadge from '../IdentityBadge'
 import { getProviderFromUseWalletId } from '../../ethereum-providers'
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
+import { trackEvent, events } from '../../services/analytics';
 
 function AccountScreenConnected({ wallet }) {
   const theme = useTheme()
@@ -20,6 +21,17 @@ function AccountScreenConnected({ wallet }) {
   const walletNetworkName = wallet.networkName
 
   const providerInfo = getProviderFromUseWalletId(wallet.connector)
+
+  const disconnect = useCallback(() => {
+    // analytics
+    trackEvent(events.WALLET_DISCONNECTED, {
+      wallet_address: wallet.account,
+      wallet_provider: wallet.connector, // provider name would make more sense
+      network: walletNetworkName,
+    });
+
+    wallet.reset();
+  }, [wallet, walletNetworkName]);
 
   return (
     <div
@@ -110,7 +122,7 @@ function AccountScreenConnected({ wallet }) {
       </div>
 
       <Button
-        onClick={() => wallet.reset()}
+        onClick={disconnect}
         wide
         css={`
           margin-top: ${1 * GU}px;

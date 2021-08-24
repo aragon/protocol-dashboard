@@ -1,8 +1,9 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useEffect } from 'react'
 import { providers as EthersProviders } from 'ethers'
 import { UseWalletProvider, useWallet } from 'use-wallet'
 import { getUseWalletConnectors } from '../lib/web3-utils'
 import env from '../environment'
+import { identifyUser } from '../services/analytics';
 
 const WalletAugmentedContext = React.createContext()
 
@@ -14,6 +15,18 @@ function useWalletAugmented() {
 function WalletAugmented({ children }) {
   const wallet = useWallet()
   const { ethereum } = wallet
+
+
+useEffect(() => {
+  if (
+    wallet.status === 'connected' &&
+    typeof wallet.account === 'string' &&
+    wallet.connector &&
+    wallet.networkName
+  ) {
+    identifyUser(wallet.account, wallet.networkName, wallet.connector);
+  }
+}, [wallet.networkName, wallet.connector, wallet.status, wallet.account]);
 
   const ethers = useMemo(
     () => (ethereum ? new EthersProviders.Web3Provider(ethereum) : null),
