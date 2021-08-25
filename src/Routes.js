@@ -1,5 +1,6 @@
-import React from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import React, {useEffect} from 'react'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
+import { trackPage } from '../src/services/analytics';
 
 import Dashboard from './components/Dashboard/Dashboard'
 import Tasks from './components/Tasks/Tasks'
@@ -10,6 +11,12 @@ import DisputeDetail from './components/Disputes/DisputeDetail'
 const GLOBAL_PREFERENCES_QUERY_PARAM = '?preferences=/'
 
 export default function Routes() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    trackPage(pathname);
+  }, [pathname]);
+  
   return (
     <Switch>
       <Redirect exact from="/" to="/dashboard" />
