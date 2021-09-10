@@ -18,10 +18,10 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <APMProvider>
-  <SubGraphProvider>
-    <GlobalStyle />
-    <App />
-  </SubGraphProvider>
+    <SubGraphProvider>
+      <GlobalStyle />
+      <App />
+    </SubGraphProvider>
   </APMProvider>,
   document.getElementById('root')
 )
