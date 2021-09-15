@@ -1,0 +1,80 @@
+name: Deploy fleek
+on:
+  push:
+    branches:
+      - "development"
+      - "master"
+
+jobs:
+  build-deploy-mainnet:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    environment: MAINNET
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v1
+      - name: install dependencies
+        run: yarn install
+      - name: lint
+        run: yarn lint
+      - name: build app
+        env:
+          REACT_APP_ANALYTICS_KEY: ${{ secrets.REACT_APP_ANALYTICS_KEY }}
+          REACT_APP_DEPLOY_VERSION: ${{ github.sha }}
+          REACT_APP_DEPLOY_ENVIRONMENT: production
+          REACT_APP_CHAIN_ID: 1
+          REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
+        run: yarn build
+      - name: Activate mainnet's fleek
+        run: mv .github/fleek/mainnet.json .fleek.json
+      - name: Deploy fleek
+        id: deploy
+        uses: fleekhq/action-deploy@v1
+        with:
+          apiKey: ${{ secrets.FLEEK_API_KEY }}
+      - name: Get the output url
+        run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+      - name: upload sourcemap to apm
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          for f in ./build/static/**/*.js.map ; do 
+            curl -X POST https://apm-monitoring.aragon.org/assets/v1/sourcemaps -F service_name="court" -F service_version="$COMMIT_SHA" -F bundle_filepath="http://localhost/static/js/bundle.js" -F sourcemap=@$f
+          done
+  build-deploy-rinkeby:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development'
+    environment: RINKEBY
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v1
+      - name: install dependencies
+        run: yarn install
+      - name: lint
+        run: yarn lint
+      - name: build app
+        env:
+          REACT_APP_ANALYTICS_KEY: ${{ secrets.REACT_APP_ANALYTICS_KEY }}
+          REACT_APP_DEPLOY_VERSION: ${{ github.sha }}
+          REACT_APP_DEPLOY_ENVIRONMENT: rinkeby
+          REACT_APP_CHAIN_ID: 4
+          REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
+        run:  yarn build
+      - name: Activate rinkeby's fleek
+        run: mv .github/fleek/rinkeby.json .fleek.json
+      - name: Deploy fleek
+        id: deploy
+        uses: fleekhq/action-deploy@v1
+        with:
+          apiKey: ${{ secrets.FLEEK_API_KEY }}
+      - name: Get the output url
+        run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+      - name: upload sourcemap to apm
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          for f in ./build/static/**/*.js.map ; do 
+            curl -X POST https://apm-monitoring.aragon.org/assets/v1/sourcemaps -F service_name="court" -F service_version="$COMMIT_SHA" -F bundle_filepath="http://localhost/static/js/bundle.js" -F sourcemap=@$f
+          done

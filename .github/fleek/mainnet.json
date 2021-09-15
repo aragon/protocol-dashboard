@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "8f050e48-e6c5-4941-8cb6-64c231dc6aed",
+    "team": "aragonone-team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "cool-tooth-9831"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "build",
+    "rootDir": ""
+  }
+}

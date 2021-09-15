@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "e32fbfc3-b37d-4119-9911-9faadcce5c0d",
+    "team": "aragonone-team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "sweet-waterfall-0729"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "build",
+    "rootDir": ""
+  }
+}
