@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "e958df51-92d8-45a4-abff-03f41cf05cb4",
+    "team": "aragonone-team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "dawn-voice-5163"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "build",
+    "rootDir": ""
+  }
+}

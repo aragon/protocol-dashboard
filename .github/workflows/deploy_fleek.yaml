@@ -8,6 +8,7 @@ on:
 jobs:
   build-deploy-mainnet:
     runs-on: ubuntu-latest
+    container: fleek/create-react-app:node-15
     if: github.ref == 'refs/heads/master'
     environment: MAINNET
     steps:
@@ -42,10 +43,23 @@ jobs:
           for f in ./build/static/**/*.js.map ; do 
             curl -X POST https://apm-monitoring.aragon.org/assets/v1/sourcemaps -F service_name="court" -F service_version="$COMMIT_SHA" -F bundle_filepath="http://localhost/static/js/bundle.js" -F sourcemap=@$f
           done
-  build-deploy-rinkeby:
+  build-deploy-develop:
     runs-on: ubuntu-latest
+    container: fleek/create-react-app:node-15
     if: github.ref == 'refs/heads/development'
-    environment: RINKEBY
+    strategy:
+      matrix:
+        environment: ['RINKEBY', 'STAGING']
+        include:
+          - environment: 'RINKEBY'
+            fleekfile: 'rinkeby.json'
+            environment_name: 'rinkeby'
+            subgraph_name: ''
+          - environment: 'STAGING'
+            fleekfile: 'staging.json'
+            environment_name: 'staging'
+            subgraph_name: 'staging'
+    environment: ${{ matrix.environment }}
     steps:
       - uses: actions/checkout@v2
       - name: Install node
@@ -58,12 +72,15 @@ jobs:
         env:
           REACT_APP_ANALYTICS_KEY: ${{ secrets.REACT_APP_ANALYTICS_KEY }}
           REACT_APP_DEPLOY_VERSION: ${{ github.sha }}
-          REACT_APP_DEPLOY_ENVIRONMENT: rinkeby
+          REACT_APP_DEPLOY_ENVIRONMENT: ${{ matrix.environment_name }}
           REACT_APP_CHAIN_ID: 4
           REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
+          REACT_APP_SUBGRAPH_NAME: ${{ matrix.subgraph_name }}
         run:  yarn build
-      - name: Activate rinkeby's fleek
-        run: mv .github/fleek/rinkeby.json .fleek.json
+      - name: Activate fleek
+        env:
+          FLEEK_FILE: ${{ matrix.fleekfile }}
+        run: mv .github/fleek/$FLEEK_FILE .fleek.json
       - name: Deploy fleek
         id: deploy
         uses: fleekhq/action-deploy@v1
