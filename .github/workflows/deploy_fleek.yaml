@@ -2,7 +2,7 @@ name: Deploy fleek
 on:
   push:
     branches:
-      - "development"
+      - "develop"
       - "master"
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
   build-deploy-develop:
     runs-on: ubuntu-latest
     container: fleek/create-react-app:node-15
-    if: github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
         environment: ['RINKEBY', 'STAGING']
