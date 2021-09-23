@@ -180,8 +180,8 @@ highlights.rinkeby = [
       small: null,
       large: (
         <span>
-          View all live disputes or only ones you are adjudicating. From here you
-          can explore the details, comments, and timeline for any dispute.
+          View all live disputes or only ones you are adjudicating. From here
+          you can explore the details, comments, and timeline for any dispute.
         </span>
       ),
     },
@@ -360,8 +360,8 @@ highlights.xdai = [
       small: null,
       large: (
         <span>
-          View all live disputes or only ones you are adjudicating. From here you
-          can explore the details, comments, and timeline for any dispute.
+          View all live disputes or only ones you are adjudicating. From here
+          you can explore the details, comments, and timeline for any dispute.
         </span>
       ),
     },
