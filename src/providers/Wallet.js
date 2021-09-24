@@ -4,6 +4,7 @@ import { UseWalletProvider, useWallet } from 'use-wallet'
 import { getUseWalletConnectors } from '../lib/web3-utils'
 import env from '../environment'
 import { identifyUser } from '../services/analytics';
+import { useAPM, updateAPMContext } from './ElasticAPM'
 
 const WalletAugmentedContext = React.createContext()
 
@@ -34,6 +35,11 @@ useEffect(() => {
   )
 
   const contextValue = useMemo(() => ({ ...wallet, ethers }), [wallet, ethers])
+
+  const {apm} = useAPM()
+  useEffect(() => {
+    updateAPMContext(apm, contextValue.networkName);
+  }, [apm, contextValue.networkName]);
 
   return (
     <WalletAugmentedContext.Provider value={contextValue}>
