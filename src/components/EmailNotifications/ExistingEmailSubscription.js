@@ -79,7 +79,7 @@ function ExistingEmailSubscription({
           `}
         >
           You have previously agreed to Aragon Court's{' '}
-          <Link href="https://ant.aragon.org/legal/terms-general.pdf">
+          <Link href={`${process.env.PUBLIC_URL}/terms.pdf`}>
             legal terms
           </Link>{' '}
           and{' '}
