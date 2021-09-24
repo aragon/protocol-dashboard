@@ -117,7 +117,7 @@ export default function NotificationsPreferences({
                 `}
               >
                 Learn more about our{' '}
-                <Link href="https://aragon.one/email-collection.md">
+                <Link href={`${process.env.PUBLIC_URL}/email-collection.pdf`}>
                   email collection policy
                 </Link>
                 .
