@@ -5,7 +5,7 @@ import {
 } from '../networks'
 
 const PRECEDENCE_CAMPAIGN_DISPUTES = {
-  main: new Map([[networkConfigs.rinkeby.court, new Map([])]]),
+  main: new Map([[networkConfigs.main.court, new Map([])]]),
   rinkeby: new Map([[networkConfigs.rinkeby.court, new Map([])]]),
   ropsten: new Map([[networkConfigs.ropsten.court, new Map([])]]),
   local: new Map([[networkConfigs.local.court, new Map([])]]),
