@@ -133,8 +133,6 @@ export function useANTActions() {
     [guardianRegistryContract, processRequests, anjLockMinter]
   )
 
-
-  // console.log(wallet, ' walllt')
   // activate ANT directly from available balance
   const activateANT = useCallback(
     (account, amount) => {

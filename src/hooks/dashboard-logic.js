@@ -57,7 +57,6 @@ export function usePanelRequestActions(request) {
   }, [request])
 
   const unlockActivation = useCallback(() => {
-    console.log("uhuuu ", )
     request(REQUEST_MODE.UNLOCK_ACTIVATION)
   }, [request])
 
