@@ -131,7 +131,7 @@ const BalanceModule = React.memo(
                     label="Locked"
                     mainIcon={activeANTIcon}
                     actions={[
-                      { label: 'Unlock', onClick: onRequestUnlockActivation },
+                      { label: 'Unlock & Deactivate', onClick: onRequestUnlockActivation },
                     ]}
                     activity={null}
                     distribution={lockedBalanceDistribution}
