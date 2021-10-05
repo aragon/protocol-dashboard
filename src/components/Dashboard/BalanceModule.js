@@ -34,6 +34,7 @@ const BalanceModule = React.memo(
 
     const oneColumn = layout === 'small' || layout === 'medium'
     const status = balances && getAccountStatus(balances, minActiveBalance)
+
     const { walletBalance, activeBalance, inactiveBalance } = balances || {}
 
     const lockedBalanceDistribution =
