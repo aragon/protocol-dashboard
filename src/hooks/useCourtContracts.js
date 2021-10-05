@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { captureException } from '@sentry/browser'
+import { getNetworkConfig } from '../networks'
+import { useWallet } from 'use-wallet'
 
 // hooks
 import { useCourtConfig } from '../providers/CourtConfig'
@@ -77,11 +79,59 @@ function useCourtContract(moduleType, abi) {
 export function useANTActions() {
   const processRequests = useRequestProcessor()
 
+  const wallet = useWallet()
+  
+  const { anjLockMinter } = getNetworkConfig()
+
   const guardianRegistryContract = useCourtContract(
     CourtModuleType.GuardiansRegistry,
     guardianRegistryAbi
   )
   const antTokenContract = useANTTokenContract()
+
+  // unlockActivation handle By LockManager(ANJLockMinter) 
+  const [unlockSettings, setUnlockSettings] = useState({
+    canUnlock: false,
+    lockedAmount: 0
+  })
+
+  useEffect(() => {
+    async function getActivationLocok() {
+      if(wallet.account && anjLockMinter) {
+        const locks = await guardianRegistryContract.getActivationLock(wallet.account, anjLockMinter)
+        const lockedAmount = locks.amount.toString()
+        if(lockedAmount !== '0') {
+          // means, this locker manager has some token for this guardian locked. Enable unlockActivation
+          setUnlockSettings({
+            canUnlock: true,
+            lockedAmount: locks.amount
+          })
+        }
+      }
+    }
+    getActivationLocok()
+    
+  }, [anjLockMinter, guardianRegistryContract, wallet.account])
+  
+  const unlockActivation = useCallback(
+    (account, amount) => {
+      const formattedAmount = formatUnits(amount)
+
+      return processRequests([
+        {
+          action: () =>
+            guardianRegistryContract.unlockActivation(account, anjLockMinter, amount, {
+              gasLimit: ANT_ACTIVATE_GAS_LIMIT,
+            }),
+          description: radspec[actions.UNLOCK_ACTIVATION]({
+            amount: formattedAmount,
+          }),
+          type: actions.ACTIVATE_ANT,
+        },
+      ])
+    },
+    [guardianRegistryContract, processRequests, anjLockMinter]
+  )
 
   // activate ANT directly from available balance
   const activateANT = useCallback(
@@ -170,7 +220,7 @@ export function useANTActions() {
     [guardianRegistryContract, processRequests]
   )
 
-  return { activateANT, deactivateANT, stakeActivateANT, withdrawANT }
+  return { activateANT, deactivateANT, unlockActivation, unlockSettings, stakeActivateANT, withdrawANT }
 }
 
 /**

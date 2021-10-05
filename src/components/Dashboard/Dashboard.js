@@ -10,6 +10,7 @@ import RewardsModule from './RewardsModule'
 import ActivateANT from './panels/ActivateANT'
 import WithdrawANT from './panels/WithdrawANT'
 import DeactivateANT from './panels/DeactivateANT'
+import UnlockActivation from './panels/UnlockActivation'
 import AppealColateralModule from './AppealColateralModule'
 import CourtStats from './CourtStats'
 
@@ -42,7 +43,7 @@ function Dashboard() {
 
   const { name: layout } = useLayout()
   const oneColumn = layout === 'small' || layout === 'medium'
-
+  console.log(mode, ' mode123')
   return (
     <React.Fragment>
       <TitleHeader title="Dashboard" onlyTitle={!wallet.account} />
@@ -57,6 +58,8 @@ function Dashboard() {
             <BalanceModule
               balances={antBalances}
               loading={fetchingData}
+              unlockSettings={actions.unlockSettings}
+              onRequestUnlockActivation={requests.unlockActivation}
               onRequestActivate={requests.activateANT}
               onRequestDeactivate={requests.deactivateANT}
               onRequestStakeActivate={requests.stakeActivateANT}
@@ -117,18 +120,25 @@ function Dashboard() {
 }
 
 function PanelComponent({ mode, actions, balances, ...props }) {
-  const { activateANT, deactivateANT, withdrawANT } = actions
+  const { activateANT, deactivateANT, withdrawANT, unlockActivation } = actions
   const { walletBalance, activeBalance } = balances
 
   const unlockedActiveBalance = getTotalUnlockedActiveBalance(balances)
   const effectiveInactiveBalance = getTotalEffectiveInactiveBalance(balances)
-
   switch (mode) {
     case REQUEST_MODE.DEACTIVATE:
       return (
         <DeactivateANT
           activeBalance={unlockedActiveBalance}
           onDeactivateANT={deactivateANT}
+          {...props}
+        />
+      )
+    case REQUEST_MODE.UNLOCK_ACTIVATION:
+      return (
+        <UnlockActivation
+          lockedBalance={actions.unlockSettings.lockedAmount}
+          onUnlockActivation={unlockActivation}
           {...props}
         />
       )

@@ -12,6 +12,7 @@ export const REQUEST_MODE = {
   DEACTIVATE: Symbol('DEACTIVATE'),
   STAKE_ACTIVATE: Symbol('STAKE_ACTIVATE'),
   WITHDRAW: Symbol('WITHDRAW'),
+  UNLOCK_ACTIVATION: Symbol('UNLOCK_ACTIVATION'),
 }
 
 const stringMapping = {
@@ -19,6 +20,7 @@ const stringMapping = {
   [REQUEST_MODE.STAKE_ACTIVATE]: 'Activate',
   [REQUEST_MODE.DEACTIVATE]: 'Deactivate',
   [REQUEST_MODE.WITHDRAW]: 'Withdraw',
+  [REQUEST_MODE.UNLOCK_ACTIVATION]: 'Unlock',
 }
 
 export function getRequestModeString(mode) {
@@ -54,11 +56,15 @@ export function usePanelRequestActions(request) {
     request(REQUEST_MODE.STAKE_ACTIVATE)
   }, [request])
 
+  const unlockActivation = useCallback(() => {
+    request(REQUEST_MODE.UNLOCK_ACTIVATION)
+  }, [request])
+
   const withdrawANT = useCallback(() => {
     request(REQUEST_MODE.WITHDRAW)
   }, [request])
 
-  return { activateANT, deactivateANT, stakeActivateANT, withdrawANT }
+  return { activateANT, deactivateANT, unlockActivation, stakeActivateANT, withdrawANT }
 }
 
 export function useDashboardLogic() {
@@ -67,6 +73,8 @@ export function useDashboardLogic() {
     deactivateANT,
     stakeActivateANT,
     withdrawANT,
+    unlockSettings,
+    unlockActivation
   } = useANTActions()
 
   const rewards = useGuardianRewards()
@@ -90,6 +98,8 @@ export function useDashboardLogic() {
     deactivateANT,
     withdrawANT,
     claimRewards,
+    unlockActivation,
+    unlockSettings, // boolean flag instead of a function
   }
 
   return {
