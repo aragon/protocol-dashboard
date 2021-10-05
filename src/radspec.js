@@ -18,6 +18,9 @@ export default {
   [actions.ACTIVATE_ANT]: ({ amount }) => {
     return `Activate the total amount of ${amount} ANT`
   },
+  [actions.UNLOCK_ACTIVATION]: ({ amount }) => {
+    return `Unlock the total amount of ${amount} ANT`
+  },
   [actions.APPEAL_RULING]: ({ disputeId, roundId, ruling, outcomeOptions }) => {
     return `Appeal round ${numberToWord(
       roundId
