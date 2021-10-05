@@ -21,6 +21,8 @@ const BalanceModule = React.memo(
   ({
     balances,
     loading,
+    unlockSettings,
+    onRequestUnlockActivation,
     onRequestActivate,
     onRequestDeactivate,
     onRequestStakeActivate,
@@ -32,7 +34,7 @@ const BalanceModule = React.memo(
 
     const oneColumn = layout === 'small' || layout === 'medium'
     const status = balances && getAccountStatus(balances, minActiveBalance)
-
+    console.log(balances, ' good')
     const { walletBalance, activeBalance, inactiveBalance } = balances || {}
 
     const lockedBalanceDistribution =
@@ -115,6 +117,30 @@ const BalanceModule = React.memo(
                   loading={loading}
                 />
               </Box>
+              { unlockSettings.canUnlock &&
+              <Box
+                padding={3 * GU}
+                css={`
+                  flex-basis: 50%;
+                  border: 0;
+                `}
+              >
+                
+                  <Balance
+                    amount={unlockSettings.lockedAmount}
+                    label="Locked"
+                    mainIcon={activeANTIcon}
+                    actions={[
+                      { label: 'Unlock', onClick: onRequestUnlockActivation },
+                    ]}
+                    activity={null}
+                    distribution={lockedBalanceDistribution}
+                    loading={loading}
+                />
+                </Box>
+              }
+                
+              
             </div>
           </div>
         }

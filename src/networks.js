@@ -16,6 +16,7 @@ export const networkConfigs = {
     court: '0xFb072baA713B01cE944A0515c3e1e98170977dAF',
     network_agent: '0x5e8c17a6065c35b172b10e80493d2266e2947df4',
     network_reserve: '0xec0dd1579551964703246becfbf199c27cb84485',
+    anjLockMinter: '0xAb788183FfAD7D3fAa54Cfc1f9EEf7ff981F4cfD',
     nodes: {
       defaultEth: 'https://mainnet.eth.aragon.network/',
       subgraph:
@@ -24,6 +25,7 @@ export const networkConfigs = {
   },
   rinkeby: {
     court: getRinkebyCourtAddress(SUBGRAPH_NAME),
+    anjLockMinter: '0x8A3475C25452B280a3Af1A8a9B4440e9f70f2f30',
     nodes: {
       defaultEth: 'https://rinkeby.eth.aragon.network/',
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME)
