@@ -34,7 +34,7 @@ const BalanceModule = React.memo(
 
     const oneColumn = layout === 'small' || layout === 'medium'
     const status = balances && getAccountStatus(balances, minActiveBalance)
-    console.log(balances, ' good')
+
     const { walletBalance, activeBalance, inactiveBalance } = balances || {}
 
     const lockedBalanceDistribution =
@@ -131,7 +131,7 @@ const BalanceModule = React.memo(
                     label="Locked"
                     mainIcon={activeANTIcon}
                     actions={[
-                      { label: 'Unlock', onClick: onRequestUnlockActivation },
+                      { label: 'Unlock & Deactivate', onClick: onRequestUnlockActivation },
                     ]}
                     activity={null}
                     distribution={lockedBalanceDistribution}

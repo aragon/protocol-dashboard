@@ -43,7 +43,6 @@ function Dashboard() {
 
   const { name: layout } = useLayout()
   const oneColumn = layout === 'small' || layout === 'medium'
-  console.log(mode, ' mode123')
   return (
     <React.Fragment>
       <TitleHeader title="Dashboard" onlyTitle={!wallet.account} />
