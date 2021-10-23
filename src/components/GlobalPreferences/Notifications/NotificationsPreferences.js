@@ -112,17 +112,6 @@ export default function NotificationsPreferences({
                   Delete email
                 </span>
               </Button>
-              <Info
-                css={`
-                  margin-top: ${2 * GU}px;
-                `}
-              >
-                Learn more about our{' '}
-                <Link href="https://aragon.one/email-collection.md">
-                  email collection policy
-                </Link>
-                .
-              </Info>
             </Box>
           </>
         }
