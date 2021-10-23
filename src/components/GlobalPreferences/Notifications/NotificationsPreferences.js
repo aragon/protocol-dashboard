@@ -7,7 +7,6 @@ import {
   IconMail,
   IconTrash,
   Info,
-  Link,
   RADIUS,
   Split,
   Switch,
