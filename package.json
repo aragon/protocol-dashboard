@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "AGPL-3.0-or-later",
-  "author": "Aragon Association <legal@aragon.org>",
+  "author": "1Hive",
   "dependencies": {
     "3box": "=1.22.0",
     "@1hive/1hive-ui": "^1.0.11",

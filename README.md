@@ -1,4 +1,4 @@
-# Celeste Dashboard <a href="https://celeste.1hive.org/"><img align="right" src="docs/assets/LogoAccent.svg" height="80px" /></a>
+# Celeste Dashboard <a href="https://celeste.1hive.org/"><img align="right" src="docs/assets/logo.svg" height="80px" /></a>
 
 ### Celeste handles subjective disputes requiring judgment from human keepers.
 
@@ -11,12 +11,13 @@
 
 ## Quick start
 
-`npm start` will launch the app, configured to connect to our Rinkeby deployment.
-
-For connecting to other chains / deployments, a few useful npm scripts are provided:
-
-- xDai: `npm run start:xdai` will launch the app, configured to connect to Celeste's xDai deployment
-- Local: `npm run start:local` will launch the app, configured to connect to the local devchain.
+- Install dependencies: `yarn`
+- Start the app:
+ `yarn start` will launch the app, configured to connect to our Rinkeby deployment.
+  
+  For connecting to other chains / deployments, a few useful npm scripts are provided:
+   - xDai: `yarn start:xdai` will launch the app, configured to connect to Celeste's xDai deployment
+   - Local: `yarn start:local` will launch the app, configured to connect to the local devchain.
 
 Other [configuration options](docs/CONFIGURATION.md) are also available.
 
@@ -29,7 +30,7 @@ In order to start the dashboard locally, you will need to setup a few processes 
 
  _For a detailed guide on how to achieve this, see more instructions [here](https://github.com/1hive/celeste-subgraph)._
 
-You can also setup the [court services](https://github.com/1hive/celeste-backend/tree/master/packages/services), which include some automation for auto-revealing commitments, penalty settlements and heartbeats.
+You can also setup the [court services](https://github.com/1hive/celeste-backend/tree/master/packages/services), which include some automation for penalty settlements and heartbeats.
 
 To start populating Celeste with disputes, you can use the [CLI tool](https://github.com/1hive/celeste-backend/tree/master/packages/cli).
 
@@ -37,7 +38,7 @@ To start populating Celeste with disputes, you can use the [CLI tool](https://gi
 
 #### 👋 Get started contributing with a [good first issue](https://github.com/1hive/celeste-dashboard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
-Don't be shy to contribute even the smallest tweak. 🐲 There are still some dragons to be aware of, but we'll be here to help you get started!
+Don't be shy to contribute even the smallest tweak. There are still some meteorites to be aware of, but we'll be here to help you get started!
 
 For other details about contributing here, more information is available in the [contributing guide](./CONTRIBUTING.md).
 
