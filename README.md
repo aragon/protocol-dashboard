@@ -1,4 +1,4 @@
-# Celeste Dashboard <a href="https://celeste.1hive.org/"><img align="right" src="docs/assets/logo.svg" height="80px" /></a>
+# Celeste Dashboard <a href="https://celeste.1hive.org/"><img align="right" src="docs/assets/logo.png" height="80px" width="80px"/></a>
 
 ### Celeste handles subjective disputes requiring judgment from human keepers.
 
