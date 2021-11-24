@@ -7,7 +7,9 @@ const CourtConfigContext = React.createContext()
 
 function CourtConfigProvider({ children }) {
   const courtAddress = getNetworkConfig().court
+  console.log('court address ', courtAddress)
   const courtConfig = useCourtConfigSubscription(courtAddress)
+  console.log('COURT CONFIG!!!!!! ', courtConfig)
 
   return (
     <CourtConfigContext.Provider value={courtConfig}>

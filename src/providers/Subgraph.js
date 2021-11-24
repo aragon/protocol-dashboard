@@ -8,9 +8,10 @@ import {
 import { getFetchExchange } from '../graphql-exchanges'
 
 import { devtoolsExchange } from '@urql/devtools'
-import { defaultSubgraphHttpEndpoint } from '../endpoints'
+import { getNetworkConfig } from '../networks'
 
 const SubgraphContext = React.createContext({ resetSubgraphClient: null })
+const defaultSubgraphHttpEndpoint = getNetworkConfig().nodes.subgraph
 
 const newClient = () =>
   createClient({

@@ -9,8 +9,8 @@ import {
   useToast,
   useViewport,
 } from '@1hive/1hive-ui'
+import { getProviderFromUseWalletId } from 'use-wallet'
 import { useWallet } from '../../providers/Wallet'
-import { getProviderFromUseWalletId } from '../../ethereum-providers'
 
 import DeleteEmail from './DeleteEmail'
 import EmailNotificationsForm from './EmailNotificationsForm'

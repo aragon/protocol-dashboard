@@ -17,6 +17,9 @@ export const BRIGHTID_VERIFICATION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/verifica
 export const BRIGHTID_1HIVE_INFO_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/apps/1hive`
 export const BRIGHTID_SUBSCRIPTION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/operations`
 
+export const WALLET_CONNECT_BRIDGE_ENDPOINT =
+  'https://walletconnect-relay.minerva.digital'
+
 // IPFS endpoint
 export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
   ? 'http://127.0.0.1:8080/ipfs'

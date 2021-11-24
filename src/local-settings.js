@@ -1,11 +1,14 @@
 import env from './environment'
-import { graphEndpoint, IPFS_ENDPOINT } from './endpoints'
+import { IPFS_ENDPOINT } from './endpoints'
+// import { getNetworkConfig } from './networks'
 
 const CLIENT_THEME = 'THEME'
+const DEFAULT_CHAIN_ID = 100
 const DEFAULT_ETH_NODE = 'DEFAULT_ETH_NODE'
-const DEFAULT_SUBGRAPH_HTTP_ENDPOINT = graphEndpoint()
+// const DEFAULT_SUBGRAPH_HTTP_ENDPOINT = getNetworkConfig().node.subgraph
 const IPFS_GATEWAY = 'IPFS_GATEWAY'
 const PACKAGE_VERSION = 'PACKAGE_VERSION'
+const PREFERRED_CHAIN_ID_KEY = 'CHAIN_ID'
 const SUBGRAPH_HTTP_ENDPOINT = 'SUBGRAPH_HTTP_ENDPOINT'
 
 // Get a setting from localStorage
@@ -22,6 +25,16 @@ function getLocalSetting(confKey) {
 function setLocalSetting(confKey, value) {
   const storageKey = `${confKey}_KEY`
   return window.localStorage.setItem(storageKey, value)
+}
+
+export function getPreferredChain() {
+  return (
+    Number(getLocalStorageSetting(PREFERRED_CHAIN_ID_KEY)) || DEFAULT_CHAIN_ID
+  )
+}
+
+export function setPreferredChain(chainId = 100) {
+  return setLocalSetting(PREFERRED_CHAIN_ID_KEY, chainId)
 }
 
 export function clearLocalStorageNetworkSettings() {
@@ -63,7 +76,8 @@ export function setPackageVersion(version) {
 
 export function getSubgraphHttpEndpoint() {
   return (
-    getLocalSetting(SUBGRAPH_HTTP_ENDPOINT) || DEFAULT_SUBGRAPH_HTTP_ENDPOINT
+    getLocalSetting(SUBGRAPH_HTTP_ENDPOINT) ||
+    'https://api.thegraph.com/subgraphs/name/1hive/celeste'
   )
 }
 

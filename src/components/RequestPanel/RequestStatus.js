@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, GU, Info } from '@1hive/1hive-ui'
+import { getProviderFromUseWalletId } from 'use-wallet'
 import RequestSteps from './Steps/RequestSteps'
 import { useWallet } from '../../providers/Wallet'
-import { getProviderFromUseWalletId } from '../../ethereum-providers'
 import {
   REQUEST_STATUS_FAILED,
   REQUEST_STATUS_PROCESSING_FAILED,
