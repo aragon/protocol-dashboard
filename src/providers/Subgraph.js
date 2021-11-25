@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
   createClient,
   Provider as UrqlProvider,
@@ -9,23 +9,32 @@ import { getFetchExchange } from '../graphql-exchanges'
 
 import { devtoolsExchange } from '@urql/devtools'
 import { getNetworkConfig } from '../networks'
+import { useWallet } from './Wallet'
 
 const SubgraphContext = React.createContext({ resetSubgraphClient: null })
-const defaultSubgraphHttpEndpoint = getNetworkConfig().nodes.subgraph
-
-const newClient = () =>
-  createClient({
-    url: defaultSubgraphHttpEndpoint,
-    exchanges: [
-      debugExchange,
-      devtoolsExchange,
-      cacheExchange,
-      getFetchExchange(),
-    ],
-  })
 
 function SubGraphProvider({ children }) {
+  const { preferredNetwork } = useWallet()
+  const defaultSubgraphHttpEndpoint = getNetworkConfig().nodes.subgraph
+  const newClient = useCallback(
+    () =>
+      createClient({
+        url: defaultSubgraphHttpEndpoint,
+        exchanges: [
+          debugExchange,
+          devtoolsExchange,
+          cacheExchange,
+          getFetchExchange(),
+        ],
+      }),
+    [defaultSubgraphHttpEndpoint]
+  )
+
   const [client, setClient] = React.useState(newClient())
+
+  useEffect(() => {
+    setClient(newClient())
+  }, [preferredNetwork, newClient])
 
   return (
     <SubgraphContext.Provider

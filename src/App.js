@@ -14,42 +14,45 @@ import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
 import { WalletProvider } from './providers/Wallet'
+import { SubGraphProvider } from './providers/Subgraph'
 import { useClientTheme } from './providers/ClientTheme'
 
 function App() {
   const { appearance } = useClientTheme()
   return (
     <WalletProvider>
-      <HashRouter>
-        <ActivityProvider>
-          <Main
-            assetsUrl="./aragon-ui/"
-            layout={false}
-            scrollView={false}
-            theme={theme[appearance]}
-          >
-            <GlobalErrorHandler>
-              <ToastHub threshold={1} timeout={1500}>
-                <CourtConfigProvider>
-                  <CourtClockProvider>
-                    <RequestQueueProvider>
-                      <MainView>
-                        <OnboardingLoader>
-                          <EmailNotificationsLoader />
-                          <AppLoader>
-                            <Routes />
-                          </AppLoader>
-                        </OnboardingLoader>
-                        <RequestPanel />
-                      </MainView>
-                    </RequestQueueProvider>
-                  </CourtClockProvider>
-                </CourtConfigProvider>
-              </ToastHub>
-            </GlobalErrorHandler>
-          </Main>
-        </ActivityProvider>
-      </HashRouter>
+      <SubGraphProvider>
+        <HashRouter>
+          <ActivityProvider>
+            <Main
+              assetsUrl="./aragon-ui/"
+              layout={false}
+              scrollView={false}
+              theme={theme[appearance]}
+            >
+              <GlobalErrorHandler>
+                <ToastHub threshold={1} timeout={1500}>
+                  <CourtConfigProvider>
+                    <CourtClockProvider>
+                      <RequestQueueProvider>
+                        <MainView>
+                          <OnboardingLoader>
+                            <EmailNotificationsLoader />
+                            <AppLoader>
+                              <Routes />
+                            </AppLoader>
+                          </OnboardingLoader>
+                          <RequestPanel />
+                        </MainView>
+                      </RequestQueueProvider>
+                    </CourtClockProvider>
+                  </CourtConfigProvider>
+                </ToastHub>
+              </GlobalErrorHandler>
+            </Main>
+          </ActivityProvider>
+        </HashRouter>
+      </SubGraphProvider>
     </WalletProvider>
   )
 }

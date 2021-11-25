@@ -6,11 +6,11 @@ import Tasks from '../Tasks/Tasks'
 import TitleHeader from '../TitleHeader'
 import ErrorLoading from '../Errors/ErrorLoading'
 import BalanceModule from './BalanceModule'
-// import RewardsModule from './RewardsModule'
+import RewardsModule from './RewardsModule'
 import ActivateHNY from './panels/ActivateHNY'
 import WithdrawHNY from './panels/WithdrawHNY'
 import DeactivateHNY from './panels/DeactivateHNY'
-// import AppealColateralModule from './AppealColateralModule'
+import AppealColateralModule from './AppealColateralModule'
 import CourtStats from './CourtStats'
 
 import { useWallet } from '../../providers/Wallet'
@@ -30,14 +30,14 @@ function Dashboard() {
   const {
     actions,
     anjBalances,
-    // appealCollaterals,
+    appealCollaterals,
     errorsFetching,
     fetchingData,
     mode,
     panelState,
     requests,
-    // rewards,
-    // treasury,
+    rewards,
+    treasury,
   } = useDashboardLogic()
 
   const { name: layout } = useLayout()
@@ -77,7 +77,7 @@ function Dashboard() {
               primary={<Tasks onlyTable />}
               secondary={
                 <>
-                  {/* <RewardsModule
+                  <RewardsModule
                     rewards={rewards}
                     treasury={treasury}
                     loading={fetchingData}
@@ -86,7 +86,7 @@ function Dashboard() {
                   <AppealColateralModule
                     appeals={appealCollaterals}
                     loading={fetchingData}
-                  /> */}
+                  />
                 </>
               }
               invert={oneColumn ? 'vertical' : 'horizontal'}

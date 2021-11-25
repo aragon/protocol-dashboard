@@ -1,6 +1,5 @@
 import env from './environment'
-import { IPFS_ENDPOINT } from './endpoints'
-// import { getNetworkConfig } from './networks'
+import { getNetworkConfig } from './networks'
 
 const CLIENT_THEME = 'THEME'
 const DEFAULT_CHAIN_ID = 100
@@ -53,7 +52,7 @@ export function setDefaultEthNode(node) {
 }
 
 export function getIpfsGateway() {
-  return getLocalSetting(IPFS_GATEWAY) || IPFS_ENDPOINT
+  return getLocalSetting(IPFS_GATEWAY) || getNetworkConfig().ipfs_endpoint
 }
 
 export function setIpfsGateway(gateway) {

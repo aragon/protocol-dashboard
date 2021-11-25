@@ -13,6 +13,7 @@ export const RINKEBY_STAGING_COURT =
   '0x52180Af656A1923024D1ACcF1D827AB85cE48878'
 
 export const SUPPORTED_CHAINS = [100, 137]
+const XDAI_ETH_NODE = environment('XDAI_ETH_NODE')
 
 // TODO: Add type and name
 export const networkConfigs = {
@@ -23,7 +24,7 @@ export const networkConfigs = {
     type: 'xdai',
     chainId: 100,
     nodes: {
-      defaultEth: 'https://xdai.poanetwork.dev/',
+      defaultEth: XDAI_ETH_NODE,
       subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste',
     },
     eip3085: {
@@ -36,6 +37,7 @@ export const networkConfigs = {
       nativeCurrency: { name: 'xDAI', symbol: 'xDAI', decimals: 18 },
       blockExplorerUrls: ['https://blockscout.com/poa/xdai/'],
     },
+    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   rinkeby: {
     court: getRinkebyCourtAddress(SUBGRAPH_NAME),
@@ -44,6 +46,7 @@ export const networkConfigs = {
     nodes: {
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),
     },
+    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   polygon: {
     court: '0x0ED8867EDaBD4d0b5045E45a39077D97a6B78cbE',
@@ -55,6 +58,7 @@ export const networkConfigs = {
       defaultEth: 'https://polygon-rpc.com/',
       subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste-matic',
     },
+    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   local: {
     court: '0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb',
@@ -62,6 +66,7 @@ export const networkConfigs = {
       defaultEth: 'http://localhost:8545',
       subgraph: 'http://127.0.0.1:8000/subgraphs/name/1hive/celeste-rpc',
     },
+    ipfs_endpoint: 'http://127.0.0.1:8080/ipfs',
   },
 }
 
@@ -70,14 +75,8 @@ export function getInternalNetworkName(chainId = getPreferredChain()) {
 }
 
 export function getNetworkConfig(chainId = getPreferredChain()) {
-  console.log('preferred ', getPreferredChain())
-  console.log('thisssss ', networkConfigs[getInternalNetworkName(chainId)])
   return networkConfigs[getInternalNetworkName(chainId)]
 }
-
-export const networkAgentAddress = getNetworkConfig().network_agent
-
-export const networkReserveAddress = getNetworkConfig().network_reserve
 
 function getRinkebyCourtAddress(subgraphName) {
   if (subgraphName === 'staging') {
@@ -135,7 +134,6 @@ export function getSupportedChainsNamesFormatted() {
 
 export function getEthersNetwork() {
   const { type, chainId, ensRegistry } = getNetworkConfig()
-  console.log('network1 ', type, chainId, ensRegistry)
   return {
     name: type,
     chainId: chainId,

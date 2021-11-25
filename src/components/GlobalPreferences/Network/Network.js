@@ -10,16 +10,17 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 import {
-  defaultEthNode,
   defaultIpfsGateway,
   defaultSubgraphHttpEndpoint,
 } from '../../../endpoints'
 import {
+  getDefaultEthNode,
   clearLocalStorageNetworkSettings,
   setDefaultEthNode,
   setIpfsGateway,
   setSubgraphHttpEndpoint,
 } from '../../../local-settings'
+import { getNetworkConfig } from '../../../networks'
 import { InvalidNetworkType, InvalidURI, NoConnection } from '../../../errors'
 import {
   checkValidEthNode,
@@ -124,6 +125,8 @@ function Field({ label, text, onTextChange, error }) {
 }
 
 const useNetwork = () => {
+  const defaultEthNode =
+    getDefaultEthNode() || getNetworkConfig().nodes.defaultEth
   const [settingsErrors, setSettingsErrors] = useState(null)
   const [ethNode, setEthNodeValue] = useState(defaultEthNode)
   const [ipfsGateway, setIpfsGatewayValue] = useState(defaultIpfsGateway)

@@ -1,19 +1,18 @@
 // rinkeby
-const CHAIN_ID_DEFAULT = 100
+const DEFAULT_XDAI_ETH_NODE_ENDPOINT = 'https://rpc.xdaichain.com'
 
 const ENV_VARS = {
   BUILD() {
     return process.env.REACT_APP_BUILD || 'undefined'
   },
-  CHAIN_ID() {
-    const chainId = parseInt(process.env.REACT_APP_CHAIN_ID)
-    return isNaN(chainId) ? CHAIN_ID_DEFAULT : chainId
-  },
   COURT_SERVER_NAME() {
     return process.env.REACT_APP_COURT_SERVER_NAME
   },
-  DEFAULT_ETH_NODE() {
-    return process.env.REACT_APP_DEFAULT_ETH_NODE || ''
+  XDAI_ETH_NODE() {
+    return process.env.REACT_APP_XDAI_ETH_NODE || DEFAULT_XDAI_ETH_NODE_ENDPOINT
+  },
+  ETHERSCAN_API_KEY() {
+    return process.env.REACT_APP_ETHERSCAN_API_KEY || null
   },
   FORTMATIC_API_KEY() {
     return process.env.REACT_APP_FORTMATIC_API_KEY || ''

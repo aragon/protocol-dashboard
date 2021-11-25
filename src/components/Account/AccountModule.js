@@ -157,7 +157,6 @@ function AccountModule({ compact }) {
         width={(screen.id === 'connected' ? 41 : 51) * GU}
       >
         {({ activating, activationError, screenId }) => {
-          console.log('SCREEEEEEEEEN ', screenId)
           if (screenId === 'connecting') {
             return (
               <ScreenConnecting

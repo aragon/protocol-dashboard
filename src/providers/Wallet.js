@@ -39,10 +39,8 @@ function WalletAugmented({ children }) {
 
   const ethers = useMemo(() => {
     if (!ethereum) {
-      console.log('hereeeeeee')
       return getDefaultProvider()
     }
-    console.log('hereeeeeee222222')
     return new EthersProviders.Web3Provider(ethereum, getEthersNetwork())
   }, [ethereum])
 
@@ -52,29 +50,23 @@ function WalletAugmented({ children }) {
 
   const connect = useCallback(async () => {
     if (connector === 'injected') {
-      console.log('1!!!!!!!!!!')
       await addEthereumChain()
     }
 
     if (account) {
       try {
-        console.log('2!!!!!!!!!!')
         await wallet.connect(connector)
       } catch (e) {
-        console.log('3!!!!!!!!!!')
         console.error(e)
       }
     } else {
-      console.log('4!!!!!!!!!!')
       const connectedAddresses = await window?.ethereum?.request({
         method: 'eth_accounts',
       })
       if (connectedAddresses?.length > 0) {
         try {
-          console.log('5!!!!!!!!!!')
           await wallet.connect('injected')
         } catch (e) {
-          console.log('6!!!!!!!!!!')
           console.error(e)
         }
       }

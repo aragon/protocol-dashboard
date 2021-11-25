@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
-import { IPFS_ENDPOINT } from '../endpoints'
 import { useCourtClock } from '../providers/CourtClock'
 import { useCourtConfig } from '../providers/CourtConfig'
 import {
@@ -10,8 +9,11 @@ import {
 import { getPhaseAndTransition } from '../utils/dispute-utils'
 import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
 import { convertToString, Status } from '../types/dispute-status-types'
+import { getNetworkConfig } from '../networks'
 
 const IPFS_ERROR_MSG = 'Error loading content from ipfs'
+
+const IPFS_ENDPOINT = getNetworkConfig().ipfs_endpoint
 
 export default function useDisputes() {
   const courtConfig = useCourtConfig()

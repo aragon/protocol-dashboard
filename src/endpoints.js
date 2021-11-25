@@ -2,13 +2,8 @@ import environment from './environment'
 
 import { isLocalOrUnknownNetwork, getNetworkType } from './lib/web3-utils'
 import { getNetworkConfig } from './networks'
-import {
-  getDefaultEthNode,
-  getIpfsGateway,
-  getSubgraphHttpEndpoint,
-} from './local-settings'
+import { getIpfsGateway, getSubgraphHttpEndpoint } from './local-settings'
 
-const CHAIN_ID = environment('CHAIN_ID')
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
 
 // BrightId endpoints
@@ -21,17 +16,17 @@ export const WALLET_CONNECT_BRIDGE_ENDPOINT =
   'https://walletconnect-relay.minerva.digital'
 
 // IPFS endpoint
-export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
+export const IPFS_ENDPOINT = isLocalOrUnknownNetwork()
   ? 'http://127.0.0.1:8080/ipfs'
   : 'https://ipfs.io/ipfs/'
 
 // Court server endpoint
 export function courtServerEndpoint() {
-  if (isLocalOrUnknownNetwork(CHAIN_ID)) {
+  if (isLocalOrUnknownNetwork()) {
     return 'http://127.0.0.1:8050'
   }
 
-  const networkType = getNetworkType(CHAIN_ID)
+  const networkType = getNetworkType()
   return `https://celeste-server${
     networkType === 'xdai' ? '' : `-${COURT_SERVER_NAME || networkType}`
   }.1hive.org`
@@ -41,9 +36,6 @@ export function graphEndpoint() {
   const { nodes } = getNetworkConfig()
   return nodes.subgraph
 }
-
-export const defaultEthNode =
-  getDefaultEthNode() || getNetworkConfig().nodes.defaultEth
 
 export const defaultIpfsGateway = getIpfsGateway()
 
