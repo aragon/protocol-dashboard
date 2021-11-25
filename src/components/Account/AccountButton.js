@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { GU, shortenAddress, textStyle, useTheme } from '@1hive/1hive-ui'
+import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import HeaderModule from '../Header/HeaderModule'
-
-import { getNetworkName } from '../../lib/web3-utils'
-import { useWallet } from '../../providers/Wallet'
 import useProfileName from '../../hooks/useProfileName'
+import { useWallet } from 'use-wallet'
+import { shortenAddress } from '../../lib/web3-utils'
 
-function AccountButton({ onClick }) {
+function AccountButton({ label, onClick }) {
   const theme = useTheme()
-  const { account, chainId } = useWallet()
-  const profileName = useProfileName(account)
+  const wallet = useWallet()
+  const profileName = useProfileName(wallet.account)
 
   return (
     <HeaderModule
       icon={
         <div css="position: relative">
+          <EthIdenticon address={wallet.account} radius={RADIUS} />
           <div
             css={`
               position: absolute;
@@ -47,7 +47,7 @@ function AccountButton({ onClick }) {
                 white-space: nowrap;
               `}
             >
-              {profileName || shortenAddress(account)}
+              {profileName || shortenAddress(wallet.account)}
             </div>
           </div>
           <div
@@ -56,7 +56,7 @@ function AccountButton({ onClick }) {
               color: ${theme.positive};
             `}
           >
-            Connected to {getNetworkName(chainId)}
+            Connected
           </div>
         </>
       }
@@ -65,6 +65,7 @@ function AccountButton({ onClick }) {
   )
 }
 AccountButton.propTypes = {
+  label: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 }
 
