@@ -1,10 +1,9 @@
-import { defaultIpfsEndpoint } from './endpoints'
+import { defaultEthNodeEndpoint, defaultIpfsEndpoint } from './endpoints'
 import env from './environment'
 
 const CLIENT_THEME = 'THEME'
 const DEFAULT_CHAIN_ID = 100
 const DEFAULT_ETH_NODE = 'DEFAULT_ETH_NODE'
-// const DEFAULT_SUBGRAPH_HTTP_ENDPOINT = getNetworkConfig().node.subgraph
 const IPFS_GATEWAY = 'IPFS_GATEWAY'
 const PACKAGE_VERSION = 'PACKAGE_VERSION'
 const PREFERRED_CHAIN_ID_KEY = 'CHAIN_ID'
@@ -42,8 +41,7 @@ export function clearLocalStorageNetworkSettings() {
 }
 
 export function getDefaultEthNode() {
-  // Let the network configuration handle node defaults
-  return getLocalSetting(DEFAULT_ETH_NODE) || ''
+  return getLocalSetting(DEFAULT_ETH_NODE) || defaultEthNodeEndpoint()
 }
 
 export function setDefaultEthNode(node) {

@@ -2,7 +2,6 @@ import environment from './environment'
 
 import { isLocalOrUnknownNetwork, getNetworkType } from './lib/web3-utils'
 import { getNetworkConfig } from './networks'
-import { getIpfsGateway } from './local-settings'
 
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
 
@@ -32,9 +31,12 @@ export function graphEndpoint() {
   return nodes.subgraph
 }
 
+export function defaultEthNodeEndpoint() {
+  return getNetworkConfig().nodes.defaultEth
+}
+
 export const defaultIpfsEndpoint = () => {
   return isLocalOrUnknownNetwork()
     ? 'http://127.0.0.1:8080/ipfs'
     : 'https://ipfs.io/ipfs/'
 }
-export const defaultIpfsGateway = () => getIpfsGateway()

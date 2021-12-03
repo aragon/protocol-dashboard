@@ -16,7 +16,7 @@ import TransactionProgress from './TransactionProgress'
 import { useActivity } from '../../providers/ActivityProvider'
 import { useAsset } from '../../hooks/useAsset'
 
-import { getNetworkType, transformAddresses } from '../../lib/web3-utils'
+import { transformAddresses } from '../../lib/web3-utils'
 import {
   ACTIVITY_STATUS_PENDING,
   ACTIVITY_STATUS_CONFIRMED,
@@ -34,11 +34,12 @@ function ActivityItem({ activity }) {
   const iconSrc = useAsset(icon)
 
   const handleOpen = useCallback(() => {
+    const { explorer, type } = getNetworkConfig()
     if (activity.transactionHash) {
       window.open(
         blockExplorerUrl('transaction', activity.transactionHash, {
-          networkType: getNetworkType(),
-          provider: getNetworkConfig().explorer,
+          networkType: type,
+          provider: explorer,
         }),
         '_blank',
         'noopener'
