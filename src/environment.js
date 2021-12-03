@@ -1,5 +1,6 @@
 // rinkeby
 const DEFAULT_XDAI_ETH_NODE_ENDPOINT = 'https://rpc.xdaichain.com'
+const DEFAULT_POLYGON_ETH_NODE_ENDPOINT = 'https://polygon-rpc.com/'
 
 const ENV_VARS = {
   BUILD() {
@@ -22,6 +23,12 @@ const ENV_VARS = {
   },
   PACKAGE_VERSION() {
     return process.env.REACT_APP_PACKAGE_VERSION
+  },
+  POLYGON_ETH_NODE() {
+    return (
+      process.env.REACT_APP_POLYGON_ETH_NODE ||
+      DEFAULT_POLYGON_ETH_NODE_ENDPOINT
+    )
   },
   PORTIS_DAPP_ID() {
     return process.env.REACT_APP_PORTIS_DAPP_ID || ''

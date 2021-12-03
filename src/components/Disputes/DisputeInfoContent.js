@@ -15,12 +15,12 @@ import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
 
+import { defaultIpfsEndpoint } from '../../endpoints'
 import { describeDisputedAction } from '../../disputables'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
 import { validHttpFormat } from '../../lib/uri-utils'
-import { getNetworkConfig } from '../../networks'
 
 function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
   const { below } = useViewport()
@@ -96,7 +96,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
 function Field({ label, loading, value, ...props }) {
   const theme = useTheme()
   const wallet = useWallet()
-  const IPFS_ENDPOINT = getNetworkConfig().ipfs_endpoint
+  const IPFS_ENDPOINT = defaultIpfsEndpoint()
 
   if (!value && !loading) {
     return <div />

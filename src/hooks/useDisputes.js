@@ -9,11 +9,9 @@ import {
 import { getPhaseAndTransition } from '../utils/dispute-utils'
 import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
 import { convertToString, Status } from '../types/dispute-status-types'
-import { getNetworkConfig } from '../networks'
+import { defaultIpfsEndpoint } from '../endpoints'
 
 const IPFS_ERROR_MSG = 'Error loading content from ipfs'
-
-const IPFS_ENDPOINT = getNetworkConfig().ipfs_endpoint
 
 export default function useDisputes() {
   const courtConfig = useCourtConfig()
@@ -178,7 +176,7 @@ async function processDisputableData(dispute) {
 
   return {
     agreementText: title,
-    agreementUrl: `${IPFS_ENDPOINT}/${agreementIpfsCid}`,
+    agreementUrl: `${defaultIpfsEndpoint()}/${agreementIpfsCid}`,
     defendant,
     description: title,
     organization,
@@ -212,7 +210,10 @@ async function processRawDisputeData(dispute) {
           // metadata URI. For example, if the metadataUri is `<cid>/metadata.json`, the agreement's
           // location would be `<cid>/<agreement>`
           const agreementUrl = agreementText
-            ? resolvePathname(agreementText, `${IPFS_ENDPOINT}/${ipfsPath}`)
+            ? resolvePathname(
+                agreementText,
+                `${defaultIpfsEndpoint()}/${ipfsPath}`
+              )
             : ''
 
           const {

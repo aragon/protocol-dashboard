@@ -5,10 +5,8 @@ import {
   USER_NOT_FOUND,
 } from './responseCodes'
 
-const COURT_SERVER_ENDPOINT = courtServerEndpoint()
-
 export async function createSession(address, signature, timestamp) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/sessions`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/sessions`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -44,7 +42,7 @@ export async function createSession(address, signature, timestamp) {
 }
 
 export async function subscribeToNotifications(address, email) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/email`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -85,7 +83,7 @@ export async function subscribeToNotifications(address, email) {
 }
 
 export async function switchNotificationsStatus(address, disabled) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/notifications`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/notifications`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -125,7 +123,7 @@ export async function switchNotificationsStatus(address, disabled) {
 }
 
 export async function getJurorEmail(address) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/email`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -164,7 +162,7 @@ export async function getJurorEmail(address) {
 }
 
 export async function resendVerificationEmail(address) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email:resend`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/email:resend`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -217,7 +215,7 @@ export async function subscribeExistingEmail(address) {
 }
 
 export async function deleteJurorEmail(address) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/email`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -256,7 +254,7 @@ export async function deleteJurorEmail(address) {
 }
 
 export async function deleteCurrentSession(address) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/sessions:current`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/sessions:current`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -295,7 +293,7 @@ export async function deleteCurrentSession(address) {
 }
 
 export async function verifyJurorEmail(address, token) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}/email:verify`
+  const endpoint = `${courtServerEndpoint()}/users/${address}/email:verify`
 
   try {
     const rawResponse = await fetch(endpoint, {
@@ -331,7 +329,7 @@ export async function verifyJurorEmail(address, token) {
 }
 
 export async function getSubscriptionDetails(address) {
-  const endpoint = `${COURT_SERVER_ENDPOINT}/users/${address}`
+  const endpoint = `${courtServerEndpoint()}/users/${address}`
 
   try {
     const rawResponse = await fetch(endpoint, {

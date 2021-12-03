@@ -23,7 +23,7 @@ export default function useJurorSubscriptionFees() {
   // For this reason we should only check if the juror has unclaimed amount for the latest period
   const periods = subscriptionModule?.periods || []
 
-  const availableBalance = useHNYBalanceOfPolling(subscriptionModule.id)
+  const availableBalance = useHNYBalanceOfPolling(subscriptionModule?.id)
 
   useEffect(() => {
     let cancelled = false

@@ -2,7 +2,7 @@ import environment from './environment'
 
 import { isLocalOrUnknownNetwork, getNetworkType } from './lib/web3-utils'
 import { getNetworkConfig } from './networks'
-import { getIpfsGateway, getSubgraphHttpEndpoint } from './local-settings'
+import { getIpfsGateway } from './local-settings'
 
 const COURT_SERVER_NAME = environment('COURT_SERVER_NAME')
 
@@ -14,11 +14,6 @@ export const BRIGHTID_SUBSCRIPTION_ENDPOINT = `${BRIGHT_ID_ENDPOINT_V5}/operatio
 
 export const WALLET_CONNECT_BRIDGE_ENDPOINT =
   'https://walletconnect-relay.minerva.digital'
-
-// IPFS endpoint
-export const IPFS_ENDPOINT = isLocalOrUnknownNetwork()
-  ? 'http://127.0.0.1:8080/ipfs'
-  : 'https://ipfs.io/ipfs/'
 
 // Court server endpoint
 export function courtServerEndpoint() {
@@ -37,6 +32,9 @@ export function graphEndpoint() {
   return nodes.subgraph
 }
 
-export const defaultIpfsGateway = getIpfsGateway()
-
-export const defaultSubgraphHttpEndpoint = getSubgraphHttpEndpoint()
+export const defaultIpfsEndpoint = () => {
+  return isLocalOrUnknownNetwork()
+    ? 'http://127.0.0.1:8080/ipfs'
+    : 'https://ipfs.io/ipfs/'
+}
+export const defaultIpfsGateway = () => getIpfsGateway()

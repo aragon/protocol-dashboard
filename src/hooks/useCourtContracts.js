@@ -909,7 +909,7 @@ export function useHNYBalanceOfPolling(account) {
   useEffect(() => {
     let cancelled = false
 
-    if (!hnyTokenContract) return
+    if (!hnyTokenContract || !account) return
 
     const pollActiveBalanceOf = async () => {
       try {

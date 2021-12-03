@@ -13,8 +13,8 @@ import { ActivityProvider } from './providers/ActivityProvider'
 import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
-import { WalletProvider } from './providers/Wallet'
 import { SubGraphProvider } from './providers/Subgraph'
+import { WalletProvider } from './providers/Wallet'
 import { useClientTheme } from './providers/ClientTheme'
 
 function App() {

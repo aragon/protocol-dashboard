@@ -14,6 +14,7 @@ export const RINKEBY_STAGING_COURT =
 
 export const SUPPORTED_CHAINS = [100, 137]
 const XDAI_ETH_NODE = environment('XDAI_ETH_NODE')
+const POLYGON_ETH_NODE = environment('POLYGON_ETH_NODE')
 
 // TODO: Add type and name
 export const networkConfigs = {
@@ -37,7 +38,6 @@ export const networkConfigs = {
       nativeCurrency: { name: 'xDAI', symbol: 'xDAI', decimals: 18 },
       blockExplorerUrls: ['https://blockscout.com/poa/xdai/'],
     },
-    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   rinkeby: {
     court: getRinkebyCourtAddress(SUBGRAPH_NAME),
@@ -46,19 +46,17 @@ export const networkConfigs = {
     nodes: {
       subgraph: getRinkebySubgraphUrls(SUBGRAPH_NAME),
     },
-    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   polygon: {
-    court: '0x0ED8867EDaBD4d0b5045E45a39077D97a6B78cbE',
+    court: '0xf0C8376065fadfACB706caFbaaC96B321069C015',
     explorer: 'polygonscan',
     name: 'Polygon',
     type: 'polygon',
     chainId: 137,
     nodes: {
-      defaultEth: 'https://polygon-rpc.com/',
-      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste-matic',
+      defaultEth: POLYGON_ETH_NODE,
+      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste-polygon',
     },
-    ipfs_endpoint: 'https://ipfs.io/ipfs/',
   },
   local: {
     court: '0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb',
@@ -66,7 +64,6 @@ export const networkConfigs = {
       defaultEth: 'http://localhost:8545',
       subgraph: 'http://127.0.0.1:8000/subgraphs/name/1hive/celeste-rpc',
     },
-    ipfs_endpoint: 'http://127.0.0.1:8080/ipfs',
   },
 }
 
