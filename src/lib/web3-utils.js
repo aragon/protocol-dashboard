@@ -3,7 +3,6 @@ import { ethers, providers as Providers, utils } from 'ethers'
 import { InvalidURI, InvalidNetworkType, NoConnection } from '../errors'
 import { validHttpFormat } from './uri-utils'
 import { getPreferredChain, getDefaultEthNode } from '../local-settings'
-import { getNetworkConfig } from '../networks'
 
 const { id: keccak256, solidityKeccak256: soliditySha3, toUtf8String } = utils
 
@@ -24,10 +23,9 @@ function getBackendServicesKeys() {
   }
 }
 
-export function getDefaultProvider() {
-  const type = getNetworkType()
-  const defaultEthNode =
-    getDefaultEthNode() || getNetworkConfig().nodes.defaultEth
+export function getDefaultProvider(chainId) {
+  const type = getNetworkType(chainId)
+  const defaultEthNode = getDefaultEthNode()
 
   return defaultEthNode
     ? new Providers.StaticJsonRpcProvider(defaultEthNode)

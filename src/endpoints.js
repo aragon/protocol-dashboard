@@ -26,7 +26,7 @@ export function courtServerEndpoint() {
   }.1hive.org`
 }
 
-export function graphEndpoint() {
+export function defaultSubgraphEndpoint() {
   const { nodes } = getNetworkConfig()
   return nodes.subgraph
 }

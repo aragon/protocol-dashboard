@@ -10,12 +10,9 @@ import {
   useTheme,
 } from '@1hive/1hive-ui'
 import {
-  defaultIpfsEndpoint,
-  defaultSubgraphHttpEndpoint,
-} from '../../../endpoints'
-import {
   getIpfsGateway,
   getDefaultEthNode,
+  getSubgraphHttpEndpoint,
   clearLocalStorageNetworkSettings,
   setDefaultEthNode,
   setIpfsGateway,
@@ -127,17 +124,19 @@ function Field({ label, text, onTextChange, error }) {
 const useNetwork = () => {
   const defaultIpfsGateway = getIpfsGateway()
   const defaultEthNode = getDefaultEthNode()
+  const defaultSubgraphEndpoint = getSubgraphHttpEndpoint()
+
   const [settingsErrors, setSettingsErrors] = useState(null)
   const [ethNode, setEthNodeValue] = useState(defaultEthNode)
   const [ipfsGateway, setIpfsGatewayValue] = useState(defaultIpfsGateway)
   const [subgraphHttpEndpoint, setSubgraphHttpEndpointValue] = useState(
-    defaultSubgraphHttpEndpoint
+    defaultSubgraphEndpoint
   )
 
   const { resetSubgraphClient } = useSubgraph()
   const networkType = getNetworkType()
 
-  const subgraphChanged = subgraphHttpEndpoint !== defaultSubgraphHttpEndpoint
+  const subgraphChanged = subgraphHttpEndpoint !== defaultSubgraphEndpoint
 
   const defaultsChanged =
     ipfsGateway !== defaultIpfsGateway ||
