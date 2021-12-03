@@ -36,8 +36,6 @@ export function defaultEthNodeEndpoint(chainId) {
   return getNetworkConfig(chainId).nodes.defaultEth
 }
 
-export const defaultIpfsEndpoint = chainId => {
-  return isLocalOrUnknownNetwork(chainId)
-    ? 'http://127.0.0.1:8080/ipfs'
-    : 'https://ipfs.io/ipfs/'
+export const defaultIpfsEndpoint = () => {
+  return 'https://ipfs.io/ipfs/'
 }

@@ -9,9 +9,6 @@ const ENV_VARS = {
   COURT_SERVER_NAME() {
     return process.env.REACT_APP_COURT_SERVER_NAME
   },
-  XDAI_ETH_NODE() {
-    return process.env.REACT_APP_XDAI_ETH_NODE || DEFAULT_XDAI_ETH_NODE_ENDPOINT
-  },
   ETHERSCAN_API_KEY() {
     return process.env.REACT_APP_ETHERSCAN_API_KEY || null
   },
@@ -45,6 +42,9 @@ const ENV_VARS = {
   },
   SUBGRAPH_NAME() {
     return process.env.REACT_APP_SUBGRAPH_NAME
+  },
+  XDAI_ETH_NODE() {
+    return process.env.REACT_APP_XDAI_ETH_NODE || DEFAULT_XDAI_ETH_NODE_ENDPOINT
   },
 }
 

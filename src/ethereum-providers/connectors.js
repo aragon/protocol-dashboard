@@ -2,6 +2,7 @@ import { WALLET_CONNECT_BRIDGE_ENDPOINT } from '../endpoints'
 import env from '../environment'
 
 const PORTIS_ID = env('PORTIS_ID')
+const POLYGON_ETH_NODE = env('POLYGON_ETH_NODE')
 const RINKEBY_ETH_NODE = env('RINKEBY_ETH_NODE')
 const XDAI_ETH_NODE = env('XDAI_ETH_NODE')
 
@@ -24,6 +25,7 @@ export const CONNECTORS = [
       rpc: {
         100: XDAI_ETH_NODE,
         4: RINKEBY_ETH_NODE,
+        137: POLYGON_ETH_NODE,
       },
       bridge: WALLET_CONNECT_BRIDGE_ENDPOINT,
       pollingInterval: 12000,
