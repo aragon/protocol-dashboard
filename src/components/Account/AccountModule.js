@@ -1,61 +1,91 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useWallet } from 'use-wallet'
-import { Button, GU, IconConnect, useViewport } from '@1hive/1hive-ui'
+import { Button, GU, IconConnect } from '@1hive/1hive-ui'
+import { useWallet } from '../../providers/Wallet'
+
 import AccountButton from './AccountButton'
 import AccountPopover from './AccountPopover'
 import ScreenConnected from './ScreenConnected'
 import ScreenConnecting from './ScreenConnecting'
 import ScreenError from './ScreenError'
+import ScreenPromptingAction from './ScreenPromptingAction'
 import ScreenProviders from './ScreenProviders'
 
 const SCREENS = [
-  { id: 'providers', title: 'Use account from' },
-  { id: 'connecting', title: 'Use account from' },
-  { id: 'connected', title: 'Active account' },
-  { id: 'error', title: 'Connection error' },
+  {
+    id: 'providers',
+  },
+  {
+    id: 'connecting',
+  },
+  {
+    id: 'networks',
+  },
+  {
+    id: 'connected',
+  },
+  {
+    id: 'error',
+  },
 ]
 
-function AccountModule() {
-  const [opened, setOpened] = useState(false)
-  const [activatingDelayed, setActivatingDelayed] = useState(null)
+function AccountModule({ compact }) {
   const buttonRef = useRef()
-  const { below } = useViewport()
-  const compactMode = below('medium')
-  const wallet = useWallet()
-  const { account, connector, error, status } = wallet
 
-  const open = useCallback(() => setOpened(true), [])
+  const {
+    account,
+    activating,
+    connect,
+    connector,
+    error,
+    resetConnection,
+    switchingNetworks,
+  } = useWallet()
+  const [opened, setOpened] = useState(false)
+  const [activatingDelayed, setActivatingDelayed] = useState(false)
+
   const toggle = useCallback(() => setOpened(opened => !opened), [])
 
-  useEffect(() => {
-    let timer
+  const activate = useCallback(
+    async providerId => {
+      try {
+        await connect(providerId)
+      } catch (error) {
+        console.log('error ', error)
+      }
+    },
+    [connect]
+  )
 
-    if (status === 'error') {
+  // Always show the “connecting…” screen, even if there are no delay
+  useEffect(() => {
+    if (error) {
       setActivatingDelayed(null)
     }
 
-    if (status === 'connecting') {
-      setActivatingDelayed(connector)
-      timer = setTimeout(() => {
-        setActivatingDelayed(null)
-      }, 400)
+    if (activating) {
+      setActivatingDelayed(activating)
+      return
     }
 
-    return () => clearTimeout(timer)
-  }, [connector, status])
+    const timer = setTimeout(() => {
+      setActivatingDelayed(null)
+    }, 500)
 
-  const handleResetConnection = useCallback(() => {
-    wallet.reset()
-  }, [wallet])
-
-  const handleActivate = useCallback(providerId => wallet.connect(providerId), [
-    wallet,
-  ])
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [activating, error])
 
   const previousScreenIndex = useRef(-1)
 
-  const { screenIndex, direction } = useMemo(() => {
-    const screenId = status === 'disconnected' ? 'providers' : status
+  const { direction, screenIndex } = useMemo(() => {
+    const screenId = (() => {
+      if (error) return 'error'
+      if (activatingDelayed) return 'connecting'
+      if (switchingNetworks) return 'networks'
+      if (account) return 'connected'
+      return 'providers'
+    })()
 
     const screenIndex = SCREENS.findIndex(screen => screen.id === screenId)
     const direction = previousScreenIndex.current > screenIndex ? -1 : 1
@@ -63,18 +93,21 @@ function AccountModule() {
     previousScreenIndex.current = screenIndex
 
     return { direction, screenIndex }
-  }, [status])
+  }, [activatingDelayed, account, error, switchingNetworks])
 
   const screen = SCREENS[screenIndex]
   const screenId = screen.id
 
-  const handlePopoverClose = useCallback(() => {
-    if (screenId === 'connecting' || screenId === 'error') {
-      // reject closing the popover
-      return false
-    }
-    setOpened(false)
-  }, [screenId])
+  const handlePopoverClose = useCallback(
+    reject => {
+      if (screenId === 'connecting' || screenId === 'error') {
+        // reject closing the popover
+        return false
+      }
+      setOpened(false)
+    },
+    [screenId]
+  )
 
   return (
     <div
@@ -84,26 +117,22 @@ function AccountModule() {
         display: flex;
         align-items: center;
         justify-content: space-around;
-        width: ${compactMode ? 'auto' : `${24.5 * GU}px`};
         outline: 0;
       `}
     >
-      {screen.id === 'connected' ? (
+      {screenId === 'connected' ? (
         <AccountButton onClick={toggle} />
       ) : (
         <Button
           icon={<IconConnect />}
-          label="Connect account"
+          label="Enable account"
           onClick={toggle}
-          display={compactMode ? 'icon' : 'all'}
+          display={compact ? 'icon' : 'all'}
         />
       )}
       <AccountPopover
         direction={direction}
-        heading={screen.title}
-        keys={({ screenId }) => screenId + status + error.name}
         onClose={handlePopoverClose}
-        onOpen={open}
         opener={buttonRef.current}
         screenId={screenId}
         screenData={{
@@ -120,28 +149,34 @@ function AccountModule() {
           screenId
         }
         visible={opened}
+        width={(screen.id === 'connected' ? 41 : 51) * GU}
       >
         {({ activating, activationError, screenId }) => {
           if (screenId === 'connecting') {
             return (
               <ScreenConnecting
-                providerId={activating}
-                onCancel={handleResetConnection}
+                providerId={connector}
+                onCancel={resetConnection}
               />
             )
           }
           if (screenId === 'connected') {
-            return <ScreenConnected wallet={wallet} />
-          }
-          if (screenId === 'error') {
             return (
-              <ScreenError
-                error={activationError}
-                onBack={handleResetConnection}
+              <ScreenConnected
+                providerId={connector}
+                onClosePopover={handlePopoverClose}
               />
             )
           }
-          return <ScreenProviders onActivate={handleActivate} />
+          if (screenId === 'error') {
+            return (
+              <ScreenError error={activationError} onBack={resetConnection} />
+            )
+          }
+          if (screen.id === 'networks') {
+            return <ScreenPromptingAction />
+          }
+          return <ScreenProviders onActivate={activate} />
         }}
       </AccountPopover>
     </div>

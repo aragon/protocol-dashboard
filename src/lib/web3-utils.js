@@ -1,8 +1,8 @@
 import env from '../environment'
 import { ethers, providers as Providers, utils } from 'ethers'
-import { defaultEthNode } from '../endpoints'
 import { InvalidURI, InvalidNetworkType, NoConnection } from '../errors'
 import { validHttpFormat } from './uri-utils'
+import { getPreferredChain, getDefaultEthNode } from '../local-settings'
 
 const { id: keccak256, solidityKeccak256: soliditySha3, toUtf8String } = utils
 
@@ -11,6 +11,8 @@ export const ETH_FAKE_ADDRESS = ZERO_ADDRESS
 
 const ETH_ADDRESS_SPLIT_REGEX = /(0x[a-fA-F0-9]{40}(?:\b|\.|,|\?|!|;))/g
 const ETH_ADDRESS_TEST_REGEX = /(0x[a-fA-F0-9]{40}(?:\b|\.|,|\?|!|;))/g
+
+const DEFAULT_LOCAL_CHAIN = ''
 
 function getBackendServicesKeys() {
   return {
@@ -21,8 +23,9 @@ function getBackendServicesKeys() {
   }
 }
 
-export function getDefaultProvider() {
-  const type = getNetworkType()
+export function getDefaultProvider(chainId = getPreferredChain()) {
+  const type = getNetworkType(chainId)
+  const defaultEthNode = getDefaultEthNode(chainId)
 
   return defaultEthNode
     ? new Providers.StaticJsonRpcProvider(defaultEthNode)
@@ -127,30 +130,32 @@ export function shortenAddress(address, charsLength = 4) {
   )
 }
 
-export function getNetworkType(chainId = env('CHAIN_ID')) {
+export function getNetworkType(chainId = getPreferredChain()) {
   chainId = String(chainId)
 
   if (chainId === '1') return 'main'
   if (chainId === '3') return 'ropsten'
   if (chainId === '4') return 'rinkeby'
   if (chainId === '100') return 'xdai'
+  if (chainId === '137') return 'polygon'
 
-  return 'private'
+  return DEFAULT_LOCAL_CHAIN
 }
 
-export function getNetworkName(chainId = env('CHAIN_ID')) {
+export function getNetworkName(chainId = getPreferredChain()) {
   chainId = String(chainId)
 
   if (chainId === '1') return 'Mainnet'
   if (chainId === '3') return 'Ropsten'
   if (chainId === '4') return 'Rinkeby'
   if (chainId === '100') return 'xDai'
+  if (chainId === '137') return 'polygon'
 
   return 'unknown'
 }
 
 export function sanitizeNetworkType(networkType) {
-  if (networkType === 'private') {
+  if (networkType === DEFAULT_LOCAL_CHAIN) {
     return 'localhost'
   } else if (networkType === 'main') {
     return 'mainnet'
@@ -158,8 +163,8 @@ export function sanitizeNetworkType(networkType) {
   return networkType
 }
 
-export function isLocalOrUnknownNetwork(chainId = env('CHAIN_ID')) {
-  return getNetworkType(chainId) === 'private'
+export function isLocalOrUnknownNetwork(chainId = getPreferredChain()) {
+  return getNetworkType(chainId) === DEFAULT_LOCAL_CHAIN
 }
 
 // Detect Ethereum addresses in a string and transform each part.
@@ -186,7 +191,7 @@ export function transformAddresses(str, callback) {
  *    - NoConnection: Couldn't connect to URI
  */
 export async function checkValidEthNode(uri) {
-  const isLocalOrUnknown = isLocalOrUnknownNetwork(env('CHAIN_ID'))
+  const isLocalOrUnknown = isLocalOrUnknownNetwork(getPreferredChain())
 
   if (!validHttpFormat(uri)) {
     throw new InvalidURI('The URI must use the HTTP protocol')

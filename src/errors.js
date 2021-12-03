@@ -1,5 +1,4 @@
 import { getNetworkName } from './lib/web3-utils'
-import env from './environment'
 
 export const extendError = (name, { defaultMessage }) =>
   class extends Error {
@@ -13,9 +12,7 @@ export class DisputeNotFound extends Error {
   name = 'DisputeNotFound'
   constructor(disputeId) {
     super(
-      `It looks like there’s no dispute associated with the DisputeID #${disputeId}” on the Ethereum ${getNetworkName(
-        env('CHAIN_ID')
-      )} network.`
+      `It looks like there’s no dispute associated with the DisputeID #${disputeId}” on the Ethereum ${getNetworkName()} network.`
     )
     this.disputeId = disputeId
   }

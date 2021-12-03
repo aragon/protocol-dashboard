@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { GU, Popover, springs, textStyle, useTheme } from '@1hive/1hive-ui'
+import { GU, Popover, springs } from '@1hive/1hive-ui'
 import { Spring, Transition, animated } from 'react-spring/renderprops'
 
 const AnimatedDiv = animated.div
@@ -8,16 +8,14 @@ const AnimatedDiv = animated.div
 function AccountPopover({
   children,
   direction,
-  heading,
   onClose,
   opener,
   screenData,
   screenId,
   screenKey,
   visible,
+  width,
 }) {
-  const theme = useTheme()
-
   const [animate, setAnimate] = useState(false)
   const [height, setHeight] = useState(30 * GU)
   const [measuredHeight, setMeasuredHeight] = useState(true)
@@ -54,7 +52,7 @@ function AccountPopover({
       placement="bottom-end"
       visible={visible}
       css={`
-        width: ${51 * GU}px;
+        width: ${width}px;
       `}
     >
       <section
@@ -64,21 +62,6 @@ function AccountPopover({
           overflow: hidden;
         `}
       >
-        <h1
-          css={`
-            display: flex;
-            flex-grow: 0;
-            flex-shrink: 0;
-            align-items: center;
-            height: ${4 * GU}px;
-            padding-left: ${2 * GU}px;
-            border-bottom: 1px solid ${theme.border};
-            color: ${theme.contentSecondary};
-            ${textStyle('label2')};
-          `}
-        >
-          {heading}
-        </h1>
         <Spring
           config={springs.smooth}
           from={{ height: 32 * GU }}
@@ -153,7 +136,6 @@ function AccountPopover({
 AccountPopover.propTypes = {
   children: PropTypes.func.isRequired,
   direction: PropTypes.oneOf([-1, 1]).isRequired,
-  heading: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
   opener: PropTypes.any,
   screenData: PropTypes.object.isRequired,

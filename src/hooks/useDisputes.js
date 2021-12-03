@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import resolvePathname from 'resolve-pathname'
-import { IPFS_ENDPOINT } from '../endpoints'
 import { useCourtClock } from '../providers/CourtClock'
 import { useCourtConfig } from '../providers/CourtConfig'
 import {
@@ -10,6 +9,7 @@ import {
 import { getPhaseAndTransition } from '../utils/dispute-utils'
 import { ipfsGet, getIpfsCidFromUri } from '../lib/ipfs-utils'
 import { convertToString, Status } from '../types/dispute-status-types'
+import { defaultIpfsEndpoint } from '../endpoints'
 
 const IPFS_ERROR_MSG = 'Error loading content from ipfs'
 
@@ -176,7 +176,7 @@ async function processDisputableData(dispute) {
 
   return {
     agreementText: title,
-    agreementUrl: `${IPFS_ENDPOINT}/${agreementIpfsCid}`,
+    agreementUrl: `${defaultIpfsEndpoint()}/${agreementIpfsCid}`,
     defendant,
     description: title,
     organization,
@@ -210,7 +210,10 @@ async function processRawDisputeData(dispute) {
           // metadata URI. For example, if the metadataUri is `<cid>/metadata.json`, the agreement's
           // location would be `<cid>/<agreement>`
           const agreementUrl = agreementText
-            ? resolvePathname(agreementText, `${IPFS_ENDPOINT}/${ipfsPath}`)
+            ? resolvePathname(
+                agreementText,
+                `${defaultIpfsEndpoint()}/${ipfsPath}`
+              )
             : ''
 
           const {

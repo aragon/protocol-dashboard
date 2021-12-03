@@ -6,11 +6,11 @@ import {
 import { getContract } from '../web3-contracts'
 import { logWithSentry } from '../sentry'
 
-import env from '../environment'
 import { DISPUTABLE_ACTIONS } from './mappings'
 import { getAragonSubgraph } from './connect-endpoints'
 import { addressesEqual, getNetworkType } from '../lib/web3-utils'
 import { buildArbitrableUrl, isArbitrableKnown } from './known-arbitrables'
+import { getPreferredChain } from '../local-settings'
 
 // Disputable abi
 import disputableAbi from '../abi/disputables/IDisputable.json'
@@ -115,7 +115,7 @@ async function describeActionScript(evmScript, organization) {
     organization,
     ['thegraph', { orgSubgraphUrl: getAragonSubgraph() }], // TODO: Remove when @aragon/connect defaults to own node subgraph urls
     {
-      network: env('CHAIN_ID'),
+      network: getPreferredChain(),
     }
   )
   const apps = await org.apps()

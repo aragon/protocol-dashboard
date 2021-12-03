@@ -15,8 +15,8 @@ import IdentityBadge from '../IdentityBadge'
 import Loading from '../Loading'
 import { useWallet } from '../../providers/Wallet'
 
+import { defaultIpfsEndpoint } from '../../endpoints'
 import { describeDisputedAction } from '../../disputables'
-import { IPFS_ENDPOINT } from '../../endpoints'
 import { getIpfsCidFromUri, transformIPFSHash } from '../../lib/ipfs-utils'
 import { addressesEqual, transformAddresses } from '../../lib/web3-utils'
 import { Phase as DisputePhase } from '../../types/dispute-status-types'
@@ -96,6 +96,7 @@ function DisputeInfoContent({ dispute, isFinalRulingEnsured }) {
 function Field({ label, loading, value, ...props }) {
   const theme = useTheme()
   const wallet = useWallet()
+  const IPFS_ENDPOINT = defaultIpfsEndpoint()
 
   if (!value && !loading) {
     return <div />

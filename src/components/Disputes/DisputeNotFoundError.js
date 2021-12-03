@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, GU, textStyle, useTheme } from '@1hive/1hive-ui'
 import { getNetworkName } from '../../lib/web3-utils'
-import env from '../../environment'
 
 function DisputeNotFoundError({ disputeId }) {
   const theme = useTheme()
@@ -27,8 +26,7 @@ function DisputeNotFoundError({ disputeId }) {
         `}
       >
         It looks like there’s no dispute associated with{' '}
-        {`“DisputeID #${disputeId}”`} on the Ethereum{' '}
-        {getNetworkName(env('CHAIN_ID'))} network
+        {`“DisputeID #${disputeId}”`} on the Ethereum {getNetworkName()} network
       </div>
       <div
         css={`

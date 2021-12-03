@@ -7,24 +7,34 @@ import { useAsset } from '../../hooks/useAsset'
 import { getNetworkName } from '../../lib/web3-utils'
 import { ACCOUNT_ERROR } from '../../utils/asset-utils'
 
+import { SUPPORTED_CHAINS } from '../../networks'
+
 function AccountModuleErrorScreen({ error, onBack }) {
   const theme = useTheme()
   const elementRef = useRef()
 
   const accountErrorSvg = useAsset(ACCOUNT_ERROR)
 
+  let networkNames = ''
+  SUPPORTED_CHAINS.forEach((chain, i, array) => {
+    networkNames += getNetworkName(chain)
+    if (i !== array.length - 1) {
+      networkNames += ', '
+    }
+  })
+
   const [title, secondary] = useMemo(() => {
     if (error instanceof ChainUnsupportedError) {
       return [
         'Wrong network',
-        `Please select the ${getNetworkName()} network in your wallet and try again.`,
+        `Please select one of these networks in your wallet and try again: ${networkNames}`,
       ]
     }
     return [
       'Failed to enable your account',
       'You can try another Ethereum wallet.',
     ]
-  }, [error])
+  }, [error, networkNames])
 
   return (
     <section

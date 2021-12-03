@@ -31,18 +31,12 @@
     "semver": "^7.3.2",
     "styled-components": "^4.4.1",
     "urql": "^1.6.3",
-    "use-wallet": "^0.8.0"
+    "use-wallet": "npm:@1hive/use-wallet@0.13.1"
   },
   "scripts": {
     "start": "node ./scripts/start",
-    "start:local": "cross-env REACT_APP_CHAIN_ID=1337 npm run start",
-    "start:xdai": "cross-env REACT_APP_CHAIN_ID=100 npm run start",
-    "start:rinkeby": "cross-env REACT_APP_CHAIN_ID=4 npm run start",
-    "start:rinkeby:staging": "cross-env REACT_APP_SUBGRAPH_NAME=staging REACT_APP_CHAIN_ID=4 npm run start",
+    "start:staging": "cross-env REACT_APP_SUBGRAPH_NAME=staging npm run start",
     "build": "node ./scripts/build",
-    "build:local": "cross-env REACT_APP_CHAIN_ID=1337 npm run build",
-    "build:xdai": "cross-env REACT_APP_CHAIN_ID=100 npm run build",
-    "build:rinkeby": "cross-env REACT_APP_CHAIN_ID=4 npm run build",
     "bundlewatch": "bundlewatch",
     "lint": "eslint ./src",
     "test": "react-app-rewired test",

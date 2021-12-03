@@ -9,8 +9,8 @@ import {
   useToast,
   useViewport,
 } from '@1hive/1hive-ui'
+import { getProviderFromUseWalletId } from 'use-wallet'
 import { useWallet } from '../../providers/Wallet'
-import { getProviderFromUseWalletId } from '../../ethereum-providers'
 
 import DeleteEmail from './DeleteEmail'
 import EmailNotificationsForm from './EmailNotificationsForm'
@@ -114,10 +114,9 @@ const EmailNotificationsManager = React.memo(
       emailVerified,
     })
 
-    const wallet = useWallet()
-    const account = wallet.account
+    const { account, connector } = useWallet()
     const [insideModal] = useInside('NotificationsModal')
-    const provider = getProviderFromUseWalletId(wallet.connector)
+    const provider = getProviderFromUseWalletId(connector)
     const toast = useToast()
 
     const { below } = useViewport()

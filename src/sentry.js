@@ -8,7 +8,7 @@ export default function initializeSentry() {
   if (sentryEnabled) {
     initSentry({
       dsn: env('SENTRY_DSN'),
-      environment: getNetworkType(env('CHAIN_ID')),
+      environment: getNetworkType(),
       release: 'court-dashboard@' + env('BUILD'),
     })
   }
