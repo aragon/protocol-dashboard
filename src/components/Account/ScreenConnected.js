@@ -12,26 +12,22 @@ import {
 } from '@1hive/1hive-ui'
 import IdentityBadge from '../IdentityBadge'
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
+import { useWallet } from '../../providers/Wallet'
 import { getNetworkName } from '../../lib/web3-utils'
 
-import { useWallet } from '../../providers/Wallet'
-
-function AccountScreenConnected({ providerId, onClosePopover, wallet }) {
+function AccountScreenConnected({ providerId }) {
   const theme = useTheme()
   const copy = useCopyToClipboard()
-  const { chainId } = useWallet()
+  const { account, chainId, resetConnection } = useWallet()
 
   const networkName = getNetworkName(chainId)
   const providerInfo = getProviderFromUseWalletId(providerId)
 
-  const handleCopyAddress = useCallback(() => copy(wallet.account), [
-    copy,
-    wallet,
-  ])
+  const handleCopyAddress = useCallback(() => copy(account), [account, copy])
 
   const handleDeactivate = useCallback(() => {
-    wallet.resetConnection()
-  }, [wallet])
+    resetConnection()
+  }, [resetConnection])
 
   return (
     <div
@@ -103,7 +99,7 @@ function AccountScreenConnected({ providerId, onClosePopover, wallet }) {
               `}
             >
               <IdentityBadge
-                entity={wallet.account}
+                entity={account}
                 compact
                 badgeOnly
                 css="cursor: pointer"

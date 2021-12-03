@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, GU, IconConnect } from '@1hive/1hive-ui'
 import { useWallet } from '../../providers/Wallet'
 
-import ScreenError from './ScreenError'
 import AccountButton from './AccountButton'
-import ScreenProviders from './ScreenProviders'
+import AccountPopover from './AccountPopover'
 import ScreenConnected from './ScreenConnected'
 import ScreenConnecting from './ScreenConnecting'
+import ScreenError from './ScreenError'
 import ScreenPromptingAction from './ScreenPromptingAction'
-import HeaderPopover from '../Header/HeaderPopover'
+import ScreenProviders from './ScreenProviders'
 
 import { addEthereumChain } from '../../networks'
 
@@ -131,12 +131,10 @@ function AccountModule({ compact }) {
           label="Enable account"
           onClick={toggle}
           display={compact ? 'icon' : 'all'}
-          // disabled={isLoading}
         />
       )}
-      <HeaderPopover
+      <AccountPopover
         direction={direction}
-        heading={screen.title}
         onClose={handlePopoverClose}
         opener={buttonRef.current}
         screenId={screenId}
@@ -170,7 +168,6 @@ function AccountModule({ compact }) {
               <ScreenConnected
                 providerId={connector}
                 onClosePopover={handlePopoverClose}
-                wallet={wallet}
               />
             )
           }
@@ -187,7 +184,7 @@ function AccountModule({ compact }) {
           }
           return <ScreenProviders onActivate={activate} />
         }}
-      </HeaderPopover>
+      </AccountPopover>
     </div>
   )
 }

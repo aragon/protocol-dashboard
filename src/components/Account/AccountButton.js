@@ -7,7 +7,7 @@ import useProfileName from '../../hooks/useProfileName'
 import { useWallet } from 'use-wallet'
 import { shortenAddress } from '../../lib/web3-utils'
 
-function AccountButton({ label, onClick }) {
+function AccountButton({ onClick }) {
   const theme = useTheme()
   const wallet = useWallet()
   const profileName = useProfileName(wallet.account)
@@ -65,7 +65,6 @@ function AccountButton({ label, onClick }) {
   )
 }
 AccountButton.propTypes = {
-  label: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 }
 
