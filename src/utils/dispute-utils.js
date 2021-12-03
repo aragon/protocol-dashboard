@@ -4,7 +4,6 @@ import { getOutcomeNumber } from './crvoting-utils'
 import * as DisputesTypes from '../types/dispute-status-types'
 import { getTermEndTime, getTermStartTime } from './court-utils'
 import { getVoidedDisputesByCourt } from '../flagged-disputes/voided-disputes'
-import { getPrecedenceCampaignDisputesByCourt } from '../flagged-disputes/precedence-campaign-disputes'
 
 export const FINAL_ROUND_WEIGHT_PRECISION = bigNum(1000)
 export const PCT_BASE = bigNum(10000)
@@ -85,11 +84,6 @@ export function transformDisputeDataAttributes(dispute) {
         ? DisputesTypes.Status.Closed
         : DisputesTypes.Status.Open,
   }
-
-  // If the dispute is part of the precedence campaign we will flag it as such
-  const precedenceCamapignDisputes = getPrecedenceCampaignDisputesByCourt()
-  const isPartOfPrecedenceCampaign = precedenceCamapignDisputes.has(dispute.id)
-  transformedDispute.marksPrecedent = isPartOfPrecedenceCampaign
 
   // If the dispute is voided we will override certain data
   const voidedDisputes = getVoidedDisputesByCourt()
