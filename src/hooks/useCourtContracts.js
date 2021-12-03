@@ -6,7 +6,7 @@ import { useCourtConfig } from '../providers/CourtConfig'
 import { useActivity } from '../providers/ActivityProvider'
 import { useRequestQueue } from '../providers/RequestQueue'
 import { useRequestProcessor } from './useRequestProcessor'
-import { useContract } from '../web3-contracts'
+import { useContract, useContractReadOnly } from '../web3-contracts'
 
 // utils
 import radspec from '../radspec'
@@ -48,13 +48,34 @@ export function useAgreementContract(subject) {
   return useContract(subject, agreementAbi)
 }
 
+function useHNYTokenAddress() {
+  const { anjToken } = useCourtConfig()
+  return anjToken ? anjToken.id : null
+}
+
+function useModuleContractAddress(moduleType) {
+  const { id, modules } = useCourtConfig() || {}
+
+  let contractAddress
+  if (moduleType === CourtModuleType.AragonCourt) {
+    contractAddress = id
+  } else {
+    contractAddress = getModuleAddress(modules, moduleType)
+  }
+
+  return contractAddress
+}
+
 // HNY contract
 function useHNYTokenContract() {
-  const { anjToken } = useCourtConfig()
+  const hnyTokenAddress = useHNYTokenAddress()
+  return useContract(hnyTokenAddress, tokenAbi)
+}
 
-  const anjTokenAddress = anjToken ? anjToken.id : null
-
-  return useContract(anjTokenAddress, tokenAbi)
+// HNY contract
+function useHNYTokenContractReadOnly() {
+  const hnyTokenAddress = useHNYTokenAddress()
+  return useContractReadOnly(hnyTokenAddress, tokenAbi)
 }
 
 // Fee token contract
@@ -68,16 +89,13 @@ function useFeeTokenContract() {
 
 // Court contracts
 function useCourtContract(moduleType, abi) {
-  const { id, modules } = useCourtConfig() || {}
-
-  let contractAddress
-  if (moduleType === CourtModuleType.AragonCourt) {
-    contractAddress = id
-  } else {
-    contractAddress = getModuleAddress(modules, moduleType)
-  }
-
+  const contractAddress = useModuleContractAddress(moduleType)
   return useContract(contractAddress, abi)
+}
+
+function useCourtContractReadOnly(moduleType, abi) {
+  const contractAddress = useModuleContractAddress(moduleType)
+  return useContractReadOnly(contractAddress, abi)
 }
 
 /**
@@ -648,6 +666,11 @@ export function useCourtSubscriptionActions() {
     courtSubscriptionsAbi
   )
 
+  const courtSubscriptionsContractReadOnly = useCourtContractReadOnly(
+    CourtModuleType.Subscriptions,
+    courtSubscriptionsAbi
+  )
+
   const claimFees = useCallback(
     periodId => {
       return {
@@ -666,9 +689,9 @@ export function useCourtSubscriptionActions() {
 
   const getJurorShare = useCallback(
     juror => {
-      return courtSubscriptionsContract.getJurorShare(juror)
+      return courtSubscriptionsContractReadOnly.getJurorShare(juror)
     },
-    [courtSubscriptionsContract]
+    [courtSubscriptionsContractReadOnly]
   )
 
   const getters = useMemo(
@@ -858,7 +881,7 @@ function useTokenAllowance(contract, owner, spender) {
 }
 
 export function useActiveBalanceOfAt(juror, termId) {
-  const jurorRegistryContract = useCourtContract(
+  const jurorRegistryContract = useCourtContractReadOnly(
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
@@ -901,7 +924,7 @@ export function useActiveBalanceOfAt(juror, termId) {
 }
 
 export function useHNYBalanceOfPolling(account) {
-  const hnyTokenContract = useHNYTokenContract()
+  const hnyTokenContract = useHNYTokenContractReadOnly()
   const [balance, setBalance] = useState(bigNum(-1))
 
   const timer = 3000
@@ -939,7 +962,7 @@ export function useHNYBalanceOfPolling(account) {
 
 export function useMaxActiveBalance(termId) {
   const [maxActiveBalance, setMaxActiveBalance] = useState(bigNum(0))
-  const jurorRegistryContract = useCourtContract(
+  const jurorRegistryContract = useCourtContractReadOnly(
     CourtModuleType.JurorsRegistry,
     jurorRegistryAbi
   )
@@ -976,7 +999,7 @@ export function useMaxActiveBalance(termId) {
 }
 export function useJurorUniqueUserId(juror) {
   const [uniqueUserId, setUniqueUserID] = useState(null)
-  const brightIdRegisterContract = useCourtContract(
+  const brightIdRegisterContract = useCourtContractReadOnly(
     CourtModuleType.BrightIdRegister,
     brightIdRegisterAbi
   )

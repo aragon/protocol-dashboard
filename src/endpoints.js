@@ -16,6 +16,7 @@ export const WALLET_CONNECT_BRIDGE_ENDPOINT =
 
 // Court server endpoint
 export function courtServerEndpoint() {
+  // TODO: Should we accpet a chainID as well?
   if (isLocalOrUnknownNetwork()) {
     return 'http://127.0.0.1:8050'
   }
@@ -26,17 +27,17 @@ export function courtServerEndpoint() {
   }.1hive.org`
 }
 
-export function defaultSubgraphEndpoint() {
-  const { nodes } = getNetworkConfig()
+export function defaultSubgraphEndpoint(chainId) {
+  const { nodes } = getNetworkConfig(chainId)
   return nodes.subgraph
 }
 
-export function defaultEthNodeEndpoint() {
-  return getNetworkConfig().nodes.defaultEth
+export function defaultEthNodeEndpoint(chainId) {
+  return getNetworkConfig(chainId).nodes.defaultEth
 }
 
-export const defaultIpfsEndpoint = () => {
-  return isLocalOrUnknownNetwork()
+export const defaultIpfsEndpoint = chainId => {
+  return isLocalOrUnknownNetwork(chainId)
     ? 'http://127.0.0.1:8080/ipfs'
     : 'https://ipfs.io/ipfs/'
 }

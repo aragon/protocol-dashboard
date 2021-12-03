@@ -4,12 +4,14 @@ import { EthIdenticon, GU, RADIUS, textStyle, useTheme } from '@1hive/1hive-ui'
 
 import HeaderModule from '../Header/HeaderModule'
 import useProfileName from '../../hooks/useProfileName'
-import { useWallet } from 'use-wallet'
-import { shortenAddress } from '../../lib/web3-utils'
+import { useWallet } from '../../providers/Wallet'
+
+import { getNetworkName, shortenAddress } from '../../lib/web3-utils'
 
 function AccountButton({ onClick }) {
   const theme = useTheme()
   const wallet = useWallet()
+  const networkName = getNetworkName(wallet.chainId)
   const profileName = useProfileName(wallet.account)
 
   return (
@@ -56,7 +58,7 @@ function AccountButton({ onClick }) {
               color: ${theme.positive};
             `}
           >
-            Connected
+            Connected to {networkName}
           </div>
         </>
       }

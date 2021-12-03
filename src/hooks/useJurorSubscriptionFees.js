@@ -24,12 +24,13 @@ export default function useJurorSubscriptionFees() {
   const periods = subscriptionModule?.periods || []
 
   const availableBalance = useHNYBalanceOfPolling(subscriptionModule?.id)
+  const availableBalanceStr = availableBalance.toString()
 
   useEffect(() => {
     let cancelled = false
 
     const fetchSubscriptionFees = async () => {
-      if (periods.length < 1 || !getters || !claimedSubscriptionFees) {
+      if (periods.length < 2 || !getters || !claimedSubscriptionFees) {
         return
       }
 
@@ -48,7 +49,7 @@ export default function useJurorSubscriptionFees() {
           jurorSubscriptionsFees.push({
             periodId,
             amount: jurorShare[1],
-            owed: jurorShare[1].gt(availableBalance),
+            owed: jurorShare[1].gt(availableBalanceStr),
           })
         }
 
@@ -69,7 +70,7 @@ export default function useJurorSubscriptionFees() {
       cancelled = true
     }
   }, [
-    availableBalance,
+    availableBalanceStr,
     claimedSubscriptionFees,
     getters,
     periods,

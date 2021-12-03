@@ -13,7 +13,7 @@ import { ActivityProvider } from './providers/ActivityProvider'
 import { CourtClockProvider } from './providers/CourtClock'
 import { CourtConfigProvider } from './providers/CourtConfig'
 import { RequestQueueProvider } from './providers/RequestQueue'
-import { SubGraphProvider } from './providers/Subgraph'
+import { SubgraphProvider } from './providers/Subgraph'
 import { WalletProvider } from './providers/Wallet'
 import { useClientTheme } from './providers/ClientTheme'
 
@@ -21,7 +21,7 @@ function App() {
   const { appearance } = useClientTheme()
   return (
     <WalletProvider>
-      <SubGraphProvider>
+      <SubgraphProvider>
         <HashRouter>
           <ActivityProvider>
             <Main
@@ -52,7 +52,7 @@ function App() {
             </Main>
           </ActivityProvider>
         </HashRouter>
-      </SubGraphProvider>
+      </SubgraphProvider>
     </WalletProvider>
   )
 }

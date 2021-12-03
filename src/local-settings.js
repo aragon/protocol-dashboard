@@ -4,14 +4,17 @@ import {
   defaultSubgraphEndpoint,
 } from './endpoints'
 import env from './environment'
+import { getNetworkType } from './lib/web3-utils'
 
 const CLIENT_THEME = 'THEME'
 const DEFAULT_CHAIN_ID = 100
-const DEFAULT_ETH_NODE = 'DEFAULT_ETH_NODE'
+const DEFAULT_ETH_NODE = chainId =>
+  `${getNetworkType(chainId).toUpperCase()}DEFAULT_ETH_NODE`
 const IPFS_GATEWAY = 'IPFS_GATEWAY'
 const PACKAGE_VERSION = 'PACKAGE_VERSION'
 const PREFERRED_CHAIN_ID_KEY = 'CHAIN_ID'
-const SUBGRAPH_HTTP_ENDPOINT = 'SUBGRAPH_HTTP_ENDPOINT'
+const SUBGRAPH_HTTP_ENDPOINT = chainId =>
+  `${getNetworkType(chainId).toUpperCase()}SUBGRAPH_HTTP_ENDPOINT}`
 
 // Get a setting from localStorage
 function getLocalStorageSetting(confKey) {
@@ -45,12 +48,15 @@ export function clearLocalStorageNetworkSettings() {
   window.localStorage.removeItem('SUBGRAPH_HTTP_ENDPOINT_KEY')
 }
 
-export function getDefaultEthNode() {
-  return getLocalSetting(DEFAULT_ETH_NODE) || defaultEthNodeEndpoint()
+export function getDefaultEthNode(chainId) {
+  return (
+    getLocalSetting(DEFAULT_ETH_NODE(chainId)) ||
+    defaultEthNodeEndpoint(chainId)
+  )
 }
 
-export function setDefaultEthNode(node) {
-  return setLocalSetting(DEFAULT_ETH_NODE, node)
+export function setDefaultEthNode(node, chainId) {
+  return setLocalSetting(DEFAULT_ETH_NODE(chainId), node)
 }
 
 export function getIpfsGateway() {
@@ -75,12 +81,15 @@ export function setPackageVersion(version) {
   return setLocalSetting(PACKAGE_VERSION, version)
 }
 
-export function getSubgraphHttpEndpoint() {
-  return getLocalSetting(SUBGRAPH_HTTP_ENDPOINT) || defaultSubgraphEndpoint()
+export function getSubgraphHttpEndpoint(chainId) {
+  return (
+    getLocalSetting(SUBGRAPH_HTTP_ENDPOINT(chainId)) ||
+    defaultSubgraphEndpoint(chainId)
+  )
 }
 
-export function setSubgraphHttpEndpoint(endpoint) {
-  return setLocalSetting(SUBGRAPH_HTTP_ENDPOINT, endpoint)
+export function setSubgraphHttpEndpoint(endpoint, chainId) {
+  return setLocalSetting(SUBGRAPH_HTTP_ENDPOINT(chainId), endpoint)
 }
 
 export function getClientTheme() {

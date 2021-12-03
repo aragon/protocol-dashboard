@@ -129,8 +129,8 @@ export function getSupportedChainsNamesFormatted() {
   return networkNames
 }
 
-export function getEthersNetwork() {
-  const { type, chainId, ensRegistry } = getNetworkConfig()
+export function getEthersNetwork(chainId) {
+  const { type, ensRegistry } = getNetworkConfig(chainId)
   return {
     name: type,
     chainId: chainId,

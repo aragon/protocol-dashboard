@@ -5,14 +5,14 @@ import {
   cacheExchange,
   debugExchange,
 } from 'urql'
+import { useSubgraphEndpoint } from '../hooks/useEndpoints'
 import { devtoolsExchange } from '@urql/devtools'
 import { getFetchExchange } from '../graphql-exchanges'
-import { getSubgraphHttpEndpoint } from '../local-settings'
 
 const SubgraphContext = React.createContext({ resetSubgraphClient: null })
 
-function SubGraphProvider({ children }) {
-  const defaultSubgraphHttpEndpoint = getSubgraphHttpEndpoint()
+function SubgraphProvider({ children }) {
+  const defaultSubgraphHttpEndpoint = useSubgraphEndpoint()
   const newClient = useCallback(
     () =>
       createClient({
@@ -46,4 +46,4 @@ function SubGraphProvider({ children }) {
 
 const useSubgraph = () => React.useContext(SubgraphContext)
 
-export { SubGraphProvider, useSubgraph }
+export { SubgraphProvider, useSubgraph }

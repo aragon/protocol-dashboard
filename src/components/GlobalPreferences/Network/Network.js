@@ -9,10 +9,11 @@ import {
   useLayout,
   useTheme,
 } from '@1hive/1hive-ui'
+import { useEnterKey } from '../../../hooks/useKeyboardArrows'
+import { useSubgraph } from '../../../providers/Subgraph'
+import { useWallet } from '../../../providers/Wallet'
 import {
   getIpfsGateway,
-  getDefaultEthNode,
-  getSubgraphHttpEndpoint,
   clearLocalStorageNetworkSettings,
   setDefaultEthNode,
   setIpfsGateway,
@@ -25,8 +26,10 @@ import {
   sanitizeNetworkType,
 } from '../../../lib/web3-utils'
 import { validHttpFormat } from '../../../lib/uri-utils'
-import { useEnterKey } from '../../../hooks/useKeyboardArrows'
-import { useSubgraph } from '../../../providers/Subgraph'
+import {
+  useEthNodeEndpoint,
+  useSubgraphEndpoint,
+} from '../../../hooks/useEndpoints'
 
 function Network() {
   const {
@@ -123,8 +126,8 @@ function Field({ label, text, onTextChange, error }) {
 
 const useNetwork = () => {
   const defaultIpfsGateway = getIpfsGateway()
-  const defaultEthNode = getDefaultEthNode()
-  const defaultSubgraphEndpoint = getSubgraphHttpEndpoint()
+  const defaultEthNode = useEthNodeEndpoint()
+  const defaultSubgraphEndpoint = useSubgraphEndpoint()
 
   const [settingsErrors, setSettingsErrors] = useState(null)
   const [ethNode, setEthNodeValue] = useState(defaultEthNode)
@@ -133,8 +136,9 @@ const useNetwork = () => {
     defaultSubgraphEndpoint
   )
 
+  const { chainId } = useWallet()
   const { resetSubgraphClient } = useSubgraph()
-  const networkType = getNetworkType()
+  const networkType = getNetworkType(chainId)
 
   const subgraphChanged = subgraphHttpEndpoint !== defaultSubgraphEndpoint
 
@@ -160,7 +164,7 @@ const useNetwork = () => {
       return
     }
     setDefaultEthNode(ethNode)
-    setSubgraphHttpEndpoint(subgraphHttpEndpoint)
+    setSubgraphHttpEndpoint(subgraphHttpEndpoint, chainId)
     setIpfsGateway(ipfsGateway)
 
     if (subgraphChanged) {
@@ -168,13 +172,14 @@ const useNetwork = () => {
     }
     window.location.reload()
   }, [
+    chainId,
     defaultsChanged,
     ethNode,
-    subgraphHttpEndpoint,
-    networkType,
     ipfsGateway,
-    subgraphChanged,
+    networkType,
     resetSubgraphClient,
+    subgraphChanged,
+    subgraphHttpEndpoint,
   ])
 
   const handleClearNetworkSettings = useCallback(() => {
@@ -192,11 +197,11 @@ const useNetwork = () => {
     handleClearNetworkSettings,
     settingsErrors,
     handleEthNodeChange: ({ currentTarget: { value } }) =>
-      setEthNodeValue(value),
+      setEthNodeValue(value, chainId),
     handleIpfsGatewayChange: ({ currentTarget: { value } }) =>
       setIpfsGatewayValue(value),
     handleSubgraphHttpEndpointChange: ({ currentTarget: { value } }) =>
-      setSubgraphHttpEndpointValue(value),
+      setSubgraphHttpEndpointValue(value, chainId),
   }
 }
 
