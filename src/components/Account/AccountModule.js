@@ -10,8 +10,6 @@ import ScreenError from './ScreenError'
 import ScreenPromptingAction from './ScreenPromptingAction'
 import ScreenProviders from './ScreenProviders'
 
-import { addEthereumChain } from '../../networks'
-
 const SCREENS = [
   {
     id: 'providers',
@@ -33,30 +31,29 @@ const SCREENS = [
 function AccountModule({ compact }) {
   const buttonRef = useRef()
 
-  const wallet = useWallet()
+  const {
+    account,
+    activating,
+    connect,
+    connector,
+    error,
+    resetConnection,
+    switchingNetworks,
+  } = useWallet()
   const [opened, setOpened] = useState(false)
   const [activatingDelayed, setActivatingDelayed] = useState(false)
-  const [creatingNetwork, setCreatingNetwork] = useState(false)
-  const { account, activating, connector, error } = wallet
 
   const toggle = useCallback(() => setOpened(opened => !opened), [])
-
-  const handleCancelConnection = useCallback(() => {
-    wallet.reset()
-  }, [wallet])
 
   const activate = useCallback(
     async providerId => {
       try {
-        setCreatingNetwork(true)
-        await addEthereumChain()
-        setCreatingNetwork(false)
-        await wallet.connect(providerId)
+        await connect(providerId)
       } catch (error) {
         console.log('error ', error)
       }
     },
-    [wallet]
+    [connect]
   )
 
   // Always show the “connecting…” screen, even if there are no delay
@@ -85,7 +82,7 @@ function AccountModule({ compact }) {
     const screenId = (() => {
       if (error) return 'error'
       if (activatingDelayed) return 'connecting'
-      if (creatingNetwork) return 'networks'
+      if (switchingNetworks) return 'networks'
       if (account) return 'connected'
       return 'providers'
     })()
@@ -96,7 +93,7 @@ function AccountModule({ compact }) {
     previousScreenIndex.current = screenIndex
 
     return { direction, screenIndex }
-  }, [error, activatingDelayed, creatingNetwork, account])
+  }, [activatingDelayed, account, error, switchingNetworks])
 
   const screen = SCREENS[screenIndex]
   const screenId = screen.id
@@ -159,7 +156,7 @@ function AccountModule({ compact }) {
             return (
               <ScreenConnecting
                 providerId={connector}
-                onCancel={handleCancelConnection}
+                onCancel={resetConnection}
               />
             )
           }
@@ -173,10 +170,7 @@ function AccountModule({ compact }) {
           }
           if (screenId === 'error') {
             return (
-              <ScreenError
-                error={activationError}
-                onBack={handleCancelConnection}
-              />
+              <ScreenError error={activationError} onBack={resetConnection} />
             )
           }
           if (screen.id === 'networks') {
