@@ -30,7 +30,12 @@ export default function useJurorSubscriptionFees() {
     let cancelled = false
 
     const fetchSubscriptionFees = async () => {
-      if (periods.length < 2 || !getters || !claimedSubscriptionFees) {
+      if (
+        periods.length < 1 ||
+        periods[0].id === 0 ||
+        !getters ||
+        !claimedSubscriptionFees
+      ) {
         return
       }
 

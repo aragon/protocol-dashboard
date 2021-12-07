@@ -6,7 +6,7 @@
   "author": "1Hive",
   "dependencies": {
     "3box": "=1.22.0",
-    "@1hive/1hive-ui": "^1.0.11",
+    "@1hive/1hive-ui": "^1.0.14",
     "@aragon/connect": "^0.6.0",
     "@sentry/browser": "^5.12.1",
     "@web3-react/core": "^6.0.2",
