@@ -23,8 +23,9 @@ export const groupMovements = movements => {
 
       if (
         index > 0 &&
-        anjMovementTypes[prevMovement.type] === anjMovementTypes.Activation &&
-        anjMovementTypes[currentMovement.type] === anjMovementTypes.Stake &&
+        anjMovementTypes[currentMovement.type] ===
+          anjMovementTypes.Activation &&
+        anjMovementTypes[prevMovement.type] === anjMovementTypes.Stake &&
         prevMovement.createdAt === currentMovement.createdAt
       ) {
         movements[movements.length - 1].type = STAKE_ACTIVATION_MOVEMENT
