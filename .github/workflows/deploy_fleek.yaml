@@ -47,7 +47,7 @@ jobs:
               -H 'Content-Type: multipart/form-data' \
               -H 'kbn-xsrf: true' \
               -H 'Authorization: ApiKey ${{ secrets.APM_API_KEY }}' \
-              -F service_name="govern" \
+              -F service_name="court" \
               -F service_version="$COMMIT_SHA" \
               -F bundle_filepath="http://localhost/static/js/$(basename $f)" \
               -F sourcemap=@$f
@@ -108,7 +108,7 @@ jobs:
               -H 'Content-Type: multipart/form-data' \
               -H 'kbn-xsrf: true' \
               -H 'Authorization: ApiKey ${{ secrets.APM_API_KEY }}' \
-              -F service_name="govern" \
+              -F service_name="court" \
               -F service_version="$COMMIT_SHA" \
               -F bundle_filepath="http://localhost/static/js/$(basename $f)" \
               -F sourcemap=@$f
