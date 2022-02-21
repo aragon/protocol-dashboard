@@ -43,7 +43,14 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           for f in ./build/static/**/*.js.map ; do 
-            curl -X POST https://apm-monitoring.aragon.org/assets/v1/sourcemaps -F service_name="court" -F service_version="$COMMIT_SHA" -F bundle_filepath="http://localhost/static/js/bundle.js" -F sourcemap=@$f
+            curl -X POST "https://kibana-sourcemaps.aragon.org/api/apm/sourcemaps" \
+              -H 'Content-Type: multipart/form-data' \
+              -H 'kbn-xsrf: true' \
+              -H 'Authorization: ApiKey ${{ secrets.APM_API_KEY }}' \
+              -F service_name="govern" \
+              -F service_version="$COMMIT_SHA" \
+              -F bundle_filepath="http://localhost/static/js/$(basename $f)" \
+              -F sourcemap=@$f
           done
   build-deploy-develop:
     runs-on: ubuntu-latest
@@ -51,16 +58,16 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
-        environment: ['RINKEBY', 'STAGING']
+        environment: ["RINKEBY", "STAGING"]
         include:
-          - environment: 'RINKEBY'
-            fleekfile: 'rinkeby.json'
-            environment_name: 'rinkeby'
-            subgraph_name: ''
-          - environment: 'STAGING'
-            fleekfile: 'staging.json'
-            environment_name: 'staging'
-            subgraph_name: 'staging'
+          - environment: "RINKEBY"
+            fleekfile: "rinkeby.json"
+            environment_name: "rinkeby"
+            subgraph_name: ""
+          - environment: "STAGING"
+            fleekfile: "staging.json"
+            environment_name: "staging"
+            subgraph_name: "staging"
     environment: ${{ matrix.environment }}
     steps:
       - uses: actions/checkout@v2
@@ -80,7 +87,7 @@ jobs:
           REACT_APP_CHAIN_ID: 4
           REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
           REACT_APP_SUBGRAPH_NAME: ${{ matrix.subgraph_name }}
-        run:  yarn build
+        run: yarn build
       - name: Activate fleek
         env:
           FLEEK_FILE: ${{ matrix.fleekfile }}
@@ -97,5 +104,12 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           for f in ./build/static/**/*.js.map ; do 
-            curl -X POST https://apm-monitoring.aragon.org/assets/v1/sourcemaps -F service_name="court" -F service_version="$COMMIT_SHA" -F bundle_filepath="http://localhost/static/js/bundle.js" -F sourcemap=@$f
+            curl -X POST "https://kibana-sourcemaps.aragon.org/api/apm/sourcemaps" \
+              -H 'Content-Type: multipart/form-data' \
+              -H 'kbn-xsrf: true' \
+              -H 'Authorization: ApiKey ${{ secrets.APM_API_KEY }}' \
+              -F service_name="govern" \
+              -F service_version="$COMMIT_SHA" \
+              -F bundle_filepath="http://localhost/static/js/$(basename $f)" \
+              -F sourcemap=@$f
           done
