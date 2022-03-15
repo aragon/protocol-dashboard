@@ -21,8 +21,9 @@ jobs:
         run: yarn lint
       - name: Build Celeste Dashboard
         run: yarn build
-      - name: Run BundleWatch
-        run: yarn bundlewatch
+     # disabled temporaly
+     # - name: Run BundleWatch
+     #   run: yarn bundlewatch
     env:
       CI: true
       BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
