@@ -24,6 +24,7 @@ function getBackendServicesKeys() {
 }
 
 export function getDefaultProvider(chainId = getPreferredChain()) {
+  if (chainId == null) chainId = getPreferredChain()
   const type = getNetworkType(chainId)
   const defaultEthNode = getDefaultEthNode(chainId)
 
