@@ -16,9 +16,7 @@ jobs:
         with:
           node-version: 16
       - name: Install dependencies
-        run: |
-          yarn policies set-version 1.22.0
-          yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
       - name: Build Celeste Dashboard
