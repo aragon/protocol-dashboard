@@ -202,7 +202,24 @@ async function processRawDisputeData(dispute) {
         try {
           // Parse IPFS content
           const parsedDisputeData = JSON.parse(data)
-          const agreementText = parsedDisputeData.agreementText.replace(
+          // parsedDisputeData.agreementText = "";
+          // let some = {
+          //   agreementText: 'QmfWppqC55Xc7PU48vei2XvVAuH76z2rNFF7JMUhjVM5xV',
+          //   description: 'Claim action on Sua et facto',
+          //   disputedActionText: 'Challenged Quest claim',
+          //   disputedActionURL:
+          //     'https://api.thegraph.com/ipfs/api/v0/cat?arg=QmbBVFNLyvuKcxf6Pqny41oMXGJ7JZF8GF9SG7dixzpkja',
+          //   agreementTitle: '1Hive Community Covenant',
+          //   disputedActionRadspec:
+          //     'https://quests.1hive.org/#/detail?id=0x44768B67da9f90c36D18EBa2EEc699e1db3F1D15',
+          //   organization: 'Quests',
+          //   defendant: '0x91B0d67D3F47A30FBEeB159E67209Ad6cb2cE22E',
+          // }
+
+          // parsedDisputeData = { ...parsedDisputeData, ...some }
+
+          console.log('parsedDisputeData', parsedDisputeData)
+          const agreementText = parsedDisputeData.agreementText?.replace(
             /^.\//,
             ''
           )
@@ -239,6 +256,7 @@ async function processRawDisputeData(dispute) {
             plaintiff,
           }
         } catch (err) {
+          console.error(err)
           return {
             description: data,
           }

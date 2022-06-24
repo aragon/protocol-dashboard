@@ -172,6 +172,37 @@ export function useCourtConfigSubscription(courtAddress) {
 export function useSingleDisputeSubscription(id) {
   const [{ data, error }] = useQuerySub(SingleDispute, { id })
 
+
+  console.log('dispute', data?.dispute)
+  if (data?.dispute?.id === '4') {
+    let meta = {
+      metadata: 'ipfs:QmUZFWYmGQuyZiz7NWuFRyURgpx191ZgFWojq5SV15mNog',
+    }
+    // let meta = {
+    //   evidence:
+    //     '## Test evidence of completion\n### could contains some markdown\nbold\n\nitalic',
+    //   contactInformation: '@Gossman',
+    //   description: 'Claim action on Sua et facto',
+    //   metadata: {
+    //     description: 'Claim action on Sua et facto',
+    //     disputedActionText: 'Challenged Quest claim',
+    //     disputedActionURL:
+    //       'https://api.thegraph.com/ipfs/api/v0/cat?arg=QmcSRB5n7xxg5HViQEbANC6yG5akYkV3V4TwCJqYPkpbXH',
+    //     agreementTitle: '1Hive Community Covenant',
+    //     agreementText: 'QmfWppqC55Xc7PU48vei2XvVAuH76z2rNFF7JMUhjVM5xV',
+    //     disputedActionRadspec:
+    //       'https://quests.1hive.org/#/detail?id=0x44768B67da9f90c36D18EBa2EEc699e1db3F1D15',
+    //     organization: 'Quests',
+    //     defendant: '0x07AD02e0C1FA0b09fC945ff197E18e9C256838c6',
+    //   },
+    // }
+    data.dispute.metadata = JSON.stringify(meta);
+
+    // dispute.metadataUri = 'ipfs:QmWoApurgZW52f93xExCsMp5GBtGu7Y2HyHMDZCPVEnoQT';
+    // dispute.metadataUri = 'https://api.thegraph.com/ipfs/api/v0/cat?arg=QmWoApurgZW52f93xExCsMp5GBtGu7Y2HyHMDZCPVEnoQT';
+    // dispute.rawMetadata = 'some awesome thing here'
+  }
+
   const dispute = useMemo(
     () =>
       data && data.dispute

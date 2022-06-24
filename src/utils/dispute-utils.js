@@ -53,6 +53,7 @@ export function transformRoundDataAttributes(round) {
  * @returns {Array<String>} Array where the first item is the dispute description and second item is the metadata uri if it exists
  */
 function parseMetadata(dispute) {
+  console.log('parseMetadata')
   if (dispute.disputable) {
     return [
       `${dispute.disputable.title} Action # ${dispute.disputable.actionId}`,
@@ -60,15 +61,19 @@ function parseMetadata(dispute) {
   }
 
   try {
+    console.log('try parse metadata', dispute.metadata)
     const { description, metadata } = JSON.parse(dispute.metadata)
+    console.log('done', description)
     return [description, metadata]
   } catch (error) {
+    console.error('cant parse metada')
     // if is not a json return the metadata as the description
     return [dispute.metadata]
   }
 }
 
 export function transformDisputeDataAttributes(dispute) {
+  
   const [description, metadataUri] = parseMetadata(dispute)
 
   const transformedDispute = {

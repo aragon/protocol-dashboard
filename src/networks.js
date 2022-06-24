@@ -31,7 +31,7 @@ export const networkConfigs = {
     eip3085: {
       chainId: '0x64',
       chainName: 'xDai',
-      rpcUrls: ['https://rpc.xdaichain.com/'],
+      rpcUrls: ['https://rpc.gnosischain.com/'],
       iconUrls: [
         'https://gblobscdn.gitbook.com/spaces%2F-Lpi9AHj62wscNlQjI-l%2Favatar.png',
       ],
