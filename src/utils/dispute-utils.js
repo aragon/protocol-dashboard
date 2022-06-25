@@ -73,7 +73,6 @@ function parseMetadata(dispute) {
 }
 
 export function transformDisputeDataAttributes(dispute) {
-  
   const [description, metadataUri] = parseMetadata(dispute)
 
   const transformedDispute = {

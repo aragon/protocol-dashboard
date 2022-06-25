@@ -35,6 +35,7 @@ import {
 // types
 import { CourtModuleType } from '../types/court-module-types'
 import { JurorLastFeeWithdrawal } from '../queries/juror'
+import { ethers } from 'ethers'
 
 const NO_AMOUNT = bigNum(0)
 
@@ -172,35 +173,30 @@ export function useCourtConfigSubscription(courtAddress) {
 export function useSingleDisputeSubscription(id) {
   const [{ data, error }] = useQuerySub(SingleDispute, { id })
 
-
-  console.log('dispute', data?.dispute)
   if (data?.dispute?.id === '4') {
-    let meta = {
-      metadata: 'ipfs:QmUZFWYmGQuyZiz7NWuFRyURgpx191ZgFWojq5SV15mNog',
+    const meta = {
+      metadata: 'ipfs:QmRpT1jZbrH9uCwY7Rzj3S8bya1i8thjk1comT6K7C8TgF/',
     }
-    // let meta = {
-    //   evidence:
-    //     '## Test evidence of completion\n### could contains some markdown\nbold\n\nitalic',
-    //   contactInformation: '@Gossman',
-    //   description: 'Claim action on Sua et facto',
-    //   metadata: {
-    //     description: 'Claim action on Sua et facto',
-    //     disputedActionText: 'Challenged Quest claim',
-    //     disputedActionURL:
-    //       'https://api.thegraph.com/ipfs/api/v0/cat?arg=QmcSRB5n7xxg5HViQEbANC6yG5akYkV3V4TwCJqYPkpbXH',
-    //     agreementTitle: '1Hive Community Covenant',
-    //     agreementText: 'QmfWppqC55Xc7PU48vei2XvVAuH76z2rNFF7JMUhjVM5xV',
-    //     disputedActionRadspec:
-    //       'https://quests.1hive.org/#/detail?id=0x44768B67da9f90c36D18EBa2EEc699e1db3F1D15',
-    //     organization: 'Quests',
-    //     defendant: '0x07AD02e0C1FA0b09fC945ff197E18e9C256838c6',
-    //   },
-    // }
-    data.dispute.metadata = JSON.stringify(meta);
-
-    // dispute.metadataUri = 'ipfs:QmWoApurgZW52f93xExCsMp5GBtGu7Y2HyHMDZCPVEnoQT';
-    // dispute.metadataUri = 'https://api.thegraph.com/ipfs/api/v0/cat?arg=QmWoApurgZW52f93xExCsMp5GBtGu7Y2HyHMDZCPVEnoQT';
-    // dispute.rawMetadata = 'some awesome thing here'
+    data.dispute.metadata = JSON.stringify(meta)
+  } else {
+    // Decode Container from GovernQueue to get metadata
+    const containerAbi =
+      'tuple(tuple(uint256 nonce,uint256 executionTime,address submitter,address executor,tuple(address to,uint256 value,bytes data)[] actions,bytes32 allowFailuresMap,bytes proof) payload,tuple(uint256 executionDelay,tuple(address token,uint256 amount) scheduleDeposit,tuple(address token,uint256 amount) challengeDeposit,address resolver,bytes rules,uint256 maxCalldataSize) config) container'
+    try {
+      const result = ethers.utils.defaultAbiCoder.decode(
+        [containerAbi],
+        data?.dispute.rawMetadata
+      )
+      const [ipfsHash] = ethers.utils.defaultAbiCoder.decode(
+        ['bytes', 'address', 'uint256', 'bool'],
+        result.container.payload.actions[0].data.replace('b434151c', '')
+      )
+      data.dispute.metadata = JSON.stringify({
+        metadata: 'ipfs:' + ethers.utils.toUtf8String(ipfsHash),
+      })
+    } catch (error) {
+      console.error('Error decoding container', error)
+    }
   }
 
   const dispute = useMemo(
