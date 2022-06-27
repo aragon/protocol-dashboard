@@ -35,7 +35,6 @@ import {
 // types
 import { CourtModuleType } from '../types/court-module-types'
 import { JurorLastFeeWithdrawal } from '../queries/juror'
-import { ethers } from 'ethers'
 
 const NO_AMOUNT = bigNum(0)
 
@@ -172,32 +171,6 @@ export function useCourtConfigSubscription(courtAddress) {
  */
 export function useSingleDisputeSubscription(id) {
   const [{ data, error }] = useQuerySub(SingleDispute, { id })
-
-  if (data?.dispute?.id === '4') {
-    const meta = {
-      metadata: 'ipfs:QmRpT1jZbrH9uCwY7Rzj3S8bya1i8thjk1comT6K7C8TgF/',
-    }
-    data.dispute.metadata = JSON.stringify(meta)
-  } else {
-    // Decode Container from GovernQueue to get metadata
-    const containerAbi =
-      'tuple(tuple(uint256 nonce,uint256 executionTime,address submitter,address executor,tuple(address to,uint256 value,bytes data)[] actions,bytes32 allowFailuresMap,bytes proof) payload,tuple(uint256 executionDelay,tuple(address token,uint256 amount) scheduleDeposit,tuple(address token,uint256 amount) challengeDeposit,address resolver,bytes rules,uint256 maxCalldataSize) config) container'
-    try {
-      const result = ethers.utils.defaultAbiCoder.decode(
-        [containerAbi],
-        data?.dispute.rawMetadata
-      )
-      const [ipfsHash] = ethers.utils.defaultAbiCoder.decode(
-        ['bytes', 'address', 'uint256', 'bool'],
-        result.container.payload.actions[0].data.replace('b434151c', '')
-      )
-      data.dispute.metadata = JSON.stringify({
-        metadata: 'ipfs:' + ethers.utils.toUtf8String(ipfsHash),
-      })
-    } catch (error) {
-      console.error('Error decoding container', error)
-    }
-  }
 
   const dispute = useMemo(
     () =>
