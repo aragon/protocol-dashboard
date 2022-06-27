@@ -64,7 +64,7 @@ function parseMetadata(dispute) {
   if (dispute?.id === '4') {
     // Dispute witht id 4 is an already existing dispute during the development so needs backward compatibility
     const meta = {
-      metadata: 'ipfs:QmRpT1jZbrH9uCwY7Rzj3S8bya1i8thjk1comT6K7C8TgF',
+      metadata: 'ipfs:Qmat1ros6hWBGwBECXhYvUHumqyzeduTu1JGDk8JvsceDv',
     }
     dispute.metadata = JSON.stringify(meta)
   } else {
