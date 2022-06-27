@@ -94,7 +94,6 @@ function parseMetadata(dispute) {
 
   try {
     const { description, metadata } = JSON.parse(dispute.metadata)
-    console.log('{ description, metadata }', { description, metadata })
     return [description, metadata]
   } catch (error) {
     // if is not a json return the metadata as the description
