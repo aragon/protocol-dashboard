@@ -6,12 +6,12 @@ describe('Test getDefaultProvider()', () => {
   it('should test getDefaultProvider(null) and return default XDAI url connection', () => {
     const ret = getDefaultProvider(null)
     expect(ret.connection.url).not.toBe('http://localhost:8545')
-    expect(ret.connection.url).toBe('https://rpc.xdaichain.com')
+    expect(ret.connection.url).toBe('https://rpc.gnosischain.com')
   })
 
   it('should test getDefaultProvider() and return default XDAI url connection', () => {
     const ret = getDefaultProvider(undefined)
-    expect(ret.connection.url).toBe('https://rpc.xdaichain.com')
+    expect(ret.connection.url).toBe('https://rpc.gnosischain.com')
   })
 
   it('should test getDefaultProvider(4) and return same chainID', () => {
@@ -21,7 +21,7 @@ describe('Test getDefaultProvider()', () => {
 
   it('should test getDefaultProvider(100) and return url connection', () => {
     const ret = getDefaultProvider(100)
-    expect(ret.connection.url).toBe('https://rpc.xdaichain.com')
+    expect(ret.connection.url).toBe('https://rpc.gnosischain.com')
   })
 })
 

@@ -191,60 +191,59 @@ async function processDisputableData(dispute) {
  */
 async function processRawDisputeData(dispute) {
   const { description: disputeDescription, metadataUri } = dispute
+  let data
 
   if (metadataUri) {
     const ipfsPath = getIpfsCidFromUri(metadataUri)
+    // Fetch IPFS content
+    const res = await ipfsGet(ipfsPath)
+    if (res.error) {
+      console.error('Erreor fetching ipfs : ' + ipfsPath, res.error)
+    } else {
+      data = JSON.parse(res.data)
+    }
+    try {
+      const agreementText = data.agreementText?.replace(/^.\//, '')
+      // Note that in this case, we expect the agreement's location to be relative to the
+      // metadata URI. For example, if the metadataUri is `<cid>/metadata.json`, the agreement's
+      // location would be `<cid>/<agreement>`
+      const agreementUrl =
+        ipfsPath && agreementText
+          ? resolvePathname(
+              agreementText,
+              `${defaultIpfsEndpoint()}/${ipfsPath}`
+            )
+          : ''
 
-    if (ipfsPath) {
-      // Fetch IPFS content
-      const { data, error } = await ipfsGet(ipfsPath)
-      if (!error) {
-        try {
-          // Parse IPFS content
-          const parsedDisputeData = JSON.parse(data)
-          const agreementText = parsedDisputeData.agreementText.replace(
-            /^.\//,
-            ''
-          )
-          // Note that in this case, we expect the agreement's location to be relative to the
-          // metadata URI. For example, if the metadataUri is `<cid>/metadata.json`, the agreement's
-          // location would be `<cid>/<agreement>`
-          const agreementUrl = agreementText
-            ? resolvePathname(
-                agreementText,
-                `${defaultIpfsEndpoint()}/${ipfsPath}`
-              )
-            : ''
+      const {
+        agreementTitle = '',
+        defendant = '',
+        description = disputeDescription,
+        disputedActionRadspec = '',
+        disputedActionText = '',
+        disputedActionURL = '',
+        organization = '',
+        plaintiff = '',
+      } = data
 
-          const {
-            agreementTitle = '',
-            defendant = '',
-            description = disputeDescription,
-            disputedActionRadspec = '',
-            disputedActionText = '',
-            disputedActionURL = '',
-            organization = '',
-            plaintiff = '',
-          } = parsedDisputeData
-
-          return {
-            agreementText: agreementTitle || agreementText || '',
-            agreementUrl,
-            defendant,
-            description,
-            disputedActionRadspec,
-            disputedActionText,
-            disputedActionURL,
-            organization,
-            plaintiff,
-          }
-        } catch (err) {
-          return {
-            description: data,
-          }
-        }
+      return {
+        agreementText: agreementTitle || agreementText || '',
+        agreementUrl,
+        defendant,
+        description,
+        disputedActionRadspec,
+        disputedActionText,
+        disputedActionURL,
+        organization,
+        plaintiff,
+      }
+    } catch (err) {
+      console.error(err)
+      return {
+        description: 'Unknown',
       }
     }
+  } else {
+    return null
   }
-  return null
 }

@@ -8,6 +8,7 @@ export const AllDisputes = gql`
       lastRoundId
       state
       metadata
+      rawMetadata
       disputable {
         actionId
         title
@@ -45,6 +46,7 @@ export const SingleDispute = gql`
       lastRoundId
       state
       metadata
+      rawMetadata
       disputable {
         actionId
         address

@@ -4,6 +4,7 @@ import { getOutcomeNumber } from './crvoting-utils'
 import * as DisputesTypes from '../types/dispute-status-types'
 import { getTermEndTime, getTermStartTime } from './court-utils'
 import { getVoidedDisputesByCourt } from '../flagged-disputes/voided-disputes'
+import { ethers } from 'ethers'
 
 export const FINAL_ROUND_WEIGHT_PRECISION = bigNum(1000)
 export const PCT_BASE = bigNum(10000)
@@ -57,6 +58,37 @@ function parseMetadata(dispute) {
     return [
       `${dispute.disputable.title} Action # ${dispute.disputable.actionId}`,
     ]
+  }
+
+  if (dispute?.id === '4') {
+    // Dispute witht id 4 is an already existing dispute during the development so needs backward compatibility
+    const meta = {
+      metadata: 'ipfs:Qmat1ros6hWBGwBECXhYvUHumqyzeduTu1JGDk8JvsceDv',
+    }
+    dispute.metadata = JSON.stringify(meta)
+  } else {
+    // Decode Container from GovernQueue to get metadata
+    const containerAbi =
+      'tuple(tuple(uint256 nonce,uint256 executionTime,address submitter,address executor,tuple(address to,uint256 value,bytes data)[] actions,bytes32 allowFailuresMap,bytes proof) payload,tuple(uint256 executionDelay,tuple(address token,uint256 amount) scheduleDeposit,tuple(address token,uint256 amount) challengeDeposit,address resolver,bytes rules,uint256 maxCalldataSize) config) container'
+    try {
+      const result = ethers.utils.defaultAbiCoder.decode(
+        [containerAbi],
+        dispute.rawMetadata
+      )
+      const questClaimFunctionHash = 'b434151c'
+      const [ipfsHash] = ethers.utils.defaultAbiCoder.decode(
+        ['bytes', 'address', 'uint256', 'bool'],
+        result.container.payload.actions[0].data.replace(
+          questClaimFunctionHash,
+          ''
+        )
+      )
+      dispute.metadata = JSON.stringify({
+        metadata: 'ipfs:' + ethers.utils.toUtf8String(ipfsHash),
+      })
+    } catch (error) {
+      console.error('Error decoding container', error)
+    }
   }
 
   try {

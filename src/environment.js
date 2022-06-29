@@ -1,5 +1,5 @@
 // rinkeby
-const DEFAULT_XDAI_ETH_NODE_ENDPOINT = 'https://rpc.xdaichain.com'
+const DEFAULT_XDAI_ETH_NODE_ENDPOINT = 'https://rpc.gnosischain.com'
 const DEFAULT_POLYGON_ETH_NODE_ENDPOINT = 'https://polygon-rpc.com/'
 
 const ENV_VARS = {
