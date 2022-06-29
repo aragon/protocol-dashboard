@@ -54,7 +54,6 @@ export function transformRoundDataAttributes(round) {
  * @returns {Array<String>} Array where the first item is the dispute description and second item is the metadata uri if it exists
  */
 function parseMetadata(dispute) {
-  console.log('parseMetadata')
   if (dispute.disputable) {
     return [
       `${dispute.disputable.title} Action # ${dispute.disputable.actionId}`,
