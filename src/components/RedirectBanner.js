@@ -39,7 +39,7 @@ function RedirectMessage() {
       padding-bottom: ${2 * GU}px;
       width: ${90 * GU}px;
     `}>
-      Court was migrated to Aragon Govern DAOs. Looking for the previous version of Court (with ANJ staked)?
+      Looking for the previous version of Court that used ANJ? (now deprecated).
     </div>
   )
 }
@@ -51,7 +51,7 @@ function RedirectButton() {
     `}>
       <Button
         mode="strong"
-        label="Go to V1 Court"
+        label="Click here"
         href={V1_COURT_ENDPOINT}
       />
     </div>
