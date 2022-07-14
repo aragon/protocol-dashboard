@@ -67,6 +67,7 @@ const Entry = React.memo(function Entry({
         sidePadding={sidePadding}
         round={round}
       />
+      <OpenedSurfaceBorder opened={opened} round={round} />
       {expansion && (
         <EntryExpansion
           cellsCount={cells.length}
@@ -77,7 +78,6 @@ const Entry = React.memo(function Entry({
           round={round}
         />
       )}
-      <OpenedSurfaceBorder opened={opened} round={round} />
     </div>
   )
 })
