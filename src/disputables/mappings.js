@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Disputable apps extractors
 import {
   convictionVotingExtractor,
@@ -48,16 +49,14 @@ export const DISPUTABLE_SUBGRAPH_URLS = new Map([
   ...VOTING_APP_IDS.map(appId => [
     appId,
     {
-      xdai:
-        'https://api.thegraph.com/subgraphs/name/1hive/disputable-honey-pot',
+      xdai: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-xdai',
       rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-rinkeby',
     },
   ]),
   ...CONVICTION_VOTING_APP_IDS.map(appId => [
     appId,
     {
-      xdai:
-        'https://api.thegraph.com/subgraphs/name/1hive/disputable-honey-pot',
+      xdai: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-xdai',
       rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-rinkeby',
     },
   ]),
