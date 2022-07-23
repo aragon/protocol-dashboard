@@ -15,6 +15,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Cache yarn modules
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: yarn-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Lint
