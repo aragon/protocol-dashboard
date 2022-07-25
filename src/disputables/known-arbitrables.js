@@ -7,7 +7,7 @@ export const KnownArbitrables = {
       {
         address: '0x59a15718992a42082ab2306bc6cbd662958a178c',
         urlBuilder: (actionId, entityPath) =>
-          `https://1hive.org/#/${entityPath}/${actionId}`,
+          `https://gardens.1hive.org/#/xdai/garden/0x8ccbeab14b5ac4a431fffc39f4bec4089020a155/${entityPath}/${actionId}`,
       },
     ].map(arbitrable => [arbitrable.address.toLowerCase(), arbitrable])
   ),
