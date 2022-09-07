@@ -20,7 +20,7 @@ const MAINNET_SERVER_URL = 'https://court-backend.aragon.org';
 // IPFS endpoint
 export const IPFS_ENDPOINT = isLocalOrUnknownNetwork(CHAIN_ID)
   ? 'http://127.0.0.1:8080/ipfs'
-  : 'https://ipfs.io/ipfs'
+  : 'https://ipfs.eth.aragon.network/ipfs'
 
 // Court server endpoint
 export function courtServerEndpoint() {

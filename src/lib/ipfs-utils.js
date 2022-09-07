@@ -19,9 +19,9 @@ const MIME_TYPES = ['text/plain'];
 function createIpfs() {
   if (!ipfs) {
     ipfs = create({
-      url: 'https://2a7143fae39e7adaeb57.b-cdn.net/api/v0',
+      url: 'https://ipfs-0.aragon.network/api/v0',
       headers: {
-        authorization: 'v2 z7fAEdRSjqiH7Qv8ez2Qs6gypd5v3YH8cPGEE9MyESMVb',
+        'X-API-KEY': 'yRERPRwFAb5ZiV94XvJdgvDKoGEeFerfFsAQ65',
       },
     });
   }
@@ -57,53 +57,57 @@ export async function fetchIPFS(uriOrCid) {
     error: null
   };
 
-  for await (const file of ipfs.get(cid)) {
-    // If the file type is dir, it's a directory,
-    // so we need inside files
-    if (file.type === 'dir') {
-      continue;
-    }
-
-    if (file.type === 'file') {
-      const content = [];
-
-      for await (const chunk of file.content) {
-        content.push(chunk);
+  try {
+    for await (const file of ipfs.get(cid)) {
+      // If the file type is dir, it's a directory,
+      // so we need inside files
+      if (file.type === 'dir') {
+        continue;
       }
 
-      if (file.path.includes('metadata')) {
-        try {
-          data.metadata = JSON.parse(new TextDecoder().decode(Buffer.concat(content)));
-        } catch (err) {}
-      } else {
-        data.endpoint = defaultIpfsGateway + '/' + file.path;
+      if (file.type === 'file') {
+        const content = [];
 
-        const extension = file.path.split('.').pop();
-        // check if the extension exists and is of type `.txt`
-        // to get the text representation by saving bandwith.
-        if (Object.values(FILE_EXTS).includes(extension)) {
+        for await (const chunk of file.content) {
+          content.push(chunk);
+        }
+
+        if (file.path.includes('metadata')) {
           try {
-            data.text = new TextDecoder().decode(Buffer.concat(content));
+            data.metadata = JSON.parse(new TextDecoder().decode(Buffer.concat(content)));
           } catch (err) {}
-        } // if the path name doesn't have .txt extension
-        // or doesn't include path at all, fetch is needed
-        // to determine the type and gets its text if it's text/plain
-        else {
-          const response = await fetch(defaultIpfsGateway + '/' + file.path);
-          if (!response.ok) {
-            data.error = !response.ok;
-          }
+        } else {
+          data.endpoint = defaultIpfsGateway + '/' + file.path;
 
-          const blob = await response.clone().blob();
-
-          if (MIME_TYPES.includes(blob.type)) {
+          const extension = file.path.split('.').pop();
+          // check if the extension exists and is of type `.txt`
+          // to get the text representation by saving bandwith.
+          if (Object.values(FILE_EXTS).includes(extension)) {
             try {
-              data.text = new TextDecoder().decode(content[0]);
+              data.text = new TextDecoder().decode(Buffer.concat(content));
             } catch (err) {}
+          } // if the path name doesn't have .txt extension
+          // or doesn't include path at all, fetch is needed
+          // to determine the type and gets its text if it's text/plain
+          else {
+            const response = await fetch(defaultIpfsGateway + '/' + file.path);
+            if (!response.ok) {
+              data.error = !response.ok;
+            }
+
+            const blob = await response.clone().blob();
+
+            if (MIME_TYPES.includes(blob.type)) {
+              try {
+                data.text = new TextDecoder().decode(content[0]);
+              } catch (err) {}
+            }
           }
         }
       }
     }
+  } catch(err) {
+    console.error(err)
   }
 
   return data;
