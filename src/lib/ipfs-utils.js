@@ -106,7 +106,9 @@ export async function fetchIPFS(uriOrCid) {
         }
       }
     }
-  } catch(err) {}
+  } catch(err) {
+    console.error(err)
+  }
 
   return data;
 }
