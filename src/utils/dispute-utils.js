@@ -60,6 +60,7 @@ function parseMetadata(dispute) {
     ]
   }
 
+  let plaintiff
   if (dispute?.id === '4') {
     // Dispute witht id 4 is an already existing dispute during the development so needs backward compatibility
     const meta = {
@@ -68,13 +69,15 @@ function parseMetadata(dispute) {
     dispute.metadata = JSON.stringify(meta)
   } else {
     // Decode Container from GovernQueue to get metadata
-    const containerAbi =
-      'tuple(tuple(uint256 nonce,uint256 executionTime,address submitter,address executor,tuple(address to,uint256 value,bytes data)[] actions,bytes32 allowFailuresMap,bytes proof) payload,tuple(uint256 executionDelay,tuple(address token,uint256 amount) scheduleDeposit,tuple(address token,uint256 amount) challengeDeposit,address resolver,bytes rules,uint256 maxCalldataSize) config) container'
+    const containerAbi = `tuple(tuple(uint256 nonce,uint256 executionTime,address submitter,address executor,tuple(address to,uint256 value,bytes data)[] actions,bytes32 allowFailuresMap,bytes proof${
+      dispute.id > 10 ? ',address challenger' : ''
+    }) payload,tuple(uint256 executionDelay,tuple(address token,uint256 amount) scheduleDeposit,tuple(address token,uint256 amount) challengeDeposit,address resolver,bytes rules,uint256 maxCalldataSize) config) container`
     try {
       const result = ethers.utils.defaultAbiCoder.decode(
         [containerAbi],
         dispute.rawMetadata
       )
+      plaintiff = result.container.payload.challenger
       const questClaimFunctionHash = 'b434151c'
       const [ipfsHash] = ethers.utils.defaultAbiCoder.decode(
         ['bytes', 'address', 'uint256', 'bool'],
@@ -93,7 +96,7 @@ function parseMetadata(dispute) {
 
   try {
     const { description, metadata } = JSON.parse(dispute.metadata)
-    return [description, metadata]
+    return [description, metadata, plaintiff]
   } catch (error) {
     // if is not a json return the metadata as the description
     return [dispute.metadata]
@@ -101,13 +104,14 @@ function parseMetadata(dispute) {
 }
 
 export function transformDisputeDataAttributes(dispute) {
-  const [description, metadataUri] = parseMetadata(dispute)
+  const [description, metadataUri, plaintiff] = parseMetadata(dispute)
 
   const transformedDispute = {
     ...dispute,
     createdAt: toMs(parseInt(dispute.createdAt, 10)),
     description,
     metadataUri,
+    plaintiff,
     rounds: dispute.rounds.map(transformRoundDataAttributes),
     state: DisputesTypes.convertFromString(dispute.state),
     status:
