@@ -190,7 +190,11 @@ async function processDisputableData(dispute) {
  * @returns {Object | null} Dispute processed data.
  */
 async function processRawDisputeData(dispute) {
-  const { description: disputeDescription, metadataUri } = dispute
+  const {
+    description: disputeDescription,
+    metadataUri,
+    plaintiff: _plaintiff,
+  } = dispute
   let data
 
   if (metadataUri) {
@@ -223,7 +227,7 @@ async function processRawDisputeData(dispute) {
         disputedActionText = '',
         disputedActionURL = '',
         organization = '',
-        plaintiff = '',
+        plaintiff = _plaintiff ?? '',
       } = data
 
       return {
