@@ -46,6 +46,9 @@ const ENV_VARS = {
   XDAI_ETH_NODE() {
     return process.env.REACT_APP_XDAI_ETH_NODE || DEFAULT_XDAI_ETH_NODE_ENDPOINT
   },
+  SUBGRAPH_API_KEY() {
+    return process.env.REACT_APP_SUBGRAPH_API_KEY
+  },
 }
 
 export default function env(name) {
