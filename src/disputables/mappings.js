@@ -1,5 +1,6 @@
 // @ts-nocheck
 // Disputable apps extractors
+import environment from '../environment'
 import {
   convictionVotingExtractor,
   dandelionVotingExtractor,
@@ -31,6 +32,8 @@ const disputableVotingAction = {
   scriptExtractor: votingExtractor,
 }
 
+const SUBGRAPH_API_KEY = environment('SUBGRAPH_API_KEY')
+
 // Mapping of all disputable apps appId to their
 // corresponding method for describing a disputed action.
 export const DISPUTABLE_ACTIONS = new Map([
@@ -49,14 +52,14 @@ export const DISPUTABLE_SUBGRAPH_URLS = new Map([
   ...VOTING_APP_IDS.map(appId => [
     appId,
     {
-      xdai: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-xdai',
+      xdai: `https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/QmST8VZnjHrwhrW5gTyaiWJDhVcx6TooRv85B49zG7ziLH`,
       rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-rinkeby',
     },
   ]),
   ...CONVICTION_VOTING_APP_IDS.map(appId => [
     appId,
     {
-      xdai: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-xdai',
+      xdai: `https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/QmST8VZnjHrwhrW5gTyaiWJDhVcx6TooRv85B49zG7ziLH`,
       rinkeby: 'https://api.thegraph.com/subgraphs/name/1hive/gardens-rinkeby',
     },
   ]),
