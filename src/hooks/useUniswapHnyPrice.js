@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 
 import gql from 'graphql-tag'
 import { Client } from 'urql'
+import environment from '../environment'
 
 const RETRY_EVERY = 3000
+const SUBGRAPH_API_KEY = environment('SUBGRAPH_API_KEY')
 
-const UNISWAP_URL = 'https://api.thegraph.com/subgraphs/name/1hive/honeyswap-v2'
+const UNISWAP_URL = `https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/GKLYucDsN3zVkTyki1Qmfc192i4HyUF7uqU9Py4BbmQH`
 const XDAI_HNY_PAIR = '0x4505b262dc053998c10685dc5f9098af8ae5c8ad'
 
 const graphqlClient = new Client({ url: UNISWAP_URL })

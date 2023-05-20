@@ -7,6 +7,7 @@ import {
 } from './lib/web3-utils'
 
 const SUBGRAPH_NAME = environment('SUBGRAPH_NAME')
+const SUBGRAPH_API_KEY = environment('SUBGRAPH_API_KEY')
 
 export const RINKEBY_COURT = '0xC2224D785D4e4bc92D5be6767A82d026ca2813fD'
 export const RINKEBY_STAGING_COURT =
@@ -26,7 +27,7 @@ export const networkConfigs = {
     chainId: 100,
     nodes: {
       defaultEth: XDAI_ETH_NODE,
-      subgraph: 'https://api.thegraph.com/subgraphs/name/1hive/celeste',
+      subgraph: `https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/HQcpdYKeSRuvjEwz8QL4nGYrJ6pUUxNoTcxssMn1Gc83`,
     },
     eip3085: {
       chainId: '0x64',
