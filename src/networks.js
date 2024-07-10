@@ -20,7 +20,7 @@ export const networkConfigs = {
     nodes: {
       defaultEth: 'https://mainnet.eth.aragon.network/',
       subgraph:
-        'https://api.thegraph.com/subgraphs/name/aragon/aragon-court-v2-mainnet',
+        'https://api.studio.thegraph.com/query/82696/aragon-court-v2-mainnet/version/latest',
     },
   },
   rinkeby: {
