@@ -59,8 +59,12 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
-        environment: ["STAGING"]
+        environment: ["RINKEBY", "STAGING"]
         include:
+          - environment: "RINKEBY"
+            fleekfile: "rinkeby.json"
+            environment_name: "rinkeby"
+            subgraph_name: ""
           - environment: "STAGING"
             fleekfile: "staging.json"
             environment_name: "staging"
@@ -117,19 +121,15 @@ jobs:
     if: github.ref == 'refs/heads/testing-deployment'
     strategy:
       matrix:
-        environment: ["RINKEBY", "STAGING"]
+        environment: ["STAGING"]
         include:
-          - environment: "RINKEBY"
-            fleekfile: "rinkeby.json"
-            environment_name: "rinkeby"
-            subgraph_name: ""
           - environment: "STAGING"
             fleekfile: "staging.json"
             environment_name: "staging"
             subgraph_name: "staging"
     environment: ${{ matrix.environment }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install node
         uses: actions/setup-node@v1
         with:
