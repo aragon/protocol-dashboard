@@ -112,8 +112,8 @@ jobs:
           done
 
   build-deploy-testing-deployment:
-    runs-on: ubuntu-20.04
-    container: fleek/create-react-app:node-15
+    runs-on: ubuntu-latest
+    container: fleek/create-react-app:node-14
     if: github.ref == 'refs/heads/testing-deployment'
     strategy:
       matrix:
