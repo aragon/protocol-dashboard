@@ -117,7 +117,7 @@ jobs:
 
   build-deploy-testing-deployment:
     runs-on: ubuntu-latest
-    container: fleek/create-react-app:node-14
+    container: fleek/create-react-app:node-16
     if: github.ref == 'refs/heads/testing-deployment'
     strategy:
       matrix:
