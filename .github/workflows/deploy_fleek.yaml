@@ -4,15 +4,14 @@ on:
     branches:
       - "develop"
       - "master"
-
 jobs:
   build-deploy-mainnet:
     runs-on: ubuntu-latest
-    container: fleek/create-react-app:node-15
+    container: fleek/create-react-app:node-16
     if: github.ref == 'refs/heads/master'
     environment: MAINNET
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install node
         uses: actions/setup-node@v1
         with:
@@ -33,7 +32,7 @@ jobs:
         run: mv .github/fleek/mainnet.json .fleek.json
       - name: Deploy fleek
         id: deploy
-        uses: fleekhq/action-deploy@v1
+        uses: fleekhq/action-deploy@v1.0.1
         with:
           apiKey: ${{ secrets.FLEEK_API_KEY }}
       - name: Get the output url
@@ -54,7 +53,7 @@ jobs:
           done
   build-deploy-develop:
     runs-on: ubuntu-latest
-    container: fleek/create-react-app:node-15
+    container: fleek/create-react-app:node-16
     if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
@@ -70,7 +69,7 @@ jobs:
             subgraph_name: "staging"
     environment: ${{ matrix.environment }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install node
         uses: actions/setup-node@v1
         with:
@@ -94,7 +93,7 @@ jobs:
         run: mv .github/fleek/$FLEEK_FILE .fleek.json
       - name: Deploy fleek
         id: deploy
-        uses: fleekhq/action-deploy@v1
+        uses: fleekhq/action-deploy@v1.0.1
         with:
           apiKey: ${{ secrets.FLEEK_API_KEY }}
       - name: Get the output url
