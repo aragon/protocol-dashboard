@@ -103,6 +103,7 @@ jobs:
           REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
           REACT_APP_SUBGRAPH_NAME: ${{ matrix.subgraph_name }}
           REACT_APP_SUBGRAPH_API_KEY: "$THEGRAPH_COURT"
+
         run: yarn build
       - name: Activate fleek
         env:
