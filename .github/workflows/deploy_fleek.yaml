@@ -11,6 +11,13 @@ jobs:
     if: github.ref == 'refs/heads/master'
     environment: MAINNET
     steps:
+      - name: Load secrets from OP
+        uses: 1password/load-secrets-action@v2
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN_PRODUCTION }}
+          THEGRAPH_COURT: op://apikeys_prod/thegraph_courtv2/credential
       - uses: actions/checkout@v3
       - name: Install node
         uses: actions/setup-node@v1
@@ -27,6 +34,7 @@ jobs:
           REACT_APP_DEPLOY_ENVIRONMENT: production
           REACT_APP_CHAIN_ID: 1
           REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
+          REACT_APP_SUBGRAPH_API_KEY: "$THEGRAPH_COURT"
         run: yarn build
       - name: Activate mainnet's fleek
         run: mv .github/fleek/mainnet.json .fleek.json
@@ -69,6 +77,14 @@ jobs:
             subgraph_name: "staging"
     environment: ${{ matrix.environment }}
     steps:
+      - name: Load secrets from OP
+        uses: 1password/load-secrets-action@v2
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN_NONPROD }}
+          THEGRAPH_COURT: op://apikeys_nonprod/thegraph_courtv2/credential
+
       - uses: actions/checkout@v3
       - name: Install node
         uses: actions/setup-node@v1
@@ -86,6 +102,7 @@ jobs:
           REACT_APP_CHAIN_ID: 4
           REACT_APP_ETHERSCAN_ENDPOINT: ${{ secrets.REACT_APP_ETHERSCAN_ENDPOINT }}
           REACT_APP_SUBGRAPH_NAME: ${{ matrix.subgraph_name }}
+          REACT_APP_SUBGRAPH_API_KEY: "$THEGRAPH_COURT"
         run: yarn build
       - name: Activate fleek
         env:
